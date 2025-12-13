@@ -1,6 +1,6 @@
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.contrib.postgres.fields import ArrayField, JSONField
+from django.db.models import JSONField
 from django.db import models
 from django.utils import timezone
 
