@@ -1,0 +1,116 @@
+from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.postgres.fields import ArrayField, JSONField
+from django.db import models
+from django.utils import timezone
+
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        """
+        Creates a regular user after validating email and normalizing it.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+        user = self.model(email=self.normalize_email(email))
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    def create_staffuser(self, email, password=None):
+        user = self.create_user(email,
+                password=password
+        )
+        user.is_staff = True
+        user.save(using=self._db)
+        
+        return user
+    def create_superuser(self, email, password=None):
+        user = self.create_user(email,
+                password=password
+        )
+        user.is_staff = True
+        user.is_admin = True
+        user.save(using=self._db)
+        
+        return user
+
+ROLE_CHOICES = (
+    ("user", "User"),
+    ("admin", "Admin"),
+    ("superuser", "Superuser"),
+    ("staff", "Staff"),
+    ("seller", "Seller"),
+    ("sub_seller", "Sub Seller"),
+    ("merchant", "Merchant"),
+    ("sub_merchant", "Sub Merchant"),
+)
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True)  
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)  
+    is_admin = models.BooleanField(default=False)  
+    objects = UserManager() 
+    USERNAME_FIELD = 'email'  
+    def __str__(self):
+        return self.email
+    
+    refer_token = models.CharField(max_length=255, blank=True, null=True)
+    refer_user = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.SET_NULL, related_name='referred_users'
+    )
+
+
+    role = models.CharField(max_length=255, choices=ROLE_CHOICES, default="user")
+    parent = models.ForeignKey(
+        'self', null=True, blank=True, on_delete=models.SET_NULL, related_name='children'
+    )
+
+    def get_all_users(self):
+        """Return all users under this seller/sub_seller recursively."""
+        users = []
+        for child in self.children.all():
+            if child.role == 'user':
+                users.append(child)
+            else:
+                users.extend(child.get_all_users())
+        return users
+
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        return self.is_admin  
+    
+
+
+class Account(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, blank=True, null=True)
+    phone = models.CharField(max_length=255, blank=True, null=True)
+    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.0)
+    organization = models.CharField(max_length=255, blank=True, null=True)
+    is_verified = models.BooleanField(default=False)
+    preferences = JSONField(default=dict, blank=True)  # language, timezone, notifications
+    last_login = models.DateTimeField(blank=True, null=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+    image = models.ImageField(upload_to="user/profile/", blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.email} Account"
+    
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subscriptions")
+    plan = models.CharField(max_length=50)
+    start_date = models.DateTimeField(default=timezone.now)
+    expires_at = models.DateTimeField()
+    auto_renew = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.plan}"
