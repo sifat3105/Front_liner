@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-ub(l^bz2881iu&olufa$0f*d*bma_3h0f_f^6*l#jj56)b%a)k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -191,4 +191,4 @@ STATIC_URL = 'static/'
 
 FACEBOOK_APP_ID = "3184250695088317"
 FACEBOOK_APP_SECRET = "216b53eebfe305afd6ce29afbe9ff93b"
-FACEBOOK_REDIRECT_URI = "http://localhost:8000/api/social/facebook/callback/"
+FACEBOOK_REDIRECT_URI = "https://cornelia-preindulgent-leigh.ngrok-free.dev/api/social/facebook/callback/"

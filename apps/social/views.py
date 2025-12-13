@@ -27,6 +27,11 @@ class FacebookCallback(APIView):
     permission_classes = []
 
     def get(self, request):
+        for i in range(10):
+            print("hi")
+        
+        
+        print(request.GET)
         code = request.GET.get("code")
         if not code:
             return Response({"error": "Code missing"}, status=400)
@@ -76,3 +81,19 @@ class FacebookCallback(APIView):
             )
 
         return Response({"message": "Facebook pages connected successfully"})
+    
+
+class FacebookPageListView(APIView):
+    permission_classes = []
+
+    def get(self, request):
+        social = SocialAccount.objects.get(user=request.user, platform="facebook")
+        user_access_token = social.user_access_token
+        print(user_access_token)
+        url = f"https://graph.facebook.com/v19.0/me/accounts?access_token={user_access_token}"
+        print(url)
+        res = requests.get(url)
+        return Response(res.json())
+    
+
+# class 
