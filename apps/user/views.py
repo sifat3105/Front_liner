@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 from rest_framework import permissions, status
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -6,7 +5,7 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer, UserLoginSerializer, AccountSerializer, ChildUserSerializer
 from utils.base_view import BaseAPIView as APIView
 from utils.permission import IsAdmin, RolePermission, IsOwnerOrParentHierarchy
-
+from . models import Account
 User = get_user_model()
 
 
@@ -41,7 +40,7 @@ class UserRegistrationView(APIView):
 class UserLoginView(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "login"
-    permission_classes = [permissions.AllowAny]
+    permission_classes = []
 
     def post(self, request):
         try:
@@ -155,7 +154,8 @@ class AccountView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        account = request.user.account
+        account = Account.objects.get_or_create(user=request.user)[0]
+        # account = request.user.account
         serializer = AccountSerializer(account)
         return self.success(
             message="Account fetched successfully",

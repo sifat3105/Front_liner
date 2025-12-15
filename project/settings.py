@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     # Local app
     'apps.user',
     'apps.social',
-    'apps.publish'
+    'apps.publish',
+    'apps.post',
 ]
 
 REST_FRAMEWORK = {
@@ -72,7 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "middleware.request_log.RequestLogMiddleware",
+    # "middleware.request_log.RequestLogMiddleware",
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -148,6 +149,7 @@ REST_FRAMEWORK.update({
         "login": "10/minute",
         "register": "5/minute",
         "refresh": "10/minute",
+        "social_post": "5/minute",
     }
 })
 
@@ -185,10 +187,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
+# Enable efficient static file serving in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 FACEBOOK_APP_ID = "3184250695088317"
-FACEBOOK_APP_SECRET = "216b53eebfe305afd6ce29afbe9ff93b"
-FACEBOOK_REDIRECT_URI = "https://cornelia-preindulgent-leigh.ngrok-free.dev/api/social/facebook/callback/"
+FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
+FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
+
