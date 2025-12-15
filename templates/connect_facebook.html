@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Facebook Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6f7;
+            padding: 40px;
+        }
+        .card {
+            background: #fff;
+            padding: 30px;
+            max-width: 400px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.1);
+            text-align: center;
+        }
+        button {
+            background: #1877f2;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        button:hover {
+            background: #166fe5;
+        }
+        .status {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Connect Facebook Page</h2>
+    <p>Allow access to manage your Facebook Pages.</p>
+
+    <button onclick="connectFacebook()">Connect Facebook</button>
+
+    <div class="status" id="status"></div>
+</div>
+
+<script>
+function connectFacebook() {
+    fetch("/api/social/facebook/connect/", {
+        method: "GET",
+        credentials: "include"   // IMPORTANT for session/JWT cookie
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.url) {
+            document.getElementById("status").innerText = "Failed to get connect URL";
+            return;
+        }
+
+        // Open Facebook OAuth popup
+        window.open(
+            data.url,
+            "fbConnect",
+            "width=600,height=700"
+        );
+
+        document.getElementById("status").innerText = "Waiting for Facebook authorization...";
+    })
+    .catch(() => {
+        document.getElementById("status").innerText = "Something went wrong";
+    });
+}
+</script>
+
+</body>
+</html>

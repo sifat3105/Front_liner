@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     # Local app
     'apps.user',
     'apps.social',
-    'apps.publish'
+    'apps.publish',
+    'apps.account',
+    'apps.sells',
 ]
 
 REST_FRAMEWORK = {
@@ -51,7 +53,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
-AUTH_USER_MODEL = "app.User"
+AUTH_USER_MODEL = 'user.User'
 
 
 
@@ -80,7 +82,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,13 +130,13 @@ LOGGING = {
     },
 }
 
-CACHES = {
-    "default": {
-    "BACKEND": "django_redis.cache.RedisCache",
-    "LOCATION": "redis://127.0.0.1:6379/1",
-    "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-    }
-}
+# CACHES = {
+#     "default": {
+#     "BACKEND": "django_redis.cache.RedisCache",
+#     "LOCATION": "redis://127.0.0.1:6379/1",
+#     "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+#     }
+# }
 
 
 REST_FRAMEWORK.update({
@@ -186,3 +188,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+
+FACEBOOK_APP_ID = "3184250695088317"
+FACEBOOK_APP_SECRET = "216b53eebfe305afd6ce29afbe9ff93b"
+FACEBOOK_REDIRECT_URI = "http://localhost:8000/api/social/facebook/callback/"
