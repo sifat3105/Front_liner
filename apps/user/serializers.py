@@ -15,51 +15,63 @@ class UserProfileSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+    
+
+    
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer(required=False)
+    account = UserProfileSerializer(required=False)
 
     class Meta:
-            model = User
-            fields = ['id', 'email', 'password', 'account']
-            extra_kwargs = {'password': {'write_only': True}}
+        model = User
+        fields = ['id', 'email', 'password', 'account']
+        extra_kwargs = {'password': {'write_only': True}}
+
     def create(self, validated_data):
-        # Uses UserManager's create_user to hash passwords
-        user =User.objects.create_user(
+        account_data = validated_data.pop('account', None)
+
+        user = User.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password']
         )
-        try:
+
+        if account_data:
             Account.objects.create(
                 user=user,
-                first_name=validated_data['account']['first_name'],
-                last_name=validated_data['account']['last_name'],
-                phone=validated_data['account']['phone'],
-                username=validated_data['account']['username'],
-                organization=validated_data['account']['organization']
+                first_name=account_data.get('first_name'),
+                last_name=account_data.get('last_name'),
+                phone=account_data.get('phone'),
+                username=account_data.get('username'),
+                organization=account_data.get('organization')
             )
-        except Exception:
-            pass
         return user
+
     def update(self, instance, validated_data):
-        # Handles email/password updates + nested profile
         account_data = validated_data.pop('account', None)
+
         if 'password' in validated_data:
             instance.set_password(validated_data['password'])
+
         instance.save()
+
         if account_data:
-            profile = instance.profile if hasattr(instance, 'profile') else None
+            profile = instance.account
             serializer = UserProfileSerializer(profile, data=account_data, partial=True)
             serializer.is_valid(raise_exception=True)
-            serializer.save(user=instance)
+            serializer.save()
+
         return instance
+
+    
+
+
     
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
     
     def validate(self, data):
-        user = authenticate(email=data['email'], password=data['password'])
+        user = authenticate(email=data['email'], password=data['password'])  
         if user and user.is_active:
             return user
         raise serializers.ValidationError('Invalid credentials')
@@ -125,7 +137,7 @@ class ChildUserSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField()
     phone = serializers.CharField(source='account.phone', read_only=True)
-    balance = serializers.DecimalField(source='account.balance', read_only=True)
+    balance = serializers.DecimalField(source='account.balance', max_digits=10,decimal_places=2,read_only=True)
     organization = serializers.CharField(source='account.organization', read_only=True)
 
     def get_name(self, obj):

@@ -1,38 +1,8 @@
-from django.contrib.auth.models import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.db.models import JSONField
+
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
-
-
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
-        """
-        Creates a regular user after validating email and normalizing it.
-        """
-        if not email:
-            raise ValueError('Users must have an email address')
-        user = self.model(email=self.normalize_email(email))
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-    def create_staffuser(self, email, password=None):
-        user = self.create_user(email,
-                password=password
-        )
-        user.is_staff = True
-        user.save(using=self._db)
-        
-        return user
-    def create_superuser(self, email, password=None):
-        user = self.create_user(email,
-                password=password
-        )
-        user.is_staff = True
-        user.is_admin = True
-        user.save(using=self._db)
-        
-        return user
+from django.db.models import JSONField
 
 ROLE_CHOICES = (
     ("user", "User"),
@@ -45,26 +15,38 @@ ROLE_CHOICES = (
     ("sub_merchant", "Sub Merchant"),
 )
 
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("Users must have an email address")
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_superuser", False)
+        user = self.model(email=self.normalize_email(email), **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_staffuser(self, email, password=None):
+        return self.create_user(email, password, is_staff=True)
+
+    def create_superuser(self, email, password=None):
+        return self.create_user(email, password, is_staff=True, is_superuser=True)
+
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)  
+    email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)  
-    is_admin = models.BooleanField(default=False)  
-    objects = UserManager() 
-    USERNAME_FIELD = 'email'  
+    is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    objects = UserManager()
+    USERNAME_FIELD = 'email'
+
+    refer_token = models.CharField(max_length=255, blank=True, null=True)
+    refer_user = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='referred_users')
+    role = models.CharField(max_length=255, choices=ROLE_CHOICES, default="user")
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='children')
+
     def __str__(self):
         return self.email
-    
-    refer_token = models.CharField(max_length=255, blank=True, null=True)
-    refer_user = models.ForeignKey(
-        'self', null=True, blank=True, on_delete=models.SET_NULL, related_name='referred_users'
-    )
-
-
-    role = models.CharField(max_length=255, choices=ROLE_CHOICES, default="user")
-    parent = models.ForeignKey(
-        'self', null=True, blank=True, on_delete=models.SET_NULL, related_name='children'
-    )
 
     def get_all_users(self):
         """Return all users under this seller/sub_seller recursively."""
@@ -76,16 +58,11 @@ class User(AbstractBaseUser, PermissionsMixin):
                 users.extend(child.get_all_users())
         return users
 
-
     def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        return self.is_admin
+        return self.is_superuser
 
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        return self.is_admin  
-    
-
+        return self.is_superuser
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
@@ -96,14 +73,14 @@ class Account(models.Model):
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.0)
     organization = models.CharField(max_length=255, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
-    preferences = JSONField(default=dict, blank=True)  # language, timezone, notifications
+    preferences = JSONField(default=dict, blank=True)
     last_login = models.DateTimeField(blank=True, null=True)
     date_joined = models.DateTimeField(default=timezone.now)
     image = models.ImageField(upload_to="user/profile/", blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.email} Account"
-    
+
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subscriptions")
     plan = models.CharField(max_length=50)

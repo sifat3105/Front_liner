@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     # Local app
     'apps.user',
     'apps.social',
-    'apps.publish'
+    'apps.publish',
+    'apps.account',
+    'apps.sells',
 ]
 
 REST_FRAMEWORK = {
@@ -128,13 +130,13 @@ LOGGING = {
     },
 }
 
-CACHES = {
-    "default": {
-    "BACKEND": "django_redis.cache.RedisCache",
-    "LOCATION": "redis://127.0.0.1:6379/1",
-    "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-    }
-}
+# CACHES = {
+#     "default": {
+#     "BACKEND": "django_redis.cache.RedisCache",
+#     "LOCATION": "redis://127.0.0.1:6379/1",
+#     "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+#     }
+# }
 
 
 REST_FRAMEWORK.update({

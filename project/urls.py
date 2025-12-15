@@ -22,4 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/social/", include("apps.social.urls")),
     path("connect-facebook/", connect_facebook_page),
+    path("api/",include('apps.user.urls')),
+    path("api/",include('apps.account.urls')),
+    path("api/",include('apps.sells.urls')),
 ]
