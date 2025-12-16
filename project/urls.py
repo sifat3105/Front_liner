@@ -30,6 +30,9 @@ urlpatterns = [
 
     path("connect-facebook/", connect_facebook_page),
     path("post-generate/", post_generate),
+    path("api/",include('apps.user.urls')),
+    path("api/",include('apps.account.urls')),
+    path("api/",include('apps.sells.urls')),
 ]
 
 if settings.DEBUG:

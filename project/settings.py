@@ -40,12 +40,16 @@ INSTALLED_APPS = [
     'apps.social',
     'apps.publish',
     'apps.post',
+
+    # Added by minhaj
+    'apps.account',
+    'apps.sells'
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'utils.authentication.CookieJWTAuthentication',
     ),
     "EXCEPTION_HANDLER": "utils.exception_handler.custom_exception_handler",
     "DEFAULT_PAGINATION_CLASS": "utils.pagination.StandardPagination",
@@ -58,7 +62,7 @@ AUTH_USER_MODEL = 'user.User'
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -73,7 +77,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # "middleware.request_log.RequestLogMiddleware",
+    "middleware.request_log.RequestLogMiddleware",
+    "middleware.jwt_auth.JWTAuthMiddleware",
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -157,6 +162,7 @@ REST_FRAMEWORK.update({
         "register": "5/minute",
         "refresh": "10/minute",
         "social_post": "5/minute",
+        "logout": "10/minute",
     }
 })
 
