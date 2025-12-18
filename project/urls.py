@@ -33,6 +33,7 @@ urlpatterns = [
     path("api/",include('apps.user.urls')),
     path("api/",include('apps.account.urls')),
     path("api/",include('apps.sells.urls')),
+    path("api/",include('apps.courier.urls')),
 ]
 
 if settings.DEBUG:

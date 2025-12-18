@@ -43,7 +43,8 @@ INSTALLED_APPS = [
 
     # Added by minhaj
     'apps.account',
-    'apps.sells'
+    'apps.sells',
+    'apps.courier'
 ]
 
 REST_FRAMEWORK = {
