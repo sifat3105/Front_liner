@@ -9,11 +9,17 @@ import uuid
 
 
 class JWTAuthMiddleware:
-    # Public endpoints that do NOT need JWT
+    
     WHITELIST = [
         "/api/auth/login/",
         "/api/auth/register/",
-        "/admin/"
+        "/admin/",
+        '/connect-facebook/',
+        '/api/social/facebook/connect/',
+        '/api/social/facebook/callback/',
+        '/api/social/facebook/pages/',
+        '/post-generate/',
+        '/media/social_posts/media/',
     ]
 
     def __init__(self, get_response):
@@ -22,7 +28,7 @@ class JWTAuthMiddleware:
     def __call__(self, request):
 
         # Skip JWT check for whitelisted paths
-        if request.path in self.WHITELIST:
+        if any(request.path.startswith(path) for path in self.WHITELIST):
             return self.get_response(request)
         
         resolver_match = resolve(request.path)

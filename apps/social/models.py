@@ -48,12 +48,14 @@ class SocialAccount(models.Model):
 
 class FacebookPage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    social_account = models.ForeignKey(SocialAccount, on_delete=models.CASCADE)
+    social_account = models.ForeignKey(SocialAccount, on_delete=models.CASCADE, related_name='facebook_pages')
 
     page_id = models.CharField(max_length=255)
     page_name = models.CharField(max_length=255)
+    category = models.CharField(max_length=255, null=True, blank=True)  
+    category_list = models.JSONField(default=list, blank=True)
     page_access_token = models.TextField()
-
+    tasks = models.JSONField(default=list, blank=True)
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

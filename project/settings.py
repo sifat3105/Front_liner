@@ -40,10 +40,11 @@ INSTALLED_APPS = [
     'apps.social',
     'apps.publish',
     'apps.post',
+    'apps.chat',
 
     # Added by minhaj
     'apps.account',
-    'apps.sells'
+    'apps.sells',
 ]
 
 REST_FRAMEWORK = {
@@ -215,4 +216,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 FACEBOOK_APP_ID = "3184250695088317"
 FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
 FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
+FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
+
 
