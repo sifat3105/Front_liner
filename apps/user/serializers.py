@@ -137,6 +137,7 @@ class ChildUserSerializer(serializers.ModelSerializer):
 
     name = serializers.SerializerMethodField()
     phone = serializers.CharField(source='account.phone', read_only=True)
+    balance = serializers.DecimalField(source='account.balance', read_only=True, decimal_places=2, max_digits=12)
     balance = serializers.DecimalField(source='account.balance', max_digits=10,decimal_places=2,read_only=True)
     organization = serializers.CharField(source='account.organization', read_only=True)
 
