@@ -14,8 +14,8 @@ from .models import (
     SteadfastTracking, 
     SteadfastReturnRequest,
     PathaoToken, PathaoStore, PathaoOrder,
-    CourierCompanySerializer
 )
+from .serializers import CourierCompanySerializer
 # courier list section
 class CourierCompanyListCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]

@@ -16,6 +16,24 @@ SECRET_KEY = 'django-insecure-ub(l^bz2881iu&olufa$0f*d*bma_3h0f_f^6*l#jj56)b%a)k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+CORS_ALLOW_CREDENTIALS = True
+
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 ALLOWED_HOSTS = ["*"]
 
 
@@ -33,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF core
     'rest_framework_simplejwt',  # JWT authentication
     'rest_framework_simplejwt.token_blacklist',  # Token revocation
+    "corsheaders",
 
 
     # Local app
@@ -40,6 +59,7 @@ INSTALLED_APPS = [
     'apps.social',
     'apps.publish',
     'apps.post',
+    'apps.chat',
 
     # Added by minhaj
     'apps.account',
@@ -71,6 +91,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -216,4 +237,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 FACEBOOK_APP_ID = "3184250695088317"
 FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
 FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
+FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
+
 
