@@ -16,7 +16,7 @@ urlpatterns = [
     # Order Tracking API
     path('paperfly/order/track/', PaperflyOrderTrackingAPIView.as_view(), name='paperfly-order-track'),
 
-    # order Cancellation API
+    # Order Cancellation API
     path("paperfly/order/cancel/", PaperflyOrderCancelAPIView.as_view(), name="paperfly-order-cancel"),
 ]
 

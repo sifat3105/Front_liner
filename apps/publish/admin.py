@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import SocialPost, SocialMedia, SocialPostPublish
 
-# Register your models here.
+admin.site.register(SocialPost)
+admin.site.register(SocialMedia)
+admin.site.register(SocialPostPublish)

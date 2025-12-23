@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-ub(l^bz2881iu&olufa$0f*d*bma_3h0f_f^6*l#jj56)b%a)k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,14 +39,18 @@ INSTALLED_APPS = [
     'apps.user',
     'apps.social',
     'apps.publish',
+    'apps.post',
+
+    # Added by minhaj
     'apps.account',
     'apps.sells',
+    'apps.courier'
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'utils.authentication.CookieJWTAuthentication',
     ),
     "EXCEPTION_HANDLER": "utils.exception_handler.custom_exception_handler",
     "DEFAULT_PAGINATION_CLASS": "utils.pagination.StandardPagination",
@@ -59,7 +63,7 @@ AUTH_USER_MODEL = 'user.User'
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -75,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "middleware.request_log.RequestLogMiddleware",
+    "middleware.jwt_auth.JWTAuthMiddleware",
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -138,6 +143,13 @@ LOGGING = {
 #     }
 # }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK.update({
     "DEFAULT_THROTTLE_CLASSES": [
@@ -150,6 +162,8 @@ REST_FRAMEWORK.update({
         "login": "10/minute",
         "register": "5/minute",
         "refresh": "10/minute",
+        "social_post": "5/minute",
+        "logout": "10/minute",
     }
 })
 
@@ -187,10 +201,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
+# Enable efficient static file serving in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 FACEBOOK_APP_ID = "3184250695088317"
-FACEBOOK_APP_SECRET = "216b53eebfe305afd6ce29afbe9ff93b"
-FACEBOOK_REDIRECT_URI = "http://localhost:8000/api/social/facebook/callback/"
+FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
+FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
+
