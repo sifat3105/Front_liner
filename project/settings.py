@@ -18,6 +18,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
+
 
 # Application definition
 
@@ -33,6 +38,9 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF core
     'rest_framework_simplejwt',  # JWT authentication
     'rest_framework_simplejwt.token_blacklist',  # Token revocation
+    'django_filters',
+    'channels',
+    'corsheaders',
 
 
     # Local app
@@ -41,6 +49,19 @@ INSTALLED_APPS = [
     'apps.publish',
     'apps.post',
     'apps.chat',
+    
+    
+    # CareOn Project Apps
+    "apps.voice",
+    "apps.assistant",
+    "apps.support",
+    "apps.call",
+    'apps.invoice',
+    'apps.phone_number',
+    'apps.transaction',
+    'apps.topup',
+    'apps.notification',
+    'apps.settings',
 
     # Added by minhaj
     'apps.account',
@@ -51,10 +72,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'utils.authentication.CookieJWTAuthentication',
+        
     ),
     "EXCEPTION_HANDLER": "utils.exception_handler.custom_exception_handler",
     "DEFAULT_PAGINATION_CLASS": "utils.pagination.StandardPagination",
     "PAGE_SIZE": 10,
+    
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ]
 }
 
 AUTH_USER_MODEL = 'user.User'
@@ -100,6 +126,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
+ASGI_APPLICATION = "project.asgi.application"
 
 
 # Database
