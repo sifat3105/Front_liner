@@ -41,7 +41,6 @@ class JWTAuthMiddleware:
                 return self.get_response(request)
 
         access_token = request.COOKIES.get("xJq93kL1")
-        print(access_token)
 
         if access_token:
             try:

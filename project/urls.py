@@ -12,11 +12,23 @@ urlpatterns = [
     path("api/publish/", include("apps.publish.urls")),
     path("api/post/", include("apps.post.urls")),
     path("api/chat/", include("apps.chat.urls")),
+    
+    # CareOn Project URLs
+    path("api/voice/", include("apps.voice.urls")),
+    path("api/assistant/", include("apps.assistant.urls")),
+    path("api/support/", include("apps.support.urls")),
+    path("api/call/", include("apps.call.urls")),
+    path("api/invoice/", include("apps.invoice.urls")),
+    path("api/phone_number/", include("apps.phone_number.urls")),
+    path("api/transaction/", include("apps.transaction.urls")),
+    path("api/topup/", include("apps.topup.urls")),
+    path("api/notification/", include("apps.notification.urls")),
+    
+    
 
 
     path("connect-facebook/", connect_facebook_page),
     path("post-generate/", post_generate),
-    path("api/",include('apps.user.urls')),
     path("api/",include('apps.account.urls')),
     path("api/",include('apps.sells.urls')),
     path("api/",include('apps.courier.urls')),
