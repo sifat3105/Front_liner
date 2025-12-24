@@ -1,11 +1,15 @@
 import requests
 import uuid
-from django.contrib.auth.models import User
 from django.conf import settings
+from datetime import datetime, timedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import response, status
+from rest_framework.permissions import AllowAny
 from .models import Payment
+from .serializers import PaymentSerializer
+import json
 from django.contrib.auth import get_user_model
 User = get_user_model() 
 
@@ -15,12 +19,11 @@ merchantId = settings.PAYSTATION_MERCHANT_ID
 password = settings.PAYSTATION_PASSWORD
 callback_url = settings.PAYSTATION_CALLBACK_URL
 
+# function for Pay Station
 def initiate_payment(amount, invoice_number, customer_name, customer_email, customer_phone, reference=None, checkout_items=None):
 
-    # Ensure amount is integer
     payment_amount = int(amount)
 
-    # Prepare payload
     payload = {
         "merchantId": merchantId,
         "password": password,
@@ -37,18 +40,19 @@ def initiate_payment(amount, invoice_number, customer_name, customer_email, cust
         payload["reference"] = reference
 
     if checkout_items:
-        payload["checkout_items"] = checkout_items
+        payload["checkout_items"] = json.dumps(checkout_items)
 
-    # Call PayStation API
     response = requests.post(
         f"{settings.PAYSTATION_BASE_URL}/initiate-payment",
-        data=payload,
+        data=json.dumps(payload),
+        headers={"Content-Type": "application/json"},
         timeout=30
     )
 
-    return response.json()
-
-
+    try:
+        return response.json()
+    except Exception:
+        return {"status": "error", "message": "Invalid response", "content": response.text}
 
 # ============================
 # Initiate Payment for registered user
@@ -63,15 +67,11 @@ class InitiatePaymentAPIView(APIView):
             user = request.user
         except User.DoesNotExist:
             return Response({"error": "Invalid user"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Generate unique invoice number
         invoice_number = str(uuid.uuid4()).replace('-', '')[:20]
-        amount = 500  
-    
-        # Optional reference and checkout items
+        amount = 500 
         reference = f"ORDER-{invoice_number}"
         checkout_items = {"product": "Auto Payment Item"}
-        # Create Payment object in DB
+
         payment = Payment.objects.create(
             user=user,
             invoice_number=invoice_number,
@@ -200,3 +200,84 @@ class TransactionStatusByTrxAPIView(APIView):
         )
 
         return Response(response.json(), status=response.status_code)
+
+
+
+#---------------=================----------
+#Shurjopay
+#---------------=================----------
+
+
+
+from . utils import create_shurjopay_payment
+
+
+class ShurjopayPaymentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user_id = request.data.get("user_id")
+        User = get_user_model()
+        try:
+            user = request.user
+        except User.DoesNotExist:
+            return Response({"error": "Invalid user"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        response = create_shurjopay_payment(
+                amount =1000.00,
+                order_id= "ORD-1001",
+                customer_name= "Rahim Uddin",
+                customer_address="Mirpur, Dhaka",
+                customer_email="rahim@example.com",
+                customer_phone= "01830232488",
+                customer_city="Dhaka",
+
+        )
+
+        return Response(response)
+    
+
+class ShurjopayReturnAPIView(APIView):
+    permission_classes = [AllowAny] 
+
+    def post(self, request):
+        """
+        This API will be called by ShurjoPay after successful payment
+        """
+        data = request.data or request.query_params
+
+        # Example data you may receive:
+        # order_id, transaction_id, status, amount, etc.
+
+        return Response(
+            {
+                "message": "Payment successful",
+                "payment_data": data,
+            },
+            status=status.HTTP_200_OK
+        )
+
+    def get(self, request):
+        # Some gateways send GET request
+        return self.post(request)
+
+
+class ShurjopayCancelAPIView(APIView):
+    permission_classes = [AllowAny]  # ShurjoPay will hit this URL
+
+    def post(self, request):
+        """
+        This API will be called by ShurjoPay if payment is cancelled
+        """
+        data = request.data or request.query_params
+
+        return Response(
+            {
+                "message": "Payment cancelled",
+                "payment_data": data,
+            },
+            status=status.HTTP_200_OK
+        )
+
+    def get(self, request):
+        return self.post(request)
