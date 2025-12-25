@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 from rest_framework import permissions, status
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -6,7 +5,7 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer, UserLoginSerializer, AccountSerializer, ChildUserSerializer
 from utils.base_view import BaseAPIView as APIView
 from utils.permission import IsAdmin, RolePermission, IsOwnerOrParentHierarchy
-
+from . models import Account
 User = get_user_model()
 
 
@@ -15,21 +14,48 @@ class UserRegistrationView(APIView):
     throttle_scope = "register"
     permission_classes = [permissions.AllowAny]
     def post(self, request):
+        email = request.data.get('email')
+        if User.objects.filter(email=email).exists():
+            return self.error(
+                message= "User with this email already exists.",
+                errors={"email": ["This email is already taken."]},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "registration"}
+            )
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             user = serializer.instance
             refresh = RefreshToken.for_user(user)
-            return self.success(
+            response = self.success(
                 message="User created successfully",
                 status_code=status.HTTP_201_CREATED,
                 data={
+                    "access":str(refresh.access_token),
                     "refresh": str(refresh),
-                    "access": str(refresh.access_token),
                     "user": serializer.data
                 },
                 meta={"action": "registration"}
             )
+            response.set_cookie(
+                key="xJq93kL1",
+                value=str(refresh.access_token),
+                httponly=True,
+                secure=True,
+                samesite="None",
+                max_age=60 * 5
+            )
+
+            response.set_cookie(
+                key="rT7u1Vb8",
+                value=str(refresh),
+                httponly=True,
+                secure=True,
+                samesite="None",
+                max_age=60 * 60 * 24 * 5
+            )
+
+            return response
 
         return self.error(
             message="Invalid data",
@@ -44,35 +70,43 @@ class UserLoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        try:
-            serializer = UserLoginSerializer(data=request.data)
-            if serializer.is_valid(raise_exception=True):
-                user = serializer.validated_data
-                refresh = RefreshToken.for_user(user)
-                return self.success(
-                        message="User created successfully",
-                        status_code=status.HTTP_200_OK,
-                        data={
-                            "refresh": str(refresh),
-                            "access": str(refresh.access_token),
-                            "user": serializer.data
-                        },
-                        meta={"action": "login"}
-                    )
+        serializer = UserLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-            return self.error(
-                message="Invalid data",
-                errors=serializer.errors,
-                status_code=status.HTTP_400_BAD_REQUEST,
-                meta={"action": "login"}
-            )
-        except Exception as e:
-            return self.error(
-                message="Invalid data",
-                errors={"detail": str(e)},
-                status_code=status.HTTP_400_BAD_REQUEST,
-                meta={"action": "login"}
-            )
+        user = serializer.validated_data
+        refresh = RefreshToken.for_user(user)
+
+        response = self.success(
+            message="Login successful",
+            status_code=status.HTTP_200_OK,
+            data={
+                "access":str(refresh.access_token),
+                "refresh": str(refresh),
+                "user": UserSerializer(user).data
+            },
+            meta={"action": "login"}
+        )
+
+        # ✅ Set cookies
+        response.set_cookie(
+            key="xJq93kL1",
+            value=str(refresh.access_token),
+            httponly=True,
+            secure=True if request.is_secure() else False,
+            samesite="Lax",
+            max_age=60 * 5
+        )
+
+        response.set_cookie(
+            key="rT7u1Vb8",
+            value=str(refresh),
+            httponly=True,
+            secure=True if request.is_secure() else False,
+            samesite="Lax",
+            max_age=60 * 60 * 24 * 5
+        )
+
+        return response
         
 class RefreshTokenRotationView(APIView):
     throttle_classes = [ScopedRateThrottle]
@@ -127,27 +161,29 @@ class LogoutView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        refresh_token_str = request.data.get("refresh")
-        if not refresh_token_str:
-            return self.error(
-                message="Refresh token is required",
-                status_code=status.HTTP_400_BAD_REQUEST,
-                meta={"action": "logout"}
-            )
         try:
-            refresh_token = RefreshToken(refresh_token_str)
-            refresh_token.blacklist()  # blacklist old token
-            return self.success(
-                message="Logout successful",
+            # Get refresh token from cookie
+            refresh_token = request.COOKIES.get("refresh")
+            if refresh_token:
+                token = RefreshToken(refresh_token)
+                token.blacklist()  # Invalidate refresh token
+
+            # Delete cookies
+            response = self.success(
+                message="Logged out successfully",
                 status_code=status.HTTP_200_OK,
                 meta={"action": "logout"}
             )
-        except TokenError as e:
+            response.delete_cookie("xJq93kL1")
+            response.delete_cookie("rT7u1Vb8")
+
+            return response
+
+        except Exception as e:
             return self.error(
-                message="Invalid token",
+                message="Logout failed",
                 errors={"detail": str(e)},
-                status_code=status.HTTP_400_BAD_REQUEST,
-                meta={"action": "logout"}
+                status_code=status.HTTP_400_BAD_REQUEST
             )
         
 
@@ -155,7 +191,8 @@ class AccountView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        account = request.user.account
+        account = Account.objects.get_or_create(user=request.user)[0]
+        # account = request.user.account
         serializer = AccountSerializer(account)
         return self.success(
             message="Account fetched successfully",

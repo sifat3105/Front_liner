@@ -1,7 +1,6 @@
-
-
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +15,42 @@ SECRET_KEY = 'django-insecure-ub(l^bz2881iu&olufa$0f*d*bma_3h0f_f^6*l#jj56)b%a)k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
+
+# VERY IMPORTANT
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CSRF_COOKIE_HTTPONLY = False 
+SESSION_COOKIE_SECURE = True 
+SESSION_COOKIE_SAMESITE = 'None'
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "http://192.168.0.100:3000", 
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+
+ALLOWED_HOSTS = ["*"]
+
+# CORS
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 
 
 # Application definition
@@ -33,24 +67,51 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF core
     'rest_framework_simplejwt',  # JWT authentication
     'rest_framework_simplejwt.token_blacklist',  # Token revocation
+    "corsheaders",
+    'django_filters',
+    'channels',
 
 
     # Local app
     'apps.user',
     'apps.social',
     'apps.publish',
+    'apps.post',
+    'apps.chat',
+    
+    
+    # CareOn Project Apps
+    "apps.voice",
+    "apps.assistant",
+    "apps.support",
+    "apps.call",
+    'apps.invoice',
+    'apps.phone_number',
+    'apps.transaction',
+    'apps.topup',
+    'apps.notification',
+    'apps.settings',
+
+    # Added by minhaj
     'apps.account',
     'apps.sells',
+    'apps.courier',
+    'apps.paymentgateway',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'utils.authentication.CookieJWTAuthentication',
+        
     ),
     "EXCEPTION_HANDLER": "utils.exception_handler.custom_exception_handler",
     "DEFAULT_PAGINATION_CLASS": "utils.pagination.StandardPagination",
     "PAGE_SIZE": 10,
+    
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ]
 }
 
 AUTH_USER_MODEL = 'user.User'
@@ -59,7 +120,7 @@ AUTH_USER_MODEL = 'user.User'
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -67,6 +128,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -75,6 +137,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "middleware.request_log.RequestLogMiddleware",
+    "middleware.jwt_auth.JWTAuthMiddleware",
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -95,6 +158,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
+ASGI_APPLICATION = "project.asgi.application"
 
 
 # Database
@@ -138,6 +202,13 @@ LOGGING = {
 #     }
 # }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK.update({
     "DEFAULT_THROTTLE_CLASSES": [
@@ -150,6 +221,8 @@ REST_FRAMEWORK.update({
         "login": "10/minute",
         "register": "5/minute",
         "refresh": "10/minute",
+        "social_post": "5/minute",
+        "logout": "10/minute",
     }
 })
 
@@ -187,10 +260,62 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
+# Enable efficient static file serving in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 FACEBOOK_APP_ID = "3184250695088317"
-FACEBOOK_APP_SECRET = "216b53eebfe305afd6ce29afbe9ff93b"
-FACEBOOK_REDIRECT_URI = "http://localhost:8000/api/social/facebook/callback/"
+FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
+FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
+FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
+
+#==================-----------------=================
+# Example value, replace with your actual merchant ID
+PAYSTATION_MERCHANT_ID = "104-1653730183"
+PAYSTATION_PASSWORD =  "gamecoderstorepass",
+PAYSTATION_BASE_URL = "https://sandbox.paystation.com.bd/"
+PAYSTATION_CALLBACK_URL ="https://sandbox.paystation.com.bd/payment-success/104",
+
+
+# SHURJOPAY sandbox/live credentials
+SHURJOPAY_USERNAME = "johndoe"
+SHURJOPAY_PASSWORD = "secret123" 
+SHURJOPAY_STORE_ID = "2"
+
+# Base URLs
+SHURJOPAY_BASE_URL = "https://sandbox.shurjopayment.com/api/get_token"
+
+# Optionally save token temporarily
+SHURJOPAY_TOKEN_EXPIRES_AT = None
+
+# Token (optional, can generate dynamically via API)
+# If you want to store a token temporarily:
+SHURJOPAY_TOKEN = "YOUR_SAVED_TOKEN"
+
+# Return / cancel URLs
+SHURJOPAY_RETURN_URL = "https://yourwebsite.com/payment/success/"
+SHURJOPAY_CANCEL_URL = "https://yourwebsite.com/payment/cancel/"
+
+
+import environ
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+SP_USERNAME = env('SP_USERNAME')
+SP_PASSWORD = env('SP_PASSWORD')
+SP_BASE_URL = env('SP_BASE_URL')
+SP_RETURN_URL = env('SP_RETURN_URL')
+SP_CANCEL_URL = env('SP_CANCEL_URL')
+SP_LOGDIR = env('SP_LOGDIR')
+SP_PREFIX = env('SP_PREFIX')
+
+
