@@ -1,7 +1,6 @@
-
-
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,6 +14,36 @@ SECRET_KEY = 'django-insecure-ub(l^bz2881iu&olufa$0f*d*bma_3h0f_f^6*l#jj56)b%a)k
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
+
+# VERY IMPORTANT
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CSRF_COOKIE_HTTPONLY = False 
+SESSION_COOKIE_SECURE = True 
+SESSION_COOKIE_SAMESITE = 'None'
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "http://192.168.0.100:3000", 
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 
 ALLOWED_HOSTS = ["*"]
 
@@ -38,9 +67,9 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF core
     'rest_framework_simplejwt',  # JWT authentication
     'rest_framework_simplejwt.token_blacklist',  # Token revocation
+    "corsheaders",
     'django_filters',
     'channels',
-    'corsheaders',
 
 
     # Local app
@@ -66,6 +95,8 @@ INSTALLED_APPS = [
     # Added by minhaj
     'apps.account',
     'apps.sells',
+    'apps.courier',
+    'apps.paymentgateway',
 ]
 
 REST_FRAMEWORK = {
@@ -97,6 +128,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -244,5 +276,46 @@ FACEBOOK_APP_ID = "3184250695088317"
 FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
 FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
 FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
+
+#==================-----------------=================
+# Example value, replace with your actual merchant ID
+PAYSTATION_MERCHANT_ID = "104-1653730183"
+PAYSTATION_PASSWORD =  "gamecoderstorepass",
+PAYSTATION_BASE_URL = "https://sandbox.paystation.com.bd/"
+PAYSTATION_CALLBACK_URL ="https://sandbox.paystation.com.bd/payment-success/104",
+
+
+# SHURJOPAY sandbox/live credentials
+SHURJOPAY_USERNAME = "johndoe"
+SHURJOPAY_PASSWORD = "secret123" 
+SHURJOPAY_STORE_ID = "2"
+
+# Base URLs
+SHURJOPAY_BASE_URL = "https://sandbox.shurjopayment.com/api/get_token"
+
+# Optionally save token temporarily
+SHURJOPAY_TOKEN_EXPIRES_AT = None
+
+# Token (optional, can generate dynamically via API)
+# If you want to store a token temporarily:
+SHURJOPAY_TOKEN = "YOUR_SAVED_TOKEN"
+
+# Return / cancel URLs
+SHURJOPAY_RETURN_URL = "https://yourwebsite.com/payment/success/"
+SHURJOPAY_CANCEL_URL = "https://yourwebsite.com/payment/cancel/"
+
+
+import environ
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+SP_USERNAME = env('SP_USERNAME')
+SP_PASSWORD = env('SP_PASSWORD')
+SP_BASE_URL = env('SP_BASE_URL')
+SP_RETURN_URL = env('SP_RETURN_URL')
+SP_CANCEL_URL = env('SP_CANCEL_URL')
+SP_LOGDIR = env('SP_LOGDIR')
+SP_PREFIX = env('SP_PREFIX')
 
 

@@ -31,6 +31,8 @@ urlpatterns = [
     path("post-generate/", post_generate),
     path("api/",include('apps.account.urls')),
     path("api/",include('apps.sells.urls')),
+    path("api/",include('apps.courier.urls')),
+    path("api/",include('apps.paymentgateway.urls')),
 ]
 
 if settings.DEBUG:

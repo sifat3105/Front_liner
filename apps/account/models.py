@@ -4,21 +4,23 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 # Incom section
+
 class Income(models.Model):
-    owner = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='incomes',
-        null=True,blank=True
-    )
-    total_income = models.DecimalField(max_digits=12, decimal_places=2)
-    monthly_income = models.DecimalField(max_digits=12, decimal_places=2)
-    daily_income = models.DecimalField(max_digits=12, decimal_places=2)
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="incomes")
+    date = models.DateField()
+    customer = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=12,decimal_places=2,default=0)
+    payment_method = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name = "Income"
+        verbose_name_plural = "Incomes"
 
     def __str__(self):
-        return f"{self.owner} - {self.total_income}"
+        return f"{self.customer} - {self.amount}"
+
 
 class Payments(models.Model):
 
@@ -54,6 +56,47 @@ class Payments(models.Model):
     def __str__(self):
         return f"{self.customer} - {self.amount}"
 
+# SELL Model
+class Sells(models.Model):
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='Sells',
+        null=True, blank=True
+    )
+
+    # Status choices
+    CUSTOMER_STATUS = [
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+        ('pending', 'Pending'),
+    ]
+
+    # Platform choices
+    PLATFORM_CHOICES = [
+        ('facebook', 'Facebook'),
+        ('instagram', 'Instagram'),
+        ('twitter', 'Twitter'),
+        ('linkedin', 'LinkedIn'),
+        ('tiktok', 'TikTok'),
+        ('youtube', 'YouTube'),
+    ]
+
+    location = models.CharField(max_length=255)
+    contact = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    platform = models.CharField(max_length=50, choices=PLATFORM_CHOICES)
+    # Refund status
+    REFUND_STATUS = [
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('rejected', 'Rejected'),
+    ]
+    sells_status = models.CharField(max_length=20, choices=REFUND_STATUS, default='pending')
+
+    def __str__(self):
+        return f"{self.owner} - {self.location} ({self.id})"
+    
 
 
 # Refund Orders
@@ -191,10 +234,6 @@ class VoucherEntry(models.Model):
 
 # Profit & Loss (P&L) sectiont
 class ProfitLossReport(models.Model):
-    """
-    Profit & Loss Report Model
-    Each row represents a single date entry.
-    """
 
     STATUS_CHOICES = (
         ('Profit', 'Profit'),
@@ -237,12 +276,6 @@ class ProfitLossReport(models.Model):
         default=0
     )
 
-    net_profit = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
-
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
@@ -257,9 +290,7 @@ class ProfitLossReport(models.Model):
         verbose_name_plural = "Profit & Loss Reports"
 
     def save(self, *args, **kwargs):
-        """
-        Auto calculation logic
-        """
+
         # Gross Profit = Revenue - Expenses
         self.gross_profit = self.revenue - self.expenses
 
@@ -294,9 +325,6 @@ class Receiver(models.Model):
 
 
 class Product(models.Model):
-    """
-    Product or service details
-    """
 
     name = models.CharField(max_length=150)
     description = models.TextField(blank=True)
@@ -306,9 +334,7 @@ class Product(models.Model):
 
 
 class Invoice(models.Model):
-    """
-    Invoice model (Only for suppliers)
-    """
+
 
     invoice_number = models.CharField(max_length=50, unique=True)
     receiver = models.ForeignKey(

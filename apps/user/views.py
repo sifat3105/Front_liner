@@ -31,6 +31,8 @@ class UserRegistrationView(APIView):
                 message="User created successfully",
                 status_code=status.HTTP_201_CREATED,
                 data={
+                    "access":str(refresh.access_token),
+                    "refresh": str(refresh),
                     "user": serializer.data
                 },
                 meta={"action": "registration"}
@@ -39,8 +41,8 @@ class UserRegistrationView(APIView):
                 key="xJq93kL1",
                 value=str(refresh.access_token),
                 httponly=True,
-                secure=True if request.is_secure() else False,
-                samesite="Lax",
+                secure=True,
+                samesite="None",
                 max_age=60 * 5
             )
 
@@ -48,8 +50,8 @@ class UserRegistrationView(APIView):
                 key="rT7u1Vb8",
                 value=str(refresh),
                 httponly=True,
-                secure=True if request.is_secure() else False,   
-                samesite="Lax",
+                secure=True,
+                samesite="None",
                 max_age=60 * 60 * 24 * 5
             )
 
@@ -78,6 +80,8 @@ class UserLoginView(APIView):
             message="Login successful",
             status_code=status.HTTP_200_OK,
             data={
+                "access":str(refresh.access_token),
+                "refresh": str(refresh),
                 "user": UserSerializer(user).data
             },
             meta={"action": "login"}

@@ -13,6 +13,7 @@ urlpatterns = [
     path('payments/', PaymentAPIView.as_view(), name='payment-list'),
 
     # Refund
+    path('sells/', CustomerRefundListAPIView.as_view(), name='sell-list'),
     path('refund/', CustomerRefundListAPIView.as_view(), name='refund-list'),
 
     # Debit Credit
