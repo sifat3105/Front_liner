@@ -8,15 +8,7 @@ from .models import CustomerInfo
 from .serializers import CustomerInfoSerializer
 
 class CustomerInfoAPIView(APIView):
-    """
-    API endpoint to view CustomerInfo entries.
-    - By default: lists all CustomerInfo objects owned by the current user.
-    - Can filter by 'id', 'owner' username, or 'location' using query parameters:
-      /api/customers/?id=1
-      /api/customers/?owner=john
-      /api/customers/?location=Dhaka
-      You can combine filters as well.
-    """
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):

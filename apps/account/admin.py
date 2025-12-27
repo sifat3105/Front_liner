@@ -52,7 +52,7 @@ class PaymentAdmin(admin.ModelAdmin):
     ordering = ('-date',)
 
 
-# Refund section admin
+# Sells section admin
 @admin.register(Sells)
 class CustomerSellsdAdmin(admin.ModelAdmin):
 
@@ -154,7 +154,6 @@ class VoucherTypeAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
     readonly_fields = ('id',)
-
 
 # Voucher Entry Admin
 @admin.register(VoucherEntry)
