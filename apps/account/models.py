@@ -58,12 +58,7 @@ class Payments(models.Model):
 
 # SELL Model
 class Sells(models.Model):
-    owner = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='Sells',
-        null=True, blank=True
-    )
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name='Sells',null=True, blank=True)
 
     # Status choices
     CUSTOMER_STATUS = [
@@ -151,6 +146,7 @@ class VoucherType(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class VoucherEntry(models.Model):
 
