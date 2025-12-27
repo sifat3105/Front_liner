@@ -8,6 +8,7 @@ from .models import (
     ProfitLossReport,
     Receiver, Product, 
     Invoice, Payment,
+    Sells,
 )
 
 
@@ -16,7 +17,7 @@ class IncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
         fields = '__all__'
-        read_only_fields = ('owner', 'created_at', 'updated_at')
+        read_only_fields = ('customer', 'created_at', 'updated_at')
 
 
 class PaymentsSerializer(serializers.ModelSerializer):
@@ -24,6 +25,34 @@ class PaymentsSerializer(serializers.ModelSerializer):
         model = Payments
         fields = '__all__'
         read_only_fields = ('owner', 'created_at', 'updated_at')
+
+
+
+# Refund Orders serializers section
+class CustomerSellsSerializer(serializers.ModelSerializer):
+
+    # Optionally, display owner's username instead of ID
+    owner_username = serializers.CharField(source='owner.username', read_only=True)
+
+    class Meta:
+        model = Sells
+        fields = [
+            'id',
+            'owner',
+            'owner_username',  # convenient field for frontend display
+            'location',
+            'contact',
+            'price',
+            'platform',
+            'refund_status',
+        ]
+        read_only_fields = ['id', 'owner', 'owner_username']
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        if request and not validated_data.get('owner'):
+            validated_data['owner'] = request.user
+        return super().create(validated_data)
 
 
 
@@ -48,9 +77,7 @@ class CustomerRefundSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'owner', 'owner_username']
 
     def create(self, validated_data):
-        """
-        Automatically assign the logged-in user as owner if not provided. 
-        """
+
         request = self.context.get('request')
         if request and not validated_data.get('owner'):
             validated_data['owner'] = request.user
@@ -172,7 +199,6 @@ class ProfitLossReportSerializer(serializers.ModelSerializer):
             'expenses',
             'gross_profit',
             'operating_expenses',
-            'net_profit',
             'status',
             'created_at',
         ]
@@ -180,7 +206,6 @@ class ProfitLossReportSerializer(serializers.ModelSerializer):
         read_only_fields = [
             'id',
             'gross_profit',
-            'net_profit',
             'created_at',
         ]
 

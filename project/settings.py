@@ -1,11 +1,12 @@
-
-
 from pathlib import Path
 from datetime import timedelta
 
+
+
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -15,6 +16,36 @@ SECRET_KEY = 'django-insecure-ub(l^bz2881iu&olufa$0f*d*bma_3h0f_f^6*l#jj56)b%a)k
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
+
+# VERY IMPORTANT
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+CSRF_COOKIE_HTTPONLY = False 
+SESSION_COOKIE_SECURE = True 
+SESSION_COOKIE_SAMESITE = 'None'
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "http://192.168.0.100:3000", 
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 
 ALLOWED_HOSTS = ["*"]
 
@@ -26,6 +57,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://localhost:3000",
     "http://127.0.0.1:5501",
     "https://127.0.0.1:5501",
+    "http://192.168.0.101:3000",
+    "http://103.98.107.22:8000",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -33,6 +66,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://localhost:3000",
     "http://127.0.0.1:5501",
     "https://127.0.0.1:5501",
+    "http://192.168.0.101:3000",
+    "http://103.98.107.22:8000",
 ]
 
 SESSION_COOKIE_SAMESITE = "None"
@@ -63,9 +98,9 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF core
     'rest_framework_simplejwt',  # JWT authentication
     'rest_framework_simplejwt.token_blacklist',  # Token revocation
+    "corsheaders",
     'django_filters',
     'channels',
-    'corsheaders',
 
 
     # Local app
@@ -91,6 +126,8 @@ INSTALLED_APPS = [
     # Added by minhaj
     'apps.account',
     'apps.sells',
+    'apps.courier',
+    'apps.paymentgateway',
 ]
 
 REST_FRAMEWORK = {
@@ -273,5 +310,24 @@ FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
 
 INSTAGRAM_APP_ID = "2060639764791245"
 INSTAGRAM_APP_SECRET = "694ced5269ad277849e5923c"
+#==================-----------------=================
+# Example value, replace with your actual merchant ID
+
+PAYSTATION_MERCHANT_ID = "104-1653730183"
+PAYSTATION_PASSWORD =  "gamecoderstorepass",
+PAYSTATION_BASE_URL = "https://sandbox.paystation.com.bd"
+PAYSTATION_CALLBACK_URL ="https://sandbox.paystation.com.bd/initiate-payment",
+
+
+
+
+
+SP_USERNAME = os.environ.get('SP_USERNAME')
+SP_PASSWORD = os.environ.get('SP_PASSWORD')
+SP_BASE_URL = os.environ.get('SP_BASE_URL')
+SP_RETURN_URL = os.environ.get('SP_RETURN_URL')
+SP_CANCEL_URL = os.environ.get('SP_CANCEL_URL')
+SP_LOGDIR = os.environ.get('SP_LOGDIR')
+SP_PREFIX = os.environ.get('SP_PREFIX')
 
 

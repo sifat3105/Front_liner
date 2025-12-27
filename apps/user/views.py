@@ -31,6 +31,8 @@ class UserRegistrationView(APIView):
                 message="User created successfully",
                 status_code=status.HTTP_201_CREATED,
                 data={
+                    "access":str(refresh.access_token),
+                    "refresh": str(refresh),
                     "user": serializer.data
                 },
                 meta={"action": "registration"}

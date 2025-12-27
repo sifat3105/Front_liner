@@ -1,6 +1,7 @@
 from utils.base_view import BaseAPIView as APIView
 from rest_framework import status
 from django.db.models import Sum
+from django.utils import timezone
 from rest_framework.response import Response
 from django.db.models import Q
 from .base import BaseAPIView
@@ -14,7 +15,7 @@ from .models import (
     VoucherEntry,
     ProfitLossReport,
     Receiver, Product,
-    Invoice, Payment
+    Invoice, Payment,Sells
 )
 
 from .serializers import (
@@ -24,51 +25,58 @@ from .serializers import (
     VoucherEntrySerializer,
     ProfitLossReportSerializer,
     ReceiverSerializer, ProductSerializer, 
-    InvoiceSerializer, PaymentSerializer
+    InvoiceSerializer, PaymentSerializer,
+    CustomerSellsSerializer,
 )
 
 
 # Income section APIView
 class IncomeAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    
-    def get(self, request):
-        items = Income.objects.filter(owner=request.user).order_by('-created_at')
-        serializer = IncomeSerializer(items, many=True)
 
-        return self.success(
-            message="Income fetched successfully",
-            status_code=status.HTTP_200_OK,
-            data=serializer.data,
-            meta={"model": "Income"},
-        )
-        
-class IncomeSummaryAPIView(APIView):
     def get(self, request):
-        user = request.user
-        incomes = Income.objects.filter(owner=user).order_by('-created_at')
-        serializer = IncomeSerializer(incomes, many=True)
 
-        # Assuming the latest Income record stores the summary
-        latest_income = incomes.first()
+        queryset = Income.objects.filter(owner=request.user).order_by('-created_at')
+        serializer = IncomeSerializer(queryset, many=True)
+        total_income = queryset.aggregate(total=Sum('amount'))['total'] or 0
+
+        # Monthly income
+        today = timezone.now().date()
+        first_day_of_month = today.replace(day=1)
+        monthly_income = queryset.filter(date__gte=first_day_of_month).aggregate(
+            total=Sum('amount')
+        )['total'] or 0
+
+        # Daily income
+        daily_income = queryset.filter(date=today).aggregate(
+            total=Sum('amount')
+        )['total'] or 0
 
         summary = {
-            "total_income": latest_income.total_income if latest_income else 0,
-            "monthly_income": latest_income.monthly_income if latest_income else 0,
-            "daily_income": latest_income.daily_income if latest_income else 0,
+            "total_income": total_income,
+            "monthly_income": monthly_income,
+            "daily_income": daily_income,
         }
 
-        response_data = {
-            "summary": summary,
-            "table": serializer.data
-        }
-
-        return self.success(
-            message="Summary fetched successfully", 
-            status_code=status.HTTP_200_OK,
-            data=response_data,
-            meta={"model": "IncomeSummary"},
-        )
+        # Step 4: Return response
+        return Response({
+            "message": "Income fetched successfully",
+            "data": {
+                "summary": summary,
+                "table": serializer.data,
+                }, 
+            "meta": {"model": "Income"},
+            }, status=status.HTTP_200_OK)
+        # return self.success(
+        #     message="Income fetched successfully",
+        #     status_code=200,
+        #     data={
+        #         "summary": summary,
+        #         "table": serializer.data,
+        #     },
+        #     meta={"model": "Income"},
+        # )
+   
 class PaymentAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -83,6 +91,22 @@ class PaymentAPIView(APIView):
             meta={"model": "Payment"},
         )
 
+# Refund Orders section 
+class CustomerSellsListAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        sells = Sells.objects.filter(owner=request.user)
+        serializer = CustomerRefundSerializer(sells, many=True)
+
+        # Return using self.success()
+        return self.success(
+            message="Sell orders fetched successfully",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data,
+            meta={"model": "Sells"},
+        )
 
 # Refund Orders section 
 class CustomerRefundListAPIView(APIView):
@@ -104,13 +128,6 @@ class CustomerRefundListAPIView(APIView):
 
 # Debit Credit section
 class VoucherEntryAPIView(APIView):
-    """
-    Voucher Entry API
-    - GET    : List vouchers
-    - POST   : Create voucher
-    - PUT    : Update voucher
-    - DELETE : Delete voucher
-    """
 
     permission_classes = [IsAuthenticated]
 
@@ -199,12 +216,6 @@ class VoucherEntryAPIView(APIView):
 
 # Profit & Loss (P&L) sectiont
 class ProfitLossReportAPIView(APIView):
-    """
-    Profit & Loss API View
-    Returns:
-    - Summary (Total Revenue, Total Expenses, Net Profit)
-    - Table data
-    """
 
     permission_classes = [IsAuthenticated]
 
@@ -251,13 +262,6 @@ class ProfitLossReportAPIView(APIView):
 # Receiver API
 class ReceiverListCreateAPIView(BaseAPIView):
     def post(self, request):
-        """
-        JSON body:
-        {
-            "name": "Rahim",
-            "receiver_type": "user"   # optional if name exists
-        }
-        """
 
         name = request.data.get('name')
         receiver_type = request.data.get('receiver_type')

@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.db.models import Sum
+from django.utils.timezone import now
 from .models import (
     Income,
     Payments,
@@ -7,7 +9,7 @@ from .models import (
     VoucherEntry,
     ProfitLossReport,
     Receiver,Product,
-    Invoice, Payment
+    Invoice, Payment,Sells
 )
 
 
@@ -15,16 +17,23 @@ from .models import (
 @admin.register(Income)
 class IncomeAdmin(admin.ModelAdmin):
     list_display = (
-        'id',
+        'date',
+        'customer',
+        'amount',
+        'payment_method',
         'owner',
-        'total_income',
-        'monthly_income',
-        'daily_income',
         'created_at',
     )
-    list_filter = ('owner', 'created_at')
-    search_fields = ('owner__username',)
-    ordering = ('-created_at',)
+    list_filter = ('payment_method', 'date')
+    search_fields = ('customer',)
+    ordering = ('-date',)
+    readonly_fields = ('created_at',)
+
+    def save_model(self, request, obj, form, change):
+        if not obj.owner:
+            obj.owner = request.user
+        super().save_model(request, obj, form, change) or 0
+
 
 @admin.register(Payments)
 class PaymentAdmin(admin.ModelAdmin):
@@ -41,6 +50,49 @@ class PaymentAdmin(admin.ModelAdmin):
     list_filter = ('status', 'payment_method', 'date', 'owner')
     search_fields = ('customer', 'owner__username')
     ordering = ('-date',)
+
+
+# Refund section admin
+@admin.register(Sells)
+class CustomerSellsdAdmin(admin.ModelAdmin):
+
+    # Admin list page
+    list_display = (
+        'id',
+        'owner',
+        'location',
+        'contact',
+        'price',
+        'platform',
+        'sells_status',
+    )
+
+    # Right side filter
+    list_filter = (
+        'sells_status',
+        'platform',
+        'owner',
+    )
+
+    #  search box 
+    search_fields = (
+        'location',
+        'contact',
+        'owner__username',
+    )
+
+    # Latest data 
+    ordering = ('-id',)
+
+    # Admin panel edit options
+    readonly_fields = ('id',)
+
+    # New refund order create & owner auto assign
+    def save_model(self, request, obj, form, change):
+        if not obj.owner:
+            obj.owner = request.user
+        super().save_model(request, obj, form, change)
+
 
 
 # Refund section admin
@@ -107,9 +159,7 @@ class VoucherTypeAdmin(admin.ModelAdmin):
 # Voucher Entry Admin
 @admin.register(VoucherEntry)
 class VoucherEntryAdmin(admin.ModelAdmin):
-    """
-    Admin configuration for VoucherEntry (Accounting Vouchers)
-    """
+
 
     list_display = (
         'id',
@@ -152,9 +202,7 @@ class VoucherEntryAdmin(admin.ModelAdmin):
 # Profit & Loss (P&L) section
 @admin.register(ProfitLossReport)
 class ProfitLossReportAdmin(admin.ModelAdmin):
-    """
-    Admin dashboard for Profit & Loss Reports
-    """
+
 
     # Columns to display in admin list view
     list_display = (
@@ -163,7 +211,6 @@ class ProfitLossReportAdmin(admin.ModelAdmin):
         'expenses',
         'operating_expenses',
         'gross_profit',
-        'net_profit',
         'status',
         'owner',
     )
@@ -185,7 +232,6 @@ class ProfitLossReportAdmin(admin.ModelAdmin):
     # Fields that are read-only in admin (cannot edit manually)
     readonly_fields = (
         'gross_profit',
-        'net_profit',
         'created_at',
     )
 
