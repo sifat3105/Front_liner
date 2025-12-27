@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    IncomeAPIView, PaymentAPIView,
+    IncomeSummaryAPIView, PaymentAPIView,
     CustomerRefundListAPIView,
     VoucherEntryAPIView,
     ProfitLossReportAPIView,
@@ -9,7 +9,7 @@ from .views import (
 
 
 urlpatterns = [
-    path('income/', IncomeAPIView.as_view(), name='income-list'),
+    path('income/', IncomeSummaryAPIView.as_view(), name='income-list'),
     path('payments/', PaymentAPIView.as_view(), name='payment-list'),
 
     # Refund

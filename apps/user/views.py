@@ -40,7 +40,7 @@ class UserRegistrationView(APIView):
                 value=str(refresh.access_token),
                 httponly=True,
                 secure=True if request.is_secure() else False,
-                samesite="Lax",
+                samesite="None",
                 max_age=60 * 5
             )
 
@@ -49,7 +49,7 @@ class UserRegistrationView(APIView):
                 value=str(refresh),
                 httponly=True,
                 secure=True if request.is_secure() else False,   
-                samesite="Lax",
+                samesite="None",
                 max_age=60 * 60 * 24 * 5
             )
 
@@ -68,41 +68,70 @@ class UserLoginView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        serializer = UserLoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        email = request.data.get("email")
+        password = request.data.get("password")
 
-        user = serializer.validated_data
+        if not email or not password:
+            return self.error(
+                message="Email and password required",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "login"}
+            )
+
+        try:
+            user = User.objects.only("id", "email", "password", "is_active").get(email=email)
+        except User.DoesNotExist:
+            return self.error(
+                message="Invalid credentials",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "login"}
+            )
+
+        if not user.is_active or not user.check_password(password):
+            return self.error(
+                message="Invalid credentials",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "login"}
+            )
+
         refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
 
         response = self.success(
             message="Login successful",
             status_code=status.HTTP_200_OK,
             data={
-                "user": UserSerializer(user).data
+                "user": {
+                    "id": user.id,
+                    "email": user.email
+                },
+                "access": access_token,
+                "refresh": refresh_token
             },
             meta={"action": "login"}
         )
 
-        # ✅ Set cookies
         response.set_cookie(
             key="xJq93kL1",
-            value=str(refresh.access_token),
+            value=access_token,
             httponly=True,
-            secure=True if request.is_secure() else False,
-            samesite="Lax",
-            max_age=60 * 5
+            secure=True,
+            samesite="None",
+            max_age=300 * 60 * 24 * 5000
         )
 
         response.set_cookie(
             key="rT7u1Vb8",
-            value=str(refresh),
+            value=refresh_token,
             httponly=True,
-            secure=True if request.is_secure() else False,
-            samesite="Lax",
-            max_age=60 * 60 * 24 * 5
+            secure=True,
+            samesite="None",
+            max_age=60 * 60 * 24 * 5000
         )
 
         return response
+
         
 class RefreshTokenRotationView(APIView):
     throttle_classes = [ScopedRateThrottle]

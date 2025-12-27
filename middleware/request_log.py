@@ -1,4 +1,3 @@
-# middleware/request_log.py
 import logging
 import uuid
 from django.utils.deprecation import MiddlewareMixin

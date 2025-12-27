@@ -6,6 +6,7 @@ from django.db.models import Q
 from .base import BaseAPIView
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from django.utils.timezone import now
 from .models import (
     Income,
     Payments,
@@ -30,6 +31,7 @@ from .serializers import (
 # Income section APIView
 class IncomeAPIView(APIView):
     permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         items = Income.objects.filter(owner=request.user).order_by('-created_at')
         serializer = IncomeSerializer(items, many=True)
@@ -40,7 +42,33 @@ class IncomeAPIView(APIView):
             data=serializer.data,
             meta={"model": "Income"},
         )
+        
+class IncomeSummaryAPIView(APIView):
+    def get(self, request):
+        user = request.user
+        incomes = Income.objects.filter(owner=user).order_by('-created_at')
+        serializer = IncomeSerializer(incomes, many=True)
 
+        # Assuming the latest Income record stores the summary
+        latest_income = incomes.first()
+
+        summary = {
+            "total_income": latest_income.total_income if latest_income else 0,
+            "monthly_income": latest_income.monthly_income if latest_income else 0,
+            "daily_income": latest_income.daily_income if latest_income else 0,
+        }
+
+        response_data = {
+            "summary": summary,
+            "table": serializer.data
+        }
+
+        return self.success(
+            message="Summary fetched successfully", 
+            status_code=status.HTTP_200_OK,
+            data=response_data,
+            meta={"model": "IncomeSummary"},
+        )
 class PaymentAPIView(APIView):
     permission_classes = [IsAuthenticated]
 

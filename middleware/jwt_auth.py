@@ -49,7 +49,7 @@ class JWTAuthMiddleware:
             except TokenError:
                 refresh_token = request.COOKIES.get("rT7u1Vb8")
                 if not refresh_token:
-                    return self._forbidden("Authentication required")
+                    return self._unauthorized("Authentication required")
                 try:
                     refresh = RefreshToken(refresh_token)
                     new_access = str(refresh.access_token)
@@ -64,10 +64,28 @@ class JWTAuthMiddleware:
                     )
                     return response
                 except TokenError:
-                    return self._forbidden("Session expired. Please login again")
+                    return self._unauthorized("Session expired. Please login again")
+        else:
+            refresh_token = request.COOKIES.get("rT7u1Vb8")
+            if not refresh_token:
+                return self._unauthorized("Authentication required")
+            try:
+                refresh = RefreshToken(refresh_token)
+                new_access = str(refresh.access_token)
+                response = self.get_response(request)
+                response.set_cookie(
+                    key="xJq93kL1",
+                    value=new_access,
+                    httponly=True,
+                    secure=True if request.is_secure() else False,
+                    samesite="Lax",
+                    max_age=60 * 60 * 24
+                )
+                return response
+            except TokenError:
+                return self._unauthorized("Session expired. Please login again")
 
-        # No access token
-        return self._forbidden("Authentication required")
+
 
     def _forbidden(self, message, user=None):
         response_data = {
@@ -84,3 +102,18 @@ class JWTAuthMiddleware:
         }
     }
         return JsonResponse(response_data, status=403)
+    
+    def _unauthorized(self, message, user=None):
+        response_data = {
+        "status": "error",
+        "status_code": 401,
+        "message": message,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "request_id": str(uuid.uuid4()),
+        "data": {
+            "user": user 
+        } if user else {},
+        "meta": {
+            "action": "unauthorized"
+        }
+    }

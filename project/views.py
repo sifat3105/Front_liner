@@ -7,3 +7,6 @@ def connect_facebook_page(request):
 
 def post_generate(request):
     return render(request, "post_generate.html")
+
+def login(request):
+    return render(request, "login.html")

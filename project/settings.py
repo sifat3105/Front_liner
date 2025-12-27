@@ -18,9 +18,34 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-# CORS
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "http://127.0.0.1:5501",
+    "https://127.0.0.1:5501",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "http://127.0.0.1:5501",
+    "https://127.0.0.1:5501",
+]
+
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+
+CSRF_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
 CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
 
 
@@ -97,6 +122,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -244,5 +270,8 @@ FACEBOOK_APP_ID = "3184250695088317"
 FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
 FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
 FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
+
+INSTAGRAM_APP_ID = "2060639764791245"
+INSTAGRAM_APP_SECRET = "694ced5269ad277849e5923c"
 
 
