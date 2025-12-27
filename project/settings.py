@@ -279,30 +279,12 @@ FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
 
 #==================-----------------=================
 # Example value, replace with your actual merchant ID
+
 PAYSTATION_MERCHANT_ID = "104-1653730183"
 PAYSTATION_PASSWORD =  "gamecoderstorepass",
-PAYSTATION_BASE_URL = "https://sandbox.paystation.com.bd/"
-PAYSTATION_CALLBACK_URL ="https://sandbox.paystation.com.bd/payment-success/104",
+PAYSTATION_BASE_URL = "https://sandbox.paystation.com.bd"
+PAYSTATION_CALLBACK_URL ="https://sandbox.paystation.com.bd/initiate-payment",
 
-
-# SHURJOPAY sandbox/live credentials
-SHURJOPAY_USERNAME = "johndoe"
-SHURJOPAY_PASSWORD = "secret123" 
-SHURJOPAY_STORE_ID = "2"
-
-# Base URLs
-SHURJOPAY_BASE_URL = "https://sandbox.shurjopayment.com/api/get_token"
-
-# Optionally save token temporarily
-SHURJOPAY_TOKEN_EXPIRES_AT = None
-
-# Token (optional, can generate dynamically via API)
-# If you want to store a token temporarily:
-SHURJOPAY_TOKEN = "YOUR_SAVED_TOKEN"
-
-# Return / cancel URLs
-SHURJOPAY_RETURN_URL = "https://yourwebsite.com/payment/success/"
-SHURJOPAY_CANCEL_URL = "https://yourwebsite.com/payment/cancel/"
 
 
 import environ
