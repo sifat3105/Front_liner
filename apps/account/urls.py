@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     IncomeAPIView, PaymentAPIView,
     CustomerRefundListAPIView,
+    CustomerSellsListAPIView,
     VoucherEntryAPIView,
     ProfitLossReportAPIView,
     ReceiverListCreateAPIView, ReceiverListCreateAPIView, InvoiceListCreateAPIView, PaymentCreateAPIView
@@ -13,6 +14,7 @@ urlpatterns = [
     path('payments/', PaymentAPIView.as_view(), name='payment-list'),
 
     # Refund
+    path('sells/', CustomerSellsListAPIView.as_view(), name='sell-list'),
     path('refund/', CustomerRefundListAPIView.as_view(), name='refund-list'),
 
     # Debit Credit

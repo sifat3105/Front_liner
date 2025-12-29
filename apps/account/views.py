@@ -91,7 +91,8 @@ class PaymentAPIView(APIView):
             meta={"model": "Payment"},
         )
 
-# Refund Orders section 
+
+# Sell Orders section 
 class CustomerSellsListAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -107,6 +108,8 @@ class CustomerSellsListAPIView(APIView):
             data=serializer.data,
             meta={"model": "Sells"},
         )
+
+
 
 # Refund Orders section 
 class CustomerRefundListAPIView(APIView):
@@ -257,7 +260,6 @@ class ProfitLossReportAPIView(APIView):
         )
 
 
-# Payment section
 
 # Receiver API
 class ReceiverListCreateAPIView(BaseAPIView):
