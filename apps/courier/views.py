@@ -1,11 +1,11 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from utils.base_view import BaseAPIView as APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 import requests
 from requests.auth import HTTPBasicAuth
+from .serializers import CourierCompanySerializer
 from .models import (
-    Courierlist,
+    Courierlist,UserCourier,
     PaperflyMerchant,
     PaperflyOrder,
     PaperflyOrderTracking,
@@ -15,25 +15,59 @@ from .models import (
     SteadfastReturnRequest,
     PathaoToken, PathaoStore, PathaoOrder,
 )
-from .serializers import CourierCompanySerializer
-# courier list section
-class CourierCompanyListCreateAPIView(APIView):
+
+
+# GET: logged-in user er courier list
+class UserCourierListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        companies = Courierlist.objects.all()
-        serializer = CourierCompanySerializer(companies, many=True)
-        return Response(serializer.data) 
+        try:
+            user_courier = UserCourier.objects.get(user=request.user)
+        except UserCourier.DoesNotExist:
+            return self.error(
+                message="User has no couriers assigned",
+                status_code=404,
+                meta={"action": "user-curier-list"}
+            )
+        couriers = user_courier.courier_list.all()
+        serializer = CourierCompanySerializer(couriers, many=True, context={'request': request})
+        
+        return self.success(
+            data=serializer.data,
+            message= "Courier list fetched successfully"if serializer.data else "No couriers assigned to this user",
+            meta={"action": "user-curier-list"}
+        )
 
-
+# POST: toggle courier status
 class ToggleCourierStatusAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, pk):
-        company = Courierlist.objects.get(pk=pk)
-        company.toggle_status()
-        serializer = CourierCompanySerializer(company)
-        return Response([serializer.data], status=status.HTTP_200_OK) 
+    def patch(self, request, pk):
+        try:
+            user_courier = UserCourier.objects.get(user=request.user)
+            courier = user_courier.courier_list.get(pk=pk)
+        except UserCourier.DoesNotExist:
+            return self.error(
+                message="User has no couriers assigned",
+                status_code=404,
+                meta={"action": "toggle-courier-status"}
+            )
+        except Courierlist.DoesNotExist:
+            return self.error(
+                message="Courier not found",
+                status_code=404,
+                meta={"action": "toggle-courier-status"}
+            )
+        courier.toggle_status()
+
+        serializer = CourierCompanySerializer(courier)
+
+        return self.success(
+            data=serializer.data,
+            message=f"Courier '{courier.name}' status updated successfully",
+            meta={"action": "toggle-courier-status"}
+        )
 
 
 
@@ -58,12 +92,22 @@ class PaperflyRegistrationAPIView(APIView):
         ]
         missing_fields = [field for field in mandatory_fields if not data.get(field)]
         if missing_fields:
-            return Response({"success": False,"message": "Mandatory field missing","missing_fields": missing_fields}, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                errors={"missing_fields": missing_fields},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-registration"}
+            )
 
         # Validate payment mode
         allowed_payment_modes = ["beftn", "cash", "bkash", "rocket", "nagad"]
         if data.get("payment_mode") not in allowed_payment_modes:
-            return Response({"success": False,"message": "Invalid payment_mode","allowed_values": allowed_payment_modes}, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Invalid payment_mode",
+                errors={"allowed_values": allowed_payment_modes},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-registration"}
+            )
 
         payload = {field: data.get(field) for field in data.keys()}
 
@@ -72,7 +116,12 @@ class PaperflyRegistrationAPIView(APIView):
         try:
             response = requests.post(PAPERFLY_URL, json=payload, headers=headers, auth=HTTPBasicAuth(USERNAME, PASSWORD), timeout=30)
         except requests.exceptions.RequestException as e:
-            return Response({"success": False,"message": "Paperfly API not reachable","error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Paperfly API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-registration"}
+            )
 
         # Save to DB
         PaperflyMerchant.objects.create(
@@ -97,10 +146,18 @@ class PaperflyRegistrationAPIView(APIView):
         )
 
         try:
-            return Response(response.json(), status=response.status_code)
+            return self.success(
+                data=response.json(),
+                message="Paperfly registration response",
+                status_code=response.status_code,
+                meta={"action": "paperfly-registration"}
+            )
         except ValueError:
-            return Response({"success": False,"message": "Invalid response from Paperfly"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+            return self.error(
+                message="Invalid response from Paperfly",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-registration"}
+            )
 
 # order submission integration 
 PAPERFLY_ORDER_URL = "https://api.paperfly.com.bd/NewOrderUpload"
@@ -116,26 +173,29 @@ class PaperflyOrderCreateAPIView(APIView):
         ]
         missing_fields = [f for f in mandatory_fields if not data.get(f)]
         if missing_fields:
-            return Response({
-                "success": False,
-                "message": "Mandatory field missing",
-                "missing_fields": missing_fields
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                errors={"missing_fields": missing_fields},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-order-create"}
+            )
 
         # Validate productSizeWeight & deliveryOption
         if data.get("productSizeWeight") not in ["standard","large","special"]:
-            return Response({
-                "success": False,
-                "message": "Invalid productSizeWeight",
-                "allowed_values": ["standard","large","special"]
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Invalid productSizeWeight",
+                errors={"allowed_values": ["standard","large","special"]},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-order-create"}
+            )
 
         if data.get("deliveryOption") not in ["regular","express"]:
-            return Response({
-                "success": False,
-                "message": "Invalid deliveryOption",
-                "allowed_values": ["regular","express"]
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Invalid deliveryOption",
+                errors={"allowed_values": ["regular","express"]},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-order-create"}
+            )
 
         payload = {field: data.get(field, "") for field in data.keys()}
 
@@ -154,11 +214,12 @@ class PaperflyOrderCreateAPIView(APIView):
                 timeout=30
             )
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Paperfly API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Paperfly API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-order-create"}
+            )
 
         # THIS PART YOU ASKED FOR (tracking_number extract)
         try:
@@ -195,15 +256,19 @@ class PaperflyOrderCreateAPIView(APIView):
                 max_weight=data.get("max_weight",""),
             )
 
-            return Response(result, status=response.status_code)
+            return self.success(
+                data=result,
+                message="Paperfly order response",
+                status_code=response.status_code,
+                meta={"action": "paperfly-order-create"}
+            )
 
         except ValueError:
-            return Response({
-                "success": False,
-                "message": "Invalid response from Paperfly"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+            return self.error(
+                message="Invalid response from Paperfly",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-order-create"}
+            )
 
 # Order Tracking
 PAPERFLY_TRACK_URL = "https://api.paperfly.com.bd/API-Order-Tracking"
@@ -217,11 +282,12 @@ class PaperflyOrderTrackingAPIView(APIView):
         mandatory_fields = ["ReferenceNumber", "merchantCode"]
         missing_fields = [f for f in mandatory_fields if not data.get(f)]
         if missing_fields:
-            return Response({
-                "success": False,
-                "message": "Mandatory field missing",
-                "missing_fields": missing_fields
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                errors={"missing_fields": missing_fields},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-order-tracking"}
+            )
 
         payload = {
             "ReferenceNumber": data.get("ReferenceNumber"),
@@ -242,11 +308,12 @@ class PaperflyOrderTrackingAPIView(APIView):
                 timeout=30
             )
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Paperfly API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Paperfly API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-order-tracking"}
+            )
 
         try:
             result = response.json()
@@ -277,14 +344,18 @@ class PaperflyOrderTrackingAPIView(APIView):
                     closeTime=tracking.get("closeTime", "")
                 )
 
-            return Response(result, status=response.status_code)
+            return self.success(
+                data=result,
+                message="Paperfly tracking response",
+                status_code=response.status_code,
+                meta={"action": "paperfly-order-tracking"}
+            )
         except ValueError:
-            return Response({
-                "success": False,
-                "message": "Invalid response from Paperfly"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
+            return self.error(
+                message="Invalid response from Paperfly",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-order-tracking"}
+            )
 
 # order cancellation integration
 PAPERFLY_CANCEL_URL = "https://api.paperfly.com.bd/api/v1/cancel-order"
@@ -299,11 +370,12 @@ class PaperflyOrderCancelAPIView(APIView):
         missing_fields = [f for f in mandatory_fields if not data.get(f)]
 
         if missing_fields:
-            return Response({
-                "success": False,
-                "message": "Mandatory field missing",
-                "missing_fields": missing_fields
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                errors={"missing_fields": missing_fields},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-order-cancel"}
+            )
 
         payload = {
             "order_id": data.get("order_id"),
@@ -324,11 +396,12 @@ class PaperflyOrderCancelAPIView(APIView):
                 timeout=30
             )
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Paperfly API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Paperfly API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-order-cancel"}
+            )
 
         try:
             result = response.json()
@@ -341,13 +414,19 @@ class PaperflyOrderCancelAPIView(APIView):
                 response_code=result.get("success", {}).get("response_code")
             )
 
-            return Response(result, status=response.status_code)
+            return self.success(
+                data=result,
+                message="Paperfly cancel response",
+                status_code=response.status_code,
+                meta={"action": "paperfly-order-cancel"}
+            )
 
         except ValueError:
-            return Response({
-                "success": False,
-                "message": "Invalid response from Paperfly"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Invalid response from Paperfly",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-order-cancel"}
+            )
 
 
 # ===============================
@@ -373,8 +452,12 @@ class PlaceOrderAPIView(APIView):
         required_fields = ["invoice","recipient_name","recipient_phone","recipient_address","cod_amount"]
         missing = [f for f in required_fields if not data.get(f)]
         if missing:
-            return Response({"success":False,"message":"Missing fields","fields":missing},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Missing fields",
+                errors={"fields": missing},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "steadfast-place-order"}
+            )
         try:
             resp = requests.post(f"{STEADFAST_BASE_URL}/create_order", json=data, headers=HEADERS, timeout=30)
             result = resp.json()
@@ -392,13 +475,25 @@ class PlaceOrderAPIView(APIView):
                     note=cons.get("note"),
                     api_response=result
                 )
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast place order response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-place-order"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success":False,"message":"API not reachable","error":str(e)},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-place-order"}
+            )
         except ValueError:
-            return Response({"success":False,"message":"Invalid JSON response from API"},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Invalid JSON response from API",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-place-order"}
+            )
 
 
 # BULK ORDER CREATE
@@ -407,15 +502,17 @@ class BulkOrderAPIView(APIView):
         orders = request.data.get("data")
 
         if not orders or not isinstance(orders, list):
-            return Response(
-                {"success": False, "message": "data must be a non-empty list"},
-                status=status.HTTP_400_BAD_REQUEST
+            return self.error(
+                message="data must be a non-empty list",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "steadfast-bulk-order"}
             )
 
         if len(orders) > 500:
-            return Response(
-                {"success": False, "message": "Max 500 orders allowed"},
-                status=status.HTTP_400_BAD_REQUEST
+            return self.error(
+                message="Max 500 orders allowed",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "steadfast-bulk-order"}
             )
 
         try:
@@ -430,7 +527,12 @@ class BulkOrderAPIView(APIView):
 
             # SAFETY CHECK
             if resp.status_code != 200 or result.get("status") != "success":
-                return Response(result, status=resp.status_code)
+                return self.error(
+                    message="Steadfast bulk order returned error",
+                    errors=result,
+                    status_code=resp.status_code,
+                    meta={"action": "steadfast-bulk-order"}
+                )
 
             # ACTUAL LIST HERE
             for cons in result.get("data", []):
@@ -449,18 +551,26 @@ class BulkOrderAPIView(APIView):
                         }
                     )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast bulk order response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-bulk-order"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response(
-                {"success": False, "message": "API not reachable", "error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            return self.error(
+                message="API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-bulk-order"}
             )
 
         except ValueError:
-            return Response(
-                {"success": False, "message": "Invalid JSON response from API"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            return self.error(
+                message="Invalid JSON response from API",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-bulk-order"}
             )
 
 
@@ -477,12 +587,12 @@ class DeliveryStatusByCIDAPIView(APIView):
             try:
                 result = resp.json()
             except ValueError:
-                return Response({
-                    "success": False,
-                    "message": "Invalid response from Steadfast",
-                    "status_code": resp.status_code,
-                    "raw_response": resp.text
-                }, status=status.HTTP_502_BAD_GATEWAY)
+                return self.error(
+                    message="Invalid response from Steadfast",
+                    errors={"status_code": resp.status_code, "raw_response": resp.text},
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    meta={"action": "steadfast-status-by-cid"}
+                )
 
             if resp.status_code == 200 and result.get("delivery_status"):
                 SteadfastTracking.objects.update_or_create(
@@ -493,14 +603,20 @@ class DeliveryStatusByCIDAPIView(APIView):
                     }
                 )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast status by cid response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-status-by-cid"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Steadfast API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Steadfast API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-status-by-cid"}
+            )
 
 class DeliveryStatusByInvoiceAPIView(APIView):
     def get(self, request, invoice):
@@ -514,12 +630,12 @@ class DeliveryStatusByInvoiceAPIView(APIView):
             try:
                 result = resp.json()
             except ValueError:
-                return Response({
-                    "success": False,
-                    "message": "Invalid response from Steadfast",
-                    "status_code": resp.status_code,
-                    "raw_response": resp.text
-                }, status=status.HTTP_502_BAD_GATEWAY)
+                return self.error(
+                    message="Invalid response from Steadfast",
+                    errors={"status_code": resp.status_code, "raw_response": resp.text},
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    meta={"action": "steadfast-status-by-invoice"}
+                )
 
             if resp.status_code == 200 and result.get("delivery_status"):
                 SteadfastTracking.objects.update_or_create(
@@ -530,14 +646,20 @@ class DeliveryStatusByInvoiceAPIView(APIView):
                     }
                 )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast status by invoice response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-status-by-invoice"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Steadfast API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Steadfast API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-status-by-invoice"}
+            )
 
 class DeliveryStatusByTrackingCodeAPIView(APIView):
     def get(self, request, tracking_code):
@@ -551,12 +673,12 @@ class DeliveryStatusByTrackingCodeAPIView(APIView):
             try:
                 result = resp.json()
             except ValueError:
-                return Response({
-                    "success": False,
-                    "message": "Invalid response from Steadfast",
-                    "status_code": resp.status_code,
-                    "raw_response": resp.text
-                }, status=status.HTTP_502_BAD_GATEWAY)
+                return self.error(
+                    message="Invalid response from Steadfast",
+                    errors={"status_code": resp.status_code, "raw_response": resp.text},
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    meta={"action": "steadfast-status-by-trackingcode"}
+                )
 
             if resp.status_code == 200 and result.get("delivery_status"):
                 SteadfastTracking.objects.update_or_create(
@@ -567,14 +689,20 @@ class DeliveryStatusByTrackingCodeAPIView(APIView):
                     }
                 )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast status by tracking code response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-status-by-trackingcode"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Steadfast API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Steadfast API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-status-by-trackingcode"}
+            )
 
 
 # CURRENT BALANCE
@@ -583,11 +711,25 @@ class CurrentBalanceAPIView(APIView):
         try:
             resp = requests.get(f"{STEADFAST_BASE_URL}/get_balance", headers=HEADERS, timeout=30)
             result = resp.json()
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast current balance response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-get-balance"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success":False,"message":"API not reachable","error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-balance"}
+            )
         except ValueError:
-            return Response({"success":False,"message":"Invalid JSON response from API"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Invalid JSON response from API",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-balance"}
+            )
 
 
 # RETURN REQUESTS
@@ -600,12 +742,10 @@ class ReturnRequestAPIView(APIView):
             data.get("invoice"),
             data.get("tracking_code")
         ]):
-            return Response(
-                {
-                    "success": False,
-                    "message": "consignment_id or invoice or tracking_code required"
-                },
-                status=status.HTTP_400_BAD_REQUEST
+            return self.error(
+                message="consignment_id or invoice or tracking_code required",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "steadfast-return-request"}
             )
 
         try:
@@ -619,12 +759,12 @@ class ReturnRequestAPIView(APIView):
             try:
                 result = resp.json()
             except ValueError:
-                return Response({
-                    "success": False,
-                    "message": "Invalid response from Steadfast",
-                    "status_code": resp.status_code,
-                    "raw_response": resp.text
-                }, status=status.HTTP_502_BAD_GATEWAY)
+                return self.error(
+                    message="Invalid response from Steadfast",
+                    errors={"status_code": resp.status_code, "raw_response": resp.text},
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    meta={"action": "steadfast-return-request"}
+                )
 
             if resp.status_code == 200 and result.get("id"):
                 SteadfastReturnRequest.objects.update_or_create(
@@ -639,16 +779,19 @@ class ReturnRequestAPIView(APIView):
                     }
                 )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast create return request response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-return-request"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response(
-                {
-                    "success": False,
-                    "message": "Steadfast API not reachable",
-                    "error": str(e)
-                },
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            return self.error(
+                message="Steadfast API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-return-request"}
             )
 
 
@@ -664,23 +807,26 @@ class GetReturnRequestsAPIView(APIView):
             try:
                 result = resp.json()
             except ValueError:
-                return Response({
-                    "success": False,
-                    "message": "Invalid response from Steadfast",
-                    "status_code": resp.status_code,
-                    "raw_response": resp.text
-                }, status=status.HTTP_502_BAD_GATEWAY)
+                return self.error(
+                    message="Invalid response from Steadfast",
+                    errors={"status_code": resp.status_code, "raw_response": resp.text},
+                    status_code=status.HTTP_502_BAD_GATEWAY,
+                    meta={"action": "steadfast-get-return-requests"}
+                )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast get return requests response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-get-return-requests"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response(
-                {
-                    "success": False,
-                    "message": "Steadfast API not reachable",
-                    "error": str(e)
-                },
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            return self.error(
+                message="Steadfast API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-return-requests"}
             )
 
 
@@ -690,11 +836,25 @@ class GetPaymentsAPIView(APIView):
         try:
             resp = requests.get(f"{STEADFAST_BASE_URL}/payments", headers=HEADERS, timeout=30)
             result = resp.json()
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast get payments response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-get-payments"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success":False,"message":"API not reachable","error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-payments"}
+            )
         except ValueError:
-            return Response({"success":False,"message":"Invalid JSON response from API"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Invalid JSON response from API",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-payments"}
+            )
 
 
 class GetSinglePaymentAPIView(APIView):
@@ -702,11 +862,25 @@ class GetSinglePaymentAPIView(APIView):
         try:
             resp = requests.get(f"{STEADFAST_BASE_URL}/payments/{payment_id}", headers=HEADERS, timeout=30)
             result = resp.json()
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast get single payment response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-get-single-payment"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success":False,"message":"API not reachable","error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-single-payment"}
+            )
         except ValueError:
-            return Response({"success":False,"message":"Invalid JSON response from API"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Invalid JSON response from API",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-single-payment"}
+            )
 
 
 # POLICE STATIONS
@@ -715,11 +889,25 @@ class GetPoliceStationsAPIView(APIView):
         try:
             resp = requests.get(f"{STEADFAST_BASE_URL}/police_stations", headers=HEADERS, timeout=30)
             result = resp.json()
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Steadfast get police stations response",
+                status_code=resp.status_code,
+                meta={"action": "steadfast-get-police-stations"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success":False,"message":"API not reachable","error":str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-police-stations"}
+            )
         except ValueError:
-            return Response({"success":False,"message":"Invalid JSON response from API"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Invalid JSON response from API",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "steadfast-get-police-stations"}
+            )
         
 
 
@@ -762,29 +950,33 @@ class PathaoIssueTokenAPIView(APIView):
                     expires_in=data.get("expires_in")
                 )
 
-            return Response(data, status=resp.status_code)
+            return self.success(
+                data=data,
+                message="Pathao issue token response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-issue-token"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Pathao API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-issue-token"}
+            )
 
 # REFRESH ACCESS TOKEN
 class PathaoRefreshTokenAPIView(APIView):
-    """
-    Generate new access token using refresh token
-    """
 
     def post(self, request):
         refresh_token = request.data.get("refresh_token")
 
         if not refresh_token:
-            return Response({
-                "success": False,
-                "message": "refresh_token is required"
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="refresh_token is required",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "pathao-refresh-token"}
+            )
 
         payload = {
             "client_id": CLIENT_ID,
@@ -809,20 +1001,23 @@ class PathaoRefreshTokenAPIView(APIView):
                     expires_in=data.get("expires_in")
                 )
 
-            return Response(data, status=resp.status_code)
+            return self.success(
+                data=data,
+                message="Pathao refresh token response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-refresh-token"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Pathao API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-refresh-token"}
+            )
 
 # CREATE STORE
 class PathaoCreateStoreAPIView(APIView):
-    """
-    Create merchant store in Pathao
-    """
 
     def post(self, request):
         data = request.data
@@ -835,11 +1030,12 @@ class PathaoCreateStoreAPIView(APIView):
 
         missing = [f for f in mandatory_fields if not data.get(f)]
         if missing:
-            return Response({
-                "success": False,
-                "message": "Mandatory field missing",
-                "missing_fields": missing
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                errors={"missing_fields": missing},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "pathao-create-store"}
+            )
 
         headers = {
             "Content-Type": "application/json",
@@ -869,21 +1065,23 @@ class PathaoCreateStoreAPIView(APIView):
                     }
                 )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Pathao create store response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-create-store"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Pathao API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-create-store"}
+            )
 
 # CREATE SINGLE ORDER
 class PathaoCreateOrderAPIView(APIView):
-    """
-    Create single order in Pathao
-    """
-
     def post(self, request):
         data = request.data
         access_token = request.headers.get("Authorization")
@@ -897,11 +1095,12 @@ class PathaoCreateOrderAPIView(APIView):
 
         missing = [f for f in mandatory_fields if not data.get(f)]
         if missing:
-            return Response({
-                "success": False,
-                "message": "Mandatory field missing",
-                "missing_fields": missing
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                errors={"missing_fields": missing},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "pathao-create-order"}
+            )
 
         headers = {
             "Content-Type": "application/json",
@@ -931,35 +1130,40 @@ class PathaoCreateOrderAPIView(APIView):
                     }
                 )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Pathao create order response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-create-order"}
+            )
 
         except PathaoStore.DoesNotExist:
-            return Response({
-                "success": False,
-                "message": "Store not found in DB"
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Store not found in DB",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "pathao-create-order"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Pathao API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-create-order"}
+            )
 
 # BULK ORDER CREATE
 class PathaoBulkOrderAPIView(APIView):
-    """
-    Create bulk orders (max multiple)
-    """
 
     def post(self, request):
         orders = request.data.get("orders")
         access_token = request.headers.get("Authorization")
 
         if not orders or not isinstance(orders, list):
-            return Response({
-                "success": False,
-                "message": "orders must be a list"
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="orders must be a list",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "pathao-bulk-order"}
+            )
 
         headers = {
             "Content-Type": "application/json",
@@ -990,14 +1194,21 @@ class PathaoBulkOrderAPIView(APIView):
                     except PathaoStore.DoesNotExist:
                         continue
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Pathao bulk order response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-bulk-order"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Pathao API not reachable",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-bulk-order"}
+            )
+
 
 # ORDER SHORT INFO / TRACKING
 class PathaoOrderInfoAPIView(APIView):
@@ -1024,14 +1235,20 @@ class PathaoOrderInfoAPIView(APIView):
                     order_status=order_data.get("order_status")
                 )
 
-            return Response(result, status=resp.status_code)
+            return self.success(
+                data=result,
+                message="Pathao order info response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-order-info"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({
-                "success": False,
-                "message": "Pathao API not reachable",
-                "error": str(e)
-            },status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-order-info"}
+            )
 
 # LOCATION APIs
 class PathaoCityListAPIView(APIView):
@@ -1043,9 +1260,19 @@ class PathaoCityListAPIView(APIView):
                 headers={"Authorization": access_token},
                 timeout=30
             )
-            return Response(resp.json(), status=resp.status_code)
+            return self.success(
+                data=resp.json(),
+                message="Pathao city list response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-city-list"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-city-list"}
+            )
 
 class PathaoZoneListAPIView(APIView):
     def get(self, request, city_id):
@@ -1056,9 +1283,19 @@ class PathaoZoneListAPIView(APIView):
                 headers={"Authorization": access_token},
                 timeout=30
             )
-            return Response(resp.json(), status=resp.status_code)
+            return self.success(
+                data=resp.json(),
+                message="Pathao zone list response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-zone-list"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-zone-list"}
+            )
 
 class PathaoAreaListAPIView(APIView):
     def get(self, request, zone_id):
@@ -1069,15 +1306,22 @@ class PathaoAreaListAPIView(APIView):
                 headers={"Authorization": access_token},
                 timeout=30
             )
-            return Response(resp.json(), status=resp.status_code)
+            return self.success(
+                data=resp.json(),
+                message="Pathao area list response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-area-list"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-area-list"}
+            )
 
 # PRICE CALCULATION
 class PathaoPricePlanAPIView(APIView):
-    """
-    Calculate delivery price
-    """
 
     def post(self, request):
         data = request.data
@@ -1090,11 +1334,12 @@ class PathaoPricePlanAPIView(APIView):
 
         missing = [f for f in mandatory_fields if not data.get(f)]
         if missing:
-            return Response({
-                "success": False,
-                "message": "Mandatory field missing",
-                "missing_fields": missing
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                errors={"missing_fields": missing},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "pathao-price-plan"}
+            )
 
         try:
             resp = requests.post(
@@ -1103,10 +1348,20 @@ class PathaoPricePlanAPIView(APIView):
                 headers={"Authorization": access_token},
                 timeout=30
             )
-            return Response(resp.json(), status=resp.status_code)
+            return self.success(
+                data=resp.json(),
+                message="Pathao price plan response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-price-plan"}
+            )
 
         except requests.exceptions.RequestException as e:
-            return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-price-plan"}
+            )
 
 # GET STORES
 class PathaoStoreListAPIView(APIView):
@@ -1118,6 +1373,16 @@ class PathaoStoreListAPIView(APIView):
                 headers={"Authorization": access_token},
                 timeout=30
             )
-            return Response(resp.json(), status=resp.status_code)
+            return self.success(
+                data=resp.json(),
+                message="Pathao store list response",
+                status_code=resp.status_code,
+                meta={"action": "pathao-store-list"}
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success": False, "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Pathao API not reachable",
+                errors={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "pathao-store-list"}
+            )
