@@ -30,9 +30,18 @@ from .views import (
     PathaoAreaListAPIView,
     PathaoPricePlanAPIView,
     PathaoStoreListAPIView,
+
+    # Courier List
+    UserCourierListAPIView,
+    ToggleCourierStatusAPIView,
 )
 
+
 urlpatterns = [
+     # Courier List
+     path('user-couriers/', UserCourierListAPIView.as_view(), name='user-couriers'),
+     path('user-couriers/<int:pk>/', ToggleCourierStatusAPIView.as_view(), name='toggle-courier-status'),
+
     # Merchant Registration API
     path('paperfly/register/', PaperflyRegistrationAPIView.as_view(), name='paperfly-register'),
 

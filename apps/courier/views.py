@@ -4,8 +4,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 import requests
 from requests.auth import HTTPBasicAuth
+from .serializers import CourierCompanySerializer
 from .models import (
-    Courierlist,
+    Courierlist,UserCourier,
     PaperflyMerchant,
     PaperflyOrder,
     PaperflyOrderTracking,
@@ -15,25 +16,75 @@ from .models import (
     SteadfastReturnRequest,
     PathaoToken, PathaoStore, PathaoOrder,
 )
-from .serializers import CourierCompanySerializer
-# courier list section
-class CourierCompanyListCreateAPIView(APIView):
+
+
+# GET: logged-in user er courier list
+class UserCourierListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        companies = Courierlist.objects.all()
-        serializer = CourierCompanySerializer(companies, many=True)
-        return Response(serializer.data) 
+
+        try:
+            user_courier = UserCourier.objects.get(user=request.user)
+            couriers = user_courier.courier_list.all()
+            serializer = CourierCompanySerializer(couriers, many=True)
+            
+            response = {
+                "status": "success",
+                "status_code": status.HTTP_200_OK,
+                "message": "Courier list fetched successfully",
+                "data": serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+
+        except UserCourier.DoesNotExist:
+            response = {
+                "status": "success",
+                "status_code": status.HTTP_200_OK,
+                "message": "No couriers assigned to this user",
+                "data": []
+            }
+            return Response(response, status=status.HTTP_200_OK)
 
 
+
+# POST: toggle courier status
 class ToggleCourierStatusAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        company = Courierlist.objects.get(pk=pk)
-        company.toggle_status()
-        serializer = CourierCompanySerializer(company)
-        return Response([serializer.data], status=status.HTTP_200_OK) 
+
+        try:
+            user_courier = UserCourier.objects.get(user=request.user)
+            courier = user_courier.courier_list.get(pk=pk)
+        except UserCourier.DoesNotExist:
+            response = {
+                "status": "error",
+                "status_code": status.HTTP_404_NOT_FOUND,
+                "message": "User has no couriers assigned",
+                "data": None
+            }
+            return Response(response, status=status.HTTP_404_NOT_FOUND)
+        except Courierlist.DoesNotExist:
+            response = {
+                "status": "error",
+                "status_code": status.HTTP_404_NOT_FOUND,
+                "message": "Courier not found in your list",
+                "data": None
+            }
+            return Response(response, status=status.HTTP_404_NOT_FOUND)
+
+        # Toggle the status
+        courier.toggle_status()
+        serializer = CourierCompanySerializer(courier)
+
+        response = {
+            "status": "success",
+            "status_code": status.HTTP_200_OK,
+            "message": f"Courier '{courier.name}' status updated successfully",
+            "data": serializer.data
+        }
+        return Response(response, status=status.HTTP_200_OK)
 
 
 
@@ -100,7 +151,6 @@ class PaperflyRegistrationAPIView(APIView):
             return Response(response.json(), status=response.status_code)
         except ValueError:
             return Response({"success": False,"message": "Invalid response from Paperfly"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 # order submission integration 
 PAPERFLY_ORDER_URL = "https://api.paperfly.com.bd/NewOrderUpload"
@@ -203,8 +253,6 @@ class PaperflyOrderCreateAPIView(APIView):
                 "message": "Invalid response from Paperfly"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-
 # Order Tracking
 PAPERFLY_TRACK_URL = "https://api.paperfly.com.bd/API-Order-Tracking"
 
@@ -283,8 +331,6 @@ class PaperflyOrderTrackingAPIView(APIView):
                 "success": False,
                 "message": "Invalid response from Paperfly"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
 
 # order cancellation integration
 PAPERFLY_CANCEL_URL = "https://api.paperfly.com.bd/api/v1/cancel-order"
@@ -773,9 +819,6 @@ class PathaoIssueTokenAPIView(APIView):
 
 # REFRESH ACCESS TOKEN
 class PathaoRefreshTokenAPIView(APIView):
-    """
-    Generate new access token using refresh token
-    """
 
     def post(self, request):
         refresh_token = request.data.get("refresh_token")
@@ -820,9 +863,6 @@ class PathaoRefreshTokenAPIView(APIView):
 
 # CREATE STORE
 class PathaoCreateStoreAPIView(APIView):
-    """
-    Create merchant store in Pathao
-    """
 
     def post(self, request):
         data = request.data
@@ -880,10 +920,6 @@ class PathaoCreateStoreAPIView(APIView):
 
 # CREATE SINGLE ORDER
 class PathaoCreateOrderAPIView(APIView):
-    """
-    Create single order in Pathao
-    """
-
     def post(self, request):
         data = request.data
         access_token = request.headers.get("Authorization")
@@ -947,9 +983,6 @@ class PathaoCreateOrderAPIView(APIView):
 
 # BULK ORDER CREATE
 class PathaoBulkOrderAPIView(APIView):
-    """
-    Create bulk orders (max multiple)
-    """
 
     def post(self, request):
         orders = request.data.get("orders")
@@ -998,6 +1031,7 @@ class PathaoBulkOrderAPIView(APIView):
                 "message": "Pathao API not reachable",
                 "error": str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 # ORDER SHORT INFO / TRACKING
 class PathaoOrderInfoAPIView(APIView):
@@ -1075,9 +1109,6 @@ class PathaoAreaListAPIView(APIView):
 
 # PRICE CALCULATION
 class PathaoPricePlanAPIView(APIView):
-    """
-    Calculate delivery price
-    """
 
     def post(self, request):
         data = request.data
