@@ -100,7 +100,6 @@ class CustomerSellsListAPIView(APIView):
         )
 
 
-
 # Refund Orders section 
 class CustomerRefundListAPIView(APIView):
 
