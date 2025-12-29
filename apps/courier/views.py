@@ -85,21 +85,42 @@ class PaperflyRegistrationAPIView(APIView):
         ]
         missing_fields = [field for field in mandatory_fields if not data.get(field)]
         if missing_fields:
-            return Response({"success": False,"message": "Mandatory field missing","missing_fields": missing_fields}, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Mandatory field missing",
+                data={"missing_fields": missing_fields},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-registration"}
+            )
 
         # Validate payment mode
         allowed_payment_modes = ["beftn", "cash", "bkash", "rocket", "nagad"]
         if data.get("payment_mode") not in allowed_payment_modes:
-            return Response({"success": False,"message": "Invalid payment_mode","allowed_values": allowed_payment_modes}, status=status.HTTP_400_BAD_REQUEST)
+            return self.error(
+                message="Invalid payment_mode",
+                data={"allowed_values": allowed_payment_modes},
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "paperfly-registration"}
+            )
 
         payload = {field: data.get(field) for field in data.keys()}
 
         headers = {"Content-Type":"application/json","Paperflykey":PAPERFLY_KEY}
 
         try:
-            response = requests.post(PAPERFLY_URL, json=payload, headers=headers, auth=HTTPBasicAuth(USERNAME, PASSWORD), timeout=30)
+            response = requests.post(
+                PAPERFLY_URL,
+                json=payload,
+                headers=headers,
+                auth=HTTPBasicAuth(USERNAME, PASSWORD),
+                timeout=30
+            )
         except requests.exceptions.RequestException as e:
-            return Response({"success": False,"message": "Paperfly API not reachable","error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Paperfly API not reachable",
+                data={"error": str(e)},
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-registration"}
+            )
 
         # Save to DB
         PaperflyMerchant.objects.create(
@@ -124,9 +145,17 @@ class PaperflyRegistrationAPIView(APIView):
         )
 
         try:
-            return Response(response.json(), status=response.status_code)
+            return self.success(
+                data=response.json(),
+                message="Paperfly merchant registered successfully",
+                meta={"action": "paperfly-registration"}
+            )
         except ValueError:
-            return Response({"success": False,"message": "Invalid response from Paperfly"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return self.error(
+                message="Invalid response from Paperfly",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "paperfly-registration"}
+            )
 
 # order submission integration 
 PAPERFLY_ORDER_URL = "https://api.paperfly.com.bd/NewOrderUpload"
