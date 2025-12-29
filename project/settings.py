@@ -253,6 +253,10 @@ FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
 INSTAGRAM_APP_ID = "2060639764791245"
 INSTAGRAM_APP_SECRET = "694ced5269ad277849e5923c"
 
+TIKTOK_CLIENT_KEY = "sbaw6iwjvtlzl0dnqr"
+TIKTOK_CLIENT_SECRET = "7GSGlOQYv7fHwaHj4JTGS1KOZfIpNoqa"
+TIKTOK_REDIRECT_URI = "https://test.frontliner.io/api/social/tiktok/callback/"
+
 PAYSTATION_MERCHANT_ID = "104-1653730183"
 PAYSTATION_PASSWORD = "gamecoderstorepass"
 PAYSTATION_BASE_URL = "https://sandbox.paystation.com.bd"

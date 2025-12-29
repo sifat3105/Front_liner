@@ -14,7 +14,7 @@ class SocialPlatformSerializer(serializers.ModelSerializer):
     def get_connect_url(self, obj):
         request = self.context.get('request')
         base_url = request.build_absolute_uri('/')[:-1] if request else '' 
-        return f"{base_url}/{obj.name}/connect/"
+        return f"{base_url}/api/social/{obj.name}/connect/"
 
 class SocialAccountSerializer(serializers.ModelSerializer):
     class Meta:

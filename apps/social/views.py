@@ -6,6 +6,7 @@ import requests
 from .models import SocialAccount, FacebookPage, SocialPlatform
 from .serializers import SocialAccountSerializer, FacebookPageSerializer, SocialPlatformSerializer
 from apps.chat.utils import handle_message, send_message
+import urllib.parse
 
 
 class SocialPlatformListView(APIView):
@@ -238,3 +239,30 @@ class MessangerConnectWithBot(APIView):
         )
         
 
+        
+class TikTokConnectURL(APIView):
+    permission_classes = [permissions.AllowAny]
+    
+    def get(self, request):
+        client_key = settings.TIKTOK_CLIENT_KEY
+        redirect_uri = settings.TIKTOK_REDIRECT_URI  # don't quote yet
+        redirect_uri_encoded = urllib.parse.quote(redirect_uri, safe='')  # encode safely
+
+        scope = "user.info.basic,video.list"
+        state = request.user.id if request.user.is_authenticated else "guest"
+
+        url = (
+            f"https://www.tiktok.com/auth/authorize/"
+            f"?client_key={client_key}"
+            f"&redirect_uri={redirect_uri_encoded}"
+            f"&response_type=code"
+            f"&scope={scope}"
+            f"&state={state}"
+        )
+
+        return self.success(
+            message="TikTok connect URL generated successfully",
+            status_code=status.HTTP_200_OK,
+            data={"url": url},
+            meta={"action": "tiktok_connect_url"}
+        )
