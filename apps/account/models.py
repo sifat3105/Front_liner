@@ -92,8 +92,6 @@ class Sells(models.Model):
     def __str__(self):
         return f"{self.owner} - {self.location} ({self.id})"
     
-
-
 # Refund Orders
 class CustomerRefund(models.Model):
     owner = models.ForeignKey(

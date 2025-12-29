@@ -89,7 +89,7 @@ class CustomerSellsListAPIView(APIView):
 
     def get(self, request):
         sells = Sells.objects.filter(owner=request.user)
-        serializer = CustomerRefundSerializer(sells, many=True)
+        serializer = CustomerSellsSerializer(sells, many=True)
 
         # Return using self.success()
         return self.success(
@@ -98,7 +98,6 @@ class CustomerSellsListAPIView(APIView):
             data=serializer.data,
             meta={"model": "Sells"},
         )
-
 
 
 # Refund Orders section 
