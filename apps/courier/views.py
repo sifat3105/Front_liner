@@ -1,5 +1,4 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from utils.base_view import BaseAPIView as APIView
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 import requests
@@ -23,68 +22,47 @@ class UserCourierListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-
-        try:
-            user_courier = UserCourier.objects.get(user=request.user)
-            couriers = user_courier.courier_list.all()
-            serializer = CourierCompanySerializer(couriers, many=True)
-            
-            response = {
-                "status": "success",
-                "status_code": status.HTTP_200_OK,
-                "message": "Courier list fetched successfully",
-                "data": serializer.data
-            }
-            return Response(response, status=status.HTTP_200_OK)
-
-        except UserCourier.DoesNotExist:
-            response = {
-                "status": "success",
-                "status_code": status.HTTP_200_OK,
-                "message": "No couriers assigned to this user",
-                "data": []
-            }
-            return Response(response, status=status.HTTP_200_OK)
-
-
+        user_courier = UserCourier.objects.get(user=request.user)
+        couriers = user_courier.courier_list.all()
+        serializer = CourierCompanySerializer(couriers, many=True)
+        
+        return self.success(
+            data=serializer.data,
+            message= "Courier list fetched successfully"if serializer.data else "No couriers assigned to this user",
+            meta={"action": "user-curier-list"}
+        )
 
 # POST: toggle courier status
 class ToggleCourierStatusAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-
         try:
             user_courier = UserCourier.objects.get(user=request.user)
             courier = user_courier.courier_list.get(pk=pk)
         except UserCourier.DoesNotExist:
-            response = {
-                "status": "error",
-                "status_code": status.HTTP_404_NOT_FOUND,
-                "message": "User has no couriers assigned",
-                "data": None
-            }
-            return Response(response, status=status.HTTP_404_NOT_FOUND)
+            return self.error(
+                message="User has no couriers assigned",
+                status_code=status.HTTP_404_NOT_FOUND,
+                meta={"action": "toggle-courier-status"}
+            )
         except Courierlist.DoesNotExist:
-            response = {
-                "status": "error",
-                "status_code": status.HTTP_404_NOT_FOUND,
-                "message": "Courier not found in your list",
-                "data": None
-            }
-            return Response(response, status=status.HTTP_404_NOT_FOUND)
+            return self.error(
+                message="Courier not found in your list",
+                status_code=status.HTTP_404_NOT_FOUND,
+                meta={"action": "toggle-courier-status"}
+            )
 
         # Toggle the status
         courier.toggle_status()
         serializer = CourierCompanySerializer(courier)
 
-        response = {
-            "status": "success",
-            "status_code": status.HTTP_200_OK,
-            "message": f"Courier '{courier.name}' status updated successfully",
-            "data": serializer.data
-        }
-        return Response(response, status=status.HTTP_200_OK)
+        return self.success(
+            data=serializer.data,
+            message=f"Courier '{courier.name}' status updated successfully",
+            meta={"action": "toggle-courier-status"}
+        )
+
 
 
 

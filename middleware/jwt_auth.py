@@ -19,55 +19,63 @@ class JWTAuthMiddleware:
         '/api/social/facebook/callback/',
         '/api/social/facebook/pages/',
         '/post-generate/',
-        '/media/social_posts/media/',
+        '/media/',
+        '/admin/login/',
     ]
 
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-
         # Skip JWT check for whitelisted paths
         if any(request.path.startswith(path) for path in self.WHITELIST):
-            return self.get_response(request)
+            response = self.get_response(request)
+            return response or self._unauthorized("Authentication required")
         
         resolver_match = resolve(request.path)
-        view_class = resolver_match.func.view_class if hasattr(resolver_match.func, "view_class") else None
+        view_class = getattr(resolver_match.func, "view_class", None)
 
-        # Skip JWT check for AllowAny views
         if view_class:
             permissions = getattr(view_class, "permission_classes", [])
             if any(p is AllowAny for p in permissions):
-                return self.get_response(request)
+                response = self.get_response(request)
+                return response or self._unauthorized("Authentication required")
 
         access_token = request.COOKIES.get("xJq93kL1")
+        refresh_token = request.COOKIES.get("rT7u1Vb8")
 
-        if access_token:
-            try:
+        try:
+            if access_token:
                 AccessToken(access_token)
-                return self.get_response(request)
+            elif refresh_token:
+                refresh = RefreshToken(refresh_token)
+                access_token = str(refresh.access_token)
+                # Set cookie later after getting response
+            else:
+                return self._unauthorized("Authentication required")
+        except TokenError:
+            try:
+                refresh = RefreshToken(refresh_token)
+                access_token = str(refresh.access_token)
             except TokenError:
-                refresh_token = request.COOKIES.get("rT7u1Vb8")
-                if not refresh_token:
-                    return self._forbidden("Authentication required")
-                try:
-                    refresh = RefreshToken(refresh_token)
-                    new_access = str(refresh.access_token)
-                    response = self.get_response(request)
-                    response.set_cookie(
-                        key="xJq93kL1",
-                        value=new_access,
-                        httponly=True,
-                        secure=True if request.is_secure() else False,
-                        samesite="Lax",
-                        max_age=60 * 60 * 24
-                    )
-                    return response
-                except TokenError:
-                    return self._forbidden("Session expired. Please login again")
+                return self._unauthorized("Session expired. Please login again")
 
-        # No access token
-        return self._forbidden("Authentication required")
+        # Call the view
+        response = self.get_response(request) or self._unauthorized("Authentication required")
+
+        # If we created a new access token, set cookie
+        if access_token:
+            response.set_cookie(
+                key="xJq93kL1",
+                value=access_token,
+                httponly=True,
+                secure=request.is_secure(),
+                samesite="Lax",
+                max_age=60*60*24
+            )
+
+        return response
+
 
     def _forbidden(self, message, user=None):
         response_data = {
@@ -84,3 +92,19 @@ class JWTAuthMiddleware:
         }
     }
         return JsonResponse(response_data, status=403)
+    
+    def _unauthorized(self, message, user=None):
+        response_data = {
+            "status": "error",
+            "status_code": 401,
+            "message": message,
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "request_id": str(uuid.uuid4()),
+            "data": {
+                "user": user
+            } if user else {},
+            "meta": {
+                "action": "unauthorized"
+            }
+        }
+        return JsonResponse(response_data, status=401)

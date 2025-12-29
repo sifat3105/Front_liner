@@ -39,7 +39,7 @@ from .views import (
 
 urlpatterns = [
      # Courier List
-     path('user-couriers/', UserCourierListAPIView.as_view(), name='user-couriers'),
+     path('couriers-list/', UserCourierListAPIView.as_view(), name='user-couriers'),
      path('user-couriers/<int:pk>/', ToggleCourierStatusAPIView.as_view(), name='toggle-courier-status'),
 
     # Merchant Registration API

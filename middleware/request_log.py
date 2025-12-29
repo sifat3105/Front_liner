@@ -1,24 +1,25 @@
-# middleware/request_log.py
-import logging
 import uuid
 from django.utils.deprecation import MiddlewareMixin
+from .utils.request_csv_logger import log_to_csv
+from .utils.ip import get_client_ip
 
-logger = logging.getLogger("django.request")
 
 class RequestLogMiddleware(MiddlewareMixin):
     def process_request(self, request):
         request.request_id = str(uuid.uuid4())
-        return None
+        request.client_ip = get_client_ip(request)
 
     def process_response(self, request, response):
         try:
-            logger.info({
-                "request_id": getattr(request, "request_id", None),
-                "path": request.path,
-                "method": request.method,
-                "status": response.status_code,
-            })
+            log_to_csv(
+                request_id=getattr(request, "request_id", None),
+                ip=getattr(request, "client_ip", None),
+                method=request.method,
+                path=request.path,
+                status=response.status_code,
+            )
         except Exception:
-            # never break response on logging
             pass
+
+        # SAME RESPONSE — nothing modified
         return response

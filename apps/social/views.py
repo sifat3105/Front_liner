@@ -3,9 +3,23 @@ from utils.base_view import BaseAPIView as APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 import requests
-from .models import SocialAccount, FacebookPage
-from .serializers import SocialAccountSerializer, FacebookPageSerializer
+from .models import SocialAccount, FacebookPage, SocialPlatform
+from .serializers import SocialAccountSerializer, FacebookPageSerializer, SocialPlatformSerializer
 from apps.chat.utils import handle_message, send_message
+
+
+class SocialPlatformListView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        platforms = SocialPlatform.objects.all()
+        serializer = SocialPlatformSerializer(platforms, many=True, context={'request': request})
+        return self.success(
+            message="Social platforms fetched successfully",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data,
+            meta={"action": "social_platforms"}
+        )
 
 class FacebookConnectURL(APIView):
     permission_classes = []
@@ -37,22 +51,22 @@ class FacebookCallback(APIView):
     
     def get(self, request):
 
-        # code = request.GET.get("code")
-        # if not code:
-        #     print("Code missing")
-        #     return Response({"error": "Code missing"}, status=400)
+        code = request.GET.get("code")
+        if not code:
+            print("Code missing")
+            return Response({"error": "Code missing"}, status=400)
 
-        # # 1️⃣ Exchange code for token
-        # token_url = "https://graph.facebook.com/v19.0/oauth/access_token"
-        # token_res = requests.get(token_url, params={
-        #     "client_id": settings.FACEBOOK_APP_ID,
-        #     "client_secret": settings.FACEBOOK_APP_SECRET,
-        #     "redirect_uri": settings.FACEBOOK_REDIRECT_URI,
-        #     "code": code,
-        # }).json()
+        # 1️⃣ Exchange code for token
+        token_url = "https://graph.facebook.com/v19.0/oauth/access_token"
+        token_res = requests.get(token_url, params={
+            "client_id": settings.FACEBOOK_APP_ID,
+            "client_secret": settings.FACEBOOK_APP_SECRET,
+            "redirect_uri": settings.FACEBOOK_REDIRECT_URI,
+            "code": code,
+        }).json()
 
-        # user_token = token_res.get("access_token")
-        user_token = "EAAtQDyOOeL0BQHadcaZCix0AH4eC6ZBfGB73hZAtQ6OR9zcNqNZCIpx5kd9MXVulZClusAo1k9CeoLZCHW0CIAZBzHxH5gLGIne9aoxQdSZBeSdYqozktbC1kBZBFKGVsxTgLve4TWIMQTd7yQ4gTPsZBomOpUPh3H10FbzZAsEe3oMjhwt6vZBZBcgVIt9yZAx7ucPYVebgWDsDZA9VUrmmdPXZCp0JZBXeEXuL0CD6vMUP30QNnM8KQgfjulJknGL8gaOFedMtcmifd7zS7e53Kh48coB7MwBz7sjsWhmN3ruGGhlUZD"
+        user_token = token_res.get("access_token")
+        # user_token = "EAAtQDyOOeL0BQHadcaZCix0AH4eC6ZBfGB73hZAtQ6OR9zcNqNZCIpx5kd9MXVulZClusAo1k9CeoLZCHW0CIAZBzHxH5gLGIne9aoxQdSZBeSdYqozktbC1kBZBFKGVsxTgLve4TWIMQTd7yQ4gTPsZBomOpUPh3H10FbzZAsEe3oMjhwt6vZBZBcgVIt9yZAx7ucPYVebgWDsDZA9VUrmmdPXZCp0JZBXeEXuL0CD6vMUP30QNnM8KQgfjulJknGL8gaOFedMtcmifd7zS7e53Kh48coB7MwBz7sjsWhmN3ruGGhlUZD"
 
         # 2️⃣ Get FB user ID
         me = requests.get(

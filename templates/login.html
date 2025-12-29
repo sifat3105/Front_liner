@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .info-box {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-radius: 5px;
+            border: 1px solid #d1e7ff;
+            font-size: 14px;
+            color: #055699;
+        }
+        
+        .info-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #004085;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cookie-details {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e8f4fd;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .cookie-item {
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .cookie-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .cookie-expiry {
+            color: #666;
+            font-size: 11px;
+        }
+        
+        .redirect-section {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .redirect-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .redirect-link:hover {
+            background-color: #218838;
+        }
+        
+        .test-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            display: none;
+        }
+        
+        .test-btn {
+            flex: 1;
+            padding: 10px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .test-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .test-btn.verify {
+            background-color: #17a2b8;
+        }
+        
+        .test-btn.verify:hover {
+            background-color: #138496;
+        }
+        
+        .debug-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px dashed #dee2e6;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #6c757d;
+            display: none;
+        }
+        
+        .debug-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login to Your Account</h2>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            
+            <button type="submit">Sign In</button>
+        </form>
+        
+        <div id="message" class="message"></div>
+        
+        <div id="testButtons" class="test-buttons">
+            <button id="verifyBtn" class="test-btn verify">Test Authentication</button>
+            <button id="refreshBtn" class="test-btn">Test Refresh</button>
+        </div>
+        
+        <div id="infoBox" class="info-box" style="display: none;">
+            <div class="info-title">
+                <span>🔐 Cookies Set Successfully</span>
+            </div>
+            <p>Your authentication cookies have been set:</p>
+            <div class="cookie-details">
+                <div class="cookie-item">
+                    <span class="cookie-name">xJq93kL1 (Access Token)</span>
+                    <span class="cookie-expiry">5 min expiry</span>
+                </div>
+                <div class="cookie-item">
+                    <span class="cookie-name">rT7u1Vb8 (Refresh Token)</span>
+                    <span class="cookie-expiry">5 days expiry</span>
+                </div>
+            </div>
+            <p style="margin-top: 10px; font-size: 12px;">
+                <strong>Note:</strong> These are HTTP-only cookies and cannot be accessed by JavaScript for security.
+            </p>
+        </div>
+        
+        <div id="redirectSection" class="redirect-section">
+            <a href="#" id="dashboardLink" class="redirect-link">Go to Dashboard</a>
+        </div>
+        
+        <div id="debugInfo" class="debug-info"></div>
+    </div>
+
+    <script>
+        const BASE_URL = "http://localhost:8000";
+        
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            hideMessages();
+            
+            if (!email || !password) {
+                showMessage('Please fill in all fields', 'error');
+                return;
+            }
+            
+            try {
+                const submitButton = event.target.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.textContent = 'Logging in...';
+                submitButton.disabled = true;
+                
+                // Send login request with credentials
+                const response = await fetch(`${BASE_URL}/api/auth/login/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    }),
+                    credentials: 'include' 
+                });
+                
+                const data = await response.json();
+                
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+                
+                if (response.ok) {
+                    showMessage('✅ Login successful! Cookies have been set.', 'success');
+                    
+                    // Show cookie info box
+                    document.getElementById('infoBox').style.display = 'block';
+                    
+                    // Show test buttons
+                    document.getElementById('testButtons').style.display = 'flex';
+                    
+                    // Show redirect option
+                    document.getElementById('redirectSection').style.display = 'block';
+                    
+                    // Log response details for debugging
+                    console.log('Login Response:', {
+                        status: response.status,
+                        headers: Object.fromEntries(response.headers.entries()),
+                        data: data
+                    });
+                    
+                    // Debug: Show what cookies should be set
+                    showDebugInfo('Cookies should be set: xJq93kL1 (5 min access token) and rT7u1Vb8 (5 day refresh token)');
+                    
+                } else {
+                    const errorMsg = data.detail || data.message || data.error || 'Login failed';
+                    showMessage(`❌ Error: ${errorMsg}`, 'error');
+                    console.error('Login failed:', data);
+                }
+                
+            } catch (error) {
+                const submitButton = event.target.querySelector('button[type="submit"]');
+                submitButton.textContent = 'Sign In';
+                submitButton.disabled = false;
+                
+                showMessage(`⚠️ Network error: ${error.message}`, 'error');
+                console.error('Login error:', error);
+            }
+        });
+        
+
+        
+        // Dashboard redirect
+        document.getElementById('dashboardLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = `${BASE_URL}/dashboard/`;
+        });
+        
+        // Check if already logged in on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Try to verify if user is already authenticated
+                const response = await fetch(`${BASE_URL}/api/auth/verify/`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    showMessage('✅ You are already logged in!', 'success');
+                    document.getElementById('infoBox').style.display = 'block';
+                    document.getElementById('testButtons').style.display = 'flex';
+                    document.getElementById('redirectSection').style.display = 'block';
+                }
+            } catch (error) {
+                // Not logged in or endpoint doesn't exist - this is normal
+                console.log('Not logged in or /verify endpoint not available');
+            }
+            
+            // Auto-fill for testing (REMOVE IN PRODUCTION)
+            // document.getElementById('email').value = 'test@example.com';
+            // document.getElementById('password').value = 'testpassword123';
+        });
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+        }
+        
+        function hideMessages() {
+            document.getElementById('message').style.display = 'none';
+        }
+        
+        function showDebugInfo(text) {
+            const debugDiv = document.getElementById('debugInfo');
+            debugDiv.innerHTML = `<div class="debug-title">Debug Info:</div>${text}`;
+            debugDiv.style.display = 'block';
+        }
+        
+        // Utility: List cookies (only non-HTTP-only cookies)
+        function listCookies() {
+            console.log('Available cookies:', document.cookie);
+            return document.cookie;
+        }
+    </script>
+</body>
+</html>

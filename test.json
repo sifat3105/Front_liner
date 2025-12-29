@@ -1,0 +1,45 @@
+{
+    "status": "success",
+    "status_code": 200,
+    "message": "Sell orders fetched successfully",
+    "timestamp": "2025-12-27T11:35:57.200401Z",
+    "request_id": "0ec74e6f-ab4e-44ab-9de7-154e3f78b37a",
+    "data": [
+            {
+                "id": 1,
+                "owner": 18,
+                "location": "Mirpur 10",
+                "contact": "01310045865",
+                "price": "1000.00",
+                "platform": "facebook"
+            },
+            {
+                "id": 2,
+                "owner": 18,
+                "location": "Mohammdapur",
+                "contact": "013205658985",
+                "price": "5000.00",
+                "platform": "instagram"
+            },
+            {
+                "id": 3,
+                "owner": 18,
+                "location": "Mohammdapur",
+                "contact": "01310045865",
+                "price": "80000.00",
+                "platform": "twitter"
+            }
+        ],
+        
+    "meta": {
+        "model": "Sells"
+    },
+    "pagination": {
+            "count": 3,
+            "page": 1,
+            "page_count": 1,
+            "page_size": 10,
+            "next": null,
+            "previous": null
+        }
+}

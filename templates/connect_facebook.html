@@ -49,9 +49,9 @@
 
 <script>
 function connectFacebook() {
-    fetch("/api/social/facebook/connect/", {
+    fetch("https://test.frontliner.io/api/social/facebook/connect/", {
         method: "GET",
-        credentials: "include"   // IMPORTANT for session/JWT cookie
+        
     })
     .then(res => res.json())
     .then(data => {

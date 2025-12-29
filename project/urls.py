@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from .views import connect_facebook_page, post_generate
+from .views import connect_facebook_page, post_generate, login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +29,7 @@ urlpatterns = [
 
     path("connect-facebook/", connect_facebook_page),
     path("post-generate/", post_generate),
+    path("login/", login),
     path("api/",include('apps.account.urls')),
     path("api/",include('apps.sells.urls')),
     path("api/",include('apps.courier.urls')),

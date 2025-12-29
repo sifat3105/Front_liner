@@ -7,6 +7,7 @@ from django.db.models import Q
 from .base import BaseAPIView
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from django.utils.timezone import now
 from .models import (
     Income,
     Payments,
@@ -58,15 +59,24 @@ class IncomeAPIView(APIView):
         }
 
         # Step 4: Return response
-        return self.success(
-            message="Income fetched successfully",
-            status_code=200,
-            data={
+        return Response({
+            "message": "Income fetched successfully",
+            "data": {
                 "summary": summary,
                 "table": serializer.data,
-            },
-            meta={"model": "Income"},
-        )
+                }, 
+            "meta": {"model": "Income"},
+            }, status=status.HTTP_200_OK)
+        # return self.success(
+        #     message="Income fetched successfully",
+        #     status_code=200,
+        #     data={
+        #         "summary": summary,
+        #         "table": serializer.data,
+        #     },
+        #     meta={"model": "Income"},
+        # )
+   
 class PaymentAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
