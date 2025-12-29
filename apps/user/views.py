@@ -31,8 +31,6 @@ class UserRegistrationView(APIView):
                 message="User created successfully",
                 status_code=status.HTTP_201_CREATED,
                 data={
-                    "access":str(refresh.access_token),
-                    "refresh": str(refresh),
                     "user": serializer.data
                 },
                 meta={"action": "registration"}
@@ -72,6 +70,8 @@ class UserLoginView(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
+        print("Login attempt:", email)
+        print("Login attempt:", password)
 
         if not email or not password:
             return self.error(
@@ -107,9 +107,7 @@ class UserLoginView(APIView):
                 "user": {
                     "id": user.id,
                     "email": user.email
-                },
-                "access": access_token,
-                "refresh": refresh_token
+                }
             },
             meta={"action": "login"}
         )

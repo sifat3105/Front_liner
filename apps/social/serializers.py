@@ -1,5 +1,20 @@
 from rest_framework import serializers
-from .models import SocialAccount, FacebookPage
+from .models import SocialAccount, FacebookPage, SocialPlatform
+
+
+
+class SocialPlatformSerializer(serializers.ModelSerializer):
+    connect_url = serializers.SerializerMethodField()
+    key = serializers.CharField(source='name')
+    name = serializers.CharField(source='display_name')
+
+    class Meta:
+        model = SocialPlatform
+        fields = ['key', 'name', 'image', 'connect_url']
+    def get_connect_url(self, obj):
+        request = self.context.get('request')
+        base_url = request.build_absolute_uri('/')[:-1] if request else '' 
+        return f"{base_url}/{obj.name}/connect/"
 
 class SocialAccountSerializer(serializers.ModelSerializer):
     class Meta:

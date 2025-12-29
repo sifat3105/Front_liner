@@ -3,6 +3,18 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class SocialPlatform(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    display_name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='social_platforms/', null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.display_name
 
 class SocialAccount(models.Model):
     PLATFORM_CHOICES = (

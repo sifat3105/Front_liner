@@ -28,7 +28,7 @@ class PaymentsSerializer(serializers.ModelSerializer):
 
 
 
-# Refund Orders serializers section
+# Sell Orders serializers section
 class CustomerSellsSerializer(serializers.ModelSerializer):
 
     # Optionally, display owner's username instead of ID

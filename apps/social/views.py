@@ -3,9 +3,23 @@ from utils.base_view import BaseAPIView as APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 import requests
-from .models import SocialAccount, FacebookPage
-from .serializers import SocialAccountSerializer, FacebookPageSerializer
+from .models import SocialAccount, FacebookPage, SocialPlatform
+from .serializers import SocialAccountSerializer, FacebookPageSerializer, SocialPlatformSerializer
 from apps.chat.utils import handle_message, send_message
+
+
+class SocialPlatformListView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        platforms = SocialPlatform.objects.all()
+        serializer = SocialPlatformSerializer(platforms, many=True, context={'request': request})
+        return self.success(
+            message="Social platforms fetched successfully",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data,
+            meta={"action": "social_platforms"}
+        )
 
 class FacebookConnectURL(APIView):
     permission_classes = []

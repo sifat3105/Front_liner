@@ -19,7 +19,7 @@ class JWTAuthMiddleware:
         '/api/social/facebook/callback/',
         '/api/social/facebook/pages/',
         '/post-generate/',
-        '/media/social_posts/media/',
+        '/media/',
         '/admin/login/',
     ]
 

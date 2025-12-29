@@ -13,6 +13,8 @@ class CookieJWTAuthentication(authentication.BaseAuthentication):
 
     def authenticate(self, request):
         token = request.COOKIES.get("xJq93kL1")
+        if request.path.startswith("/api/auth/login/"):
+            return None
         if not token:
             refresh_token = request.COOKIES.get("rT7u1Vb8")
             if not refresh_token:
