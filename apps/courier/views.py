@@ -43,18 +43,17 @@ class ToggleCourierStatusAPIView(APIView):
         except UserCourier.DoesNotExist:
             return self.error(
                 message="User has no couriers assigned",
-                status_code=status.HTTP_404_NOT_FOUND,
+                status_code=404,
                 meta={"action": "toggle-courier-status"}
             )
         except Courierlist.DoesNotExist:
             return self.error(
-                message="Courier not found in your list",
-                status_code=status.HTTP_404_NOT_FOUND,
+                message="Courier not found",
+                status_code=404,
                 meta={"action": "toggle-courier-status"}
             )
-
-        # Toggle the status
         courier.toggle_status()
+
         serializer = CourierCompanySerializer(courier)
 
         return self.success(
@@ -62,7 +61,6 @@ class ToggleCourierStatusAPIView(APIView):
             message=f"Courier '{courier.name}' status updated successfully",
             meta={"action": "toggle-courier-status"}
         )
-
 
 
 
