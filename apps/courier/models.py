@@ -9,19 +9,25 @@ User=get_user_model()
 class Courierlist(models.Model):
     name = models.CharField(max_length=255, unique=True)
     logo = models.ImageField(upload_to='courier_logos/', blank=True, null=True)
-
+    is_active = models.BooleanField(default=True)  # active/inactive status
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def toggle_status(self):
+        self.is_active = not self.is_active
+        self.save()
+
     def __str__(self):
         return self.name
-    
+
 class UserCourier(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     courier_list = models.ManyToManyField(Courierlist, blank=True)
 
     def __str__(self):
-        return f"{self.user.username}'s Courier Companies"
+        return f"{getattr(self.user, 'username', str(self.user))}'s Courier Companies"
+
+
 
 
 # Merchant Registration Model PAPERFLY
