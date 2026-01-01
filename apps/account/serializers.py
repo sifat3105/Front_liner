@@ -16,7 +16,7 @@ class IncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
         fields = '__all__'
-        read_only_fields = ('customer', 'created_at', 'updated_at')
+        read_only_fields = ('id','customer', 'created_at', 'updated_at')
 
 
 class PaymentsSerializer(serializers.ModelSerializer):

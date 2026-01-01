@@ -16,6 +16,7 @@ from .models import (
 @admin.register(Income)
 class IncomeAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'date',
         'customer',
         'amount',
