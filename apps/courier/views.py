@@ -94,7 +94,7 @@ class PaperflyRegistrationAPIView(APIView):
         if missing_fields:
             return self.error(
                 message="Mandatory field missing",
-                errors={"missing_fields": missing_fields},
+                data={"missing_fields": missing_fields},
                 status_code=status.HTTP_400_BAD_REQUEST,
                 meta={"action": "paperfly-registration"}
             )
@@ -104,7 +104,7 @@ class PaperflyRegistrationAPIView(APIView):
         if data.get("payment_mode") not in allowed_payment_modes:
             return self.error(
                 message="Invalid payment_mode",
-                errors={"allowed_values": allowed_payment_modes},
+                data={"allowed_values": allowed_payment_modes},
                 status_code=status.HTTP_400_BAD_REQUEST,
                 meta={"action": "paperfly-registration"}
             )
@@ -114,11 +114,17 @@ class PaperflyRegistrationAPIView(APIView):
         headers = {"Content-Type":"application/json","Paperflykey":PAPERFLY_KEY}
 
         try:
-            response = requests.post(PAPERFLY_URL, json=payload, headers=headers, auth=HTTPBasicAuth(USERNAME, PASSWORD), timeout=30)
+            response = requests.post(
+                PAPERFLY_URL,
+                json=payload,
+                headers=headers,
+                auth=HTTPBasicAuth(USERNAME, PASSWORD),
+                timeout=30
+            )
         except requests.exceptions.RequestException as e:
             return self.error(
                 message="Paperfly API not reachable",
-                errors={"error": str(e)},
+                data={"error": str(e)},
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 meta={"action": "paperfly-registration"}
             )
@@ -148,8 +154,7 @@ class PaperflyRegistrationAPIView(APIView):
         try:
             return self.success(
                 data=response.json(),
-                message="Paperfly registration response",
-                status_code=response.status_code,
+                message="Paperfly merchant registered successfully",
                 meta={"action": "paperfly-registration"}
             )
         except ValueError:
@@ -432,7 +437,6 @@ class PaperflyOrderCancelAPIView(APIView):
 # ===============================
 # STEADFAST CONFIG
 # ===============================
-
 STEADFAST_BASE_URL = "https://portal.packzy.com/api/v1"
 STEADFAST_API_KEY = "hqmvdgsdbe6n3jsnhqzqkvzx5ggdxxvu"
 STEADFAST_SECRET_KEY = "rw476ldjejh3m7zvfbjnnkp7"

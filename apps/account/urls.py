@@ -3,11 +3,10 @@ from .views import (
     IncomeAPIView, PaymentAPIView,
     CustomerRefundListAPIView,
     CustomerSellsListAPIView,
-    VoucherEntryAPIView,
+    DebitCreditReportAPIView,
     ProfitLossReportAPIView,
     ReceiverListCreateAPIView, ReceiverListCreateAPIView, InvoiceListCreateAPIView, PaymentCreateAPIView
 )
-
 
 urlpatterns = [
     path('income/', IncomeAPIView.as_view(), name='income-list'),
@@ -18,8 +17,8 @@ urlpatterns = [
     path('refund/', CustomerRefundListAPIView.as_view(), name='refund-list'),
 
     # Debit Credit
-    path('vouchers/', VoucherEntryAPIView.as_view()),
-    path('vouchers/<int:pk>/', VoucherEntryAPIView.as_view()),
+    path('debit-credit/report/', DebitCreditReportAPIView.as_view()),
+
 
     # Profit & Loss (P&L) sectiont
     path('profit-loss/',ProfitLossReportAPIView.as_view(),name='profit-loss-api'),

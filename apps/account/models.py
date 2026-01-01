@@ -1,4 +1,8 @@
-from django.db import models
+from django.db import models, transaction
+from django.contrib.auth.models import User
+from django.db.models import Sum
+from decimal import Decimal
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -77,23 +81,26 @@ class Sells(models.Model):
         ('youtube', 'YouTube'),
     ]
 
-    location = models.CharField(max_length=255)
-    contact = models.CharField(max_length=50)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    platform = models.CharField(max_length=50, choices=PLATFORM_CHOICES)
-    # Refund status
-    REFUND_STATUS = [
+      # Sells status
+    SELLS_STATUS = [
         ('pending', 'Pending'),
         ('completed', 'Completed'),
         ('rejected', 'Rejected'),
     ]
-    sells_status = models.CharField(max_length=20, choices=REFUND_STATUS, default='pending')
+    
+    order_id=models.CharField(max_length=10,blank=True,null=True)
+    customer= models.CharField(max_length=255,blank=True,null=True)
+    location = models.CharField(max_length=255)
+    contact = models.CharField(max_length=50)
+    order_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    platform = models.CharField(max_length=50, choices=PLATFORM_CHOICES)
+    sells_status = models.CharField(max_length=20, choices=SELLS_STATUS, default='pending')
 
     def __str__(self):
         return f"{self.owner} - {self.location} ({self.id})"
     
 # Refund Orders
-class CustomerRefund(models.Model):
+class Refund(models.Model):
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -117,114 +124,118 @@ class CustomerRefund(models.Model):
         ('tiktok', 'TikTok'),
         ('youtube', 'YouTube'),
     ]
-
-    location = models.CharField(max_length=255)
-    contact = models.CharField(max_length=50)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    platform = models.CharField(max_length=50, choices=PLATFORM_CHOICES)
-    # Refund status
+        # Refund status
     REFUND_STATUS = [
         ('pending', 'Pending'),
         ('completed', 'Completed'),
         ('Eligible', 'Eligible'),
         ('rejected', 'Rejected'),
     ]
+
+    order_id=models.CharField(max_length=10,blank=True,null=True)
+    customer= models.CharField(max_length=255,blank=True,null=True)
+    location = models.CharField(max_length=255)
+    contact = models.CharField(max_length=50)
+    order_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    platform = models.CharField(max_length=50, choices=PLATFORM_CHOICES)
+
     refund_status = models.CharField(max_length=20, choices=REFUND_STATUS, default='pending')
 
     def __str__(self):
         return f"{self.owner} - {self.location} ({self.id})"
     
-
-
 # Debit Credit section
-class VoucherType(models.Model):
 
-    name = models.CharField(max_length=100, unique=True)
-    is_active = models.BooleanField(default=True)
+class DebitCredit(models.Model):
 
-    def __str__(self):
-        return self.name
-
-
-class VoucherEntry(models.Model):
-
-    STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
-    )
-
-    VOUCHER_NATURE = (
-        ('debit', 'Debit'),
-        ('credit', 'Credit'),
+    PAYMENT_TYPE = (
+        ('cash', 'Cash'),
+        ('bank', 'Bank'),
     )
 
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='vouchers'
+        related_name='ledger_entries'
     )
 
-    voucher_no = models.CharField(max_length=100, unique=True)
-    voucher_date = models.DateField()
-
+    voucher_no = models.CharField(max_length=20)
     customer_name = models.CharField(max_length=255)
 
-    voucher_type = models.ForeignKey(
-        VoucherType,
-        on_delete=models.PROTECT,
-        related_name='vouchers'
+    payment_description = models.TextField(blank=True, null=True)
+
+    payment_type = models.CharField(
+        max_length=10,
+        choices=PAYMENT_TYPE
     )
 
-    nature = models.CharField(
-        max_length=10,
-        choices=VOUCHER_NATURE
-    )
+    invoice_no = models.CharField(max_length=100, blank=True, null=True)
+    due_date = models.DateField(blank=True, null=True)
+
 
     debit = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        default=0
+        default=Decimal('0.00'),
+        editable=False
     )
 
     credit = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        default=0
+        default=Decimal('0.00'),
+        editable=False
     )
 
-    total_debit = models.DecimalField(
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    balance = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        default=0
+        default=Decimal('0.00'),
+        editable=False
     )
-
-    total_credit = models.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        default=0
-    )
-
-    amount = models.DecimalField(
-        max_digits=12,
-        decimal_places=2
-    )
-
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='pending'
-    )
-
-    posted = models.BooleanField(default=False)
-
-    due_date = models.DateField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.voucher_no} - {self.customer_name}"
-    
+    class Meta:
+        ordering = ['created_at']
+
+    def clean(self):
+        if not self.payment_type:
+            raise ValidationError({"payment_type": "Payment type is required."})
+        if self.amount <= 0:
+            raise ValidationError({"amount": "Amount must be greater than zero."})
+
+    def save(self, *args, **kwargs):
+        with transaction.atomic():
+
+            # Auto debit / credit
+            if self.payment_type == 'debit':
+                self.debit = self.amount
+                self.credit = Decimal('0.00')
+
+            elif self.payment_type == 'credit':
+                self.credit = self.amount
+                self.debit = Decimal('0.00')
+
+            super().save(*args, **kwargs)
+
+            # Auto balance (customer wise)
+            totals = DebitCredit.objects.filter(
+                owner=self.owner,
+                customer_name=self.customer_name
+            ).aggregate(
+                total_debit=Sum('debit'),
+                total_credit=Sum('credit')
+            )
+
+            balance = (
+                (totals['total_debit'] or Decimal('0.00')) -
+                (totals['total_credit'] or Decimal('0.00'))
+            )
+
+            DebitCredit.objects.filter(pk=self.pk).update(balance=balance)
+
 
 # Profit & Loss (P&L) sectiont
 class ProfitLossReport(models.Model):
@@ -245,36 +256,14 @@ class ProfitLossReport(models.Model):
     date = models.DateField()
 
     # Financial Fields
-    revenue = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
+    revenue = models.DecimalField(max_digits=15,decimal_places=2,default=0)
+    expenses = models.DecimalField(max_digits=15,decimal_places=2,default=0)
 
-    expenses = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
-
-    operating_expenses = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
 
     # Calculated Fields
-    gross_profit = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
+    gross_profit = models.DecimalField(max_digits=15,decimal_places=2,default=0)
+    net_profit = models.DecimalField(max_digits=15,decimal_places=2,default=0)
 
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='draft'
-    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -283,15 +272,14 @@ class ProfitLossReport(models.Model):
         verbose_name = "Profit & Loss Report"
         verbose_name_plural = "Profit & Loss Reports"
 
-    def save(self, *args, **kwargs):
+        
+    @property
+    def gross_profit(self):
+        return self.revenue - self.expenses
 
-        # Gross Profit = Revenue - Expenses
-        self.gross_profit = self.revenue - self.expenses
-
-        # Net Profit = Gross Profit - Operating Expenses
-        self.net_profit = self.gross_profit - self.operating_expenses
-
-        super().save(*args, **kwargs)
+    @property
+    def net_profit(self):
+        return self.revenue - self.expenses
 
     def __str__(self):
         return f"P&L Report - {self.date}"
