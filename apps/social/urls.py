@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import FacebookConnectURL, FacebookCallback, FacebookPageListView, FacebookWebhook, MessangerConnectWithBot, SocialPlatformListView
+from .views import (FacebookConnectURL, FacebookCallback, FacebookPageListView, FacebookWebhook, 
+                    MessangerConnectWithBot, SocialPlatformListView, TikTokConnectURL)
 
 urlpatterns = [
     path("platforms/", SocialPlatformListView.as_view()),
     path("facebook/connect/", FacebookConnectURL.as_view()),
+    path("tiktok/connect/", TikTokConnectURL.as_view()),
     path("facebook/callback/", FacebookCallback.as_view()),
     path("facebook/pages/", FacebookPageListView.as_view()),
     

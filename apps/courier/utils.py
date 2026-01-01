@@ -1,173 +1,109 @@
 import requests
 from django.conf import settings
-from requests.auth import HTTPBasicAuth
+import logging
+from requests.exceptions import RequestException
 
-from .models import PaperflyOrder ,SteadfastOrder,PathaoOrder 
+logger = logging.getLogger(__name__)
 
-def create_courier_order(
-    merchantCode: str,
-    merOrderRef: str,
-    productSizeWeight: str,
-    packagePrice: str,
-    deliveryOption: str,
-    custname: str,
-    custaddress: str,
-    customerDistrict: str,
-    custPhone: str,
+class CourierServiceError(Exception):
+    pass
 
-    pickMerchantName: str = "",
-    pickMerchantAddress: str = "",
-    pickMerchantThana: str = "",
-    pickMerchantDistrict: str = "",
-    pickupMerchantPhone: str = "",
-    productBrief: str = "",
-    max_weight: str = "",
-):
+def create_courier_MO(courier,user,customer_name: str,customer_phone: str,delivery_address: str,weight: float = 1.0,note: str = "",):
 
-    data_dict = locals() 
-    
-    # Prepare payload for API
-    payload = {k: v for k, v in data_dict.items()}
+    try:
+        profile = user.userprofile
+    except Exception:
+        raise CourierServiceError("User profile not found")
 
     headers = {
+        "Authorization": f"Bearer {courier.api_key}",
         "Content-Type": "application/json",
-        "Paperflykey": settings.PAPERFLY_KEY
     }
 
+    session = requests.Session()
+    session.headers.update(headers)
+
+    # Merchant Create
     try:
-        response = requests.post(
-            settings.PAPERFLY_ORDER_URL,
-            json=payload,
-            headers=headers,
-            auth=HTTPBasicAuth(settings.PAPERFLY_USERNAME, settings.PAPERFLY_PASSWORD),
-            timeout=30
+        merchant_response = session.post(
+            url=courier.merchant_create_url,
+            json={
+                "name": user.get_full_name() or user.username,
+                "email": user.email,
+                "phone": profile.phone,
+                "address": profile.address,
+            },
+            timeout=30,
         )
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        return {
-            "success": False,
-            "message": "Paperfly API not reachable",
-            "error": str(e)
-        }
+        merchant_response.raise_for_status()
+    except RequestException as e:
+        logger.error(f"Courier merchant create error: {e}")
+        raise CourierServiceError("Courier merchant create failed")
 
+    merchant_data = merchant_response.json()
+    merchant_id = merchant_data.get("merchant_id")
+
+    if not merchant_id:
+        raise CourierServiceError("Courier merchant_id not found")
+
+    # Order Create
     try:
-        result = response.json()
-
-        tracking_number = None
-        if result.get("success"):
-            tracking_number = result["success"].get("tracking_number")
-
-        # Save order to DB
-        PaperflyOrder.objects.create(
-            merchantCode=merchantCode,
-            merOrderRef=merOrderRef,
-            tracking_number=tracking_number,
-            pickMerchantName=pickMerchantName,
-            pickMerchantAddress=pickMerchantAddress,
-            pickMerchantThana=pickMerchantThana,
-            pickMerchantDistrict=pickMerchantDistrict,
-            pickupMerchantPhone=pickupMerchantPhone,
-            productSizeWeight=productSizeWeight,
-            productBrief=productBrief,
-            packagePrice=packagePrice,
-            deliveryOption=deliveryOption,
-            custname=custname,
-            custaddress=custaddress,
-            customerDistrict=customerDistrict,
-            custPhone=custPhone,
-            max_weight=max_weight,
+        order_response = session.post(
+            url=courier.order_create_url,
+            json={
+                "merchant_id": merchant_id,
+                "customer_name": customer_name,
+                "customer_phone": customer_phone,
+                "delivery_address": delivery_address,
+                "weight": weight,
+                "note": note,
+            },
+            timeout=30,
         )
+        order_response.raise_for_status()
+    except RequestException as e:
+        logger.error(f"Courier order create error: {e}")
+        raise CourierServiceError("Courier order create failed")
 
-        return {
-            "success": True,
-            "data": result
-        }
-
-    except ValueError:
-        return {
-            "success": False,
-            "message": "Invalid response from Paperfly"
-        }
-
-
- 
-
-import requests
-from django.conf import settings
-from requests.auth import HTTPBasicAuth
-
-from .models import PaperflyOrder, SteadfastOrder, PathaoOrder  
-
-COURIER_MODELS = {
-    "paperfly": PaperflyOrder,
-    "stedfast": SteadfastOrder,
-    "pathao": PathaoOrder,
-}
-
-COURIER_API_CONFIG = {
-    "paperfly": {
-        "url": settings.PAPERFLY_ORDER_URL,
-        "auth": HTTPBasicAuth(settings.PAPERFLY_USERNAME, settings.PAPERFLY_PASSWORD),
-        "headers": {"Content-Type": "application/json", "Paperflykey": settings.PAPERFLY_KEY}
-    },
-    "stedfast": {
-        "url": settings.STEADFAST_ORDER_URL,
-        "auth": None,
-        "headers": {"Content-Type": "application/json", "Authorization": f"Bearer {settings.STEADFAST_KEY}"}
-    },
-    "pathao": {
-        "url": settings.PATHAO_ORDER_URL,
-        "auth": None,
-        "headers": {"Content-Type": "application/json", "Authorization": f"Bearer {settings.PATHAO_KEY}"}
+    return {
+        "success": True,
+        "merchant_id": merchant_id,
+        "data": order_response.json(),
     }
-}
 
-def create_courier_order_generic(courier: str, payload: dict):
 
-    courier = courier.lower()
-    if courier not in COURIER_MODELS:
-        return {"success": False, "message": f"Unsupported courier: {courier}"}
 
-    model = COURIER_MODELS[courier]
-    config = COURIER_API_CONFIG[courier]
+def create_courier_order(user_profile, courier_urls, customer_name, customer_phone, delivery_address, amount):
 
-    # Mandatory field validation
-    mandatory_fields = ["merchantCode", "merOrderRef", "custname", "custaddress", "custPhone"]
-    missing_fields = [f for f in mandatory_fields if not payload.get(f)]
-    if missing_fields:
-        return {
-            "success": False,
-            "message": "Missing mandatory fields",
-            "missing_fields": missing_fields
-        }
+    headers = {
+        "Authorization": f"Bearer {courier_urls['api_key']}",
+        "Content-Type": "application/json"
+    }
 
-    # API call
-    try:
-        response = requests.post(
-            url=config["url"],
-            json=payload,
-            headers=config["headers"],
-            auth=config.get("auth"),
-            timeout=30
-        )
-        response.raise_for_status()
-        result = response.json()
-    except requests.exceptions.RequestException as e:
-        return {"success": False, "message": f"{courier} API not reachable", "error": str(e)}
-    except ValueError:
-        return {"success": False, "message": f"Invalid response from {courier}"}
+    # Merchant create
+    merchant_payload = {
+        "name": user_profile['name'],
+        "email": user_profile['email'],
+        "phone": user_profile['phone'],
+        "address": user_profile['address'],
+    }
 
-    # Save to DB
-    try:
-        # For Paperfly: tracking_number
-        tracking_number = result.get("success", {}).get("tracking_number") if courier == "paperfly" else None
+    merchant_resp = requests.post(courier_urls['merchant_create'], json=merchant_payload, headers=headers)
+    merchant_data = merchant_resp.json()
+    merchant_id = merchant_data.get("merchant_id")
+    if not merchant_id:
+        return {"success": False, "error": "Merchant create failed"}
 
-        # Generic fields save
-        model.objects.create(
-            tracking_number=tracking_number if courier == "paperfly" else None,
-            **{k: v for k, v in payload.items()}
-        )
-    except Exception as e:
-        return {"success": False, "message": f"DB save error for {courier}", "error": str(e)}
+    # Order create
+    order_payload = {
+        "merchant_id": merchant_id,
+        "customer_name": customer_name,
+        "customer_phone": customer_phone,
+        "delivery_address": delivery_address,
+        "amount": amount
+    }
 
-    return {"success": True, "data": result}
+    order_resp = requests.post(courier_urls['order_create'], json=order_payload, headers=headers)
+    order_data = order_resp.json()
+
+    return {"success": True, "merchant_id": merchant_id, "order": order_data}

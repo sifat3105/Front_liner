@@ -11,18 +11,18 @@ from django.utils.timezone import now
 from .models import (
     Income,
     Payments,
-    CustomerRefund,
-    VoucherEntry,
+    Sells,
+    Refund,
+    DebitCredit,
     ProfitLossReport,
     Receiver, Product,
-    Invoice, Payment,Sells
+    Invoice
 )
-
 from .serializers import (
     IncomeSerializer, 
     PaymentsSerializer,
     CustomerRefundSerializer,
-    VoucherEntrySerializer,
+    DebitCreditSerializer,
     ProfitLossReportSerializer,
     ReceiverSerializer, ProductSerializer, 
     InvoiceSerializer, PaymentSerializer,
@@ -116,7 +116,7 @@ class CustomerRefundListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        refunds = CustomerRefund.objects.filter(owner=request.user)
+        refunds = Refund.objects.filter(owner=request.user)
         serializer = CustomerRefundSerializer(refunds, many=True)
 
         # Return using self.success()
@@ -129,92 +129,36 @@ class CustomerRefundListAPIView(APIView):
     
 
 # Debit Credit section
-class VoucherEntryAPIView(APIView):
+
+class DebitCreditReportAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    # GET : List all vouchers
     def get(self, request):
-        vouchers = VoucherEntry.objects.filter(owner=request.user).order_by('-id')
-        serializer = VoucherEntrySerializer(vouchers, many=True)
+
+        queryset = DebitCredit.objects.filter(owner=request.user)
+
+        serializer = DebitCreditSerializer(queryset, many=True)
+
+        totals = queryset.aggregate(
+            total_debit=Sum('debit'),
+            total_credit=Sum('credit')
+        )
+
+        summary = {
+            "total_debit": totals['total_debit'] or 0,
+            "total_credit": totals['total_credit'] or 0,
+            "balance": (totals['total_debit'] or 0) - (totals['total_credit'] or 0),
+        }
 
         return self.success(
-            message="Vouchers fetched successfully",
+            message="Debit Credit report fetched successfully",
             status_code=status.HTTP_200_OK,
-            data=serializer.data,
-            meta={"model": "VoucherEntry"},
+            data={
+                "summary": summary,
+                "table": serializer.data,
+            }
         )
-
-    # POST : Create voucher
-    def post(self, request):
-        serializer = VoucherEntrySerializer(
-            data=request.data,
-            context={"request": request}
-        )
-
-        if serializer.is_valid():
-            serializer.save()
-
-            return self.success(
-                message="Voucher created successfully",
-                status_code=status.HTTP_201_CREATED,
-                data=serializer.data,
-                meta={"model": "VoucherEntry"},
-            )
-
-        return self.error(
-            message="Validation error",
-            status_code=status.HTTP_400_BAD_REQUEST,
-            data=serializer.errors,
-        )
-
-    # PUT : Update voucher
-    def put(self, request, pk):
-        voucher = get_object_or_404(
-            VoucherEntry,
-            pk=pk,
-            owner=request.user
-        )
-
-        serializer = VoucherEntrySerializer(
-            voucher,
-            data=request.data,
-            partial=True,
-            context={"request": request}
-        )
-
-        if serializer.is_valid():
-            serializer.save()
-
-            return self.success(
-                message="Voucher updated successfully",
-                status_code=status.HTTP_200_OK,
-                data=serializer.data,
-                meta={"model": "VoucherEntry"},
-            )
-
-        return self.error(
-            message="Validation error",
-            status_code=status.HTTP_400_BAD_REQUEST,
-            data=serializer.errors,
-        )
-
-    # DELETE : Delete voucher
-    def delete(self, request, pk):
-        voucher = get_object_or_404(
-            VoucherEntry,
-            pk=pk,
-            owner=request.user
-        )
-        voucher.delete()
-
-        return self.success(
-            message="Voucher deleted successfully",
-            status_code=status.HTTP_200_OK,
-            data={},
-            meta={"model": "VoucherEntry"},
-        )
-
 
 # Profit & Loss (P&L) sectiont
 class ProfitLossReportAPIView(APIView):
