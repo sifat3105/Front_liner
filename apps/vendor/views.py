@@ -1,12 +1,10 @@
-from utils.base_view import BaseAPIView as APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+
 from .serializers import VendorSerializer
 
-# Create your views here.
 
-
-class VendorRegistrationAPIView(APIView):
+class VendorRegistrationAPIView(BaseAPIView):
 
     permission_classes = [IsAuthenticated]
 
@@ -18,13 +16,13 @@ class VendorRegistrationAPIView(APIView):
 
             return self.success(
                 message="Vendor registered successfully",
-                status_code=status.HTTP_201_CREATED,
                 data=serializer.data,
+                status_code=status.HTTP_201_CREATED,
                 meta={"model": "Vendor"},
             )
 
         return self.error(
             message="Vendor registration failed",
-            status_code=status.HTTP_400_BAD_REQUEST,
             errors=serializer.errors,
+            status_code=status.HTTP_400_BAD_REQUEST,
         )

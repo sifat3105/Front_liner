@@ -71,6 +71,21 @@ def create_courier_MO(courier,user,customer_name: str,customer_phone: str,delive
         "data": order_response.json(),
     }
 
+    try:
+        response = requests.post(
+            settings.PAPERFLY_ORDER_URL,
+            json=payload,
+            headers=headers,
+            auth=HTTPBasicAuth(settings.PAPERFLY_USERNAME, settings.PAPERFLY_PASSWORD),
+            timeout=30
+        )
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        return {
+            "success": False,
+            "message": "Paperfly API not reachable",
+            "error": str(e)
+        }
 
 
 def create_courier_order(user_profile, courier_urls, customer_name, customer_phone, delivery_address, amount):
