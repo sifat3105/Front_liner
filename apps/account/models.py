@@ -144,8 +144,6 @@ class Refund(models.Model):
     def __str__(self):
         return f"{self.owner} - {self.location} ({self.id})"
     
-
-
 # Debit Credit section
 
 class DebitCredit(models.Model):
@@ -258,36 +256,14 @@ class ProfitLossReport(models.Model):
     date = models.DateField()
 
     # Financial Fields
-    revenue = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
+    revenue = models.DecimalField(max_digits=15,decimal_places=2,default=0)
+    expenses = models.DecimalField(max_digits=15,decimal_places=2,default=0)
 
-    expenses = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
-
-    operating_expenses = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
 
     # Calculated Fields
-    gross_profit = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0
-    )
+    gross_profit = models.DecimalField(max_digits=15,decimal_places=2,default=0)
+    net_profit = models.DecimalField(max_digits=15,decimal_places=2,default=0)
 
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='draft'
-    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -296,15 +272,14 @@ class ProfitLossReport(models.Model):
         verbose_name = "Profit & Loss Report"
         verbose_name_plural = "Profit & Loss Reports"
 
-    def save(self, *args, **kwargs):
+        
+    @property
+    def gross_profit(self):
+        return self.revenue - self.expenses
 
-        # Gross Profit = Revenue - Expenses
-        self.gross_profit = self.revenue - self.expenses
-
-        # Net Profit = Gross Profit - Operating Expenses
-        self.net_profit = self.gross_profit - self.operating_expenses
-
-        super().save(*args, **kwargs)
+    @property
+    def net_profit(self):
+        return self.revenue - self.expenses
 
     def __str__(self):
         return f"P&L Report - {self.date}"

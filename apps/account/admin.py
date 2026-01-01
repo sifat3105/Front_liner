@@ -176,23 +176,24 @@ class ProfitLossReportAdmin(admin.ModelAdmin):
 
     # Columns to display in admin list view
     list_display = (
+        'id',
         'date',
         'revenue',
         'expenses',
-        'operating_expenses',
         'gross_profit',
-        'status',
+        'net_profit',
         'owner',
     )
 
     # Filters in sidebar
     list_filter = (
-        'status',
+        'id',
         'date',
     )
 
     # Search by date
     search_fields = (
+        'id',
         'date',
     )
 
@@ -201,7 +202,9 @@ class ProfitLossReportAdmin(admin.ModelAdmin):
 
     # Fields that are read-only in admin (cannot edit manually)
     readonly_fields = (
+        'id',
         'gross_profit',
+        'net_profit',
         'created_at',
     )
 

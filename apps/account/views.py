@@ -179,10 +179,9 @@ class ProfitLossReportAPIView(APIView):
             total=Sum('revenue')
         )['total'] or 0
 
-        total_expenses = (
-            (queryset.aggregate(total=Sum('expenses'))['total'] or 0) +
-            (queryset.aggregate(total=Sum('operating_expenses'))['total'] or 0)
-        )
+        total_expenses = queryset.aggregate(
+            total=Sum('expenses')
+        )['total'] or 0
 
         net_profit = total_revenue - total_expenses
 
@@ -201,7 +200,6 @@ class ProfitLossReportAPIView(APIView):
             },
             meta={"model": "ProfitLossReport"},
         )
-
 
 
 # Receiver API

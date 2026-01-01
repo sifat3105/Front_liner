@@ -102,9 +102,6 @@ class DebitCreditSerializer(serializers.ModelSerializer):
 
 # Profit & Loss (P&L) sectiont
 class ProfitLossReportSerializer(serializers.ModelSerializer):
-    """
-    Serializer for Profit & Loss Report
-    """
 
     class Meta:
         model = ProfitLossReport
@@ -115,14 +112,14 @@ class ProfitLossReportSerializer(serializers.ModelSerializer):
             'revenue',
             'expenses',
             'gross_profit',
-            'operating_expenses',
-            'status',
+            'net_profit',
             'created_at',
         ]
 
         read_only_fields = [
             'id',
             'gross_profit',
+            'net_profit',
             'created_at',
         ]
 
