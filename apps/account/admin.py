@@ -4,9 +4,8 @@ from django.utils.timezone import now
 from .models import (
     Income,
     Payments,
-    CustomerRefund,
-    VoucherType,
-    VoucherEntry,
+    Refund,
+    DebitCredit,
     ProfitLossReport,
     Receiver,Product,
     Invoice, Payment,Sells
@@ -17,6 +16,7 @@ from .models import (
 @admin.register(Income)
 class IncomeAdmin(admin.ModelAdmin):
     list_display = (
+        'id',
         'date',
         'customer',
         'amount',
@@ -54,15 +54,17 @@ class PaymentAdmin(admin.ModelAdmin):
 
 # Sells section admin
 @admin.register(Sells)
-class CustomerSellsdAdmin(admin.ModelAdmin):
+class CustomerSellsAdmin(admin.ModelAdmin):
 
     # Admin list page
     list_display = (
         'id',
         'owner',
+        'order_id',
+        'customer',
         'location',
         'contact',
-        'price',
+        'order_amount',
         'platform',
         'sells_status',
     )
@@ -96,16 +98,18 @@ class CustomerSellsdAdmin(admin.ModelAdmin):
 
 
 # Refund section admin
-@admin.register(CustomerRefund)
+@admin.register(Refund)
 class CustomerRefundAdmin(admin.ModelAdmin):
 
     # Admin list page
     list_display = (
         'id',
         'owner',
+        'order_id',
+        'customer',
         'location',
         'contact',
-        'price',
+        'order_amount',
         'platform',
         'refund_status',
     )
@@ -137,65 +141,33 @@ class CustomerRefundAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-# Voucher Type Admin
-@admin.register(VoucherType)
-class VoucherTypeAdmin(admin.ModelAdmin):
+
+# Debit Credit section admin
+
+@admin.register(DebitCredit)
+class DebitCreditAdmin(admin.ModelAdmin):
 
     list_display = (
-        'id',
-        'name',
-        'is_active',
-    )
-
-    list_filter = ('is_active',)
-
-    search_fields = ('name',)
-
-    ordering = ('name',)
-
-    readonly_fields = ('id',)
-
-# Voucher Entry Admin
-@admin.register(VoucherEntry)
-class VoucherEntryAdmin(admin.ModelAdmin):
-
-
-    list_display = (
-        'id',
         'voucher_no',
-        'voucher_date',
         'customer_name',
-        'voucher_type',
-        'nature',
+        'payment_description',
+        'payment_type',
+        'debit',
+        'credit',
         'amount',
-        'status',
-        'posted',
-    )
-
-    list_filter = (
-        'status',
-        'posted',
-        'nature',
-        'voucher_type',
-    )
-
-    search_fields = (
-        'voucher_no',
-        'customer_name',
-    )
-
-    ordering = ('-id',)
-
-    readonly_fields = (
-        'id',
+        'balance',
         'created_at',
     )
 
-    # Auto assign owner from admin panel
-    def save_model(self, request, obj, form, change):
-        if not obj.owner:
-            obj.owner = request.user
-        super().save_model(request, obj, form, change)
+    readonly_fields = (
+        'debit',
+        'credit',
+        'balance',
+        'created_at',
+    )
+
+    search_fields = ('voucher_no', 'customer_name')
+    list_filter = ('payment_type', 'created_at')
 
 
 # Profit & Loss (P&L) section
@@ -205,23 +177,24 @@ class ProfitLossReportAdmin(admin.ModelAdmin):
 
     # Columns to display in admin list view
     list_display = (
+        'id',
         'date',
         'revenue',
         'expenses',
-        'operating_expenses',
         'gross_profit',
-        'status',
+        'net_profit',
         'owner',
     )
 
     # Filters in sidebar
     list_filter = (
-        'status',
+        'id',
         'date',
     )
 
     # Search by date
     search_fields = (
+        'id',
         'date',
     )
 
@@ -230,7 +203,9 @@ class ProfitLossReportAdmin(admin.ModelAdmin):
 
     # Fields that are read-only in admin (cannot edit manually)
     readonly_fields = (
+        'id',
         'gross_profit',
+        'net_profit',
         'created_at',
     )
 
@@ -241,7 +216,6 @@ class ProfitLossReportAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-# Payment section
 
 # Receiver Admin
 @admin.register(Receiver)

@@ -2,9 +2,8 @@ from rest_framework import serializers
 import re
 from .models import (
     Income, Payments,
-    CustomerRefund,
-    VoucherType, 
-    VoucherEntry,
+    Refund,
+    DebitCredit,
     ProfitLossReport,
     Receiver, Product, 
     Invoice, Payment,
@@ -17,7 +16,7 @@ class IncomeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
         fields = '__all__'
-        read_only_fields = ('customer', 'created_at', 'updated_at')
+        read_only_fields = ('id','customer', 'created_at', 'updated_at')
 
 
 class PaymentsSerializer(serializers.ModelSerializer):
@@ -40,11 +39,13 @@ class CustomerSellsSerializer(serializers.ModelSerializer):
             'id',
             'owner',
             'owner_username',  # convenient field for frontend display
+            'order_id',
+            'customer',
             'location',
             'contact',
-            'price',
+            'order_amount',
             'platform',
-            'refund_status',
+            'sells_status',
         ]
         read_only_fields = ['id', 'owner', 'owner_username']
 
@@ -63,14 +64,16 @@ class CustomerRefundSerializer(serializers.ModelSerializer):
     owner_username = serializers.CharField(source='owner.username', read_only=True)
 
     class Meta:
-        model = CustomerRefund
+        model = Refund
         fields = [
             'id',
             'owner',
             'owner_username',  # convenient field for frontend display
+            'order_id',
+            'customer',
             'location',
             'contact',
-            'price',
+            'order_amount',
             'platform',
             'refund_status',
         ]
@@ -84,110 +87,21 @@ class CustomerRefundSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
     
 
-# Voucher Type Serializer
-class VoucherTypeSerializer(serializers.ModelSerializer):
+# Debit Credit serializers section
+
+class DebitCreditSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = VoucherType
+        model = DebitCredit
+        fields = '__all__'
+        read_only_fields = ('debit', 'credit', 'balance', 'created_at')
 
-        fields = [
-            'id',
-            'name',
-            'is_active',
-        ]
-        read_only_fields = ['id']
-
-
-# Voucher Entry Serializer
-class VoucherEntrySerializer(serializers.ModelSerializer):
-
-    owner_username = serializers.CharField(
-        source='owner.username',
-        read_only=True
-    )
-
-    # Voucher type show
-    voucher_type_name = serializers.CharField(
-        source='voucher_type.name',
-        read_only=True
-    )
-
-    class Meta:
-        model = VoucherEntry
-
-        # Explicit field list (best practice)
-        fields = [
-            'id',
-            'voucher_no',
-            'voucher_date',
-            'customer_name',
-
-            'voucher_type',
-            'voucher_type_name',
-
-            'nature',
-            'debit',
-            'credit',
-            'total_debit',
-            'total_credit',
-            'amount',
-
-            'status',
-            'posted',
-            'due_date',
-
-            'owner',
-            'owner_username',
-
-            'created_at',
-        ]
-
-        # Disable API edit 
-        read_only_fields = [
-            'id',
-            'owner',
-            'owner_username',
-            'total_debit',
-            'total_credit',
-            'created_at',
-        ]
-
-    # Custom Validation
-    def validate(self, attrs):
-
-        nature = attrs.get('nature')
-        debit = attrs.get('debit', 0)
-        credit = attrs.get('credit', 0)
-
-        # Debit voucher হলে credit দেওয়া যাবে না
-        if nature == 'debit' and credit > 0:
-            raise serializers.ValidationError(
-                "Debit voucher এ credit amount দেওয়া যাবে না।"
-            )
-
-        # Credit voucher হলে debit দেওয়া যাবে না
-        if nature == 'credit' and debit > 0:
-            raise serializers.ValidationError(
-                "Credit voucher এ debit amount দেওয়া যাবে না।"
-            )
-
-        return attrs
-
-    # Auto assign owner
     def create(self, validated_data):
-
-        request = self.context.get('request')
-        if request and request.user:
-            validated_data['owner'] = request.user
-
+        validated_data['owner'] = self.context['request'].user
         return super().create(validated_data)
-
 
 # Profit & Loss (P&L) sectiont
 class ProfitLossReportSerializer(serializers.ModelSerializer):
-    """
-    Serializer for Profit & Loss Report
-    """
 
     class Meta:
         model = ProfitLossReport
@@ -198,14 +112,14 @@ class ProfitLossReportSerializer(serializers.ModelSerializer):
             'revenue',
             'expenses',
             'gross_profit',
-            'operating_expenses',
-            'status',
+            'net_profit',
             'created_at',
         ]
 
         read_only_fields = [
             'id',
             'gross_profit',
+            'net_profit',
             'created_at',
         ]
 

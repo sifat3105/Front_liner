@@ -5,3 +5,5 @@ venv
 .env
 /db.sqlite3
 venv
+/request_logs.csv
+request_logs.csv
