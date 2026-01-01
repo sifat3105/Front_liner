@@ -247,7 +247,7 @@ USE_TZ = True
 
 FACEBOOK_APP_ID = "3184250695088317"
 FACEBOOK_APP_SECRET = "b4f5267bc9facef8ed80a4d39c5cfb53"
-FACEBOOK_REDIRECT_URI = "https://frontliner-dashboard.vercel.app/user/social/connect/fallback"
+FACEBOOK_REDIRECT_URI = "https://test.frontliner.io/api/social/facebook/callback/"
 FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
 
 INSTAGRAM_APP_ID = "2060639764791245"

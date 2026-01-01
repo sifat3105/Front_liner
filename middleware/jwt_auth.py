@@ -21,6 +21,7 @@ class JWTAuthMiddleware:
         '/post-generate/',
         '/media/',
         '/admin/login/',
+        
     ]
 
     def __init__(self, get_response):
