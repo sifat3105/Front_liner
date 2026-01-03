@@ -1833,3 +1833,101 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-03T10:06:32.933755,656e6942-4db7-45ea-ba9d-201b8d95edd2,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
 2026-01-03T10:20:14.582846,1922424f-9987-4bce-8635-f13b82d4485a,103.98.107.22,POST,/api/auth/login/,200,Login successful,
 2026-01-03T10:20:30.189450,67947638-1869-41f9-a98a-2b72c8c6eaa9,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T10:49:36.537979,a18cc704-bc9b-4f1a-bffd-65de2ec2864d,103.98.107.22,GET,/api/orders/,200,Success,test@mail.com
+2026-01-03T10:50:47.628887,e465e79c-9617-46ed-a1a0-8651031d382c,103.98.107.22,GET,/api/orders/1/,500,Internal server error,test@mail.com
+2026-01-03T10:51:13.349913,6dc07cef-05ad-4ca8-9ce2-483914103403,103.98.107.22,GET,/api/orders/1/,400,Order not found,test@mail.com
+2026-01-03T11:04:07.897304,e0668bb2-d256-4ce6-ba9d-48395059bb28,103.98.107.22,GET,/api/orders/,200,Success,test@mail.com
+2026-01-03T11:05:58.021933,2426ca60-31ef-4a04-8dc5-296a53b77e5b,103.98.107.22,GET,/api/orders/,200,Success,test@mail.com
+2026-01-03T11:05:59.817009,c5b6ad84-a8c2-4243-9655-b77184b9a3aa,103.98.107.22,GET,/api/orders/,200,Success,test@mail.com
+2026-01-03T11:09:06.853933,e2378e21-761b-4ade-abee-1e95aa5fdc93,103.98.107.22,GET,/api/orders/,200,Success,test@mail.com
+2026-01-03T11:10:09.586993,b6961a1f-fb92-4f0b-851c-b4611416fffb,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:10:23.791154,1220eb12-4bdf-4aa7-a350-2326e229c9f8,103.98.107.22,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-03T11:12:14.097730,5018c0d9-ed5f-49e5-934c-ecb007612d17,103.98.107.22,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-03T11:12:28.552742,439d306f-f1d7-4042-8b2f-c892c92c47ad,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:12:53.169717,ae06004b-a263-4c75-8875-1dcef1470e97,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:13:35.509051,83434ef3-379d-4688-ae62-4db7b827cef1,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:13:40.961832,59fedbbf-9e93-40c0-a08e-e3b8e4c9e4e1,172.31.40.247,GET,/api/orders/1/,200,Success,usernamem@gmail.com
+2026-01-03T11:14:35.922635,4c648815-7b52-402f-9859-885fecb4150c,103.98.107.22,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-03T11:15:12.655481,c621faeb-850f-49f7-817a-100c9e4e2763,172.31.40.247,GET,/api/orders/list/,200,Success,usernamem@gmail.com
+2026-01-03T11:16:03.113996,bcc8ee0a-2487-4e0a-a217-d7823f37138d,103.98.107.22,GET,/api/orders/reject/,200,Success,test@mail.com
+2026-01-03T11:16:22.526318,eb18f18a-7e7c-477e-bb7e-bbf0da77fe9a,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:16:43.151082,6ecb8967-76a8-4551-8ca3-417f24fc4ba8,103.98.107.22,GET,/api/orders/reject/,200,Success,test@mail.com
+2026-01-03T11:17:22.996063,247aa688-2a14-4d08-ad30-373d46a1f100,103.98.107.22,GET,/api/orders/reject/,500,Internal server error,test@mail.com
+2026-01-03T11:17:46.816611,c2867390-f5b4-4237-a221-7b4dec5b89df,103.98.107.22,GET,/api/orders/reject/,500,Internal server error,test@mail.com
+2026-01-03T11:17:48.948856,335e4332-c734-42d2-9fcd-6563f89a3d64,103.98.107.22,GET,/api/orders/reject/,500,Internal server error,test@mail.com
+2026-01-03T11:17:50.428733,e965918c-1263-4e8a-ada9-1f9c4369a7a8,103.98.107.22,GET,/api/orders/reject/,500,Internal server error,test@mail.com
+2026-01-03T11:17:51.826016,6fba6bec-76b8-472a-9921-f9d562d3e885,103.98.107.22,GET,/api/orders/reject/,500,Internal server error,test@mail.com
+2026-01-03T11:18:08.728744,54fff5f5-3e21-4575-a305-ea6b172474d5,103.98.107.22,GET,/api/orders/reject/,500,Internal server error,test@mail.com
+2026-01-03T11:20:04.101741,2e88cea4-562c-4246-b915-148cb5548c6f,103.98.107.22,GET,/api/orders/reject/,200,Success,test@mail.com
+2026-01-03T11:20:14.992669,ee94d986-6392-4dd0-a21f-3a15a0b180ac,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:20:27.068880,8dbcd4ea-595d-4dc8-8766-ad7e90724e93,103.98.107.22,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-03T11:22:22.688604,4d1ed76b-aee8-4de7-91d9-0d96d3c813dd,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:22:27.833611,17a377b8-6383-498c-a853-aeb26a078075,103.98.107.22,GET,/api/orders/1/,500,Internal server error,test@mail.com
+2026-01-03T11:24:06.063669,9638fd1c-4376-4701-9e50-9013c7e53b73,103.98.107.22,GET,/api/orders/1/,500,Internal server error,test@mail.com
+2026-01-03T11:24:08.093276,f04c3637-6a45-4e52-8b90-1c2c3924c80a,103.98.107.22,GET,/api/orders/1/,500,Internal server error,test@mail.com
+2026-01-03T11:24:09.637970,f764c145-bcac-434e-a977-609e21fb2792,103.98.107.22,GET,/api/orders/1/,500,Internal server error,test@mail.com
+2026-01-03T11:24:41.638285,1c3103ca-95ae-4fd6-8cac-9d56c1194b15,103.98.107.22,GET,/api/orders/1/details/,400,Order not found,test@mail.com
+2026-01-03T11:24:52.051431,6521d06a-5374-4aa6-ac9d-6c291bea31fa,103.98.107.22,GET,/api/orders/4/details/,400,Order not found,test@mail.com
+2026-01-03T11:25:00.975374,6cbb803a-2759-423b-a7db-fa17955bf422,103.98.107.22,GET,/api/orders/5/details/,400,Order not found,test@mail.com
+2026-01-03T11:25:01.058795,5ac75ef2-2111-467e-a3d3-0760bd9fcb3b,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T11:26:48.010139,411aa8a5-f81f-4755-a759-9a1592a1f729,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:26:54.881497,401a7c33-29f2-4060-a2e4-2a8044c3dcaf,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:30:18.189572,897247bd-ef3f-417a-8753-0b6b82e4ac76,103.98.107.22,GET,/api/orders/5/details/,400,Order not found,test@mail.com
+2026-01-03T11:31:23.224850,32814083-152e-4911-806f-50c496fbebe2,103.98.107.22,GET,/api/orders/5/details/,200,Success,test@mail.com
+2026-01-03T11:42:49.724358,2f942ebe-2c2b-4b22-8100-4b37c9e194c0,103.98.107.22,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-03T11:44:58.205801,835fd401-baea-4e0b-b215-4586bb86258d,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:14.358334,89d4193a-1eb2-49c0-9e89-517b5ff23a68,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:19.173515,f54b1ceb-1a31-40b3-8fcd-60b42d03eed7,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:20.484160,207e7b3f-a068-48d5-8a96-dc3fcdee0972,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:20.695428,e06b7e46-afe1-4fee-92b7-61e702f421ff,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:20.895661,fdaff418-559c-4d14-94b4-5099a052d98e,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:21.082772,da86d593-6b3c-4956-a515-a77b4d9c3c7a,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:21.277856,82feff80-5540-413e-9cf2-08eed90ff907,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:22.867463,a7f8f35c-11c0-4065-9d66-d92560d89b01,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:23.076611,cd319413-5fcb-4f5b-b68a-e6fe02ae2e5b,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:23.260141,abd2c6a9-ed39-412b-8c2b-eaba03da47a9,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:23.446294,027e3b50-6fe6-43ba-b371-b8f6ff2e1f95,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:23.636066,172eb13f-e619-4b57-82aa-d2ebd8c5a1f1,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:24.349310,6ed1a284-68fb-41fe-ad0d-33115d391d55,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:24.555260,cc2e605c-0cd0-4b99-9f83-6b605787a74f,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:24.749186,ccadadc3-a010-47fd-a198-101cf30dc9aa,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:24.916913,e6fd5563-537b-4979-bfcf-93519437531c,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:25.117754,2bf46a18-7066-4d59-97a4-4a7f50be03d7,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:26.749168,68b9847f-d8c6-4751-b7a4-d822b1ddf008,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:26.949496,ce7946c3-0816-4487-8185-5e37490a3ef7,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:27.124927,80b107b0-0048-4a2f-b300-263b60b3ce29,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:27.323107,6196fad5-f09c-4ff2-be64-8aa71de99261,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:27.507842,156fcf7e-4e03-49f5-a931-6dd7af7499f0,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:27.719278,229d003d-fd9a-4998-8198-6f896ab93a23,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:28.067402,1dd2a2cd-3631-4cd8-b20a-be80e3721bd9,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:28.259088,dae7f273-4c44-4e5b-a8ff-8a9733c31afe,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:28.467325,10cdab71-a65f-4cc9-b060-6e7789b551a3,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:28.660766,c31ffb95-b25a-4cad-9ecf-2331c00431b2,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:28.828347,39231cdc-0fb7-48a2-a8c3-d80440d28d36,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:29.179593,4bbeee87-9df1-4f40-a6c1-cc7145b37920,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:29.564422,ebceabe8-7308-4e48-aeb8-83faa77ac1cb,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:52.084985,553e533b-d6f5-4b58-a9da-1893da522155,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:45:57.524821,1359a2d4-ebed-45fd-85e8-af1a928ff723,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:46:26.903477,9c10cdf8-834d-4902-8ad3-5dc59b5fa9b5,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:47:02.999919,608e6a68-8dbb-47bb-9918-8674746052c2,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T11:47:20.584635,3bd262ba-11e6-4854-af03-698fe32a82cd,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:47:36.973010,9a270821-571b-410c-817a-f71fcac21646,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:47:48.472249,51961771-e01d-42eb-b45b-b0c4522ccdef,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:47:58.567616,1bb4f317-6df6-4b12-a7ab-2c97fc0d2462,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:48:07.533070,68bf09a8-3e2e-4022-a1cc-c9b6cc11854b,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:48:10.123753,00fb7f77-ec8a-4a86-8052-c5ca39d9899e,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:48:35.906309,da3d94c2-f8ab-4592-9998-e75931154b17,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:49:41.472980,bd065c79-aa6d-4cf1-9a61-1eb0b2f1b8ab,172.31.40.247,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T11:51:34.122804,fbca5c49-bffb-4ae4-8a1e-74bd11947a14,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-03T11:52:03.315742,c1e04d25-c5e3-44f4-9bc3-9b33c4940962,172.31.40.247,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-03T11:52:30.413905,f7ec6424-d985-4542-857b-9a0090db6d9d,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-03T11:53:07.293343,04c32a29-b8ac-4a45-b44a-928d7826f8f0,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-03T11:53:12.844717,68d8fd9d-cbd0-483d-a4d8-b180d2c47c6c,172.31.40.247,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-03T11:53:30.009172,8bba2e31-3364-47fe-acc5-54732fb20b2d,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T11:54:29.575889,d9bfe783-31d2-4689-b275-c91c824329c6,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T11:55:43.587943,de2a12aa-463f-4e52-a38e-899fbfdf85a8,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:57:29.301392,ac6997cb-c5a2-4531-a540-8710ef2d528f,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-03T11:58:02.735523,c9663d1a-0990-4573-93ef-b371a91278a7,172.31.40.247,GET,/api/orders/4/,200,Success,test@mail.com
+2026-01-03T11:58:24.998206,83b5d811-9a5a-49f2-b29e-38230758fb52,103.98.107.22,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-03T11:59:49.471920,178ed2ac-fd5d-4990-9daa-4b83732d80c7,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-03T12:03:08.339318,f9f1fc73-8978-4cab-b926-637d456b01da,103.98.107.22,GET,/api/orders/4/details/,200,Success,test@mail.com

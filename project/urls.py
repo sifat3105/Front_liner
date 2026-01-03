@@ -12,6 +12,7 @@ urlpatterns = [
     path("api/publish/", include("apps.publish.urls")),
     path("api/post/", include("apps.post.urls")),
     path("api/chat/", include("apps.chat.urls")),
+    path("api/orders/", include("apps.orders.urls")),
     
     # CareOn Project URLs
     path("api/voice/", include("apps.voice.urls")),

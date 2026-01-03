@@ -88,6 +88,7 @@ INSTALLED_APPS = [
     'apps.courier',
     'apps.paymentgateway',
     'apps.vendor',
+    'apps.orders',
 ]
 
 AUTH_USER_MODEL = 'user.User'
