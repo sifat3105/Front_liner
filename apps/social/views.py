@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.shortcuts import redirect
 from utils.base_view import BaseAPIView as APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -7,6 +8,9 @@ from .models import SocialAccount, FacebookPage, SocialPlatform
 from .serializers import SocialAccountSerializer, FacebookPageSerializer, SocialPlatformSerializer
 from apps.chat.utils import handle_message, send_message
 import urllib.parse
+import uuid
+from django.core.cache import cache
+from .utils import get_long_lived_token
 
 
 class SocialPlatformListView(APIView):
@@ -26,38 +30,47 @@ class FacebookConnectURL(APIView):
     permission_classes = []
 
     def get(self, request):
+        user = request.user
+
+        # Generate a random state
+        state = str(uuid.uuid4())
+
+        cache.set(f"facebook_oauth_{state}", user.id, timeout=300)
+
         url = (
             "https://www.facebook.com/v19.0/dialog/oauth"
             f"?client_id={settings.FACEBOOK_APP_ID}"
             f"&redirect_uri={settings.FACEBOOK_REDIRECT_URI}"
+            "&response_type=code"
+            f"&state={state}"
             "&scope="
             "pages_show_list,"
-            "pages_manage_posts,"
             "pages_read_engagement,"
-            "pages_messaging,"
-            "instagram_basic,"
-            "instagram_content_publish"
+            "pages_manage_posts"
         )
+
         return self.success(
             message="Facebook connect URL generated successfully",
-            status_code=status.HTTP_200_OK,
-            data={"url": url},
-            meta={"action": "facebook_connect_url"}
+            data={"url": url}
         )
-    
 
 
 class FacebookCallback(APIView):
     permission_classes = []
     
     def get(self, request):
-
         code = request.GET.get("code")
+        state = request.GET.get("state")
         if not code:
             print("Code missing")
             return Response({"error": "Code missing"}, status=400)
 
-        # 1️⃣ Exchange code for token
+        user_id = cache.get(f"facebook_oauth_{state}")
+        if not user_id:
+            return Response({"error": "Invalid or expired state"}, status=400)
+
+        cache.delete(f"facebook_oauth_{state}")
+
         token_url = "https://graph.facebook.com/v19.0/oauth/access_token"
         token_res = requests.get(token_url, params={
             "client_id": settings.FACEBOOK_APP_ID,
@@ -67,49 +80,49 @@ class FacebookCallback(APIView):
         }).json()
 
         user_token = token_res.get("access_token")
-        # user_token = "EAAtQDyOOeL0BQHadcaZCix0AH4eC6ZBfGB73hZAtQ6OR9zcNqNZCIpx5kd9MXVulZClusAo1k9CeoLZCHW0CIAZBzHxH5gLGIne9aoxQdSZBeSdYqozktbC1kBZBFKGVsxTgLve4TWIMQTd7yQ4gTPsZBomOpUPh3H10FbzZAsEe3oMjhwt6vZBZBcgVIt9yZAx7ucPYVebgWDsDZA9VUrmmdPXZCp0JZBXeEXuL0CD6vMUP30QNnM8KQgfjulJknGL8gaOFedMtcmifd7zS7e53Kh48coB7MwBz7sjsWhmN3ruGGhlUZD"
+        long_lived_token = get_long_lived_token(user_token)
 
-        # 2️⃣ Get FB user ID
         me = requests.get(
             "https://graph.facebook.com/me",
             params={"access_token": user_token}
         ).json()
+        print("Facebook user info:", me)
 
-        # 3️⃣ Save social account
         social, _ = SocialAccount.objects.update_or_create(
-            user_id=1,
+            user_id=user_id,
             platform="facebook",
             defaults={
                 "user_access_token": user_token,
-                "fb_user_id": me["id"]
+                "long_lived_token": long_lived_token,
+                "fb_user_id": me["id"],
+                "name": me["name"],
             }
         )
 
-        # 4️⃣ Fetch pages
         pages = requests.get(
             "https://graph.facebook.com/v19.0/me/accounts",
             params={"access_token": user_token}
         ).json()
+        
+        print("Facebook pages:", pages)
 
         for p in pages.get("data", []):
+            long_lived_token = get_long_lived_token(p["access_token"])
             FacebookPage.objects.update_or_create(
                 user_id=1,
                 social_account=social,
                 page_id=p["id"],
                 defaults={
                     "page_name": p["name"],
-                    "page_access_token": p["access_token"],
+                    "page_access_token": long_lived_token,
                     "category": p["category"],
                     "category_list": p["category_list"],
                     "tasks": p["tasks"],
                 }
             )
-
-        return self.success(
-            message="Facebook pages connected successfully",
-            status_code=status.HTTP_200_OK,
-            data={},
-            meta={"action": "facebook_connect"}
+    
+        return redirect(
+            "https://frontliner-dashboard.vercel.app/user/social/connect/fallback?platform=facebook&status=success"
         )
     
 
@@ -147,9 +160,11 @@ class FacebookWebhook(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        print(request.GET.get("hub.verify_token"))
-        if request.GET.get("hub.verify_token") == "my_fb_verify_token_2025":
-            return Response(int(request.GET.get("hub.challenge")))
+        try:
+            if request.GET.get("hub.verify_token") == settings.FB_VERIFY_TOKEN:
+                return Response(int(request.GET.get("hub.challenge")))
+        except Exception as e:
+            print("Webhook verification error:", e)
         return Response("Invalid token", status=403)
     
     def post(self, request):
@@ -160,8 +175,6 @@ class FacebookWebhook(APIView):
             for event in entry.get("messaging", []):
                 sender_id = event["sender"]["id"]
                 page_id = entry["id"]
-                print(sender_id)
-                print(page_id)
 
                 if "message" in event:
                     text = event["message"].get("text", "")
@@ -169,56 +182,8 @@ class FacebookWebhook(APIView):
                     handle_message(page_id, sender_id, text)
 
         return Response("EVENT_RECEIVED")
-
-# def send_message(page_access_token, recipient_id, text):
-#     url = "https://graph.facebook.com/v19.0/me/messages"
-#     payload = {
-#         "recipient": {"id": recipient_id},
-#         "message": {"text": text}
-#     }
-#     params = {"access_token": page_access_token}
-
-#     return requests.post(url, json=payload, params=params).json()
-
-# def get_page_token_from_db(page_id):
-#     page = FacebookPage.objects.get(page_id=page_id)
-#     return page.page_access_token
-
-
-# def handle_message(page_id, sender_id, text):
-#     page_token = get_page_token_from_db(page_id)
-
-#     text = text.lower()
-
-#     if "price" in text:
-#         reply = "Please tell us which product you are interested in 💰"
-#     elif "hello" in text or "hi" in text:
-#         reply = "Hi 👋 How can we help you today?"
-#     elif "order" in text:
-#         reply = "Sure! Please share your order number 📦"
-#     else:
-#         reply = "Thanks for messaging us! A team member will reply shortly 😊"
-#     print("result =============================================")
-#     print(send_message(page_token, sender_id, reply))
     
-    
-def send_quick_replies(page_access_token, recipient_id):
-    payload = {
-        "recipient": {"id": recipient_id},
-        "message": {
-            "text": "How can we help you?",
-            "quick_replies": [
-                {"content_type": "text", "title": "Product Price", "payload": "PRICE"},
-                {"content_type": "text", "title": "Order Status", "payload": "ORDER"},
-                {"content_type": "text", "title": "Talk to Agent", "payload": "AGENT"}
-            ]
-        }
-    }
 
-    url = "https://graph.facebook.com/v19.0/me/messages"
-    params = {"access_token": page_access_token}
-    requests.post(url, json=payload, params=params)
-    
     
 class MessangerConnectWithBot(APIView):
     permission_classes = []
@@ -265,4 +230,23 @@ class TikTokConnectURL(APIView):
             status_code=status.HTTP_200_OK,
             data={"url": url},
             meta={"action": "tiktok_connect_url"}
+        )
+        
+class FacebookDeletion(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        data = request.data
+        page_id = data.get("page_id")
+        page = FacebookPage.objects.get(id=page_id)
+        
+        response = requests.delete(
+            f"https://graph.facebook.com/v19.0/{page_id}",
+            params={"access_token": page.page_access_token}
+        )
+        
+        return self.success(
+            message="Facebook page deleted successfully",
+            status_code=response.status_code,
+            meta={"action": "facebook_page_deleted"}
         )

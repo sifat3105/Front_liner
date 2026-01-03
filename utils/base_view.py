@@ -27,12 +27,8 @@ class AutoPagination(PageNumberPagination):
 class BaseAPIView(APIView):
     pagination_class = AutoPagination
 
-    def success(self, message="Success", data=None, meta=None, status_code=status.HTTP_200_OK):
-        """
-        Automatically paginate if:
-        - request method is GET
-        - data is a list with more than 1 item
-        """
+    def success(self, message="Success", data=None, meta=None, cookies=None, status_code=status.HTTP_200_OK):
+
         paginated_data = data
 
         if getattr(self, "request", None) and self.request.method.upper() == "GET":
@@ -45,7 +41,8 @@ class BaseAPIView(APIView):
             message=message,
             data=paginated_data,
             status_code=status_code,
-            meta=meta
+            meta=meta,
+            cookies=cookies
         )
 
     def error(self, message="Error", errors=None, meta=None, status_code=status.HTTP_400_BAD_REQUEST):

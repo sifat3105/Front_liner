@@ -17,6 +17,8 @@ class RequestLogMiddleware(MiddlewareMixin):
                 method=request.method,
                 path=request.path,
                 status=response.status_code,
+                message=response.data.get("message", None),
+                user_email=request.user.email if request.user.is_authenticated else None,
             )
         except Exception:
             pass

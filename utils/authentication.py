@@ -3,6 +3,7 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
+from middleware.cryptography import decrypt_token
 
 User = get_user_model()
 
@@ -12,11 +13,11 @@ class CookieJWTAuthentication(authentication.BaseAuthentication):
     """
 
     def authenticate(self, request):
-        token = request.COOKIES.get("xJq93kL1")
+        token = decrypt_token(request.COOKIES.get("xJq93kL1"))
         if request.path.startswith("/api/auth/login/"):
             return None
         if not token:
-            refresh_token = request.COOKIES.get("rT7u1Vb8")
+            refresh_token = decrypt_token(request.COOKIES.get("rT7u1Vb8"))
             if not refresh_token:
                 return None
             try:
@@ -31,7 +32,7 @@ class CookieJWTAuthentication(authentication.BaseAuthentication):
             user = User.objects.get(id=user_id)
             return (user, token)
         except Exception as e:
-            refresh_token = request.COOKIES.get("rT7u1Vb8")
+            refresh_token = decrypt_token(request.COOKIES.get("rT7u1Vb8"))
             if not refresh_token:
                 return None
             try:

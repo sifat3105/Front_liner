@@ -30,20 +30,23 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         account_data = validated_data.pop('account', None)
 
+        # Create user
         user = User.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password']
         )
 
+        # Create account if data is provided
         if account_data:
             Account.objects.create(
                 user=user,
-                first_name=account_data.get('first_name'),
-                last_name=account_data.get('last_name'),
-                phone=account_data.get('phone'),
-                username=account_data.get('username'),
-                organization=account_data.get('organization')
+                first_name=account_data.get('first_name', ''),
+                last_name=account_data.get('last_name', ''),
+                username=account_data.get('username', ''),
+                phone=account_data.get('phone', ''),
+                organization=account_data.get('organization', '')
             )
+
         return user
 
     def update(self, instance, validated_data):

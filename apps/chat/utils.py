@@ -60,15 +60,14 @@ def handle_message(page_id, sender_id, text):
     page_token = page.page_access_token
     social_account = page.social_account
     
-    # history, chat = get_chat_history(sender_id, social_account)
+    history, chat = get_chat_history(sender_id, social_account)
 
     text = text.lower()
-    # store_chat_message(chat, "customer", text)
-    print('----------------------------')
+    store_chat_message(chat, "customer", text)
     reply = chatbot_reply(text, [])
     reply_message = reply.get("reply")
     print(reply_message)
     send_message(page_token, sender_id, reply_message)
-    # store_chat_message(chat, "assistant", reply)
+    store_chat_message(chat, "assistant", reply_message)
 
     

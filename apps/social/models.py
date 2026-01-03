@@ -29,7 +29,7 @@ class SocialAccount(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="social_accounts")
     platform = models.CharField(max_length=20, choices=PLATFORM_CHOICES)
-
+    name = models.CharField(max_length=255, null=True, blank=True)
     user_access_token = models.TextField()
     long_lived_token = models.TextField(null=True, blank=True)
     token_expires_at = models.DateTimeField(null=True, blank=True)

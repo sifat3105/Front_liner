@@ -5,7 +5,6 @@ import requests
 from requests.auth import HTTPBasicAuth
 from .serializers import CourierCompanySerializer
 from .models import (
-    Courierlist,UserCourier,
     PaperflyMerchant,
     PaperflyOrder,
     PaperflyOrderTracking,
@@ -15,60 +14,55 @@ from .models import (
     SteadfastReturnRequest,
     PathaoToken, PathaoStore, PathaoOrder,
 )
+from django.shortcuts import get_object_or_404
+from .models import CourierList, UserCourier
 
 
-# GET: logged-in user er courier list
-class UserCourierListAPIView(APIView):
+class CourierListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        try:
-            user_courier = UserCourier.objects.get(user=request.user)
-        except UserCourier.DoesNotExist:
-            return self.error(
-                message="User has no couriers assigned",
-                status_code=404,
-                meta={"action": "user-curier-list"}
-            )
-        couriers = user_courier.courier_list.all()
-        serializer = CourierCompanySerializer(couriers, many=True, context={'request': request})
-        
+        couriers = CourierList.objects.all()
+        user_couriers = list(UserCourier.objects.filter(user=request.user))
+        serializer = CourierCompanySerializer(
+            couriers,
+            many=True,
+            context={'request': request, 'user_couriers': user_couriers}
+        )
         return self.success(
             data=serializer.data,
-            message= "Courier list fetched successfully"if serializer.data else "No couriers assigned to this user",
-            meta={"action": "user-curier-list"}
+            message="Courier list fetched successfully" if serializer.data else "No couriers assigned to this user",
+            meta={"action": "user-courier-list"}
         )
+        
 
-# POST: toggle courier status
+
+
 class ToggleCourierStatusAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
         try:
-            user_courier = UserCourier.objects.get(user=request.user)
-            courier = user_courier.courier_list.get(pk=pk)
-        except UserCourier.DoesNotExist:
-            return self.error(
-                message="User has no couriers assigned",
-                status_code=404,
-                meta={"action": "toggle-courier-status"}
-            )
-        except Courierlist.DoesNotExist:
-            return self.error(
-                message="Courier not found",
-                status_code=404,
-                meta={"action": "toggle-courier-status"}
-            )
-        courier.toggle_status()
+            courier = get_object_or_404(CourierList, id=pk)
+            user_courier = UserCourier.objects.get_or_create(user=request.user, courier=courier)[0]
+            if user_courier.is_active:
+                user_courier.is_active = False
+                user_courier.save()
+                return self.success(
+                    data=user_courier,
+                    message="Courier deactivated",
+                    meta={"action": "toggle-courier-status"}
+                )
+            else:
+                user_courier.is_active = True
+                user_courier.save()
+                return self.success(
+                    message="Courier activated",
+                    meta={"action": "toggle-courier-status"}
+                )
 
-        serializer = CourierCompanySerializer(courier)
-
-        return self.success(
-            data=serializer.data,
-            message=f"Courier '{courier.name}' status updated successfully",
-            meta={"action": "toggle-courier-status"}
-        )
-
+        except Exception as e:
+            return self.error(message=str(e), status_code=500, meta={"action": "toggle-courier-status"})
 
 
 
