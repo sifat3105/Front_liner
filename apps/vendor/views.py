@@ -52,6 +52,69 @@ class VendorListAPIView(APIView):
         )
     
 
+class VendorDetailUpdateAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, vendor_id):
+
+        vendor = Vendor.objects.filter(
+            id=vendor_id,
+            owner=request.user
+        ).first()
+
+        if not vendor:
+            return self.error(
+                message="Vendor not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = VendorSerializer(vendor)
+
+        return self.success(
+            message="Vendor details fetched successfully",
+            data=serializer.data,
+            status_code=status.HTTP_200_OK,
+            meta={"model": "Vendor"},
+        )
+
+    def patch(self, request, vendor_id):
+
+        vendor = Vendor.objects.filter(
+            id=vendor_id,
+            owner=request.user
+        ).first()
+
+        if not vendor:
+            return self.error(
+                message="Vendor not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = VendorSerializer(
+            vendor,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return self.success(
+                message="Vendor updated successfully",
+                data=serializer.data,
+                status_code=status.HTTP_200_OK,
+                meta={"model": "Vendor"},
+            )
+
+        return self.error(
+            message="Vendor update failed",
+            errors=serializer.errors,
+            status_code=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+
 class VendorPaymentHistoryAPIView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -79,7 +142,9 @@ class VendorPaymentHistoryAPIView(APIView):
             message="Vendor payment history fetched successfully",
             data=serializer.data,
             status_code=status.HTTP_200_OK,
-            meta={"total": invoices.count()}
+            meta={
+                "total": invoices.count()
+            }
         )
 
 
@@ -112,5 +177,7 @@ class VendorDueListAPIView(APIView):
             message="Vendor due list fetched successfully",
             data=serializer.data,
             status_code=status.HTTP_200_OK,
-            meta={"total_due": invoices.count()}
+            meta={
+                "total_due": invoices.count()
+            }
         )
