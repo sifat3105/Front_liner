@@ -58,7 +58,10 @@ class VendorDetailUpdateAPIView(APIView):
 
     def get(self, request, vendor_id):
 
-        vendor = Vendor.objects.filter(id=vendor_id,owner=request.user).first()
+        vendor = Vendor.objects.filter(
+            id=vendor_id,
+            owner=request.user
+        ).first()
 
         if not vendor:
             return self.error(
