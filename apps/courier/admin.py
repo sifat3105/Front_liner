@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Courierlist, UserCourier
+from .models import CourierList, UserCourier
 
-# Register your models here.
-
-admin.site.register(Courierlist)
+admin.site.register(CourierList)
 admin.site.register(UserCourier)

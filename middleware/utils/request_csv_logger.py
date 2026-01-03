@@ -21,6 +21,8 @@ def csv_worker():
                 "method",
                 "path",
                 "status",
+                "message",
+                "user_email"
             ])
 
         while True:
@@ -33,7 +35,7 @@ def csv_worker():
 threading.Thread(target=csv_worker, daemon=True).start()
 
 
-def log_to_csv(request_id, ip, method, path, status):
+def log_to_csv(request_id, ip, method, path, status, message=None, user_email=None):
     log_queue.put([
         datetime.utcnow().isoformat(),
         request_id,
@@ -41,4 +43,6 @@ def log_to_csv(request_id, ip, method, path, status):
         method,
         path,
         status,
+        message,
+        user_email
     ])

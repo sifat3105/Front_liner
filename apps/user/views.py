@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer, UserLoginSerializer, AccountSerializer, ChildUserSerializer
 from utils.base_view import BaseAPIView as APIView
 from utils.permission import IsAdmin, RolePermission, IsOwnerOrParentHierarchy
+from middleware.cryptography import encrypt_token
 from . models import Account
 User = get_user_model()
 
@@ -37,7 +38,7 @@ class UserRegistrationView(APIView):
             )
             response.set_cookie(
                 key="xJq93kL1",
-                value=str(refresh.access_token),
+                value=encrypt_token(str(refresh.access_token)),
                 httponly=True,
                 secure=True if request.is_secure() else False,
                 samesite="None",
@@ -46,7 +47,7 @@ class UserRegistrationView(APIView):
 
             response.set_cookie(
                 key="rT7u1Vb8",
-                value=str(refresh),
+                value=encrypt_token(str(refresh)),
                 httponly=True,
                 secure=True if request.is_secure() else False,   
                 samesite="None",
@@ -114,20 +115,18 @@ class UserLoginView(APIView):
 
         response.set_cookie(
             key="xJq93kL1",
-            value=access_token,
+            value=encrypt_token(access_token),
             httponly=True,
             secure=True,
             samesite="None",
-            max_age=300 * 60 * 24 * 5000
         )
 
         response.set_cookie(
             key="rT7u1Vb8",
-            value=refresh_token,
+            value=encrypt_token(refresh_token),
             httponly=True,
             secure=True,
             samesite="None",
-            max_age=60 * 60 * 24 * 5000
         )
 
         return response

@@ -32,14 +32,14 @@ from .views import (
     PathaoStoreListAPIView,
 
     # Courier List
-    UserCourierListAPIView,
+    CourierListAPIView,
     ToggleCourierStatusAPIView,
 )
 
 
 urlpatterns = [
      # Courier List
-     path('couriers-list/', UserCourierListAPIView.as_view(), name='user-couriers'),
+     path('couriers-list/', CourierListAPIView.as_view(), name='user-couriers'),
      path('user-couriers/<int:pk>/', ToggleCourierStatusAPIView.as_view(), name='toggle-courier-status'),
 
     # Merchant Registration API

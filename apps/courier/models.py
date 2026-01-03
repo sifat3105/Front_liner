@@ -1,30 +1,46 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 User=get_user_model()
-# Create your models here.
 
-
-# courier list model
-class Courierlist(models.Model):
+class CourierList(models.Model):
     name = models.CharField(max_length=255, unique=True)
     logo = models.ImageField(upload_to='courier_logos/', blank=True, null=True)
-    is_active = models.BooleanField(default=True)  # active/inactive status
+    is_active = models.BooleanField(default=True)  
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def toggle_status(self):
-        self.is_active = not self.is_active
-        self.save()
 
     def __str__(self):
         return self.name
 
 class UserCourier(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    courier_list = models.ManyToManyField(Courierlist, blank=True)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    courier = models.ForeignKey(
+    CourierList,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+    )
+    is_active = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+
+        if self.is_active:
+            UserCourier.objects.filter(
+                user=self.user,
+                is_active=True
+            ).exclude(pk=self.pk).update(is_active=False)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{getattr(self.user, 'username', str(self.user))}'s Courier Companies"
+        return f"{self.user} → {self.courier} ({'Active' if self.is_active else 'Inactive'})"
 
 
 

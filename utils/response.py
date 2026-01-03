@@ -12,9 +12,15 @@ class ApiResponse:
         return Response(payload, status=status_code)
     
     @staticmethod
-    def success(message="Success", data=None, status_code=status.HTTP_200_OK, meta=None):
-        return Response({
-            "status": "success",    
+    def success(
+        message="Success",
+        data=None,
+        status_code=status.HTTP_200_OK,
+        meta=None,
+        cookies=None, 
+    ):
+        response = Response({
+            "status": "success",
             "status_code": status_code,
             "message": message,
             "timestamp": datetime.utcnow().isoformat() + "Z",
@@ -22,6 +28,12 @@ class ApiResponse:
             "data": data or {},
             "meta": meta or {}
         }, status=status_code)
+
+        if cookies:
+            from .cookies import set_cookies
+            set_cookies(response, cookies)
+
+        return response
 
     @staticmethod
     def error(message="Error", errors=None, status_code=status.HTTP_400_BAD_REQUEST, meta=None):

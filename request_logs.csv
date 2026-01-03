@@ -1,4 +1,4 @@
-timestamp,request_id,request_ip,method,path,status
+timestamp,request_id,request_ip,method,path,status,message,user_email
 2025-12-29T06:02:52.072315,9451b570-5543-448a-8848-aeba68dc5fe7,127.0.0.1,POST,/api/auth/login/,403
 2025-12-29T06:02:56.946279,a75298ce-aa4b-4d98-86ed-d831dc66758f,127.0.0.1,GET,/autodiscover/autodiscover.json,404
 2025-12-29T06:05:25.026572,5e5b4d58-9890-45bc-a738-9a52d481fcce,127.0.0.1,POST,/api/auth/login/,403
@@ -1674,3 +1674,152 @@ timestamp,request_id,request_ip,method,path,status
 2026-01-01T07:21:39.402354,1836c8f5-a953-442a-acce-eff51455b471,127.0.0.1,POST,/admin/vendor/vendor/4/change/,302
 2026-01-01T07:21:39.435031,90abdbcc-ae43-4fb5-9ce6-f7246f360b86,127.0.0.1,GET,/admin/vendor/vendor/,200
 2026-01-01T07:21:39.467521,9a0284ac-27a5-4311-ac74-bd13a9a9fd0a,127.0.0.1,GET,/admin/jsi18n/,200
+2026-01-01T07:55:08.346998,4ce6f661-cb1e-4429-ac0e-91fc68236c80,103.98.107.22,POST,/api/vendors/register/,500
+2026-01-01T07:56:16.594907,9764dcf5-47ea-412f-996b-681f099cdf94,103.98.107.22,POST,/api/auth/login/,200
+2026-01-01T08:03:45.889781,d3fef6f4-451d-402b-b0b1-516fe5c0ed61,103.98.107.22,POST,/api/vendors/register/,500
+2026-01-01T08:03:49.443647,73819d62-1eeb-43a7-a434-304f46251bd9,103.98.107.22,POST,/api/vendors/register/,500
+2026-01-01T08:06:33.576026,ab1445a2-41d6-4833-8be2-70b3413402ec,103.98.107.22,POST,/api/vendors/register/,500,Internal server error
+2026-01-01T08:12:38.417608,f60309df-5524-409a-8c07-f5edabd46cde,103.98.107.22,POST,/api/vendors/register/,500,Internal server error,test@mail.com
+2026-01-01T08:36:59.520287,de0c9201-06f7-4b75-876a-e41490e6bb78,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-01T08:40:00.495337,64875892-d02c-4a8a-938c-d32159cf6600,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-01T08:40:05.833461,d624f9bb-c5a5-4947-bfbd-95b219d40877,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-01T14:41:55.654256,c7526a67-1307-455c-8969-e925a8dd5149,172.31.40.247,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-01T14:42:01.481969,50ac961b-916a-43e4-bc09-b90a1376fe10,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-01T14:42:06.789093,cff7f57e-7282-4d3f-bdc9-264794f4128f,172.31.40.247,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-01T14:42:12.938848,c12f18e3-9b03-4f4c-b4e2-3bfaa866ad60,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-01T14:42:18.157034,ee07e477-0d3e-4e8d-a43c-a535ac88685b,172.31.40.247,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-01T14:42:25.805307,d817547d-e574-442b-8eb7-2013a748a403,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-01T14:54:34.228666,5cfb5107-af3a-4127-a94e-8b268263ccba,172.31.40.247,GET,/api/couriers-list/,403,Invalid or expired token,
+2026-01-01T14:54:40.331374,4f5837be-5ead-4cbe-9eed-67809c4a66fd,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-01T14:54:57.623477,d8eaddba-3ccf-4e00-ad40-952491ccaa8f,172.31.40.247,GET,/api/invoices/,403,Invalid or expired token,
+2026-01-01T14:55:05.457763,4445ee61-bcf8-40aa-902f-a27d4b07c5f7,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:16:54.665670,4df98caa-7510-4650-8e8e-9165d1494069,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:18:54.504123,9095cccb-05ce-4ad0-8a2c-5c92b814117f,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:19:01.256626,cad5cdd5-8ffc-42a6-b74b-a5c8a114bdee,172.31.40.247,GET,/api/couriers-list/,403,Invalid or expired token,
+2026-01-03T05:19:08.386473,7f649bb5-93fd-465b-8d7f-8d8ef45d5be7,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:19:22.319344,5623b046-32a9-4d97-9fa8-95a3ff8ae04d,172.31.40.247,GET,/api/couriers-list/,403,Invalid or expired token,
+2026-01-03T05:19:40.410741,ec63809a-edef-4480-87ea-e1c620526af9,172.31.40.247,POST,/api/user-couriers/1/,403,Invalid or expired token,
+2026-01-03T05:21:31.814524,370bb3bf-9b3c-4cc5-98ae-89f3995728e0,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:21:39.957179,5a6b876b-5ef1-4185-b915-ff2a3fd7aab6,103.98.107.22,GET,/api/couriers-list/,403,Invalid or expired token,
+2026-01-03T05:21:57.434622,7b02465c-fe41-449c-9a2b-aa4da1b00ada,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:22:42.568717,0bcd7426-3776-40ef-87bb-af47ab9f0b8a,103.98.107.22,GET,/api/couriers-list/,403,Invalid or expired token,
+2026-01-03T05:23:25.636251,002b992b-84ce-476f-b50c-286047a9833b,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:24:22.310520,3a93b813-a936-40ac-8c88-9efbd1a0a9c9,103.98.107.22,GET,/api/couriers-list/,403,Invalid or expired token,
+2026-01-03T05:25:50.545717,869966ae-5e51-48cf-8a33-2502c0fc9da2,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+    2026-01-03T05:37:32.400991,e18cb420-9fba-44bd-9c9d-633b915b7773,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:38:09.308579,b6cfa5e3-0009-4449-b013-64da8a7a7b9d,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:38:54.796329,9f779958-2a87-4cce-9786-244d915a4d16,103.98.107.22,GET,/api/publish/post/,403,Invalid or expired token,
+2026-01-03T05:39:26.549591,33248b21-5bfb-43e1-a4e3-1e076e599683,103.98.107.22,GET,/api/publish/post/,403,Invalid or expired token,
+2026-01-03T05:44:17.994833,1329d3f8-717d-4563-ab4b-902a5824c7b7,103.98.107.22,GET,/api/publish/post/,403,Invalid or expired token,
+2026-01-03T05:44:29.917111,228890ad-73cd-4a49-a5b0-bca9602525eb,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-03T05:44:42.575229,07734f88-86be-4aea-8df3-8380d259a50f,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-03T05:55:49.776487,c8af98a5-e11a-4c8d-b734-7c7591b03b3e,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:56:18.721205,e2c058bd-0178-47cb-9d33-c4f399cc11a9,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T05:57:58.773245,c10e0f5f-9670-4c55-9772-6ae2b225160b,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-03T06:23:34.106864,f3938b15-f6c8-40e8-b2ae-eab01ee53eef,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-03T06:24:06.063886,d127b178-cd70-4a87-a913-00b7dfa2807e,172.31.40.247,GET,/api/sells/,500,Internal server error,test@mail.com
+2026-01-03T06:25:06.341044,6b5c9078-bd76-4b22-8846-a362761f1eca,172.31.40.247,GET,/api/sells/,500,Internal server error,usernamea@gmail.com
+2026-01-03T06:25:17.931615,1665ea32-d4a9-4cdb-aec8-8f86cacd9dc4,172.31.40.247,GET,/api/refund/,500,Internal server error,test@mail.com
+2026-01-03T06:25:59.157875,2261fecb-f724-4abd-b840-e2f537ec899d,172.31.40.247,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-03T06:27:04.651327,da5ccabd-ef5b-476a-bc46-b36b70687294,172.31.40.247,GET,/api/sells/,500,Internal server error,test@mail.com
+2026-01-03T06:27:06.414207,3d4fd31d-b620-4bc8-83a5-9dedd940616f,172.31.40.247,GET,/api/refund/,500,Internal server error,test@mail.com
+2026-01-03T06:32:09.535465,acc395a2-ec9c-4c29-af91-a698ba03484e,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:32:12.773415,7672d8e1-7512-4894-95de-b46e30ff643b,172.31.40.247,PATCH,/api/user-couriers/2/,200,Courier 'test 2' status updated successfully,test@mail.com
+2026-01-03T06:32:12.790019,8f0fdbb3-f764-4a4f-a73c-d9c94d65ff84,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:48:35.883049,8624e566-5096-41d2-b965-42dcfc15928e,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:02.787877,3003aabb-fe6a-4b4b-8554-2d246a67375f,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:02.801501,eee8ef05-cb30-4df8-9b67-db1b1e9f7da5,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:03.798868,9e39c1f6-3f30-4664-89f4-d30345222f10,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:03.813844,38b81814-80a5-4829-97b0-5467a125182e,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:04.506343,bbc4b7a2-4fd7-4f88-be6a-35679209932a,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:04.521325,5b75a56f-17fe-4b2a-9f35-b24095a8876b,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:05.168159,5aa85ad0-ef59-48c8-b0c0-0216f09edba2,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:05.181026,64b443d0-cdc3-40d6-a5c0-6f22d9dcc2e3,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:05.804761,67a3a951-adc6-4d1e-b6d1-19326e443083,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:05.818914,47e4cc90-af9f-45a5-b628-ac0b90a369af,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:06.404202,d494aee4-a969-4461-890e-976e892327c0,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:06.418040,dea2d702-1f84-4fba-92dd-25bc842f7656,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:11.745774,86fd0316-2929-41f1-a78d-c5ee386e01a3,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:11.759355,8e971afa-5743-4da8-b220-1b0900312820,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:17.018230,59c5841e-189e-4256-a89b-da5346ceaad9,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:17.032542,28649503-f5a2-4534-8083-bf4dfae920d5,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T06:49:17.728754,aa45ea5e-7174-49c4-9704-a58718f4b7ea,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier 'test 1' status updated successfully,test@mail.com
+2026-01-03T06:49:17.741856,fe8b4466-3cdc-474e-8269-a307b1c82ba7,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T07:06:38.106524,e118529d-a8ef-49a3-81d9-4475a9d4f3dc,172.31.40.247,GET,/api/list/vendors/,500,Internal server error,usernamea@gmail.com
+2026-01-03T07:11:29.564601,46f1c72e-a995-4246-82b9-b2e5d0c44edc,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:22:56.720087,527143db-f4ff-4838-b194-12a058e7291d,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T07:23:01.346534,3a4ab329-0fb0-4db8-9c2c-33333fb8d0d5,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:23:03.490470,d811f5c8-bfef-40ee-ab21-5c4550a46ddf,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:23:23.530622,489d86fc-bdc1-4cb4-8b93-8dfdac047ed9,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:26:04.431233,f8f9a380-418b-4ed3-b3f1-05618f5d9c23,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:28:58.338967,af7b5183-6902-4af2-b85a-7c5d0c651c5e,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:30:01.991798,64d74f63-5b46-4b7d-8c4f-d6935b5ef997,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:31:17.118504,ec202451-b180-42c2-88ef-aa79a4120ef4,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:31:18.504639,f7ce9c6e-0312-40d0-80e6-e6414bfcbd0a,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:34:01.104302,d0844f50-4ae1-4574-8a82-4dfad99fa46d,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:38:38.385690,9fa77b85-39d2-4d87-b074-c347e710e34f,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:43:34.196913,4d1efd8c-3153-4df3-8fba-9ec50898ad26,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T07:44:43.731570,d01993d9-f5f4-438a-977a-ad53d1f1f866,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamea@gmail.com
+2026-01-03T08:00:58.451803,b861b2a5-c254-44b5-85c4-ad22768c7cf2,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T08:03:30.906178,959593f2-b503-42cd-ad42-981cf7085f80,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T08:03:32.372571,7d596631-f45d-4971-b57d-24c2523a9f0d,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T08:05:25.617727,f921ab8c-cc54-4e7a-b19f-46ebf6148408,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T08:05:28.015749,91d9a78c-e3f3-4a17-b16c-8e05cd2fddc1,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,test@mail.com
+2026-01-03T08:25:31.591509,3b0f3787-f9a2-49a3-86d2-aacc370a0d16,103.98.107.22,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-03T08:25:38.533206,05111dbe-ccb4-4df6-9c0b-fae341230c30,103.98.107.22,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T08:26:34.898714,11cc93e0-13b6-49aa-a8aa-46ec13d744ff,103.98.107.22,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T08:30:14.593390,2b2f5a5f-1deb-4b32-b099-39ceff4d4546,103.98.107.22,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T08:32:09.732975,cae908a1-7a14-4a4a-bf5c-5032140d29b7,103.98.107.22,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T08:32:11.346632,8d52f373-5956-490f-99b4-72ff0f3abeb1,103.98.107.22,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T08:32:12.276714,68ec036a-6b8e-4469-9e02-dee4429b5bcb,103.98.107.22,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T08:34:24.170165,4ff477c6-9f70-4dd1-8f99-00d65cca3023,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T08:34:30.062059,862aecea-4fe0-4784-b3ed-c2d872729616,103.98.107.22,GET,/api/couriers-list/,200,No couriers assigned to this user,test@mail.com
+2026-01-03T08:42:07.121895,b509487b-2bc0-4f27-8c04-ce4ca3e76ce8,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T08:55:58.014552,7acddfe6-0af6-42f0-81a1-fe99e81e215e,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier activated,test@mail.com
+2026-01-03T08:56:09.228789,e30bd9d3-e657-4739-9f5d-79908115ff9c,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T08:56:21.736624,0b2da213-1ff7-4cea-9e5b-5ca5f9c36236,103.98.107.22,PATCH,/api/user-couriers/2/,200,Courier activated,test@mail.com
+2026-01-03T08:56:24.927436,c651b6d7-54a0-48f8-b332-dafdcc7144bf,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:02:31.768092,dd8cb4be-0657-4a95-ae0b-70b68d8cd88f,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-03T09:02:38.817301,49f726e7-208a-49cf-af37-6b65b2dac77f,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T09:02:43.579188,8a8c8b3d-923b-44e9-884c-f4d3fcb6c835,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-03T09:02:50.479153,61b94744-2b68-4936-b918-23ff120949ed,103.98.107.22,GET,/api/publish/platforms/,200,Platform list fetched successfully,test@mail.com
+2026-01-03T09:08:07.657146,fd75a5e6-5122-4216-b57e-c3fd3333cc48,103.98.107.22,GET,/api/couriers-list/,500,Internal server error,
+2026-01-03T09:08:17.316594,a694495c-e183-4d7f-ae30-a853ed6ef767,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T09:08:24.042684,22e997d2-f7fc-4a5e-97f1-585c8f6e6c00,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:27.832753,75b16132-a2a1-4f32-a464-5d99fcd4ab59,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:31.363000,16c3e243-93ef-4eb1-83a0-695e3fbf5581,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:32.853691,68e7b969-c4ab-4bab-b355-548cd94ae41e,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier activated,test@mail.com
+2026-01-03T09:08:32.878387,19aba8a3-7445-4e60-86fa-a77344a6afc2,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:38.001675,f48e0d08-962f-4416-bc44-c73084946a32,103.98.107.22,PATCH,/api/user-couriers/2/,200,Courier activated,test@mail.com
+2026-01-03T09:08:38.027834,181f7210-bb74-48ad-a767-02b2361e277e,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:39.544470,a8a6dbb7-9472-42cb-90be-1bc368095f32,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier activated,test@mail.com
+2026-01-03T09:08:39.569357,fc9e936f-c5f3-4518-90e3-c201f913de09,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:41.261290,65064f37-d2e2-4590-b2b7-0273b97c26b4,103.98.107.22,PATCH,/api/user-couriers/2/,200,Courier activated,test@mail.com
+2026-01-03T09:08:41.285501,5ed166eb-2387-458f-8609-f519fd882532,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:42.454024,5e5f997c-32a2-4ec3-ac0d-629063fdc5a7,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier activated,test@mail.com
+2026-01-03T09:08:42.480460,22855138-4ca9-4a78-bdda-283dc03a2292,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:43.313114,dc60c91a-92dc-426c-a171-ce54f33555d3,103.98.107.22,PATCH,/api/user-couriers/2/,200,Courier activated,test@mail.com
+2026-01-03T09:08:43.338022,38c7468a-6c3b-4ce5-8159-6fb012843368,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:43.951181,45adc9f2-a7f0-44c3-ba06-be6ab99a0199,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier activated,test@mail.com
+2026-01-03T09:08:43.976125,620610d4-c379-4fcd-a288-50debd0469df,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:45.023673,d06dde10-9f59-4281-a0f1-7e5ef42d7216,103.98.107.22,PATCH,/api/user-couriers/2/,200,Courier activated,test@mail.com
+2026-01-03T09:08:45.047775,919f8624-4b8b-4638-b91c-5fa0b6426656,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:45.853920,d8ef2a5c-7bd4-4f2d-ac00-8e42c67f4f8d,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier activated,test@mail.com
+2026-01-03T09:08:45.881447,bd2eece6-b244-481e-af10-b7cfab429f89,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:46.741332,4493593a-5f2e-4875-b739-4c143f95aba2,103.98.107.22,PATCH,/api/user-couriers/2/,200,Courier activated,test@mail.com
+2026-01-03T09:08:46.765126,5fef78e1-d9b7-46d3-8f66-55d3bcf0d753,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:08:48.127242,bdfd5a7a-0375-4762-9bbd-65b06e151162,103.98.107.22,PATCH,/api/user-couriers/1/,200,Courier activated,test@mail.com
+2026-01-03T09:08:48.151310,ba377c49-f219-44dc-b12d-56ef0a09be9f,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:21:14.990945,42f2a5b6-8fd9-4cfb-bbf2-4d891b6efed6,172.31.40.247,POST,/api/vendors/register/,500,Internal server error,
+2026-01-03T09:21:42.535248,5c75b044-4566-465a-bf6b-d115eb081b6a,103.98.107.22,POST,/api/vendors/register/,201,Vendor registered successfully,test@mail.com
+2026-01-03T09:22:06.738626,daca3856-a481-4aed-9cce-a6409060f73e,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-03T09:22:25.550282,b157b777-f91f-432c-b9aa-6aa180b41234,172.31.40.247,POST,/api/vendors/register/,400,Vendor registration failed,test@mail.com
+2026-01-03T09:25:45.288414,ff4cedcb-326a-4ef1-b493-fd1ac5931837,172.31.40.247,POST,/api/vendors/register/,400,Vendor registration failed,test@mail.com
+2026-01-03T09:26:10.870219,e4018289-6cb5-4109-aaea-8d01e25bee05,172.31.40.247,POST,/api/vendors/register/,400,Vendor registration failed,test@mail.com
+2026-01-03T09:26:31.923404,798b3d1d-4244-42ad-9a61-ac536af654ca,172.31.40.247,POST,/api/vendors/register/,400,Vendor registration failed,test@mail.com
+2026-01-03T09:26:43.542019,ab7411d6-22d9-4f34-8094-058cea922977,172.31.40.247,POST,/api/vendors/register/,400,Vendor registration failed,test@mail.com
+2026-01-03T09:26:50.342330,2bc25167-3d5f-408e-b02c-31ed1647c82a,172.31.40.247,POST,/api/vendors/register/,201,Vendor registered successfully,test@mail.com
+2026-01-03T09:27:34.325379,a8d06e16-5c91-4618-a059-517665e4a5a0,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T09:32:18.038995,d8ed4e0b-e5f0-4fb3-8e66-98fb07c82bff,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T09:34:06.779700,61e17f40-5dde-4de9-b208-86991ed41ef2,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-03T09:37:53.885150,7592b2cf-2907-45d0-a597-efaf086a84bd,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com

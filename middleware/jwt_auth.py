@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny
 from django.urls import resolve
 from django.http import JsonResponse
 from datetime import datetime
+from .cryptography import decrypt_token, encrypt_token
 import uuid
 
 
@@ -42,8 +43,8 @@ class JWTAuthMiddleware:
                 response = self.get_response(request)
                 return response or self._unauthorized("Authentication required")
 
-        access_token = request.COOKIES.get("xJq93kL1")
-        refresh_token = request.COOKIES.get("rT7u1Vb8")
+        access_token = decrypt_token(request.COOKIES.get("xJq93kL1"))
+        refresh_token = decrypt_token(request.COOKIES.get("rT7u1Vb8"))
 
         try:
             if access_token:
@@ -68,11 +69,10 @@ class JWTAuthMiddleware:
         if access_token:
             response.set_cookie(
                 key="xJq93kL1",
-                value=access_token,
+                value=encrypt_token(access_token),
                 httponly=True,
                 secure=request.is_secure(),
-                samesite="Lax",
-                max_age=60*60*24
+                samesite="Lax"
             )
 
         return response
