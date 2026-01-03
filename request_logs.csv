@@ -1823,3 +1823,10 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-03T09:32:18.038995,d8ed4e0b-e5f0-4fb3-8e66-98fb07c82bff,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
 2026-01-03T09:34:06.779700,61e17f40-5dde-4de9-b208-86991ed41ef2,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
 2026-01-03T09:37:53.885150,7592b2cf-2907-45d0-a597-efaf086a84bd,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T10:19:47.683424,c83d7604-624f-4504-93de-2253f699bfd4,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:20:02.678359,90bc9b49-3fe3-47db-abbf-0c953f88e359,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:20:24.370259,1dcb89e0-f488-4bf2-9954-d42af34a732a,127.0.0.1,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T10:21:06.068977,cf7d576d-ca83-4266-8c9e-e2bf2f332c54,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:22:03.714813,aebb5320-c935-44a7-ac9f-194607ddc89f,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:22:19.685598,4111d182-6503-4235-abab-6b66792b5200,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:23:03.362966,3c422892-d679-4525-bdea-0d092fad32d3,127.0.0.1,POST,/api/auth/login/,500,Internal server error,

@@ -71,8 +71,7 @@ class UserLoginView(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
-        print("Login attempt:", email)
-        print("Login attempt:", password)
+
 
         if not email or not password:
             return self.error(
