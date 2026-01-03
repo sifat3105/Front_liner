@@ -1823,3 +1823,13 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-03T09:32:18.038995,d8ed4e0b-e5f0-4fb3-8e66-98fb07c82bff,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
 2026-01-03T09:34:06.779700,61e17f40-5dde-4de9-b208-86991ed41ef2,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
 2026-01-03T09:37:53.885150,7592b2cf-2907-45d0-a597-efaf086a84bd,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T09:41:49.010687,a1c6e470-a595-405c-acd4-474f09214e8d,172.31.40.247,GET,/api/invoices/,200,Invoices fetched successfully,test@mail.com
+2026-01-03T09:41:52.392205,1cde3bcb-3c4b-4798-b5bb-ca962e8f6a1b,172.31.40.247,GET,/api/invoices/,200,Invoices fetched successfully,test@mail.com
+2026-01-03T09:54:48.345173,673e310a-87df-49ef-af1a-d3751711705b,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T09:59:16.513066,2264b7ac-8d6b-451c-966c-d281823db866,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T10:02:01.605280,36583056-5104-4efd-a31a-64b47de84dc5,172.31.40.247,GET,/api/list/vendors/,500,Internal server error,
+2026-01-03T10:03:59.229157,84972856-a263-4a59-a0c0-f67ff3a80cf5,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T10:04:29.102759,41795984-7065-4237-a126-4bc8e613fdd1,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T10:06:32.933755,656e6942-4db7-45ea-ba9d-201b8d95edd2,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T10:20:14.582846,1922424f-9987-4bce-8635-f13b82d4485a,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-03T10:20:30.189450,67947638-1869-41f9-a98a-2b72c8c6eaa9,103.98.107.22,POST,/api/auth/login/,200,Login successful,
