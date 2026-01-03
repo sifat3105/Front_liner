@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Vendor
+from .models import Vendor,VendorInvoice
+from django.db.models import Sum
 
 
 class VendorSerializer(serializers.ModelSerializer):
@@ -41,3 +42,28 @@ class VendorSerializer(serializers.ModelSerializer):
                 "Years in business cannot be negative"
             )
         return value
+
+
+# Vendor Payment History
+class VendorPaymentHistorySerializer(serializers.ModelSerializer):
+
+    vendor_name = serializers.CharField(source='vendor.shop_name', read_only=True)
+    payment = serializers.DecimalField(max_digits=15, decimal_places=2, read_only=True)
+    due_payment = serializers.DecimalField(max_digits=15, decimal_places=2, read_only=True)
+    status = serializers.SerializerMethodField()
+
+    class Meta:
+        model = VendorInvoice
+        fields = [
+            'id',
+            'vendor_name',
+            'invoice_number',
+            'invoice_date',
+            'invoice_amount',
+            'payment',
+            'due_payment',
+            'status',
+        ]
+
+    def get_status(self, obj):
+        return "PAID" if obj.due_payment == 0 else "DUE"

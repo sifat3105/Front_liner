@@ -1823,3 +1823,49 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-03T09:32:18.038995,d8ed4e0b-e5f0-4fb3-8e66-98fb07c82bff,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
 2026-01-03T09:34:06.779700,61e17f40-5dde-4de9-b208-86991ed41ef2,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
 2026-01-03T09:37:53.885150,7592b2cf-2907-45d0-a597-efaf086a84bd,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T10:19:47.683424,c83d7604-624f-4504-93de-2253f699bfd4,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:20:02.678359,90bc9b49-3fe3-47db-abbf-0c953f88e359,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:20:24.370259,1dcb89e0-f488-4bf2-9954-d42af34a732a,127.0.0.1,POST,/api/auth/register/,500,Internal server error,
+2026-01-03T10:21:06.068977,cf7d576d-ca83-4266-8c9e-e2bf2f332c54,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:22:03.714813,aebb5320-c935-44a7-ac9f-194607ddc89f,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:22:19.685598,4111d182-6503-4235-abab-6b66792b5200,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:23:03.362966,3c422892-d679-4525-bdea-0d092fad32d3,127.0.0.1,POST,/api/auth/login/,500,Internal server error,
+2026-01-03T10:27:33.140266,4cea2244-b0aa-4a44-a05d-5a0223bc9de1,127.0.0.1,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-03T10:27:45.963795,009c2448-82bf-4d44-8e07-d3aae751e852,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-03T10:27:57.162354,fece3968-c6c1-49cb-9d2f-9e8c20acc5db,127.0.0.1,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-03T10:28:07.831103,14963551-0c1a-41a8-88a6-bc6aac3d47ab,127.0.0.1,PATCH,/api/update/vendors/,500,Internal server error,test@mail.com
+2026-01-03T10:28:17.676584,e954a9e9-2747-4baf-a492-938b7e9d1895,127.0.0.1,POST,/api/auth/register/,201,User created successfully,test@mail.com
+2026-01-03T10:28:30.937300,38823b27-f725-4e08-90dc-d67b8f33a744,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T10:28:40.297289,9a460786-d992-4a8a-8d11-40e74ed4a3b6,127.0.0.1,POST,/api/vendors/register/,201,Vendor registered successfully,usernamem@gmail.com
+2026-01-03T10:28:47.067227,7ff9d96a-7810-475c-bc87-bbb9e51599fd,127.0.0.1,POST,/api/vendors/register/,201,Vendor registered successfully,usernamem@gmail.com
+2026-01-03T10:28:49.409867,429ac996-3064-489b-a978-8d350b4926e9,127.0.0.1,POST,/api/vendors/register/,201,Vendor registered successfully,usernamem@gmail.com
+2026-01-03T10:28:55.742374,1f31100e-8237-45d1-a99c-179abe63ff00,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T10:29:08.441614,6cc7a061-a031-4ea4-86af-730719c74955,127.0.0.1,GET,/api/vendors/payments/history/,500,Internal server error,usernamem@gmail.com
+2026-01-03T10:54:01.437164,a35349b8-890e-49f1-93ef-5ce052e1568c,127.0.0.1,PATCH,/api/update/vendors/,500,Internal server error,usernamem@gmail.com
+2026-01-03T10:54:18.002778,7da5f8ea-5a22-48f7-a582-da971e028f8d,127.0.0.1,GET,/api/update/vendors/5/,404,Vendor not found,usernamem@gmail.com
+2026-01-03T10:54:24.879852,4bf4b0bd-e1f5-4bdf-8bc7-dd80049db76c,127.0.0.1,GET,/api/vendors/payments/due/,500,Internal server error,usernamem@gmail.com
+2026-01-03T10:54:31.137803,dc98d430-f73c-463e-ba49-2733cf46b26f,127.0.0.1,GET,/api/vendors/payments/history/,500,Internal server error,usernamem@gmail.com
+2026-01-03T10:54:45.997655,51cd71b0-1872-4877-a323-439b25d6e768,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T10:55:16.377529,b2855f39-9f77-461f-b881-f05098ebd7fa,127.0.0.1,POST,/api/vendors/register/,201,Vendor registered successfully,usernamem@gmail.com
+2026-01-03T10:55:29.736925,06fad259-a21b-4247-afb8-f450670f2c71,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T10:55:36.079086,2f6269a3-e952-4f8b-aa5b-ed9680437e2f,127.0.0.1,GET,/api/vendors/payments/history/,500,Internal server error,usernamem@gmail.com
+2026-01-03T11:00:51.183684,b9c63b19-b750-4077-8cc6-b9ca72694d47,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T11:01:02.714960,e2c219b5-7f10-47c7-8073-7e14136d6842,127.0.0.1,GET,/api/vendors/payments/history/,500,Internal server error,usernamem@gmail.com
+2026-01-03T11:11:46.556785,9e6e1226-0890-43b9-bc50-ff00ed362638,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-03T11:11:55.867396,7856d80d-e3b1-43d5-84df-7d35ffb0b2bd,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T11:12:13.165501,2c6c36ff-f1ef-4033-8d32-b8591db08bb2,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T11:12:18.669806,e9585e9b-8cd3-49fc-8e5b-d4aa73a5352f,127.0.0.1,PATCH,/api/update/vendors/,500,Internal server error,test@mail.com
+2026-01-03T11:12:31.000582,3b19e689-a049-4229-9971-8909ef2fe5e2,127.0.0.1,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-03T11:12:49.775694,75bbb99e-ebd0-470e-8dde-51f286af2731,127.0.0.1,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-03T11:12:59.785404,2e138638-1fc4-4e71-ae78-28f94aef5afd,127.0.0.1,GET,/api/update/vendors/1/,200,Vendor details fetched successfully,test@mail.com
+2026-01-03T11:13:26.147478,dfa0200b-3513-443f-adca-4d7647552ac1,127.0.0.1,GET,/api/update/vendors/1/,200,Vendor details fetched successfully,test@mail.com
+2026-01-03T11:13:30.169312,2eb1d00c-fd1a-4d6e-89c1-7e4c8d43cef4,127.0.0.1,PATCH,/api/update/vendors/,500,Internal server error,test@mail.com
+2026-01-03T11:13:43.288141,65f74ff0-57b7-4709-b235-a93a91128ae6,127.0.0.1,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
+2026-01-03T11:13:48.587520,c7eb0465-2c8e-4b7e-874a-54657aea4050,127.0.0.1,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
+2026-01-03T11:14:10.908055,83f373d4-0098-45cb-91c5-5b66a535bc65,127.0.0.1,PATCH,/api/update/vendors/,500,Internal server error,test@mail.com
+2026-01-03T11:22:20.133614,e517ba03-5a88-483a-bd50-a1e70913944a,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-03T11:22:23.473381,087b9740-adf2-41ec-a3ce-547766b7779c,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-03T11:22:38.946093,d54fb417-b571-415d-80d6-ec55595ac32f,127.0.0.1,PATCH,/api/update/vendors/5/,200,Vendor updated successfully,test@mail.com
+2026-01-03T11:22:47.903020,20930e0e-33be-4be7-bafb-fee2014a73af,127.0.0.1,GET,/api/update/vendors/1/,200,Vendor details fetched successfully,test@mail.com
+2026-01-03T11:22:53.727114,03f4ef95-7184-4d23-ba34-8ce152905a5b,127.0.0.1,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
+2026-01-03T11:22:59.063556,878a9936-58af-4256-8510-db20db8b1a55,127.0.0.1,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
