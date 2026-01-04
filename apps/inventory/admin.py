@@ -4,14 +4,14 @@ from .models import Order, Size, Color,ProductPurchase, ProductPurchaseItem
 
 @admin.register(Size)
 class SizeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    search_fields = ('name',)
+    list_display = ('id', 'size')
+    search_fields = ('size',)
 
 
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'code')
-    search_fields = ('name',)
+    list_display = ('id', 'colors')
+    search_fields = ('colors',)
 
 
 @admin.register(Order)
