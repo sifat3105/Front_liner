@@ -2008,3 +2008,34 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-04T04:51:05.032115,3f50073a-6769-4994-9911-99188ba30e70,172.31.40.247,POST,/api/auth/login/,200,Login successful,
 2026-01-04T05:15:31.971398,ea1cf3ae-eada-4700-9bfa-c938f0ed87bb,172.31.40.247,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
 2026-01-04T05:16:44.530488,d79d11c5-f63e-4171-9818-5198056ef3e7,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T07:04:27.817353,3040cf65-6054-49d4-b5e3-ab18edcfa5ee,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-04T08:04:18.380195,5368a665-3af6-4600-8b50-2b520bfa6bf0,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-04T08:04:26.576612,e40d0d29-e37c-4243-911c-d9a2f04523c9,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:04:30.911997,724214d6-2167-4282-b901-4a21c0253242,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:42:17.711661,537aaf5f-75bd-4377-8ae3-e1056bf46be6,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:45:13.025526,f87a524c-32bf-40ea-9a51-6415eb56b56a,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:45:22.918038,7eaee430-00dd-4a3d-9b03-8bfc712dfdb9,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:51:04.982128,1926b4ab-d953-4be8-940b-d490918afef5,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T09:22:22.132809,9f532f03-7152-44cc-9495-e8df39d8582e,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-04T09:22:34.503497,4f3aeab5-9beb-43cc-b223-29f57d6fbe05,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T09:52:27.518855,fffff964-c556-43b5-8a72-d4d132affebf,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-04T10:09:05.987131,d6ac6c2c-1150-44a0-a8f7-fa9ca156a8bc,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:40:47.663021,67857564-fc1b-4c4c-88bc-4d2c419e2a32,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:47:53.045574,54b1e095-6019-49b6-acbd-01b261934351,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:53:50.005345,5700981e-a3cb-4569-be8a-bb1bfcc24a00,172.31.40.247,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-04T10:53:51.633702,9fb87923-0fc0-4bdb-9864-2fbff1ae9ed4,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:53:53.989666,f1480689-c687-48f5-be61-bb5fcd8ca5b2,172.31.40.247,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
+2026-01-04T10:54:55.051747,d6da162f-5a2c-4f74-8871-e641c92bb693,172.31.40.247,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
+2026-01-04T10:55:03.598672,c4672353-b8c3-4e55-8f63-724ea60bf7d8,172.31.40.247,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-04T10:55:05.382755,6f4141ac-ede0-419f-b41b-fe0e52336c77,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:01:50.348806,39be9102-0f6d-4b7a-9af6-830c85ba0ab5,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:02:18.547123,fe4df23f-8c88-4947-b026-48bbac8454f8,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:14:18.828397,451816c2-6f8e-45c0-a8cb-266f4f387003,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:16:18.368452,571abad8-6e00-4433-bf46-a9a77f66cc63,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:16:57.715450,6a9636fc-1347-44ff-a3e5-bb9895a02e0e,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:18:42.821904,40d83de8-3366-4260-aa13-8544b75dae28,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:06:42.980439,a304bf78-9e43-4c61-91c7-93e19884ee0a,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:15:09.655588,10fa672f-77b8-447b-ac3f-57789313d513,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:38:21.983983,8e955196-a410-4e02-9f1d-d54be7f64b02,172.31.40.247,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-04T12:38:27.749201,b241ac9a-96e7-4f32-a893-9298d0784cf7,172.31.40.247,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-04T12:39:10.863479,d2f2d9ee-82c0-449b-9471-6104ef2f524e,172.31.40.247,POST,/api/auth/login/,400,Invalid credentials,
