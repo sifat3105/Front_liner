@@ -63,6 +63,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return self.is_superuser
+    
+    @property
+    def username(self):
+        return self.email
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")

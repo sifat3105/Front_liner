@@ -43,6 +43,27 @@ class UserCourier(models.Model):
         return f"{self.user} → {self.courier} ({'Active' if self.is_active else 'Inactive'})"
 
 
+class OrderCourierMap(models.Model):
+    order = models.OneToOneField(
+        'orders.Order',
+        on_delete=models.CASCADE,
+        related_name='courier_map'
+    )
+
+    courier = models.ForeignKey(
+        CourierList,
+        on_delete=models.CASCADE
+    )  
+
+    courier_order_ref = models.CharField(
+        max_length=100,
+        help_text="Paperfly: merOrderRef | Steadfast: invoice/consignment_id | Pathao: merchant_order_id"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Order {self.order.id} → {self.courier.name}"
 
 
 # Merchant Registration Model PAPERFLY

@@ -1,69 +1,18 @@
 from django.contrib import admin
-from unfold.admin import ModelAdmin
-from unfold.decorators import display
-from django.utils.html import format_html
+from unfold.admin import ModelAdmin as UnfoldModelAdmin
 from .models import AgentPricePerMonth, MinimumTopup, CallCostPerMinute
 
-# --- Agent Price Per Month ---
 @admin.register(AgentPricePerMonth)
-class AgentPricePerMonthAdmin(ModelAdmin):
-    # Use actual model field for inline editing
-    list_display = ["price"]
-    list_editable = ["price"]
-    list_display_links = None  # remove links to enable inline editing
+class AgentPricePerMonthAdmin(UnfoldModelAdmin):
+    list_display = ("id", "price")
+    ordering = ("-id",)
 
-    fieldsets = (
-        ("Agent Pricing Settings", {
-            "fields": ("price",),
-            "classes": ("collapse open",),
-        }),
-    )
-
-    def has_add_permission(self, request, obj=None):
-        # Allow adding only if no instance exists
-        return not AgentPricePerMonth.objects.exists()
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-
-# --- Minimum Topup ---
 @admin.register(MinimumTopup)
-class MinimumTopupAdmin(ModelAdmin):
-    list_display = ["amount"]
-    list_editable = ["amount"]
-    list_display_links = None
+class MinimumTopupAdmin(UnfoldModelAdmin):
+    list_display = ("id", "amount")
+    ordering = ("-id",)
 
-    fieldsets = (
-        ("Top-up Settings", {
-            "fields": ("amount",),
-            "classes": ("collapse open",),
-        }),
-    )
-
-    def has_add_permission(self, request, obj=None):
-        return not MinimumTopup.objects.exists()
-
-    def has_change_permission(self, request, obj=None):
-        return True
-
-
-# --- Call Cost Per Minute ---
 @admin.register(CallCostPerMinute)
-class CallCostPerMinuteAdmin(ModelAdmin):
-    list_display = ["price"]
-    list_editable = ["price"]
-    list_display_links = None
-
-    fieldsets = (
-        ("Call Cost Settings", {
-            "fields": ("price",),
-            "classes": ("collapse open",),
-        }),
-    )
-
-    def has_add_permission(self, request, obj=None):
-        return not CallCostPerMinute.objects.exists()
-
-    def has_change_permission(self, request, obj=None):
-        return True
+class CallCostPerMinuteAdmin(UnfoldModelAdmin):
+    list_display = ("id", "price")
+    ordering = ("-id",)

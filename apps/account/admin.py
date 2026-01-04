@@ -1,262 +1,159 @@
 from django.contrib import admin
-from django.db.models import Sum
-from django.utils.timezone import now
+from unfold.admin import ModelAdmin as UnfoldModelAdmin
+
 from .models import (
-    Income,
-    Payments,
-    Refund,
-    DebitCredit,
-    ProfitLossReport,
-    Receiver,Product,
-    Invoice, Payment,Sells
+    Income, Payments, Sells, Refund,
+    DebitCredit, ProfitLossReport,
+    Receiver, Product, Invoice, Payment
 )
 
-
-# Income section admin
+# =========================
+# Income
+# =========================
 @admin.register(Income)
-class IncomeAdmin(admin.ModelAdmin):
+class IncomeAdmin(UnfoldModelAdmin):
     list_display = (
-        'id',
-        'date',
-        'customer',
-        'amount',
-        'payment_method',
-        'owner',
-        'created_at',
+        "id", "owner", "customer",
+        "amount", "payment_method",
+        "date"
     )
-    list_filter = ('payment_method', 'date')
-    search_fields = ('customer',)
-    ordering = ('-date',)
-    readonly_fields = ('created_at',)
-
-    def save_model(self, request, obj, form, change):
-        if not obj.owner:
-            obj.owner = request.user
-        super().save_model(request, obj, form, change) or 0
+    list_filter = ("payment_method", "date")
+    search_fields = ("customer", "owner__username")
+    ordering = ("-date",)
+    readonly_fields = ("created_at",)
 
 
+# =========================
+# Payments (Customer)
+# =========================
 @admin.register(Payments)
-class PaymentAdmin(admin.ModelAdmin):
+class PaymentsAdmin(UnfoldModelAdmin):
     list_display = (
-        'id',
-        'owner',
-        'customer',
-        'amount',
-        'payment_method',
-        'status',
-        'date',
-        'created_at',
+        "id", "owner", "customer",
+        "amount", "payment_method",
+        "status", "date"
     )
-    list_filter = ('status', 'payment_method', 'date', 'owner')
-    search_fields = ('customer', 'owner__username')
-    ordering = ('-date',)
+    list_filter = ("status", "payment_method", "date")
+    search_fields = ("customer", "owner__username")
+    ordering = ("-date",)
+    readonly_fields = ("created_at", "updated_at")
 
 
-# Sells section admin
+# =========================
+# Sells
+# =========================
 @admin.register(Sells)
-class CustomerSellsAdmin(admin.ModelAdmin):
-
-    # Admin list page
+class SellsAdmin(UnfoldModelAdmin):
     list_display = (
-        'id',
-        'owner',
-        'order_id',
-        'customer',
-        'location',
-        'contact',
-        'order_amount',
-        'platform',
-        'sells_status',
+        "id", "order_id", "owner",
+        "customer", "order_amount",
+        "platform", "sells_status"
     )
-
-    # Right side filter
-    list_filter = (
-        'sells_status',
-        'platform',
-        'owner',
-    )
-
-    #  search box 
-    search_fields = (
-        'location',
-        'contact',
-        'owner__username',
-    )
-
-    # Latest data 
-    ordering = ('-id',)
-
-    # Admin panel edit options
-    readonly_fields = ('id',)
-
-    # New refund order create & owner auto assign
-    def save_model(self, request, obj, form, change):
-        if not obj.owner:
-            obj.owner = request.user
-        super().save_model(request, obj, form, change)
+    list_filter = ("platform", "sells_status")
+    search_fields = ("order_id", "customer", "contact")
+    ordering = ("-id",)
 
 
-
-# Refund section admin
+# =========================
+# Refund
+# =========================
 @admin.register(Refund)
-class CustomerRefundAdmin(admin.ModelAdmin):
-
-    # Admin list page
+class RefundAdmin(UnfoldModelAdmin):
     list_display = (
-        'id',
-        'owner',
-        'order_id',
-        'customer',
-        'location',
-        'contact',
-        'order_amount',
-        'platform',
-        'refund_status',
+        "id", "order_id", "owner",
+        "customer", "order_amount",
+        "platform", "refund_status"
     )
-
-    # Right side filter
-    list_filter = (
-        'refund_status',
-        'platform',
-        'owner',
-    )
-
-    #  search box 
-    search_fields = (
-        'location',
-        'contact',
-        'owner__username',
-    )
-
-    # Latest data 
-    ordering = ('-id',)
-
-    # Admin panel edit options
-    readonly_fields = ('id',)
-
-    # New refund order create & owner auto assign
-    def save_model(self, request, obj, form, change):
-        if not obj.owner:
-            obj.owner = request.user
-        super().save_model(request, obj, form, change)
+    list_filter = ("platform", "refund_status")
+    search_fields = ("order_id", "customer", "contact")
+    ordering = ("-id",)
 
 
-
-# Debit Credit section admin
-
+# =========================
+# Debit / Credit Ledger
+# =========================
 @admin.register(DebitCredit)
-class DebitCreditAdmin(admin.ModelAdmin):
-
+class DebitCreditAdmin(UnfoldModelAdmin):
     list_display = (
-        'voucher_no',
-        'customer_name',
-        'payment_description',
-        'payment_type',
-        'debit',
-        'credit',
-        'amount',
-        'balance',
-        'created_at',
+        "id", "owner", "customer_name",
+        "payment_type", "amount",
+        "debit", "credit",
+        "balance", "created_at"
     )
-
+    list_filter = ("payment_type", "created_at")
+    search_fields = ("customer_name", "voucher_no", "invoice_no")
+    ordering = ("created_at",)
     readonly_fields = (
-        'debit',
-        'credit',
-        'balance',
-        'created_at',
+        "debit", "credit",
+        "balance", "created_at"
     )
 
-    search_fields = ('voucher_no', 'customer_name')
-    list_filter = ('payment_type', 'created_at')
 
-
-# Profit & Loss (P&L) section
+# =========================
+# Profit & Loss Report
+# =========================
 @admin.register(ProfitLossReport)
-class ProfitLossReportAdmin(admin.ModelAdmin):
-
-
-    # Columns to display in admin list view
+class ProfitLossReportAdmin(UnfoldModelAdmin):
     list_display = (
-        'id',
-        'date',
-        'revenue',
-        'expenses',
-        'gross_profit',
-        'net_profit',
-        'owner',
+        "id", "owner", "date",
+        "revenue", "expenses",
+        "gross_profit", "net_profit"
     )
-
-    # Filters in sidebar
-    list_filter = (
-        'id',
-        'date',
-    )
-
-    # Search by date
-    search_fields = (
-        'id',
-        'date',
-    )
-
-    # Order by latest date first
-    ordering = ('-date',)
-
-    # Fields that are read-only in admin (cannot edit manually)
-    readonly_fields = (
-        'id',
-        'gross_profit',
-        'net_profit',
-        'created_at',
-    )
-
-    # Auto assign owner when creating in admin panel
-    def save_model(self, request, obj, form, change):
-        if not obj.owner:
-            obj.owner = request.user
-        super().save_model(request, obj, form, change)
+    list_filter = ("date",)
+    search_fields = ("owner__username",)
+    ordering = ("-date",)
+    readonly_fields = ("created_at",)
 
 
-
-# Receiver Admin
+# =========================
+# Receiver
+# =========================
 @admin.register(Receiver)
-class ReceiverAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'receiver_type')
-    search_fields = ('name', 'receiver_type')
-    list_filter = ('receiver_type',)
+class ReceiverAdmin(UnfoldModelAdmin):
+    list_display = ("id", "name", "receiver_type")
+    list_filter = ("receiver_type",)
+    search_fields = ("name",)
 
 
-# Product Admin
+# =========================
+# Product
+# =========================
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description')
-    search_fields = ('name',)
-    list_filter = ('name',)
+class ProductAdmin(UnfoldModelAdmin):
+    list_display = ("id", "name")
+    search_fields = ("name",)
 
 
-# Invoice Admin
+# =========================
+# Invoice
+# =========================
 @admin.register(Invoice)
-class InvoiceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'invoice_number', 'receiver', 'created_at')
-    search_fields = ('invoice_number', 'receiver__name')
-    list_filter = ('receiver__receiver_type',)
-    readonly_fields = ('created_at',)
-
-
-# Payment Admin
-@admin.register(Payment)
-class PaymentAdmin(admin.ModelAdmin):
+class InvoiceAdmin(UnfoldModelAdmin):
     list_display = (
-        'id',
-        'receiver',
-        'product',
-        'invoice',
-        'description',
-        'quantity',
-        'amount',
-        'payment_method',
-        'cheque_number',
-        'created_at'
+        "id", "invoice_number",
+        "receiver", "created_at"
     )
-    search_fields = ('receiver__name', 'invoice__invoice_number', 'product__name')
-    list_filter = ('payment_method', 'receiver__receiver_type')
-    readonly_fields = ('created_at',)
+    search_fields = (
+        "invoice_number",
+        "receiver__name"
+    )
+    readonly_fields = ("created_at",)
+
+
+# =========================
+# Payment
+# =========================
+@admin.register(Payment)
+class PaymentAdmin(UnfoldModelAdmin):
+    list_display = (
+        "id", "receiver",
+        "product", "quantity",
+        "amount", "payment_method",
+        "created_at"
+    )
+    list_filter = ("payment_method", "created_at")
+    search_fields = (
+        "receiver__name",
+        "product__name"
+    )
+    readonly_fields = ("created_at",)
