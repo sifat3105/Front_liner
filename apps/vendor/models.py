@@ -40,3 +40,45 @@ class Vendor(models.Model):
 
     def __str__(self):
         return self.shop_name
+
+
+# Vendor Invoice model
+class VendorInvoice(models.Model):
+
+    vendor = models.ForeignKey(
+        Vendor,
+        on_delete=models.CASCADE,
+        related_name='invoices'
+    )
+
+    invoice_number = models.CharField(max_length=100)
+    invoice_date = models.DateField()
+    invoice_amount = models.DecimalField(max_digits=15, decimal_places=2)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-invoice_date']
+
+    def __str__(self):
+        return self.invoice_number
+
+# Vendor Payment model
+class VendorPayment(models.Model):
+
+    invoice = models.ForeignKey(
+        VendorInvoice,
+        on_delete=models.CASCADE,
+        related_name='payments'   
+    )
+
+    payment_amount = models.DecimalField(
+        max_digits=15,
+        decimal_places=2
+    )
+
+    payment_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.invoice.invoice_number} - {self.payment_amount}"

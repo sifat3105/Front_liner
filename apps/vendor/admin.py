@@ -1,7 +1,10 @@
 from django.contrib import admin
-from .models import Vendor
+from .models import Vendor, VendorInvoice, VendorPayment
+from django.db.models import Sum
+from django.utils.html import format_html
 
 # Register your models here.
+
 
 
 @admin.register(Vendor)
@@ -87,3 +90,59 @@ class VendorAdmin(admin.ModelAdmin):
 
     # Default ordering
     ordering = ('-created_at',)
+
+
+
+class VendorPaymentInline(admin.TabularInline):
+    model = VendorPayment
+    extra = 1
+
+@admin.register(VendorInvoice)
+class VendorInvoiceAdmin(admin.ModelAdmin):
+
+    list_display = (
+        'id',
+        'vendor',
+        'invoice_number',
+        'invoice_date',
+        'invoice_amount',
+        'total_payment',
+        'due_amount',
+        'status_badge',
+    )
+
+    list_filter = (
+        'invoice_date',
+        'vendor',
+    )
+
+    search_fields = (
+        'invoice_number',
+        'vendor__shop_name',
+    )
+
+    ordering = ('-invoice_date',)
+
+    inlines = [VendorPaymentInline]
+
+    def total_payment(self, obj):
+        return obj.payments.aggregate(
+            total=Sum('payment_amount')
+        )['total'] or 0
+    total_payment.short_description = "Payment"
+
+    def due_amount(self, obj):
+        return obj.invoice_amount - self.total_payment(obj)
+    due_amount.short_description = "Due"
+
+    def status_badge(self, obj):
+        paid = self.total_payment(obj)
+        due = obj.invoice_amount - paid
+
+        if due == 0:
+            return format_html('<b style="color:green;">PAID</b>')
+        elif paid > 0:
+            return format_html('<b style="color:orange;">PARTIAL</b>')
+        return format_html('<b style="color:red;">DUE</b>')
+
+    status_badge.short_description = "Status"

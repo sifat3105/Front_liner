@@ -32,7 +32,7 @@ class BaseAPIView(APIView):
         paginated_data = data
 
         if getattr(self, "request", None) and self.request.method.upper() == "GET":
-            if isinstance(data, list) and len(data) > 1:
+            if isinstance(data, list) :
                 paginator = self.pagination_class()
                 paginator.request = self.request
                 paginated_data = paginator.get_paginated_data(self.request, data)

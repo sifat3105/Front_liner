@@ -51,7 +51,14 @@ USE_X_FORWARDED_HOST = True
 # ==============================================================================
 
 INSTALLED_APPS = [
-    # Django
+    "unfold",
+    "unfold.contrib.filters",   
+    "unfold.contrib.forms", 
+    "unfold.contrib.inlines",
+    "unfold.contrib.guardian",  
+    "unfold.contrib.import_export",
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -279,3 +286,185 @@ SP_RETURN_URL = os.environ.get('SP_RETURN_URL')
 SP_CANCEL_URL = os.environ.get('SP_CANCEL_URL')
 SP_LOGDIR = os.environ.get('SP_LOGDIR')
 SP_PREFIX = os.environ.get('SP_PREFIX')
+
+
+UNFOLD = {
+    "SITE_TITLE": "Care On Admin",
+    "SITE_HEADER": "Care On Administration",
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": False,
+        "navigation": [
+            {
+                "title": "User Management",
+                "collapsible": True,
+                "items": [
+                    {"title": "Users", 
+                    "link": "/admin/users/user/"
+                    },
+                    {"title": "UserAccounts", 
+                    "link": "/admin/users/account/"
+                    },
+                    {
+                        "title": "User Subscriptions",
+                        "link": "/admin/users/subscription/"
+                    }
+                ],
+            },
+            {
+                "title": "Accounts & Profits",
+                "collapsible": True,
+                "items": [
+                    {"title": "Incomes", "link": "/admin/account/income/"},
+                    {"title": "Payments", "link": "/admin/account/payment/"},
+                    {"title": "Sells", "link": "/admin/account/sell/"},
+                    {"title": "Refunds", "link": "/admin/account/refund/"},
+                    {"title": "Debit Credit", "link": "/admin/account/debitcredit/"},
+                    {"title": "Profit & Loss Reports", "link": "/admin/account/profitlossreport/"},
+                    {"title": "Receivers", "link": "/admin/account/receiver/"},
+                    {"title": "Products", "link": "/admin/account/product/"},
+                    {"title": "Invoices", "link": "/admin/account/invoice/"},
+                    {"title": "Payment Gateway", "link": "/admin/account/paymentgateway/"},
+                ],
+            },
+            {
+                "title": "Assistant & Agents",
+                "collapsible": True,
+                "items": [
+                    {"title": "Assistants", "link": "/admin/assistant/assistant/"},
+                    {"title": "Assistant Files", "link": "/admin/assistant/assistantfile/"},
+                    {"title": "Transcripts", "link": "/admin/assistant/transcript/"},
+                    {"title": "Transcript Chunks", "link": "/admin/assistant/transcriptchunk/"},
+                    {"title": "Assistant Memories", "link": "/admin/assistant/assistantmemory/"},
+                ],
+            },
+            {
+                "title": "Calls & Logs",
+                "collapsible": True,
+                "items": [
+                    {"title": "Call Logs", "link": "/admin/call/calllog/"},
+                    {"title": "Call Campaigns", "link": "/admin/call/callcampaign/"},
+                ],
+            },
+            {
+                "title": "Chat & Conversations",
+                "collapsible": True,
+                "items": [
+                    {"title": "Conversations", "link": "/admin/chat/conversation/"},
+                    {"title": "Messages", "link": "/admin/chat/message/"},
+                ],
+            },
+            {
+                "title": "Courier",
+                "collapsible": True,
+                "items": [
+                    {"title": "Courier List", "link": "/admin/courier/courierlist/"},
+                    {"title": "User Couriers", "link": "/admin/courier/usercourier/"},
+                ],
+            },
+            {
+                "title": "Invoice",
+                "collapsible": True,
+                "items": [
+                    {"title": "Admin Invoices", "link": "/admin/invoice/admininvoice/"},
+                    {"title": "User Invoices", "link": "/admin/invoice/invoice/"},
+                ],
+            },
+            {
+                "title": "Notifications",
+                "collapsible": True,
+                "items": [
+                    {"title": "Notifications", "link": "/admin/notification/notification/"},
+                ],
+            },
+            {
+                "title": "Orders",
+                "collapsible": True,
+                "items": [
+                    {"title": "Orders", "link": "/admin/orders/order/"},
+                    {"title": "Order Items", "link": "/admin/orders/orderitem/"},
+                ],
+            },
+            {
+                "title": "Payment Gateway",
+                "collapsible": True,
+                "items": [
+                    {"title": "Payments", "link": "/admin/paymentgateway/payment/"},
+                ],
+            },
+            {
+                "title": "Phone Numbers",
+                "collapsible": True,
+                "items": [
+                    {"title": "Phone Numbers", "link": "/admin/phone_number/phonenumber/"},
+                ],
+            },
+            {
+                "title": "Invoices & Billing",
+                "collapsible": True,
+                "items": [
+                    {"title": "Admin invoices", "link": "/admin/invoice/admininvoice/"},
+                    {"title": "User invoices", "link": "/admin/invoice/invoice/"},
+                ],
+            },
+            {
+                "title": "Posts",
+                "collapsible": True,
+                "items": [
+                    {"title": "Generated Captions", "link": "/admin/post/generatedcaption/"},
+                ],
+            },
+            {
+                "title": "Publish",
+                "collapsible": True,
+                "items": [
+                    {"title": "Social Posts", "link": "/admin/publish/socialpost/"},
+                    {"title": "Social Media", "link": "/admin/publish/socialmedia/"},
+                    {"title": "Social Post Publish", "link": "/admin/publish/socialpostpublish/"},
+                ],
+            },
+            {
+                "title": "Sales",
+                "collapsible": True,
+                "items": [
+                    {"title": "Customers", "link": "/admin/sales/customer/"},
+                    {"title": "Locations", "link": "/admin/sales/location/"},
+                    {"title": "Contacts", "link": "/admin/sales/contact/"},
+                    {"title": "Products", "link": "/admin/sales/product/"},
+                ],
+            },
+            {
+                "title": "Social Media",
+                "collapsible": True,
+                "items": [
+                    {"title": "Social Platforms", "link": "/admin/social/socialplatform/"},
+                    {"title": "Social Accounts", "link": "/admin/social/socialaccount/"},
+                    {"title": "Facebook Pages", "link": "/admin/social/facebookpage/"},
+                ],
+            },
+            {
+                "title": "Support",
+                "collapsible": True,
+                "items": [
+                    {"title": "Support Tickets", "link": "/admin/support/ticket/"},
+                ],
+            },
+            {
+                "title": "Transactions",
+                "collapsible": True,
+                "items": [
+                    {"title": "Transactions", "link": "/admin/transaction/transaction/"},
+                ],
+            },
+            {
+                "title": "Settings & Pricing",
+                "collapsible": True,
+                "items": [
+                    {"title": "Agent Pricing", "link": "/admin/settings/agentpricepermonth/"},
+                    {"title": "Minimum Topup", "link": "/admin/settings/minimumtopup/"},
+                    {"title": "Call Cost Per Minute", "link": "/admin/settings/callcostperminute/"},
+                ],
+            },
+        ],
+    },
+}

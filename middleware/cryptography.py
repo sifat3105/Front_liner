@@ -14,7 +14,13 @@ def encrypt_token(token: str = None) -> str:
         return None
     return fernet.encrypt(token.encode()).decode()
 
-def decrypt_token(encrypted_token: str = None) -> str:
+from cryptography.fernet import InvalidToken
+
+def decrypt_token(encrypted_token):
     if not encrypted_token:
         return None
-    return fernet.decrypt(encrypted_token.encode()).decode()
+
+    try:
+        return fernet.decrypt(encrypted_token.encode()).decode()
+    except InvalidToken:
+        return None
