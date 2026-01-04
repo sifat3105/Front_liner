@@ -3,7 +3,9 @@ from .views import (
     ProductCreateAPIView,
     ProductListAPIView,
     SizeListCreateAPIView,
-    ColorListCreateAPIView
+    ColorListCreateAPIView,
+    ProductPurchaseCreateAPIView,
+    ProductPurchaseListAPIView
 )
 
 urlpatterns = [
@@ -14,4 +16,8 @@ urlpatterns = [
     # attributes
     path('sizes/', SizeListCreateAPIView.as_view()),
     path('colors/', ColorListCreateAPIView.as_view()),
+
+    # product Purchase
+    path("purchases/create/", ProductPurchaseCreateAPIView.as_view()),
+    path("list/purchases/", ProductPurchaseListAPIView.as_view()),
 ]

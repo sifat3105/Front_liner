@@ -4,11 +4,13 @@ from django.db.models import Q
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
 
-from .models import Order, Size, Color
+from .models import Order, Size, Color,ProductPurchase
+
 from .serializers import (
     ProductSerializer,
     SizeSerializer,
-    ColorSerializer
+    ColorSerializer,
+    ProductPurchaseSerializer
 )
 
 
@@ -74,9 +76,7 @@ class ProductListAPIView(APIView):
             meta={"total": products.count()}
         )
 
-# =========================
 # SIZE
-# =========================
 class SizeListCreateAPIView(APIView):
     # permission_classes = [IsAuthenticated]
 
@@ -103,10 +103,7 @@ class SizeListCreateAPIView(APIView):
             status_code=status.HTTP_400_BAD_REQUEST
         )
 
-
-# =========================
 # COLOR
-# =========================
 class ColorListCreateAPIView(APIView):
     # permission_classes = [IsAuthenticated]
 
@@ -131,4 +128,50 @@ class ColorListCreateAPIView(APIView):
             message="Color creation failed",
             data=serializer.errors,
             status_code=status.HTTP_400_BAD_REQUEST
+        )
+
+
+
+
+
+# =========================
+# CREATE + LIST PURCHASE
+# =========================
+class ProductPurchaseCreateAPIView(APIView):
+
+    def post(self, request):
+        serializer = ProductPurchaseSerializer(
+            data=request.data,
+            context={"request": request}
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return self.success(
+                message="Purchase created successfully",
+                data=serializer.data,
+                status_code=status.HTTP_201_CREATED
+            )
+
+        return self.success(
+            message="Purchase creation failed",
+            data=serializer.errors,
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class ProductPurchaseListAPIView(APIView):
+
+    def get(self, request):
+        purchases = ProductPurchase.objects.filter(
+            vendor__owner=request.user
+        ).order_by("-order_date")
+
+        serializer = ProductPurchaseSerializer(purchases, many=True)
+
+        return self.success(
+            message="Purchase list fetched",
+            data=serializer.data,
+            status_code=status.HTTP_200_OK,
+            meta={"total": purchases.count()}
         )
