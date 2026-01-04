@@ -2062,3 +2062,6 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-04T11:46:30.377457,91400fcb-4dbc-4954-b51c-1c5a7e34e2c9,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-04T11:46:41.848625,8c532cb4-ca39-4ed3-a14d-a4702b181c8f,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-04T11:46:54.348314,900c90d4-eeb6-4346-9b83-a34ede6425bb,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T11:51:31.694968,fd7728fe-66dd-4401-ae04-67e147241cf9,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T11:51:51.371022,42f77ba3-9510-440e-9be2-f57269d57bf7,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T11:52:18.617861,e66a1370-9708-484f-8700-0c8c775088bd,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
