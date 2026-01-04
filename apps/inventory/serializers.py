@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import Order, Size, Color,ProductPurchaseItem,ProductPurchase
 from apps.vendor.models import Vendor
 
-
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
@@ -16,20 +15,22 @@ class ColorSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # write (POST / PUT)
-    sizes = serializers.PrimaryKeyRelatedField(
-        queryset=Size.objects.all(),
-        many=True,
-        required=False
+
+    # POST → names
+    sizes = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        write_only=True
     )
-    colors = serializers.PrimaryKeyRelatedField(
-        queryset=Color.objects.all(),
-        many=True,
-        required=False
+    colors = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        write_only=True
     )
 
     vendor_id = serializers.IntegerField(write_only=True)
 
+    # RESPONSE
     vendor = serializers.StringRelatedField(read_only=True)
     sizes_detail = SizeSerializer(source="sizes", many=True, read_only=True)
     colors_detail = ColorSerializer(source="colors", many=True, read_only=True)
@@ -61,10 +62,9 @@ class ProductSerializer(serializers.ModelSerializer):
         request = self.context["request"]
 
         vendor_id = validated_data.pop("vendor_id")
-        sizes = validated_data.pop("sizes", [])
-        colors = validated_data.pop("colors", [])
+        size_names = validated_data.pop("sizes", [])
+        color_names = validated_data.pop("colors", [])
 
-        # vendor must belong to logged-in user
         vendor = Vendor.objects.filter(
             id=vendor_id,
             owner=request.user
@@ -80,12 +80,16 @@ class ProductSerializer(serializers.ModelSerializer):
             **validated_data
         )
 
-        product.sizes.set(sizes)
-        product.colors.set(colors)
+        # 🔥 NAME → OBJECT mapping
+        if size_names:
+            sizes = Size.objects.filter(name__in=size_names)
+            product.sizes.set(sizes)
+
+        if color_names:
+            colors = Color.objects.filter(name__in=color_names)
+            product.colors.set(colors)
 
         return product
-    
-
 
 
 # ITEM SERIALIZER

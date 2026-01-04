@@ -2062,3 +2062,21 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-04T11:46:30.377457,91400fcb-4dbc-4954-b51c-1c5a7e34e2c9,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-04T11:46:41.848625,8c532cb4-ca39-4ed3-a14d-a4702b181c8f,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-04T11:46:54.348314,900c90d4-eeb6-4346-9b83-a34ede6425bb,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T11:51:31.694968,fd7728fe-66dd-4401-ae04-67e147241cf9,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T11:51:51.371022,42f77ba3-9510-440e-9be2-f57269d57bf7,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T11:52:18.617861,e66a1370-9708-484f-8700-0c8c775088bd,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T12:19:14.292009,931ac08e-eba6-4987-a195-dc308dfd37b3,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
+2026-01-04T12:19:18.309606,3efb47e2-8b42-4e04-93bf-bc71eec0e710,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T12:29:40.896742,9d3b6277-72c2-4990-bacc-4a2fe7ebd67b,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T12:36:26.260543,82b26165-6278-4252-8fa1-fae35b402b87,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T12:39:25.603403,58d3f26a-53e6-4def-9fa5-6fe13645509c,192.168.0.102,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-04T12:39:33.802606,24da30d6-a6df-4c46-8503-4e0e1f606652,192.168.0.102,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-04T12:41:45.599541,027229e0-1c22-4780-a6b1-6283ee170a99,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-04T12:42:20.657505,694e62ba-ac7b-4088-9968-9ca82e42c98f,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-04T12:43:24.635932,a2beb448-1397-4e4c-bc49-3ffd476ec73b,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-04T12:43:28.012806,12a97c2f-f3a2-459d-90e2-fbd126e4751b,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T12:44:02.134160,e6927096-08d3-46ca-8e8f-6e5503c9ea2d,192.168.0.102,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-04T12:44:21.448652,42f2ef25-a82f-46b6-8c0c-4d8280cc5e71,192.168.0.102,POST,/api/auth/login/,200,Login successful,
+2026-01-04T13:05:32.579570,85c95ca1-1253-4295-a8fa-059c9ccbd2a9,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:05:37.554865,5f898ecc-82ad-43f2-986e-b933df281524,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-04T13:06:05.830550,226b1daf-88df-401d-a52d-6017e272bcfe,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
