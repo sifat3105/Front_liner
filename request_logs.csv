@@ -1869,3 +1869,20 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-03T11:22:47.903020,20930e0e-33be-4be7-bafb-fee2014a73af,127.0.0.1,GET,/api/update/vendors/1/,200,Vendor details fetched successfully,test@mail.com
 2026-01-03T11:22:53.727114,03f4ef95-7184-4d23-ba34-8ce152905a5b,127.0.0.1,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
 2026-01-03T11:22:59.063556,878a9936-58af-4256-8510-db20db8b1a55,127.0.0.1,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
+2026-01-03T11:28:01.806534,6d3e99fd-09e3-49ab-9b09-e28f0931ee05,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-03T11:28:07.624206,6162c6a4-9ad7-4f79-9f7b-be8f5e9a57d2,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T11:28:20.404281,da95461d-7a4c-42da-a718-a3b95fe32d38,127.0.0.1,PATCH,/api/update/vendors/5/,404,Vendor not found,usernamem@gmail.com
+2026-01-03T11:28:29.702646,4b90e686-19c9-4ea8-aff5-434ca8599019,127.0.0.1,GET,/api/update/vendors/1/,404,Vendor not found,usernamem@gmail.com
+2026-01-03T11:28:39.056181,d109c7f5-edf6-46fa-9871-6b8784537d29,127.0.0.1,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,usernamem@gmail.com
+2026-01-03T11:28:46.231623,7b5c9ac6-ff17-47c4-b16f-2762b194f744,127.0.0.1,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,usernamem@gmail.com
+2026-01-03T11:32:55.759340,bd8b6c35-b07f-4792-84f3-6d443695e58c,127.0.0.1,GET,/api/update/vendors/1/,404,Vendor not found,usernamem@gmail.com
+2026-01-03T11:33:00.697761,0b08784a-cf24-49f1-9b4c-e543efa4c743,127.0.0.1,PATCH,/api/update/vendors/5/,404,Vendor not found,usernamem@gmail.com
+2026-01-03T11:33:05.164995,58fbe5b4-203e-4eb9-8d8e-f4fe9d6864a4,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T11:33:53.772542,30e9a917-1f23-463a-b63b-6c5fc800882c,127.0.0.1,POST,/api/vendors/register/,201,Vendor registered successfully,usernamem@gmail.com
+2026-01-03T11:33:58.979258,be9e926c-1c79-4567-b436-3bcf0f231368,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-03T11:34:10.726715,4ab9c984-d1f8-4972-bc07-fefccf84d809,127.0.0.1,PATCH,/api/update/vendors/5/,404,Vendor not found,usernamem@gmail.com
+2026-01-03T11:34:17.086222,f1b8626f-c690-44d4-a50e-546de2c4d3c1,127.0.0.1,PATCH,/api/update/vendors/10/,200,Vendor updated successfully,usernamem@gmail.com
+2026-01-03T11:34:26.155524,cf593838-440a-4187-969e-e622ad309469,127.0.0.1,GET,/api/update/vendors/1/,404,Vendor not found,usernamem@gmail.com
+2026-01-03T11:34:42.654560,5add464f-1625-47a8-9046-075477e85c74,127.0.0.1,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,usernamem@gmail.com
+2026-01-03T11:34:48.464729,6016bf0e-3147-4d40-8423-c01fcbc47f4d,127.0.0.1,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,usernamem@gmail.com
+2026-01-03T11:35:38.230987,aaf1579e-b0c5-4251-bc26-012a5433217e,127.0.0.1,GET,/api/update/vendors/10/,200,Vendor details fetched successfully,usernamem@gmail.com
