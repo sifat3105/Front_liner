@@ -2055,3 +2055,10 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-04T10:52:14.510803,38cb23c8-8739-4f5d-b334-255b4ecc499c,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
 2026-01-04T10:52:32.706008,cda1b068-447b-48ab-825f-064dabe7342f,127.0.0.1,GET,/api/products/list,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-04T10:56:33.019257,5f11b8dd-ab1e-444b-8dae-ecbba3595001,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-04T11:08:36.496593,6f44f342-f4b3-4fff-8961-c6c6e9486212,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-04T11:08:56.011650,9179ff9e-a8f2-4c38-8f16-55c8a6ee375e,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-04T11:46:11.874045,aa1b5e67-b227-411d-af8d-3c25e3684760,127.0.0.1,POST,/api/purchases/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or not owned by you', code='invalid')}",usernamem@gmail.com
+2026-01-04T11:46:24.541651,ba935e70-1d91-4bc5-9388-8cfe2d79f813,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
+2026-01-04T11:46:30.377457,91400fcb-4dbc-4954-b51c-1c5a7e34e2c9,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
+2026-01-04T11:46:41.848625,8c532cb4-ca39-4ed3-a14d-a4702b181c8f,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
+2026-01-04T11:46:54.348314,900c90d4-eeb6-4346-9b83-a34ede6425bb,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
