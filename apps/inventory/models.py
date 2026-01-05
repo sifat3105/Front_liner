@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from apps.vendor.models import Vendor
 from django.contrib.auth import get_user_model
 User=get_user_model()
@@ -59,6 +60,7 @@ class ProductPurchase(models.Model):
     vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name="purchases")
     order_date = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"PO-{self.id} | {self.vendor}"
@@ -73,6 +75,8 @@ class ProductPurchaseItem(models.Model):
     quantity = models.PositiveIntegerField()
     unit_cost = models.DecimalField(max_digits=10, decimal_places=2)
     total = models.DecimalField(max_digits=12, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
     def save(self, *args, **kwargs):
         self.total = self.quantity * self.unit_cost
