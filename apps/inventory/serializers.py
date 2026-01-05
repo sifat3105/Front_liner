@@ -14,12 +14,6 @@ class ColorSerializer(serializers.ModelSerializer):
         fields = ("id", "colors")
 
 
-
-from rest_framework import serializers
-from .models import Order, Size, Color
-from apps.vendor.models import Vendor
-
-
 class ProductSerializer(serializers.ModelSerializer):
 
     # POST + RESPONSE → name আকারে
@@ -86,15 +80,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
 # ITEM SERIALIZER
 class ProductPurchaseItemSerializer(serializers.ModelSerializer):
+
+    unit_cost = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
+    total = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
+
     class Meta:
         model = ProductPurchaseItem
-        fields = (
-            "product",
-            "variant",
-            "quantity",
-            "unit_cost",
-            "total",
-        )
+        fields = ("product","variant","quantity","unit_cost","total",)
         read_only_fields = ("total",)
 
 
