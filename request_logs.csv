@@ -2080,3 +2080,23 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-04T13:05:32.579570,85c95ca1-1253-4295-a8fa-059c9ccbd2a9,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
 2026-01-04T13:05:37.554865,5f898ecc-82ad-43f2-986e-b933df281524,127.0.0.1,POST,/api/auth/login/,200,Login successful,
 2026-01-04T13:06:05.830550,226b1daf-88df-401d-a52d-6017e272bcfe,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:08:07.249736,022c75bf-0107-4663-a5a0-0c84c671cc37,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-04T13:08:17.993149,cb9971a2-219c-4daf-94cf-9bbea745b389,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-04T13:10:29.538300,688c10a9-9ab8-41d3-91e0-3eb6a8f3619d,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-04T13:14:32.974725,59082d0c-fc48-4b0f-9763-67c65d817932,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:18:30.972043,6cef1a26-b479-4eb0-9139-461cbf7f7def,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:21:51.577934,b1110e17-9e64-4f56-b6c3-bff8021c6773,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:22:55.756243,3d2b6f86-935d-426a-adc8-45672ed39751,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:22:59.410560,ad18415e-e8b2-4a13-b422-186e91c31d3f,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:25:02.629557,f6329415-0294-42ee-ba3d-6645d23147e4,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-04T13:28:01.745453,0655e6f7-7988-4b42-a5aa-39756799f837,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-04T13:29:00.047668,98240aeb-fdd9-4a44-86c9-20a495b66fad,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T05:21:00.455165,64f8b5b1-af9d-459e-ac7d-36d127085b16,127.0.0.1,POST,/api/purchases/create/,500,Internal server error,
+2026-01-05T05:21:15.689691,5567b368-34a1-4a34-9cce-64fd7d2c4e42,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-05T05:21:20.464727,49749fce-e615-459e-a8f2-c359db688bf2,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T05:21:32.435430,0d2963d4-f48d-4b29-b903-9d4130a05f35,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T05:21:47.902233,e2d4ce2b-6bf0-4c7d-9bc0-926d22754712,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
+2026-01-05T05:21:54.098603,9c21463d-8f2f-4b32-bf58-14c889e32df8,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T05:43:44.966208,92440f25-a0df-42bc-bbe4-247cacbee1d2,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T05:52:45.615849,48f882c9-e3c7-456d-a16a-f2393f3f125e,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T06:11:13.386366,b6041428-edea-46b1-a4a1-269c0193f49f,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
