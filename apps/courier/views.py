@@ -12,10 +12,11 @@ from .models import (
     SteadfastOrder, 
     SteadfastTracking, 
     SteadfastReturnRequest,
-    PathaoToken, PathaoStore, PathaoOrder,
+    PathaoToken, PathaoStore, PathaoOrder,OrderCourierMap
 )
 from django.shortcuts import get_object_or_404
 from .models import CourierList, UserCourier
+from .track_orders import track_order
 
 
 class CourierListAPIView(APIView):
@@ -34,9 +35,7 @@ class CourierListAPIView(APIView):
             message="Courier list fetched successfully" if serializer.data else "No couriers assigned to this user",
             meta={"action": "user-courier-list"}
         )
-        
-
-
+    
 
 class ToggleCourierStatusAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -63,6 +62,27 @@ class ToggleCourierStatusAPIView(APIView):
 
         except Exception as e:
             return self.error(message=str(e), status_code=500, meta={"action": "toggle-courier-status"})
+        
+class TrackOrderAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    async def get(self, request, order_id):
+        try:
+            # await your async function
+            response = await track_order(order_id)
+            
+            # track_order already returns dict, no need for .json()
+            return self.success(
+                data=response,
+                message="Order tracking fetched successfully",
+                status_code=status.HTTP_200_OK
+            )
+        
+        except Exception as e:
+            return self.error(
+                message=str(e),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 
@@ -303,7 +323,7 @@ class PaperflyOrderTrackingAPIView(APIView):
                 PAPERFLY_TRACK_URL,
                 json=payload,
                 headers=headers,
-                auth=HTTPBasicAuth(USERNAME, ""),  # Password blank if not required
+                auth=HTTPBasicAuth(USERNAME, ""),
                 timeout=30
             )
         except requests.exceptions.RequestException as e:
@@ -1384,3 +1404,120 @@ class PathaoStoreListAPIView(APIView):
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 meta={"action": "pathao-store-list"}
             )
+
+
+# Unified Courier Tracking API
+
+class UnifiedOrderTrackingAPIView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, order_id):
+
+        try:
+            order = Order.objects.get(
+                id=order_id,
+                vendor__owner=request.user
+            )
+        except Order.DoesNotExist:
+            return self.success(
+                message="Order not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        try:
+            mapping = order.courier_map
+        except OrderCourierMap.DoesNotExist:
+            return self.success(
+                message="Courier not assigned for this order",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        courier_name = mapping.courier.name.lower()
+        ref = mapping.courier_order_ref
+
+        # =======================
+        # PAPERFLY
+        # =======================
+        if courier_name == 'paperfly':
+            tracking = PaperflyOrderTracking.objects.filter(
+                ReferenceNumber=ref
+            ).last()
+
+            if not tracking:
+                return self.success(
+                    message="Paperfly tracking not found",
+                    status_code=status.HTTP_404_NOT_FOUND
+                )
+
+            data = {
+                "courier": "Paperfly",
+                "reference": ref,
+                "status": {
+                    "picked": tracking.Pick,
+                    "in_transit": tracking.inTransit,
+                    "delivered": tracking.Delivered,
+                    "returned": tracking.Returned
+                },
+                "timeline": {
+                    "pick_time": tracking.PickTime,
+                    "in_transit_time": tracking.inTransitTime,
+                    "delivered_time": tracking.DeliveredTime,
+                    "returned_time": tracking.ReturnedTime
+                }
+            }
+
+        # =======================
+        # STEADFAST
+        # =======================
+        elif courier_name == 'steadfast':
+            tracking = SteadfastTracking.objects.filter(
+                invoice=ref
+            ).last() or SteadfastTracking.objects.filter(
+                consignment_id=ref
+            ).last()
+
+            if not tracking:
+                return self.success(
+                    message="Steadfast tracking not found",
+                    status_code=status.HTTP_404_NOT_FOUND
+                )
+
+            data = {
+                "courier": "Steadfast",
+                "reference": ref,
+                "current_status": tracking.delivery_status,
+                "raw_response": tracking.api_response
+            }
+
+        # =======================
+        # PATHAO
+        # =======================
+        elif courier_name == 'pathao':
+            pathao_order = PathaoOrder.objects.filter(
+                merchant_order_id=ref
+            ).first()
+
+            if not pathao_order:
+                return self.success(
+                    message="Pathao order not found",
+                    status_code=status.HTTP_404_NOT_FOUND
+                )
+
+            data = {
+                "courier": "Pathao",
+                "reference": ref,
+                "current_status": pathao_order.order_status
+            }
+
+        else:
+            return self.success(
+                message="Unsupported courier",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        return self.success(
+            message="Order tracking fetched successfully",
+            data=data,
+            status_code=status.HTTP_200_OK
+        )

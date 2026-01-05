@@ -8,22 +8,21 @@ class Vendor(models.Model):
 
     owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name='vendors')
 
-
-    # -------- Shop Information --------
+    # Shop Information
     shop_name = models.CharField(max_length=200)
     shop_description = models.TextField()
     business_email = models.EmailField()
     business_phone = models.CharField(max_length=20)
     business_address = models.TextField()
 
-    # -------- Legal Information --------
+    # Legal Information
     business_registration_number = models.CharField(max_length=100)
     tax_id = models.CharField(max_length=100)
     business_type = models.CharField(max_length=100)
     years_in_business = models.PositiveIntegerField()
     website_url = models.URLField(blank=True, null=True)
 
-    # -------- Bank Information --------
+    # Bank Information
     bank_name = models.CharField(max_length=150)
     account_holder_name = models.CharField(max_length=150)
     account_number = models.CharField(max_length=50)

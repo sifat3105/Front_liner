@@ -96,6 +96,8 @@ INSTALLED_APPS = [
     'apps.paymentgateway',
     'apps.vendor',
     'apps.orders',
+    'apps.inventory',
+
 ]
 
 AUTH_USER_MODEL = 'user.User'
