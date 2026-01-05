@@ -78,6 +78,20 @@ class CourierOrder(models.Model):
 
     def __str__(self):
         return f"{self.tracking_id} ({self.courier.name})"
+    
+class CourierOrderStatus(models.Model):
+    courier_order = models.ForeignKey(CourierOrder, on_delete=models.CASCADE, related_name="track_status")
+    status = models.CharField(max_length=50, default="pending")
+    status_time = models.DateTimeField(null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.courier_order.order.order_id} ({self.courier_order.courier.name}) - {self.status}"
+    
+    class Meta:
+        unique_together = ("courier_order", "status")
 
     
 

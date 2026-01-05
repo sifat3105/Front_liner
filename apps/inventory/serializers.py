@@ -2,45 +2,41 @@ from rest_framework import serializers
 from .models import Order, Size, Color,ProductPurchaseItem,ProductPurchase
 from apps.vendor.models import Vendor
 
-
 class SizeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Size
-        fields = ("id", "name")
+        fields = ("id", "size")
 
 
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
-        fields = ("id", "name", "code")
+        fields = ("id", "colors")
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # write (POST / PUT)
-    sizes = serializers.PrimaryKeyRelatedField(
-        queryset=Size.objects.all(),
+
+    # POST + RESPONSE → name আকারে
+    sizes = serializers.SlugRelatedField(
         many=True,
-        required=False
+        slug_field="size",
+        queryset=Size.objects.all()
     )
-    colors = serializers.PrimaryKeyRelatedField(
-        queryset=Color.objects.all(),
+
+    colors = serializers.SlugRelatedField(
         many=True,
-        required=False
+        slug_field="colors",
+        queryset=Color.objects.all()
     )
 
     vendor_id = serializers.IntegerField(write_only=True)
-
     vendor = serializers.StringRelatedField(read_only=True)
-    sizes_detail = SizeSerializer(source="sizes", many=True, read_only=True)
-    colors_detail = ColorSerializer(source="colors", many=True, read_only=True)
 
     class Meta:
         model = Order
         fields = (
-            "id",
-            "vendor",
             "vendor_id",
-            "image",
+            "vendor",
             "product",
             "short_description",
             "brand",
@@ -50,11 +46,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "cost_price",
             "quantity",
             "sizes",
-            "sizes_detail",
             "colors",
-            "colors_detail",
             "status",
-            "created",
         )
 
     def create(self, validated_data):
@@ -64,7 +57,6 @@ class ProductSerializer(serializers.ModelSerializer):
         sizes = validated_data.pop("sizes", [])
         colors = validated_data.pop("colors", [])
 
-        # vendor must belong to logged-in user
         vendor = Vendor.objects.filter(
             id=vendor_id,
             owner=request.user
@@ -84,21 +76,17 @@ class ProductSerializer(serializers.ModelSerializer):
         product.colors.set(colors)
 
         return product
-    
-
 
 
 # ITEM SERIALIZER
 class ProductPurchaseItemSerializer(serializers.ModelSerializer):
+
+    unit_cost = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
+    total = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
+
     class Meta:
         model = ProductPurchaseItem
-        fields = (
-            "product",
-            "variant",
-            "quantity",
-            "unit_cost",
-            "total",
-        )
+        fields = ("product","variant","quantity","unit_cost","total",)
         read_only_fields = ("total",)
 
 

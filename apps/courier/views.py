@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 import requests
 from requests.auth import HTTPBasicAuth
-from .serializers import CourierCompanySerializer
+from .serializers import CourierCompanySerializer, CourierOrderSerializer
 from .models import (
     PaperflyMerchant,
     PaperflyOrder,
@@ -62,18 +62,17 @@ class ToggleCourierStatusAPIView(APIView):
 
         except Exception as e:
             return self.error(message=str(e), status_code=500, meta={"action": "toggle-courier-status"})
+
         
 class TrackOrderAPIView(APIView):
     permission_classes = [IsAuthenticated]
     
-    async def get(self, request, order_id):
+    def get(self, request, order_id):
         try:
-            # await your async function
-            response = await track_order(order_id)
-            
-            # track_order already returns dict, no need for .json()
+            response = track_order(order_id)
+            data = CourierOrderSerializer(response).data
             return self.success(
-                data=response,
+                data=data,
                 message="Order tracking fetched successfully",
                 status_code=status.HTTP_200_OK
             )
