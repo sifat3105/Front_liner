@@ -2132,3 +2132,6 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-05T08:05:07.405438,fba19d6f-c9d0-4bbf-b18a-e40355795d1b,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
 2026-01-05T08:05:16.264897,ff4293ef-7766-4145-9f4a-30feec4f9b6e,172.31.40.247,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
 2026-01-05T08:05:38.664125,5ff330f8-69e8-4bcb-b487-39871f42a7ce,172.31.40.247,POST,/api/purchases/create/,500,Internal server error,usernamem@gmail.com
+2026-01-05T08:06:33.140780,dfdb1f8c-5619-4699-89e6-7015ac10e22b,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T08:06:44.183644,c88f15f9-2bce-4896-8a81-3329dfae8fd6,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T08:06:53.488702,41616374-d5be-48eb-b4dc-761b554c3ab7,172.31.40.247,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
