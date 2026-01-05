@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from apps.orders.models import Order
 User=get_user_model()
 
 class CourierList(models.Model):
@@ -41,6 +42,58 @@ class UserCourier(models.Model):
 
     def __str__(self):
         return f"{self.user} → {self.courier} ({'Active' if self.is_active else 'Inactive'})"
+    
+    
+# pickMerchantName = models.CharField(max_length=255, blank=True, null=True)
+#     pickMerchantAddress = models.TextField(blank=True, null=True)
+#     pickMerchantThana = models.CharField(max_length=255, blank=True, null=True)
+#     pickMerchantDistrict = models.CharField(max_length=255, blank=True, null=True)
+#     pickupMerchantPhone = models.CharField(max_length=50, blank=True, null=True)
+#     productSizeWeight = models.CharField(max_length=50)
+    
+    
+class CourierOrder(models.Model):
+    order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name="courier_orders",null=True,blank=True)
+    courier = models.ForeignKey(CourierList,on_delete=models.CASCADE,related_name="courier_orders")
+
+    tracking_id = models.CharField(max_length=100,unique=True,null=True,blank=True)
+    tracking_code = models.CharField(max_length=100,null=True,blank=True)
+    tracking_status = models.CharField(max_length=50,null=True,blank=True)
+    merchant_order_id = models.CharField(max_length=100, null=True, blank=True)
+    invoice = models.CharField(max_length=100, null=True, blank=True)
+
+    recipient_name = models.CharField(max_length=100)
+    recipient_phone = models.CharField(max_length=20)
+    recipient_address = models.TextField()
+
+    payment_type = models.CharField(max_length=50, default="cod")
+    status = models.CharField(max_length=50, default="pending")
+
+    delivery_fee = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True)
+
+    note = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.tracking_id} ({self.courier.name})"
+    
+class CourierOrderStatus(models.Model):
+    courier_order = models.ForeignKey(CourierOrder, on_delete=models.CASCADE, related_name="track_status")
+    status = models.CharField(max_length=50, default="pending")
+    status_time = models.DateTimeField(null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.courier_order.order.order_id} ({self.courier_order.courier.name}) - {self.status}"
+    
+    class Meta:
+        unique_together = ("courier_order", "status")
+
+    
 
 
 class OrderCourierMap(models.Model):
@@ -96,12 +149,7 @@ class PaperflyOrder(models.Model):
     tracking_number = models.CharField(max_length=100, blank=True, null=True)
     merchantCode = models.CharField(max_length=50)
     merOrderRef = models.CharField(max_length=50)
-    pickMerchantName = models.CharField(max_length=255, blank=True, null=True)
-    pickMerchantAddress = models.TextField(blank=True, null=True)
-    pickMerchantThana = models.CharField(max_length=255, blank=True, null=True)
-    pickMerchantDistrict = models.CharField(max_length=255, blank=True, null=True)
-    pickupMerchantPhone = models.CharField(max_length=50, blank=True, null=True)
-    productSizeWeight = models.CharField(max_length=50)
+    
     productBrief = models.CharField(max_length=255, blank=True, null=True)
     packagePrice = models.CharField(max_length=50)
     deliveryOption = models.CharField(max_length=50)

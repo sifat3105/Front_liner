@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 import requests
 from requests.auth import HTTPBasicAuth
-from .serializers import CourierCompanySerializer
+from .serializers import CourierCompanySerializer, CourierOrderSerializer
 from .models import (
     PaperflyMerchant,
     PaperflyOrder,
@@ -16,6 +16,7 @@ from .models import (
 )
 from django.shortcuts import get_object_or_404
 from .models import CourierList, UserCourier
+from .track_orders import track_order
 
 
 class CourierListAPIView(APIView):
@@ -61,6 +62,26 @@ class ToggleCourierStatusAPIView(APIView):
 
         except Exception as e:
             return self.error(message=str(e), status_code=500, meta={"action": "toggle-courier-status"})
+
+        
+class TrackOrderAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, order_id):
+        try:
+            response = track_order(order_id)
+            data = CourierOrderSerializer(response).data
+            return self.success(
+                data=data,
+                message="Order tracking fetched successfully",
+                status_code=status.HTTP_200_OK
+            )
+        
+        except Exception as e:
+            return self.error(
+                message=str(e),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 
@@ -301,7 +322,7 @@ class PaperflyOrderTrackingAPIView(APIView):
                 PAPERFLY_TRACK_URL,
                 json=payload,
                 headers=headers,
-                auth=HTTPBasicAuth(USERNAME, ""),  # Password blank if not required
+                auth=HTTPBasicAuth(USERNAME, ""),
                 timeout=30
             )
         except requests.exceptions.RequestException as e:

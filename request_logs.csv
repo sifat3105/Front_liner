@@ -2008,6 +2008,37 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-04T04:51:05.032115,3f50073a-6769-4994-9911-99188ba30e70,172.31.40.247,POST,/api/auth/login/,200,Login successful,
 2026-01-04T05:15:31.971398,ea1cf3ae-eada-4700-9bfa-c938f0ed87bb,172.31.40.247,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
 2026-01-04T05:16:44.530488,d79d11c5-f63e-4171-9818-5198056ef3e7,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T07:04:27.817353,3040cf65-6054-49d4-b5e3-ab18edcfa5ee,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-04T08:04:18.380195,5368a665-3af6-4600-8b50-2b520bfa6bf0,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-04T08:04:26.576612,e40d0d29-e37c-4243-911c-d9a2f04523c9,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:04:30.911997,724214d6-2167-4282-b901-4a21c0253242,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:42:17.711661,537aaf5f-75bd-4377-8ae3-e1056bf46be6,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:45:13.025526,f87a524c-32bf-40ea-9a51-6415eb56b56a,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:45:22.918038,7eaee430-00dd-4a3d-9b03-8bfc712dfdb9,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T08:51:04.982128,1926b4ab-d953-4be8-940b-d490918afef5,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-04T09:22:22.132809,9f532f03-7152-44cc-9495-e8df39d8582e,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-04T09:22:34.503497,4f3aeab5-9beb-43cc-b223-29f57d6fbe05,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T09:52:27.518855,fffff964-c556-43b5-8a72-d4d132affebf,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-04T10:09:05.987131,d6ac6c2c-1150-44a0-a8f7-fa9ca156a8bc,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:40:47.663021,67857564-fc1b-4c4c-88bc-4d2c419e2a32,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:47:53.045574,54b1e095-6019-49b6-acbd-01b261934351,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:53:50.005345,5700981e-a3cb-4569-be8a-bb1bfcc24a00,172.31.40.247,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-04T10:53:51.633702,9fb87923-0fc0-4bdb-9864-2fbff1ae9ed4,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T10:53:53.989666,f1480689-c687-48f5-be61-bb5fcd8ca5b2,172.31.40.247,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
+2026-01-04T10:54:55.051747,d6da162f-5a2c-4f74-8871-e641c92bb693,172.31.40.247,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
+2026-01-04T10:55:03.598672,c4672353-b8c3-4e55-8f63-724ea60bf7d8,172.31.40.247,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-04T10:55:05.382755,6f4141ac-ede0-419f-b41b-fe0e52336c77,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:01:50.348806,39be9102-0f6d-4b7a-9af6-830c85ba0ab5,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:02:18.547123,fe4df23f-8c88-4947-b026-48bbac8454f8,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:14:18.828397,451816c2-6f8e-45c0-a8cb-266f4f387003,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:16:18.368452,571abad8-6e00-4433-bf46-a9a77f66cc63,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:16:57.715450,6a9636fc-1347-44ff-a3e5-bb9895a02e0e,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T11:18:42.821904,40d83de8-3366-4260-aa13-8544b75dae28,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:06:42.980439,a304bf78-9e43-4c61-91c7-93e19884ee0a,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:15:09.655588,10fa672f-77b8-447b-ac3f-57789313d513,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:38:21.983983,8e955196-a410-4e02-9f1d-d54be7f64b02,172.31.40.247,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-04T12:38:27.749201,b241ac9a-96e7-4f32-a893-9298d0784cf7,172.31.40.247,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-04T12:39:10.863479,d2f2d9ee-82c0-449b-9471-6104ef2f524e,172.31.40.247,POST,/api/auth/login/,400,Invalid credentials,
 2026-01-04T08:57:55.995392,6e34a78e-2b28-4833-83d1-17c7ad228afd,127.0.0.1,GET,/api/orders/create/,200,Success,
 2026-01-04T08:58:23.225416,9bcf9d2a-6d07-4d6e-badb-a41e364135c1,127.0.0.1,POST,/api/orders/create/,405,"Method ""POST"" not allowed.",
 2026-01-04T09:00:12.362893,05a913b3-e56c-49f6-a391-3cc805fb2188,127.0.0.1,POST,/api/orders/create/,405,"Method ""POST"" not allowed.",
@@ -2062,6 +2093,48 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-04T11:46:30.377457,91400fcb-4dbc-4954-b51c-1c5a7e34e2c9,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-04T11:46:41.848625,8c532cb4-ca39-4ed3-a14d-a4702b181c8f,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-04T11:46:54.348314,900c90d4-eeb6-4346-9b83-a34ede6425bb,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T12:46:08.443882,6a1548ee-314b-485e-a168-8a92c52ebdac,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-04T12:47:58.627585,50b7185f-3ba9-4370-89a4-6c171a868457,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:48:57.135348,fae72cd7-7f37-4480-b840-9695bb42eb39,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:49:06.576714,72f8247a-1df5-4d14-a56e-22a9f3bf90f6,172.31.40.247,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-04T12:49:16.453683,130385c2-10ef-4a41-baaa-ca72b74a5056,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-04T12:50:56.431082,198643eb-29c5-4dbe-8e08-cfef5650b85e,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-04T12:51:03.543435,4c1b7c77-88bb-41b2-aeb8-f2b5d32a5148,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-04T12:51:12.174813,f3c0c208-ae7b-4b47-bf3f-adde9a4622ec,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-04T12:53:49.307004,8d0a7a40-7883-42d5-a495-3a044e0a261b,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T12:54:17.925060,c72a9af2-3c22-45e3-8b8c-b5656c6ce0d6,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-04T13:00:37.449945,a8050667-295c-4cbc-854f-8ff4a45190d4,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-04T13:01:17.491599,348098ad-2f84-4edc-ae4d-37c2e75d6ba9,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T05:17:48.932685,da79d702-aa5f-4eff-90be-f75949114ce0,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T05:18:13.751474,ec6cf2fe-3554-4bc4-bba5-dd350c94bc51,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T05:18:35.090898,f2b06da2-c278-41fc-8836-afb40d7cdcd7,172.31.40.247,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T05:19:55.913405,f7cad1e3-f692-44c6-9c53-61d8d60f6f25,172.31.40.247,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
+2026-01-05T05:20:05.305663,4e60b341-44d1-4daa-b2ec-44d5e6d538e6,172.31.40.247,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T05:21:37.261890,7e4c634b-3de6-4151-94e3-4519d067d544,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T05:26:35.323369,fed8993d-708f-42a6-8033-fa4a4fa315b2,172.31.40.247,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
+2026-01-05T05:26:53.488714,cef65acd-f95f-49fc-9c65-6018a223ef2a,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T05:31:32.904758,9f208dae-ae8a-424f-85c6-61e86742ba09,103.98.107.22,GET,/api/orders/list/,403,Invalid or expired token,
+2026-01-05T05:31:32.907426,87d2eb5b-34ad-43f2-b303-f257464eb2d3,103.98.107.22,GET,/api/orders/confirm/,403,Invalid or expired token,
+2026-01-05T05:32:08.307972,ab940127-9272-417e-b44b-8b949d86764d,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-05T05:41:18.619519,a381b825-7cb9-4a7c-978e-12bd8a3dd6fa,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-05T05:47:42.844805,1a6e0e94-9d77-4186-ad0c-e68ec9a03f03,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T05:52:31.082830,4335e6af-d637-406b-a255-512f7bc402be,172.31.40.247,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
+2026-01-05T06:24:14.497215,51e92236-835f-4d52-8f1a-db522ab22573,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T06:30:41.327733,95edfe55-72b6-4c15-a23c-ccbfa5a876e2,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-05T06:30:53.630038,1786bab8-0c2d-454b-a8d9-6d797fac1ebf,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T07:42:06.163499,be225f75-8f59-4b82-9a37-c2787f991a86,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T07:44:20.494251,fd60579a-e920-4fb2-add1-d42e95e7fe8e,103.98.107.22,POST,/api/paperfly/order/track/,400,Paperfly tracking response,
+2026-01-05T07:46:55.397632,318867e0-14dc-4d5d-826e-826ce731736c,103.98.107.22,POST,/api/paperfly/order/track/,400,Paperfly tracking response,
+2026-01-05T07:47:25.728976,4d80359d-c66f-41ba-a645-d2b95874158c,103.98.107.22,POST,/api/paperfly/order/track/,400,Paperfly tracking response,
+2026-01-05T07:49:57.864617,b10c4bf9-16e4-41ff-a188-960089d87ffd,103.98.107.22,POST,/api/steadfast/order/create/,200,Steadfast place order response,
+2026-01-05T07:50:42.851396,67561fc1-ff12-418a-b559-832aad3f9e52,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-05T07:58:21.840731,4b56c2c7-f475-4d7a-bfb6-8059ec0baf17,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-05T08:05:07.405438,fba19d6f-c9d0-4bbf-b18a-e40355795d1b,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T08:05:16.264897,ff4293ef-7766-4145-9f4a-30feec4f9b6e,172.31.40.247,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
+2026-01-05T08:05:38.664125,5ff330f8-69e8-4bcb-b487-39871f42a7ce,172.31.40.247,POST,/api/purchases/create/,500,Internal server error,usernamem@gmail.com
+2026-01-05T08:06:33.140780,dfdb1f8c-5619-4699-89e6-7015ac10e22b,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T08:06:44.183644,c88f15f9-2bce-4896-8a81-3329dfae8fd6,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T08:06:53.488702,41616374-d5be-48eb-b4dc-761b554c3ab7,172.31.40.247,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
 2026-01-04T11:51:31.694968,fd7728fe-66dd-4401-ae04-67e147241cf9,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-04T11:51:51.371022,42f77ba3-9510-440e-9be2-f57269d57bf7,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-04T11:52:18.617861,e66a1370-9708-484f-8700-0c8c775088bd,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
@@ -2100,6 +2173,7 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-05T05:43:44.966208,92440f25-a0df-42bc-bbe4-247cacbee1d2,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-05T05:52:45.615849,48f882c9-e3c7-456d-a16a-f2393f3f125e,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-05T06:11:13.386366,b6041428-edea-46b1-a4a1-269c0193f49f,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+<<<<<<< HEAD
 2026-01-05T06:14:42.067976,ccc563ac-3bfd-4cf4-99e9-ed75f282da30,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-05T06:27:11.080733,e45881b6-95ed-4860-b168-7f354824bb8b,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-05T06:27:19.436368,d555ce79-947c-45ed-a6ea-56bc2e91fbc9,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
@@ -2124,3 +2198,154 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-05T10:19:01.805921,aa69cec7-50db-4fd1-965d-5e7a4585f5ed,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-05T10:19:35.379150,4aa2d97b-162a-420a-9ea8-23cea0677bdc,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-05T10:20:32.259516,dd67014f-531e-46fe-abeb-75f869b97f59,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+=======
+2026-01-05T08:15:37.088820,cbcb33a7-1fc3-4de2-af71-1fcd9a941271,127.0.0.1,GET,/api/track-order/order-111111114/,500,Field 'id' expected a number but got 'order-111111114'.,test@mail.com
+2026-01-05T08:16:37.210498,7aec1528-8f23-4da0-837e-0e968ccc1b81,127.0.0.1,GET,/api/track-order/order-111111114/,500,You cannot call this from an async context - use a thread or sync_to_async.,test@mail.com
+2026-01-05T08:17:44.276882,5b16d6a4-d75b-411c-b511-36476ceb659b,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T08:17:45.242033,4c6105ea-c9f4-48b8-8dbc-5d4f373e1a4c,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T08:18:10.229162,36c63eff-8c69-4d73-90a3-f20354a585e2,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T08:19:43.593143,4839e270-ffd0-437d-b140-4ac90be1be28,127.0.0.1,GET,/api/steadfast/status/cid/<str:consignment_id>/,200,Steadfast status by cid response,test@mail.com
+2026-01-05T08:20:00.644425,455f56ba-beab-449d-86a3-3862f9f55d74,127.0.0.1,GET,/api/steadfast/status/cid/205541780/,200,Steadfast status by cid response,test@mail.com
+2026-01-05T08:20:09.337139,e762ebee-c494-436e-9d11-fedc6bf0c73f,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T08:26:02.983551,45f041ea-4314-49f1-829a-05b518bdc1d1,127.0.0.1,GET,/api/track-order/order-111111114/,500,'coroutine' object has no attribute 'get',test@mail.com
+2026-01-05T08:26:29.598123,ab501844-cc8a-4085-89f1-71b34918d9d6,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T08:27:09.327426,a7ac494e-915f-40db-8a22-e4284111c3a6,172.31.40.247,POST,/api/purchases/create/,400,Purchase creation failed,test@mail.com
+2026-01-05T08:28:38.571620,b5497239-593e-4fad-810c-6b845c40712c,172.31.40.247,POST,/api/purchases/create/,400,Purchase creation failed,test@mail.com
+2026-01-05T08:29:07.062921,0bc6ca02-35d0-44dc-a0d8-e3364ec7f19f,172.31.40.247,POST,/api/purchases/create/,400,Purchase creation failed,test@mail.com
+2026-01-05T08:29:51.860856,12d4affc-cd5c-4f22-9979-640509bc5210,127.0.0.1,GET,/api/track-order/order-111111114/,500,"HTTP Error 405: <!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"" />
+    <meta name=""robots"" content=""noindex,nofollow,noarchive"" />
+    <title>An Error Occurred: Method Not Allowed</title>
+    <style>body { background-color: #fff; color: #222; font: 16px/1.5 -apple-system, BlinkMacSystemFont, ""Segoe UI"", Roboto, ""Helvetica Neue"", Arial, sans-serif; margin: 0; }
+.container { margin: 30px; max-width: 600px; }
+h1 { color: #dc3545; font-size: 24px; }
+h2 { font-size: 18px; }</style>
+</head>
+<body>
+<div class=""container"">
+    <h1>Oops! An Error Occurred</h1>
+    <h2>The server returned a ""405 Method Not Allowed"".</h2>
+
+    <p>
+        Something is broken. Please let us know what you were doing when this error occurred.
+        We will fix it as soon as possible. Sorry for any inconvenience caused.
+    </p>
+</div>
+</body>
+</html>",test@mail.com
+2026-01-05T08:40:42.357031,f5d9851a-08f8-445d-83a2-94f7db51812d,172.31.40.247,POST,/api/purchases/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or not owned by you', code='invalid')}",test@mail.com
+2026-01-05T08:41:57.495571,82bd735c-aa3f-4139-8073-ff7a6ff0678a,172.31.40.247,POST,/api/purchases/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or not owned by you', code='invalid')}",test@mail.com
+2026-01-05T08:49:19.212267,d722157c-d72f-4d1f-88e3-0cf4dd006565,172.31.40.247,POST,/api/purchases/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or not owned by you', code='invalid')}",test@mail.com
+2026-01-05T08:50:13.734169,1638a12a-615a-41fa-9999-6b10fecc6cd5,172.31.40.247,POST,/api/purchases/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or not owned by you', code='invalid')}",test@mail.com
+2026-01-05T08:54:14.789055,6c45ff6d-0221-42b0-80b4-b717257c3ef4,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T09:05:11.991750,0bd14028-9134-4997-946a-7be601181a5e,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T09:05:43.554724,a16ab97b-8c70-4ef5-a661-915b7c26811d,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T09:11:00.978462,b2265a1a-0efa-473d-a726-24de6c7b30b5,127.0.0.1,GET,/api/track-order/order-111111114/,500,"HTTP Error 405: <!DOCTYPE html>
+<html lang=""en"">
+<head>
+    <meta charset=""UTF-8"" />
+    <meta name=""robots"" content=""noindex,nofollow,noarchive"" />
+    <title>An Error Occurred: Method Not Allowed</title>
+    <style>body { background-color: #fff; color: #222; font: 16px/1.5 -apple-system, BlinkMacSystemFont, ""Segoe UI"", Roboto, ""Helvetica Neue"", Arial, sans-serif; margin: 0; }
+.container { margin: 30px; max-width: 600px; }
+h1 { color: #dc3545; font-size: 24px; }
+h2 { font-size: 18px; }</style>
+</head>
+<body>
+<div class=""container"">
+    <h1>Oops! An Error Occurred</h1>
+    <h2>The server returned a ""405 Method Not Allowed"".</h2>
+
+    <p>
+        Something is broken. Please let us know what you were doing when this error occurred.
+        We will fix it as soon as possible. Sorry for any inconvenience caused.
+    </p>
+</div>
+</body>
+</html>",test@mail.com
+2026-01-05T09:12:31.836799,98f9cffd-ef10-4636-8569-2bf21d4ab4ca,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:13:12.498889,8984188a-6be7-4635-8211-c4a44a567632,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:19:09.566880,2542ee60-079c-4e02-aef8-78dfc8469956,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T09:26:02.424674,a2d3326d-3708-4fe7-b994-3b3bc257af3c,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:29:35.359841,c7720880-1636-473f-857a-8fd9d69e80b6,127.0.0.1,GET,/api/track-order/order-111111114/,500,"null value in column ""status"" of relation ""courier_courierorderstatus"" violates not-null constraint
+DETAIL:  Failing row contains (1, null, null, 2026-01-05 09:29:35.355708+00, 2026-01-05 09:29:35.355732+00, 1).
+",test@mail.com
+2026-01-05T09:30:09.186194,928d68e0-ddda-47e9-acf8-91e3ce48da9a,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:31:30.811484,43a19e47-4d77-4b85-979b-bbe44b9986e3,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:32:44.761118,aa5b7b8b-8466-4696-abe2-b59ef6b43cc6,127.0.0.1,GET,/api/track-order/order-111111114/,500,'str' object has no attribute 'all',test@mail.com
+2026-01-05T09:33:10.167439,beeead4c-b220-4723-955b-a4e196f64d63,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:34:17.907814,04aad91c-0817-4fe6-b9f5-515b0600a5bf,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:34:41.761904,291fdf3c-351d-4d0d-a10a-4f82834dd68c,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:35:05.699709,88546297-0c83-4d99-adc4-77628a949c04,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:35:57.769702,4016d986-6ebe-48a4-95c0-de71b63cde26,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:36:10.410055,90cbf326-34d1-4f71-9f93-db845bf3eddd,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:36:37.324193,ca3f760d-d5f9-417e-9f96-9f9591673c1e,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T09:42:35.192873,5ede1e81-0320-4458-8bb3-52ab95be430b,103.133.140.144,POST,/api/auth/login/,200,Login successful,
+2026-01-05T10:02:35.985153,8d339c1e-296e-45dc-84c9-08e7dd6c41ad,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-05T10:02:42.799234,6da7e86b-b87f-4365-8594-e5e5a33243ee,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:03:56.253212,73d10679-b805-4a5e-8e04-984454336ca8,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:04:10.190967,fef7af3d-fc3c-43e1-9655-cbe0613a71cb,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:05:19.293215,2bd71a69-67d7-4a1b-8ab5-f2b9b84816a0,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:08:07.058165,24a1d097-fb9e-4e2a-acdd-4ab27af3e32a,127.0.0.1,GET,/api/track-order/order-111111114/,500,"Cannot resolve keyword 'time' into field. Choices are: courier_order, courier_order_id, created_at, id, status, status_time, updated_at",test@mail.com
+2026-01-05T10:10:03.796718,c465825f-6a34-4700-b0e5-62373573e15d,127.0.0.1,GET,/api/track-order/order-111111114/,500,"duplicate key value violates unique constraint ""courier_courierorderstat_courier_order_id_status_1f80abdd_uniq""
+DETAIL:  Key (courier_order_id, status)=(1, in_review) already exists.
+",test@mail.com
+2026-01-05T10:11:33.031698,ee71d304-2b83-4aba-aa03-90119f8369b0,127.0.0.1,GET,/api/track-order/order-111111114/,500,'CourierOrder' object has no attribute 'prefetch_related',test@mail.com
+2026-01-05T10:11:44.530706,38860e82-5a26-4aba-b4ba-ae9a97b33391,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T10:12:50.894539,e2d6d6b7-44ba-4acc-b9c3-891332266160,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:13:13.025407,fdc51e0d-0244-4634-bdfd-9a06d52e930a,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:14:32.512593,e08ad74c-7d56-41f5-81bc-18d10c91b40a,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:14:39.562491,f43c3032-5848-4940-9726-6124b232736b,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T10:14:52.637631,5f0295ca-4e5e-4a6e-a972-c5ed3eecf261,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:15:36.534565,613e6d83-4a3a-47fd-abe9-ce87c5318e94,127.0.0.1,GET,/api/track-order/order-111111114/,500,'CourierOrder' object is not iterable,test@mail.com
+2026-01-05T10:15:39.950943,6dabf237-dcc7-435b-bda6-c1daba0b2dc3,127.0.0.1,GET,/api/track-order/order-111111114/,500,'CourierOrder' object is not iterable,test@mail.com
+2026-01-05T10:15:49.018769,fa6b7c8f-88c0-44c7-8732-2878df16afad,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:16:05.068056,cd0392a9-6901-4ac6-9a45-6f8cc2a98b38,127.0.0.1,GET,/api/track-order/order-111111114/,500,'Order' object has no attribute 'tracking_status',test@mail.com
+2026-01-05T10:16:06.244761,8273612e-602e-4d70-b5c4-61a2d7275ca6,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:17:17.130195,63ec26e7-aeac-4cd6-9bf1-80aa4e2cf7c0,127.0.0.1,GET,/api/track-order/order-111111114/,500,"Got AttributeError when attempting to get a value for field `courier_status` on serializer `CourierOrderSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `CourierOrder` instance.
+Original exception text was: 'CourierOrder' object has no attribute 'courier_status'.",test@mail.com
+2026-01-05T10:19:32.566291,7176e06c-cfa4-4c75-bb3c-c285c3f6b117,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T10:20:36.442037,a3e3b864-737b-419f-b5f6-34cdc81adf77,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T10:31:08.364580,e25b5c86-2813-45ff-a606-863dd81479a0,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-05T10:32:45.040622,438cc61f-8174-4611-836b-b94ab419b8a2,103.98.107.22,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-05T10:33:32.077886,4a10e68f-f0e4-4743-b677-46b8d93c568e,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:33:43.229758,e74c64e7-a41c-47e0-9e11-c4c1a0e505d3,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T10:35:58.184223,439fe150-1055-4729-bd05-b92b2276d00a,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T10:36:30.764268,688ac436-922d-4a68-8cd0-1ff0747c1402,172.31.40.247,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T10:37:26.358714,7ff5d19e-7533-4caa-b9f2-3f1e8107855e,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+>>>>>>> c3aca1a24e5d9516c516ee8e4b4c8f624d775a0a
+2026-01-05T10:41:46.214963,463b8aac-a318-4b9e-80f1-02f0a534a1a1,127.0.0.1,GET,/api/couriers-list/,200,Courier list fetched successfully,usernamem@gmail.com
+2026-01-05T10:42:17.354536,a16cf465-f17a-4ee8-820f-fb02ba06e43d,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T10:45:50.169325,c65ffad6-a8dd-4a40-b13f-524322eed3dd,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T10:52:58.544856,8c882cbd-b91b-47a3-820a-865c1b80564f,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T10:53:06.648656,708799ce-ad30-40b9-88d9-ee63e1f9412b,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""application/json"" in request.",usernamem@gmail.com
+2026-01-05T10:54:02.275392,7114eac7-ee72-4758-97f1-a38a9e99714a,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:00:56.429416,a7cfef86-505a-4756-9422-d2b7c2d6ab8d,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:04:55.709904,10b42ce5-a0ca-4292-a0e8-4e473572b852,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T11:05:01.799038,153fa3d0-991e-4703-8539-46c22ce50d1a,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:05:16.029044,b45ee04f-855f-4d58-a2f8-446955fcba05,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:17:34.783945,0062ad3a-8caf-4550-b398-1e753b24f8b4,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:18:39.353408,e82ef861-8731-420c-a56f-505d48fe8e79,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:19:31.734134,7b992e59-8d1c-4616-b5d1-9f7be03c77c9,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:20:17.930307,e746201a-9bfe-44e3-bbd3-8741e93e2c48,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:24:53.719560,25ab2b60-3329-4f7c-9e6c-518f406bfc82,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:25:21.830719,6b937424-20e4-4d63-89b1-5c74a27ca768,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:25:58.590658,7b9c0b08-8995-4e25-9462-aacdfc197562,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:26:11.395395,3dd064b5-f6df-42e7-954c-74175b87c55e,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:26:27.258833,2e03751f-303f-4e8a-bff3-9e210be1b29a,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:30:44.083213,aa3d1a85-eaa4-485b-a124-fff18502a4d8,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T11:32:11.477097,862459a6-7d6a-49b7-aa4f-d77f408f9fe4,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:32:22.858730,c9ba2e53-0f95-415a-b9ea-f009e6504c05,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:48:16.838145,726e6a36-6706-4800-b541-9e57422a6034,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:48:52.217413,507c0b37-0d59-4978-987d-1866e5b6a7da,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T11:49:52.983718,1a4249c8-86ea-4e22-a4ed-2394fda90227,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:55:55.856313,878a25e5-bb1e-4a55-b5ec-422eac1cbb64,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:56:53.865821,3e302f6e-036e-47a9-b184-8c937cd2f6cf,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:58:26.526318,b350e150-f1a4-44b3-a2f3-65e5cdb3ebfe,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T11:59:01.994718,68cc6675-e099-4d6d-8c8e-cfb665845342,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:59:15.228141,87d86028-437c-4dc2-b721-a741c3d07b85,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T12:01:20.528668,db37f6fb-fb19-4ac5-a90d-d66732fcb11b,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-05T12:01:24.588622,b17856da-4f65-47c9-87d9-95f9a28800ff,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com

@@ -4,7 +4,7 @@ from .models import (
     CourierList, UserCourier,
     PaperflyMerchant, PaperflyOrder, PaperflyOrderTracking, PaperflyOrderCancel,
     SteadfastOrder, SteadfastTracking, SteadfastReturnRequest,
-    PathaoToken, PathaoStore, PathaoOrder
+    PathaoToken, PathaoStore, PathaoOrder, CourierOrder,
 )
 
 # =========================
@@ -28,6 +28,14 @@ class UserCourierAdmin(UnfoldModelAdmin):
     search_fields = ("user__username", "courier__name")
     readonly_fields = ("created_at", "updated_at")
     ordering = ("user",)
+    
+    
+@admin.register(CourierOrder)
+class CourierOrderAdmin(UnfoldModelAdmin):
+    list_display = ("order", "courier", "tracking_id", "tracking_code", "tracking_status", "merchant_order_id", "invoice", "created_at")
+    search_fields = ("order__id", "courier__name", "tracking_id", "tracking_code", "merchant_order_id", "invoice")
+    readonly_fields = ("created_at", "updated_at")
+    ordering = ("-created_at",)
 
 # =========================
 # Paperfly Merchant

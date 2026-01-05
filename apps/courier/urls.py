@@ -34,6 +34,7 @@ from .views import (
     # Courier List
     CourierListAPIView,
     ToggleCourierStatusAPIView,
+    TrackOrderAPIView,
 )
 
 
@@ -41,6 +42,7 @@ urlpatterns = [
      # Courier List
      path('couriers-list/', CourierListAPIView.as_view(), name='user-couriers'),
      path('user-couriers/<int:pk>/', ToggleCourierStatusAPIView.as_view(), name='toggle-courier-status'),
+     path('track-order/<str:order_id>/', TrackOrderAPIView.as_view(), name='track-order'),
 
     # Merchant Registration API
     path('paperfly/register/', PaperflyRegistrationAPIView.as_view(), name='paperfly-register'),
