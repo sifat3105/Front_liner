@@ -2122,3 +2122,5 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-05T10:18:07.785285,b64c1fab-723c-4533-b7de-eb27b81835a6,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-05T10:18:56.498917,1a385364-c0d4-438a-9f9d-ae73d9dbc897,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-05T10:19:01.805921,aa69cec7-50db-4fd1-965d-5e7a4585f5ed,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T10:19:35.379150,4aa2d97b-162a-420a-9ea8-23cea0677bdc,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T10:20:32.259516,dd67014f-531e-46fe-abeb-75f869b97f59,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
