@@ -15,6 +15,9 @@ class ColorSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
+    sale_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
+    cost_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
 
     # POST + RESPONSE → name আকারে
     sizes = serializers.SlugRelatedField(
@@ -36,8 +39,10 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Order
         fields = (
             "vendor_id",
+            "id",
             "vendor",
             "product",
+            "image",
             "short_description",
             "brand",
             "campaign",
@@ -81,12 +86,19 @@ class ProductSerializer(serializers.ModelSerializer):
 # ITEM SERIALIZER
 class ProductPurchaseItemSerializer(serializers.ModelSerializer):
 
+    product_id = serializers.PrimaryKeyRelatedField(
+        source="product",
+        queryset=Order.objects.all(), 
+        write_only=True
+    )
+    product = serializers.StringRelatedField(read_only=True)
+
     unit_cost = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
     total = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
 
     class Meta:
         model = ProductPurchaseItem
-        fields = ("product","variant","quantity","unit_cost","total",)
+        fields = ("product_id", "id","product","variant","quantity","unit_cost","total",)
         read_only_fields = ("total",)
 
 

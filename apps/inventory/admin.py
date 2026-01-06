@@ -19,6 +19,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "product",
+        "image",
         "vendor",
         "brand",
         "price",

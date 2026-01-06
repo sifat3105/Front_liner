@@ -23,7 +23,7 @@ class Color(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.colors
 
 class Order(models.Model):
     STATUS_CHOICES = (
@@ -84,3 +84,5 @@ class ProductPurchaseItem(models.Model):
 
     def __str__(self):
         return f"{self.product} ({self.quantity})"
+
+
