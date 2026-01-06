@@ -16,19 +16,6 @@ class ColorSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
 
-    # POST + RESPONSE → name আকারে
-    sizes = serializers.SlugRelatedField(
-        many=True,
-        slug_field="size",
-        queryset=Size.objects.all()
-    )
-
-    colors = serializers.SlugRelatedField(
-        many=True,
-        slug_field="colors",
-        queryset=Color.objects.all()
-    )
-
     vendor_id = serializers.IntegerField(write_only=True)
     vendor = serializers.StringRelatedField(read_only=True)
 
@@ -72,8 +59,7 @@ class ProductSerializer(serializers.ModelSerializer):
             **validated_data
         )
 
-        product.sizes.set(sizes)
-        product.colors.set(colors)
+
 
         return product
 
