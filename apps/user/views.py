@@ -2,11 +2,12 @@ from rest_framework import permissions, status
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.contrib.auth import get_user_model
-from .serializers import UserSerializer, UserLoginSerializer, AccountSerializer, ChildUserSerializer
+from .serializers import UserSerializer, UserLoginSerializer, AccountSerializer, ChildUserSerializer,ShopSerializer,BusinessSerializer
 from utils.base_view import BaseAPIView as APIView
 from utils.permission import IsAdmin, RolePermission, IsOwnerOrParentHierarchy
+from rest_framework.permissions import IsAuthenticated
 from middleware.cryptography import encrypt_token
-from . models import Account
+from . models import Account,Shop,Business
 User = get_user_model()
 
 
@@ -307,8 +308,110 @@ class UpdateChildUserView(APIView):
         )
 
 
-    
+
+# Setting > Profile > Shop Info APIView
+
+class ViewShopAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            shop = Shop.objects.get(pk=pk)
+            serializer = ShopSerializer(shop)
+            return self.success(
+                message="Shop fetched successfully",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+        except Shop.DoesNotExist:
+            return self.error(
+                message="Shop not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+class UpdateShopAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        try:
+            shop = Shop.objects.get(pk=pk)
+            serializer = ShopSerializer(
+                shop,
+                data=request.data,
+                partial=True
+            )
+
+            if serializer.is_valid():
+                serializer.save()
+                return self.success(
+                    message="Shop updated successfully",
+                    status_code=status.HTTP_200_OK,
+                    data=serializer.data
+                )
+
+            return self.error(
+                message="Invalid data",
+                errors=serializer.errors,
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        except Shop.DoesNotExist:
+            return self.error(
+                message="Shop not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
 
 
-    
+# Setting > Profile > business Info APIView
 
+class BusinessRetrieveAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        business = Business.objects.filter(owner=request.user).first()
+
+        if not business:
+            return self.error(
+                message="Business not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = BusinessSerializer(business)
+        return self.success(
+            message="Business fetched successfully",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data
+        )
+
+
+class BusinessUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        business = Business.objects.filter(owner=request.user).first()
+
+        if not business:
+            return self.error(
+                message="Business not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = BusinessSerializer(
+            business,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return self.success(
+                message="Business updated successfully",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+
+        return self.error(
+            message="Invalid data",
+            errors=serializer.errors,
+            status_code=status.HTTP_400_BAD_REQUEST
+        )

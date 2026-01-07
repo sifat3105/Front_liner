@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, Account, Subscription
+from .models import User, Account, Subscription,Shop,Business
 
 class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'role', 'is_staff', 'is_superuser')
@@ -21,3 +21,16 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Account)
 admin.site.register(Subscription)
+
+
+@admin.register(Shop)
+class ShopAdmin(admin.ModelAdmin):
+    list_display = ("shop_name", "owner")
+    search_fields = ("shop_name", "business_phone")
+
+
+# Setting > Profile > business Info Admin
+@admin.register(Business)
+class BusinessAdmin(admin.ModelAdmin):
+    list_display = ("id","business_type","owner","years_in_business","created_at",)
+    search_fields = ("business_type","business_registration_number","tax_id_ein",)
