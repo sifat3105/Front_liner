@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Order, Size, Color,ProductPurchaseItem,ProductPurchase
+from .models import Product, Size, Color,ProductPurchaseItem,ProductPurchase
 from apps.vendor.models import Vendor
 
 class SizeSerializer(serializers.ModelSerializer):
@@ -15,16 +15,21 @@ class ColorSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
+    sale_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
+    cost_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
 
     vendor_id = serializers.IntegerField(write_only=True)
     vendor = serializers.StringRelatedField(read_only=True)
 
     class Meta:
-        model = Order
+        model = Product
         fields = (
             "vendor_id",
+            "id",
             "vendor",
             "product",
+            "image",
             "short_description",
             "brand",
             "campaign",
@@ -36,43 +41,48 @@ class ProductSerializer(serializers.ModelSerializer):
             "colors",
             "status",
         )
+        read_only_fields = ("id","created_at")
 
     def create(self, validated_data):
         request = self.context["request"]
-
         vendor_id = validated_data.pop("vendor_id")
-        sizes = validated_data.pop("sizes", [])
-        colors = validated_data.pop("colors", [])
 
-        vendor = Vendor.objects.filter(
-            id=vendor_id,
-            owner=request.user
-        ).first()
-
-        if not vendor:
+        if not Vendor.objects.filter(id=vendor_id,owner=request.user).exists():
             raise serializers.ValidationError({
                 "vendor_id": "Invalid vendor or this vendor does not belong to you"
             })
 
-        product = Order.objects.create(
-            vendor=vendor,
+        product = Product.objects.create(
+            vendor_id=vendor_id,
             **validated_data
+            
         )
-
-
-
         return product
+    
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
+        
 
 
 # ITEM SERIALIZER
 class ProductPurchaseItemSerializer(serializers.ModelSerializer):
+
+    product_id = serializers.PrimaryKeyRelatedField(
+        source="product",
+        queryset=Product.objects.all(), 
+        write_only=True
+    )
+    product = serializers.StringRelatedField(read_only=True)
 
     unit_cost = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
     total = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
 
     class Meta:
         model = ProductPurchaseItem
-        fields = ("product","variant","quantity","unit_cost","total",)
+        fields = ("product_id", "id","product","variant","quantity","unit_cost","total",)
         read_only_fields = ("total",)
 
 

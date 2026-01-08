@@ -3,8 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
-
-from .models import Order, Size, Color,ProductPurchase
+from .models import Product, Size, Color,ProductPurchase
 
 from .serializers import (
     ProductSerializer,
@@ -21,6 +20,8 @@ class ProductCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        print(request.data['colors'])
+        print(list(request.data['colors']))
         serializer = ProductSerializer(
             data=request.data,
             context={"request": request}
@@ -34,7 +35,6 @@ class ProductCreateAPIView(APIView):
                 status_code=status.HTTP_201_CREATED
             )
 
-        # error এর জন্যও success() ব্যবহার
         return self.success(
             message="Product creation failed",
             data=serializer.errors,
@@ -49,7 +49,7 @@ class ProductListAPIView(APIView):
         search = request.GET.get("search")
         status_filter = request.GET.get("status")
 
-        products = Order.objects.filter(
+        products = Product.objects.filter(
             vendor__owner=request.user
         ).order_by("-created")
 
@@ -68,67 +68,129 @@ class ProductListAPIView(APIView):
         if status_filter:
             products = products.filter(status=status_filter)
 
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(products, many=True, context={'request': request})
         return self.success(
             message="Product list fetched successfully",
             data=serializer.data,
             status_code=status.HTTP_200_OK,
             meta={"total": products.count()}
         )
-
-# SIZE
-class SizeListCreateAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        serializer = SizeSerializer(Size.objects.all(), many=True)
+        
+class ProductDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, product_id):
+        try:
+            product = Product.objects.get(id=product_id)
+            serializer = ProductSerializer(product, context={'request': request})
+            return self.success(
+                message="Product fetched successfully",
+                data=serializer.data,
+                status_code=status.HTTP_200_OK
+            )
+        except Product.DoesNotExist:
+            return self.error(
+                message="Product not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return self.error(
+                message=str(e),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
+    def patch(self, request, product_id):
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return self.error(
+                message="Product not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+        
+        data = ProductSerializer(
+            product,
+            data=request.data,
+            partial=True,
+            context={'request': request}
+        ).data
+        
         return self.success(
-            message="Size list fetched",
-            data=serializer.data,
+            message="Product updated successfully",
+            data=data,
             status_code=status.HTTP_200_OK
         )
-
-    def post(self, request):
-        serializer = SizeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return self.success(
-                message="Size created",
-                data=serializer.data,
-                status_code=status.HTTP_201_CREATED
+        
+    def delete(self, request, product_id):
+        try:
+            product = Product.objects.get(id=product_id)
+        except Product.DoesNotExist:
+            return self.error(
+                message="Product not found",
+                status_code=status.HTTP_404_NOT_FOUND
             )
+        
+        product.delete()
+        
         return self.success(
-            message="Size creation failed",
-            data=serializer.errors,
-            status_code=status.HTTP_400_BAD_REQUEST
-        )
-
-# COLOR
-class ColorListCreateAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        serializer = ColorSerializer(Color.objects.all(), many=True)
-        return self.success(
-            message="Color list fetched",
-            data=serializer.data,
+            message="Product deleted successfully",
             status_code=status.HTTP_200_OK
         )
+        
 
-    def post(self, request):
-        serializer = ColorSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return self.success(
-                message="Color created",
-                data=serializer.data,
-                status_code=status.HTTP_201_CREATED
-            )
-        return self.success(
-            message="Color creation failed",
-            data=serializer.errors,
-            status_code=status.HTTP_400_BAD_REQUEST
-        )
+# # SIZE
+# class SizeListCreateAPIView(APIView):
+#     # permission_classes = [IsAuthenticated]
+
+#     def get(self, request):
+#         serializer = SizeSerializer(Size.objects.all(), many=True)
+#         return self.success(
+#             message="Size list fetched",
+#             data=serializer.data,
+#             status_code=status.HTTP_200_OK
+#         )
+
+#     def post(self, request):
+#         serializer = SizeSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return self.success(
+#                 message="Size created",
+#                 data=serializer.data,
+#                 status_code=status.HTTP_201_CREATED
+#             )
+#         return self.success(
+#             message="Size creation failed",
+#             data=serializer.errors,
+#             status_code=status.HTTP_400_BAD_REQUEST
+#         )
+
+# # COLOR
+# class ColorListCreateAPIView(APIView):
+#     # permission_classes = [IsAuthenticated]
+
+#     def get(self, request):
+#         serializer = ColorSerializer(Color.objects.all(), many=True)
+#         return self.success(
+#             message="Color list fetched",
+#             data=serializer.data,
+#             status_code=status.HTTP_200_OK
+#         )
+
+#     def post(self, request):
+#         serializer = ColorSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return self.success(
+#                 message="Color created",
+#                 data=serializer.data,
+#                 status_code=status.HTTP_201_CREATED
+#             )
+#         return self.success(
+#             message="Color creation failed",
+#             data=serializer.errors,
+#             status_code=status.HTTP_400_BAD_REQUEST
+#         )
 
 
 
