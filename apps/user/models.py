@@ -3,6 +3,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.db import models
 from django.utils import timezone
 from django.db.models import JSONField
+import uuid
 
 ROLE_CHOICES = (
     ("user", "User"),
@@ -70,12 +71,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    username = models.CharField(max_length=255, blank=True, null=True)
+    full_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255, blank=True, null=True)
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.0)
     organization = models.CharField(max_length=255, blank=True, null=True)
+    user_str_id= models.CharField(max_length=255, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     preferences = JSONField(default=dict, blank=True)
     last_login = models.DateTimeField(blank=True, null=True)
@@ -84,6 +84,9 @@ class Account(models.Model):
 
     def __str__(self):
         return f"{self.user.email} Account"
+    
+    def save(self, *args, **kwargs):
+        self.user_id = uuid
 
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subscriptions")

@@ -1,22 +1,40 @@
 from rest_framework import serializers
-from .models import SocialPost, SocialMedia, SocialPostPublish
-
+from .models import SocialPost, PostMediaFile
 
 class SocialMediaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SocialMedia
+        model = PostMediaFile
         fields = ("id", "file", "media_type", "created_at", "updated_at")
+        
+        
+class SocialPostCreateSerializer(serializers.Serializer):
+    title = serializers.CharField(required=False, allow_blank=True)
+    caption = serializers.CharField()
+    hashtags = serializers.ListField(
+        child=serializers.CharField(),
+        required=False
+    )
+    scheduled_at = serializers.DateTimeField(required=False, allow_null=True)
+    is_published = serializers.BooleanField(default=False)
+    platforms = serializers.ListField(
+        child=serializers.IntegerField(),
+        allow_empty=False
+    )
 
 
 class SocialPostSerializer(serializers.ModelSerializer):
     media = SocialMediaSerializer(many=True, required=False)
+    platforms = serializers.SerializerMethodField()
     
     class Meta:
         model = SocialPost
         fields = (
             "id", "title", "caption", "scheduled_at", 
-            "is_published", "media", "created_at", "updated_at"
+            "is_published", "media", "platforms", "post_ids", "created_at", "updated_at"
         )
+        
+    def get_platforms(self, obj):
+        return [{"id": p.id, "platform": p.name} for p in obj.platforms.all()]
     
     def create(self, validated_data):
         # Get media data if provided
@@ -30,7 +48,7 @@ class SocialPostSerializer(serializers.ModelSerializer):
         
         # Create associated media objects
         for media_item in media_data:
-            SocialMedia.objects.create(post=post, **media_item)
+            PostMediaFile.objects.create(post=post, **media_item)
         
         return post
     
@@ -49,7 +67,7 @@ class SocialPostSerializer(serializers.ModelSerializer):
             
             # Create new media
             for media_item in media_data:
-                SocialMedia.objects.create(post=instance, **media_item)
+                PostMediaFile.objects.create(post=instance, **media_item)
         
         return instance
     
@@ -62,20 +80,8 @@ class SocialPostSerializer(serializers.ModelSerializer):
         instance.save()
         if media:
             for m in media:
-                SocialMedia.objects.create(post=instance, **m)
+                PostMediaFile.objects.create(post=instance, **m)
         return instance
 
-class SocialPostPublishSerializer(serializers.ModelSerializer):
-    post = SocialPostSerializer()
-    class Meta:
-        model = SocialPostPublish
-        fields = (
-            "id",
-            "platform",
-            "custom_caption",
-            "status",
-            "error_message",
-            "published_at",
-            "created_at",
-        )
+
     

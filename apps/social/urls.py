@@ -1,13 +1,16 @@
 from django.urls import path
-from .views import (FacebookConnectURL, FacebookCallback, FacebookPageListView, FacebookWebhook, 
-                    MessangerConnectWithBot, SocialPlatformListView, TikTokConnectURL, FacebookDeletion
+from .views import (SocialConnectURL, FacebookCallback, FacebookPageListView, FacebookWebhook, 
+                    MessangerConnectWithBot, SocialPlatformListView, TikTokConnectURL, FacebookDeletion,
+                    InstagramCallback, MetaDataDeletionAPIView
                 )
 
 urlpatterns = [
+    path("meta_data_deletion/", MetaDataDeletionAPIView.as_view()),
     path("platforms/", SocialPlatformListView.as_view()),
-    path("facebook/connect/", FacebookConnectURL.as_view()),
+    path("<str:platform>/connect/", SocialConnectURL.as_view()),
     path("tiktok/connect/", TikTokConnectURL.as_view()),
     path("facebook/callback/", FacebookCallback.as_view()),
+    path("instagram/callback/", InstagramCallback.as_view()),
     path("facebook/pages/", FacebookPageListView.as_view()),
     path("facebook/delete/", FacebookDeletion.as_view()),
     path("whatsapp/callback/", FacebookCallback.as_view()),

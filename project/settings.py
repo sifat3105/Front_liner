@@ -242,8 +242,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = "/var/www/media"
+MEDIA_URL = "https://media.frontliner.io/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -267,10 +267,51 @@ FB_VERIFY_TOKEN = "my_fb_verify_token_2025"
 
 INSTAGRAM_APP_ID = "2060639764791245"
 INSTAGRAM_APP_SECRET = "694ced5269ad277849e5923c"
+INSTAGRAM_REDIRECT_URI = "https://test.frontliner.io/api/social/instagram/callback/"
 
 TIKTOK_CLIENT_KEY = "sbaw6iwjvtlzl0dnqr"
 TIKTOK_CLIENT_SECRET = "7GSGlOQYv7fHwaHj4JTGS1KOZfIpNoqa"
 TIKTOK_REDIRECT_URI = "https://test.frontliner.io/api/social/tiktok/callback/"
+
+PLATFORM_CONFIG = {
+        "facebook": {
+            "auth_url": "https://www.facebook.com/v19.0/dialog/oauth",
+            "client_id": FACEBOOK_APP_ID,
+            "redirect_uri":FACEBOOK_REDIRECT_URI,
+            "scope": [
+                "pages_show_list",
+                "pages_read_engagement",
+                "pages_manage_posts",
+            ],
+            "state_prefix": "facebook_oauth_",
+        },
+        "instagram": {
+            "auth_url": "https://www.facebook.com/v19.0/dialog/oauth",
+            "client_id": FACEBOOK_APP_ID,
+            "redirect_uri": INSTAGRAM_REDIRECT_URI,
+            # "force_reauth": True,
+            "scope": [
+                "instagram_basic",
+                "instagram_content_publish",
+                "instagram_manage_comments",
+                "instagram_manage_messages",
+                "instagram_manage_insights",
+                "pages_show_list",
+                "pages_read_engagement",
+                "business_management",
+            ],
+            "state_prefix": "instagram_oauth_",
+        },
+        # Future-ready
+        "tiktok": {
+            "auth_url": None,  # add later
+        },
+    }
+
+
+#===============================================================================
+# PAYSTATION
+#===============================================================================
 
 PAYSTATION_MERCHANT_ID = "104-1653730183"
 PAYSTATION_PASSWORD = "gamecoderstorepass"
@@ -373,6 +414,15 @@ UNFOLD = {
                 ],
             },
             {
+                "title": "Vendor",
+                "collapsible": True,
+                "items": [
+                    {"title": "Vendors", "link": "/admin/vendor/vendor/"},
+                    {"title": "Vendor Invoices", "link": "/admin/vendor/vendorinvoice/"},
+                    {"title": "Vendor Payments", "link": "/admin/vendor/vendorpayment/"},
+                ],
+            },
+            {
                 "title": "Notifications",
                 "collapsible": True,
                 "items": [
@@ -442,6 +492,7 @@ UNFOLD = {
                     {"title": "Social Platforms", "link": "/admin/social/socialplatform/"},
                     {"title": "Social Accounts", "link": "/admin/social/socialaccount/"},
                     {"title": "Facebook Pages", "link": "/admin/social/facebookpage/"},
+                    {"title": "Instagram Accounts", "link": "/admin/social/instagramaccount/"},
                 ],
             },
             {

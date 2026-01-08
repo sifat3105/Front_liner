@@ -25,10 +25,10 @@ class Color(models.Model):
     def __str__(self):
         return self.colors
 
-class Order(models.Model):
+class Product(models.Model):
     STATUS_CHOICES = (
-        ('Published', 'Published'),
-        ('Draft', 'Draft'),
+        ('published', 'Published'),
+        ('draft', 'Draft'),
     )
 
     vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name='orders')
@@ -43,11 +43,11 @@ class Order(models.Model):
     sale_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
     cost_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
 
-    sizes = models.ManyToManyField('Size',blank=True,related_name='products')
+    sizes = models.JSONField(default=list, blank=True, null=True)
 
-    colors = models.ManyToManyField('Color',blank=True,related_name='products')
+    colors = models.JSONField(default=list, blank=True, null=True)
 
-    status = models.CharField(max_length=20,choices=STATUS_CHOICES,default='Draft')
+    status = models.CharField(max_length=20,choices=STATUS_CHOICES,default='draft')
 
     created = models.DateTimeField(auto_now_add=True)
 
@@ -69,7 +69,7 @@ class ProductPurchase(models.Model):
 # PURCHASE ITEMS
 class ProductPurchaseItem(models.Model):
     purchase = models.ForeignKey(ProductPurchase,on_delete=models.CASCADE,related_name="items")
-    product = models.ForeignKey(Order,on_delete=models.CASCADE,related_name="purchase_items")
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="purchase_items")
     variant = models.CharField(max_length=100, blank=True, null=True)
 
     quantity = models.PositiveIntegerField()

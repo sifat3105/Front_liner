@@ -74,3 +74,21 @@ class FacebookPage(models.Model):
 
     def __str__(self):
         return self.page_name
+    
+    
+class InstagramAccount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="instagram_accounts")
+    social_account = models.ForeignKey(SocialAccount, on_delete=models.CASCADE, related_name="instagram_accounts")
+    
+    ig_user_id = models.CharField(max_length=255)
+    username = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    profile_picture = models.TextField(null=True, blank=True)
+    page_id = models.TextField()
+    page_access_token = models.TextField()
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.username

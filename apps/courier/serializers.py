@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import CourierList, CourierOrder, CourierOrderStatus
+from decimal import Decimal as decimal
 
 class CourierCompanySerializer(serializers.ModelSerializer):
     is_active = serializers.SerializerMethodField()
@@ -47,3 +48,24 @@ class CourierOrderSerializer(serializers.ModelSerializer):
     
     def get_order_id(self, obj):
         return obj.order.order_id
+    
+class CourierOrderListSerializer(serializers.ModelSerializer):
+    customer = serializers.CharField(source="order.customer")
+    location = serializers.CharField(source="order.location")
+    contact = serializers.CharField(source="order.contact")
+    courier_name = serializers.CharField(source="courier.name")
+    order_id = serializers.CharField(source="order.order_id")
+    platform = serializers.CharField(source="order.platform")
+    amount = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = CourierOrder
+        
+        fields = ['id', 'couriers_id', 'order_id', 'customer', 'location', 'contact', 'amount', 'status', 'courier_name', 'platform', 'created_at']
+        
+    def get_status(self, obj):
+        last_status = obj.track_status.last()
+        return last_status.status if last_status else None
+    def get_amount(self, obj):
+        return obj.order.order_amount + decimal(obj.delivery_fee) if obj.delivery_fee else obj.order.order_amount

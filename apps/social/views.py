@@ -4,13 +4,38 @@ from utils.base_view import BaseAPIView as APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 import requests
-from .models import SocialAccount, FacebookPage, SocialPlatform
+from .models import SocialAccount, FacebookPage, SocialPlatform, InstagramAccount
 from .serializers import SocialAccountSerializer, FacebookPageSerializer, SocialPlatformSerializer
 from apps.chat.utils import handle_message, send_message
 import urllib.parse
 import uuid
 from django.core.cache import cache
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from .utils import get_long_lived_token
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class MetaDataDeletionAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+    
+    def post(self, request):
+        data = request.data
+        user_id = data.get("user_id")
+        confirmation_code = data.get("confirmation_code")
+        if not user_id or not confirmation_code:
+            return Response({"error": "Invalid data"}, status=400)
+        
+        # TODO: Delete or anonymize user data in your database
+        # Example:
+        # User.objects.filter(instagram_id=user_id).delete()
+
+        # Return confirmation code to Facebook/Instagram
+        return Response({
+            "url": f"{request.build_absolute_uri()}/meta_data_deletion/",
+            "confirmation_code": confirmation_code
+        })
+
 
 
 class SocialPlatformListView(APIView):
@@ -26,33 +51,48 @@ class SocialPlatformListView(APIView):
             meta={"action": "social_platforms"}
         )
 
-class FacebookConnectURL(APIView):
+class SocialConnectURL(APIView):
     permission_classes = []
-
-    def get(self, request):
+    PLATFORM_CONFIG =settings.PLATFORM_CONFIG
+    
+    def get(self, request, platform):
         user = request.user
+        platform = platform.lower()
 
-        # Generate a random state
+        config = self.PLATFORM_CONFIG.get(platform)
+        if not config or not config.get("auth_url"):
+            return Response(
+                {"error": "Unsupported platform"},
+                status=400
+            )
+
         state = str(uuid.uuid4())
+        cache.set(
+            f"{config['state_prefix']}{state}",
+            user.id,
+            timeout=300
+        )
 
-        cache.set(f"facebook_oauth_{state}", user.id, timeout=300)
+        scope = ",".join(config["scope"])
 
         url = (
-            "https://www.facebook.com/v19.0/dialog/oauth"
-            f"?client_id={settings.FACEBOOK_APP_ID}"
-            f"&redirect_uri={settings.FACEBOOK_REDIRECT_URI}"
-            "&response_type=code"
+            f"{config['auth_url']}"
+            f"?client_id={config['client_id']}"
+            f"&redirect_uri={config['redirect_uri']}"
+            f"&response_type=code"
             f"&state={state}"
-            "&scope="
-            "pages_show_list,"
-            "pages_read_engagement,"
-            "pages_manage_posts"
+            f"&scope={scope}"
+            f"&force_reauth={config.get('force_reauth', False)}"
         )
 
-        return self.success(
-            message="Facebook connect URL generated successfully",
-            data={"url": url}
-        )
+        return Response({
+            "status": "success",
+            "message": f"{platform.capitalize()} connect URL generated successfully",
+            "data": {
+                "platform": platform,
+                "url": url
+            }
+        })
 
 
 class FacebookCallback(APIView):
@@ -124,6 +164,90 @@ class FacebookCallback(APIView):
         return redirect(
             "https://frontliner-dashboard.vercel.app/user/social/connect/fallback?platform=facebook&status=success"
         )
+        
+        
+class InstagramCallback(APIView):
+    permission_classes = []
+
+    def get(self, request):
+        code = request.GET.get("code")
+        state = request.GET.get("state")
+
+        if not code:
+            return Response({"error": "Code missing"}, status=400)
+
+        user_id = cache.get(f"instagram_oauth_{state}")
+        if not user_id:
+            return Response({"error": "Invalid or expired state"}, status=400)
+
+        cache.delete(f"instagram_oauth_{state}")
+
+        # 1️⃣ Exchange code for short-lived token
+        token_res = requests.get(
+            "https://graph.facebook.com/v19.0/oauth/access_token",
+            params={
+                "client_id": settings.FACEBOOK_APP_ID,
+                "client_secret": settings.FACEBOOK_APP_SECRET,
+                "redirect_uri": settings.INSTAGRAM_REDIRECT_URI,
+                "code": code,
+            }
+        ).json()
+
+        user_token = token_res.get("access_token")
+        if not user_token:
+            return Response({"error": "Failed to get access token"}, status=400)
+
+        # 2️⃣ Long-lived token
+        long_lived_token = get_long_lived_token(user_token)
+
+        # 3️⃣ Save social account
+        social, _ = SocialAccount.objects.update_or_create(
+            user_id=user_id,
+            platform="instagram",
+            defaults={
+                "user_access_token": user_token,
+                "long_lived_token": long_lived_token,
+            }
+        )
+
+        # 4️⃣ Get Facebook Pages
+        pages = requests.get(
+            "https://graph.facebook.com/v19.0/me/accounts",
+            params={"access_token": user_token}
+        ).json()
+
+        for page in pages.get("data", []):
+            page_token = page["access_token"]
+
+            ig_res = requests.get(
+                f"https://graph.facebook.com/v19.0/{page['id']}",
+                params={
+                    "fields": "instagram_business_account{name,username,profile_picture_url}",
+                    "access_token": page_token,
+                }
+            ).json()
+
+            ig = ig_res.get("instagram_business_account")
+            if not ig:
+                continue  
+            InstagramAccount.objects.update_or_create(
+                ig_user_id=ig["id"],
+                defaults={
+                    "user_id": user_id,
+                    "social_account": social,
+                    "username": ig.get("username"),
+                    "name": ig.get("name"),
+                    "profile_picture": ig.get("profile_picture_url"),
+                    "page_id": page["id"],
+                    "page_access_token": page_token,
+                }
+            )
+
+        return redirect(
+            "https://frontliner-dashboard.vercel.app/user/social/connect/fallback"
+            "?platform=instagram&status=success"
+        )
+
     
 
 class FacebookPageListView(APIView):

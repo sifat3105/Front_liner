@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, Size, Color,ProductPurchase, ProductPurchaseItem
+from .models import Product, Size, Color,ProductPurchase, ProductPurchaseItem
 
 
 @admin.register(Size)
@@ -14,8 +14,8 @@ class ColorAdmin(admin.ModelAdmin):
     search_fields = ('colors',)
 
 
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "product",
@@ -28,7 +28,6 @@ class OrderAdmin(admin.ModelAdmin):
     )
     list_filter = ("status", "brand", "vendor")
     search_fields = ("product", "brand")
-    filter_horizontal = ("sizes", "colors")
 
 
 class ProductPurchaseItemInline(admin.TabularInline):
