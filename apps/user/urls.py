@@ -12,7 +12,10 @@ from .views import (
     ViewShopAPIView,
     UpdateShopAPIView,
     BusinessRetrieveAPIView,
-    BusinessUpdateAPIView
+    BusinessUpdateAPIView,
+    BankingDetailAPIView,
+    BankingUpdateAPIView,
+    ChangePasswordAPIView
 )
 
 urlpatterns = [
@@ -39,4 +42,10 @@ urlpatterns = [
     # Setting > Profile > business Info Urls
     path("business/", BusinessRetrieveAPIView.as_view(), name="business-get"),
     path("business/update/", BusinessUpdateAPIView.as_view(), name="business-update"),
+
+    # Setting > Profile > business Info Urls
+    path("banking/", BankingDetailAPIView.as_view(), name="banking-detail"),
+    path("banking/update/", BankingUpdateAPIView.as_view(), name="banking-update"),
+
+    path("change-password/", ChangePasswordAPIView.as_view(), name="change-password"),
 ]

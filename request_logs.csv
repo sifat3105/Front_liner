@@ -2387,3 +2387,42 @@ Original exception text was: 'CourierOrder' object has no attribute 'courier_sta
 2026-01-07T12:25:19.999828,589143cd-333a-4e41-abd7-d583a9619530,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
 2026-01-07T12:25:23.785321,9d086fc0-c0c5-4714-b6c0-cbb9d2498e5c,127.0.0.1,GET,/api/shops/1/,200,Shop fetched successfully,usernamem@gmail.com
 2026-01-07T12:26:15.210021,b28e02a6-b71c-4584-8b0a-97f6d274415d,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:29:35.712222,c1507d2b-621a-49d7-adf0-549a89afe023,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:29:40.726912,45e2fc9a-a558-4978-b0cc-279b1f4f971c,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T12:29:44.592145,37dded82-d82f-466b-ae2e-cbdcbee72672,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:30:04.695668,1a4093cc-00d5-4a16-82e9-c2e7faa47944,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:30:11.100575,98cfe17c-a756-40be-876d-945ad8ea4730,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:06:58.137017,ca14d972-e669-427a-96ad-e41f40ffd739,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-08T07:07:08.341674,c09bee4e-cab4-4b49-9142-e5773da03607,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-08T07:07:21.160444,a9b6cdc5-e2ed-44e9-87c1-0b0b1aaa49e2,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:07:30.785421,887b2c0f-a390-42c3-ad2a-8b4e0f27d559,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:07:36.053722,49481243-173e-438e-bc6b-adbb306201fe,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:07:47.409840,682a402a-7b54-4443-b8fb-64fef99de2aa,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:07:52.466738,67e780be-fd57-46d2-a7f1-f6d74584aab6,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:08:03.695776,b83a0548-0785-43e9-a512-60aa5d43d6a0,127.0.0.1,GET,/api/shops/1/,200,Shop fetched successfully,usernamem@gmail.com
+2026-01-08T07:08:12.627494,f03384ce-b109-4075-be05-2500e0cf3d34,127.0.0.1,PATCH,/api/shops/1/update/,200,Shop updated successfully,usernamem@gmail.com
+2026-01-08T07:08:18.277667,b35ac663-3e73-4dde-9dfd-d515bf3b3fe7,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:09:18.876901,543faef6-6241-4a1d-84e4-3b780ab34da7,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:09:25.323300,2f9ec736-6ee4-42b4-aca7-6e4524cf8252,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:09:34.574084,8b317464-72b7-478e-89e2-fd3349cef8a9,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:10:22.106130,33ca2a1c-12f5-40db-8109-165352600b5e,127.0.0.1,PATCH,/api/banking/update/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:16:11.236734,51e105c9-3c5c-4ade-adb6-3ba3abcba645,127.0.0.1,GET,/api/business/,200,Business fetched successfully,usernamem@gmail.com
+2026-01-08T07:16:16.530671,aac3ad93-ebc0-409c-a120-2090c5a17183,127.0.0.1,PATCH,/api/business/update/,200,Business updated successfully,usernamem@gmail.com
+2026-01-08T07:18:20.522421,05c82c6f-07f3-4c1b-8a8a-876d979b1c88,127.0.0.1,PATCH,/api/banking/update/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:18:25.802150,ba3ccd9c-6a7f-4eed-834c-b5b89eda93c2,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:20:02.111149,aa195a6b-d4f5-4a7f-9e5f-ad55ce800c8c,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:20:32.873185,4b7ec0dc-924e-40f8-bb23-2926c05bdc7d,127.0.0.1,PATCH,/api/banking/update/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:20:47.010061,9c250e41-2ad5-4d81-94ca-727beefc9290,127.0.0.1,PATCH,/api/banking/update/,200,Banking information updated successfully,usernamem@gmail.com
+2026-01-08T07:20:53.497445,36f68b40-cb2e-4d1b-91d1-03927e52280a,127.0.0.1,GET,/api/banking/,200,Banking information fetched successfully,usernamem@gmail.com
+2026-01-08T07:21:26.629795,49737bbb-6118-49e9-8fa2-3bbf0c66bb52,127.0.0.1,GET,/api/business/,200,Business fetched successfully,usernamem@gmail.com
+2026-01-08T07:21:31.283825,ecb3272c-b7f7-489f-8273-35a47f84b047,127.0.0.1,PATCH,/api/business/update/,200,Business updated successfully,usernamem@gmail.com
+2026-01-08T07:21:34.698422,40b1feaa-acf4-4d17-b014-2bf81df4e92e,127.0.0.1,GET,/api/banking/,200,Banking information fetched successfully,usernamem@gmail.com
+2026-01-08T07:21:38.028179,9c241390-6122-446e-bacb-25d56fd26c17,127.0.0.1,PATCH,/api/banking/update/,200,Banking information updated successfully,usernamem@gmail.com
+2026-01-08T07:36:27.617662,48a85327-837c-4603-9f11-69cd6ee773da,127.0.0.1,GET,/api/change-password/,405,"Method ""GET"" not allowed.",usernamem@gmail.com
+2026-01-08T07:36:49.607334,aad162ac-7105-46b5-85f4-3f5009d17565,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T07:37:02.328523,7d58c087-06e6-4b02-9429-9ddc7257bf18,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T07:37:10.056768,f934aaa4-11e2-4c6a-99dd-5524b842b654,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T07:40:27.121184,fac61c00-c879-4003-9221-5cfaee5bc12e,127.0.0.1,PATCH,/api/change-password/,200,Password updated successfully,usernamem@gmail.com
+2026-01-08T07:40:41.261666,cd8e0826-0d66-40ff-9032-fb5782d3f9e8,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T08:16:54.511068,bb6f5602-63cd-4656-9687-317db41d3d79,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T08:17:21.762634,36035173-bd71-4cd3-bca3-48be4f35040e,127.0.0.1,PATCH,/api/change-password/,200,Password updated successfully,usernamem@gmail.com

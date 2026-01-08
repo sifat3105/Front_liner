@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Account,Shop, Business
+from .models import User, Account,Shop, Business,Banking
 from django.contrib.auth import authenticate
 
 
@@ -174,6 +174,23 @@ class BusinessSerializer(serializers.ModelSerializer):
             "years_in_business",
             "business_registration_number",
             "tax_id_ein",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "created_at", "updated_at")
+
+# Setting > Profile > Banking Info serializers
+
+class BankingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banking
+        fields = (
+            "id",
+            "bank_name",
+            "account_name",
+            "account_number",
+            "routing_number",
+            "swift_bic_code",
             "created_at",
             "updated_at",
         )

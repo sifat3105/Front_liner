@@ -132,4 +132,20 @@ class Business(models.Model):
 
     def __str__(self):
         return self.business_type
-    
+
+# Setting > Profile > Banking Info Model
+
+class Banking(models.Model):
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Banking")
+
+    bank_name = models.CharField(max_length=255)
+    account_name =models.CharField(max_length=255)
+    account_number = models.IntegerField()
+    routing_number = models.IntegerField()
+    swift_bic_code = models.CharField(max_length=255)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.bank_name
