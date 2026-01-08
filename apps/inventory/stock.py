@@ -77,3 +77,4 @@ class Stock(models.Model):
     @property
     def amount(self):
         return self.balance * self.product.price
+       
