@@ -3035,4 +3035,4 @@ db72aa45f1f75e54ba6f9e1a196a6e7e7540c4e7
 2026-01-08T10:52:17.491913,93901636-819c-40c3-a0b2-7f9a11c3e1ba,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
 2026-01-08T10:52:18.086118,3888b4ef-fe06-4722-9a74-a4e6f615f7cc,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
 2026-01-08T10:52:55.471355,7d5694d8-a6c1-49ce-b1d8-b371393582e4,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
->>>>>>> 86737225954cae667b2e992ac6bd85d9099c8c69
+>>>>>>> 44c49cd5164f5c4471bfd680d4e7007cc901eb6a
