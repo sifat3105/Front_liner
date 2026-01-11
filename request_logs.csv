@@ -2349,3 +2349,4 @@ Original exception text was: 'CourierOrder' object has no attribute 'courier_sta
 2026-01-05T11:59:15.228141,87d86028-437c-4dc2-b721-a741c3d07b85,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-05T12:01:20.528668,db37f6fb-fb19-4ac5-a90d-d66732fcb11b,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
 2026-01-05T12:01:24.588622,b17856da-4f65-47c9-87d9-95f9a28800ff,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-05T12:02:10.140984,8c264171-1b15-4ef3-899e-f8d4b6bbc089,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
