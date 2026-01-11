@@ -13,19 +13,38 @@ def init_facebook(app_id, app_secret, page_access_token):
         access_token=page_access_token
     )
 
-def upload_unpublished_images(page, image_urls):
+def upload_unpublished_media(page, media_urls, title):
+    """
+    Upload images or videos unpublished and return media IDs
+    """
     media_ids = []
+    video_ids = []
+    for url in media_urls:
+        if url.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.tiff', '.heif', '.webp')):
+            # Image upload
+            photo = page.create_photo(
+                params={
+                    "url": url,
+                    "published": False
+                }
+            )
+            media_ids.append({"media_fbid": photo["id"]})
 
-    for url in image_urls:
-        photo = page.create_photo(
-            params={
-                "url": url,
-                "published": False
-            }
-        )
-        media_ids.append({"media_fbid": photo["id"]})
+        elif url.lower().endswith(('.mp4', '.mov', '.avi', '.mkv')):
+            video = page.create_video(
+                params={
+                    "file_url": url,
+                    "title": title,
+                    "description": None,
+                    "published": True
+                }
+            )
+            video_ids.append(video["id"])
 
-    return media_ids
+        else:
+            print(f"Unsupported media format: {url}")
+
+    return media_ids, video_ids
 
 
 
@@ -36,7 +55,7 @@ def publish_fb_post( page_id, page_access_token, message, image_urls, publish=Fa
 
     page = Page(page_id)
 
-    attached_media = upload_unpublished_images(page, image_urls)
+    attached_media, video_ids = upload_unpublished_media(page, image_urls, message)
 
     response = page.create_feed(
         params={
@@ -45,5 +64,5 @@ def publish_fb_post( page_id, page_access_token, message, image_urls, publish=Fa
         }
     )
 
-    return response.get("id")
+    return response.get("id"), video_ids
 

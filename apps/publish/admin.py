@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
-from .models import SocialPost, PostMediaFile
+from .models import SocialPost, PostMediaFile, MediaDraft
 
 @admin.register(SocialPost)
 class SocialPostAdmin(UnfoldModelAdmin):
@@ -19,5 +19,10 @@ class SocialMediaAdmin(UnfoldModelAdmin):
     readonly_fields = ("created_at", "updated_at")
     ordering = ("-created_at",)
 
-
+@admin.register(MediaDraft)
+class MediaDraftAdmin(UnfoldModelAdmin):
+    list_display = ("id", "user", "media_type", "file", "created_at")
+    list_filter = ("media_type", "created_at")
+    search_fields = ("user__username", "file")
+    readonly_fields = ("created_at", "updated_at")      
 

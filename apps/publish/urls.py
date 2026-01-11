@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (SocialPostView, SocialMediaGalleryView, SocialPostPublishView
-                    ,PlatformPageListView, SocialPlatformListView, SocialPostdetailView, GeneratePostCaption
+                    ,PlatformPageListView, SocialPlatformListView, SocialPostdetailView, GeneratePostCaption,
+                    demoImage
                     )
 
 urlpatterns = [
@@ -11,4 +12,6 @@ urlpatterns = [
     path("publish/", SocialPostPublishView.as_view()),
     path("pages/", PlatformPageListView.as_view()),
     path("platforms/", SocialPlatformListView.as_view()),
+    
+    path("demo/image/", demoImage.as_view()),
 ]

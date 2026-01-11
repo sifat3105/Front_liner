@@ -4,20 +4,20 @@ from rest_framework.throttling import ScopedRateThrottle
 from django.db import transaction
 from utils.base_view import BaseAPIView as APIView
 from utils.permission import IsAdmin, RolePermission, IsOwnerOrParentHierarchy
-from .models import SocialPost, PostMediaFile
-from .serializers import SocialPostSerializer, SocialMediaSerializer, SocialPostCreateSerializer
+from .models import SocialPost, PostMediaFile, MediaDraft
+from .serializers import SocialPostSerializer, SocialMediaSerializer, SocialPostCreateSerializer, MediaDraftSerializer
 from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.page import Page
 from django.conf import settings
 from apps.social.models import (
-    SocialAccount, FacebookPage, FacebookPage, SocialPlatform, InstagramAccount
+    SocialAccount, FacebookPage, FacebookPage, SocialPlatform, InstagramAccount, 
     )
 
 from .utils.publish_Facebook_post import publish_fb_post
 from .utils.instagram_post import create_ig_post
 from .services.media_service import save_media_files
 from .services.publish_service import publish_to_platforms, publish_post
-from .services.post_generations import generate_caption, generate_hashtags
+from .services.post_generations import generate_caption, generate_hashtags, generate_image
 
 
 app_id = settings.FACEBOOK_APP_ID
@@ -172,16 +172,16 @@ class SocialPostPublishView(APIView):
             
             media_urls = []
             for m in post.media.all():
-                media_urls.append(f"{request.build_absolute_uri(m.file.url)}")
+                media_urls.append(m.file.url)
             
             if pfm == "facebook":
                 fb_page_id = request.data.get("fb_page_id")
                 page = FacebookPage.objects.get(user=request.user, id=fb_page_id)
-                platform_post_id = publish_fb_post(
+                platform_post_id, video_ids = publish_fb_post(
                     page.page_id,
                     page.page_access_token,
                     post.caption,
-                    media_urls
+                    media_urls,
                 )
                 post.post_id = platform_post_id
                 post.is_published = True
@@ -241,30 +241,20 @@ class GeneratePostCaption(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request, name):
-        
-        type_list = [
-            'ecommerce',
-            'friendly',
-            'product_launch',
-            'brand_promotion',
-            'sale_offer',
-            'startup_update',
-            'local_business',
-            'news',
-            'event',
-            'education',
-            'healthcare',
-            'travel',
-            'food',
-            'entertainment',
-            'sports',
-            'finance',
-            'technology',
-        ]
+        if name == "caption":
+            data_list = [
+                'ecommerce', 'friendly', 'product_launch', 'brand_promotion', 'sale_offer', 'startup_update', 
+                'local_business', 'news', 'event', 'education', 'healthcare', 'travel', 'food', 'entertainment',
+                'sports', 'finance', 'technology',
+            ]
+        elif name == "hashtags":
+            data_list = []
+        elif name == "image":
+            data_list = ["1:1", "3:4", "4:3", "9:16", "16:9"]
         return self.success(
-            message="Generate post type list fetched successfully",
+            message="list fetched successfully",
             status_code=status.HTTP_200_OK,
-            data=type_list
+            data=data_list
         )
     
     def post(self, request, name):
@@ -295,12 +285,51 @@ class GeneratePostCaption(APIView):
                 status_code=status.HTTP_200_OK,
                 data={"hashtags": hashtags}
             )
+        elif name == "image":
+            image = generate_image(
+                caption=context,
+                extra_prompt=request.data.get("extra_prompt", ""),
+                aspect_ratio=request.data.get("aspect_ratio", "1:1")
+            )
+            if image:
+                draft = MediaDraft.objects.create(
+                    user=request.user,
+                    file=image
+                )
+                data = MediaDraftSerializer(draft, many=False).data
+                return self.success(
+                    message="Image generated successfully",
+                    status_code=status.HTTP_200_OK,
+                    data=data
+                )
+            else:
+                return self.error(
+                    message="Image generation failed",
+                    status_code=status.HTTP_400_BAD_REQUEST
+                )
         else:
             return self.error(
                 message=f"Page not found",
                 status_code=status.HTTP_404_NOT_FOUND
             )
+            
+            
+class demoImage(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def post(self, request):
+        draft = MediaDraft.objects.filter(user=request.user).first()
+        if not draft:
+            return self.error(
+                message="No draft found",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
         
+        return self.success(
+            message="Image draft fetched successfully",
+            status_code=status.HTTP_200_OK,
+            data=MediaDraftSerializer(draft, many=False).data
+        )
     
 
                 

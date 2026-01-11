@@ -10,7 +10,7 @@ class SocialPlatformSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SocialPlatform
-        fields = ['key', 'name', 'image', 'connect_url']
+        fields = ['id','key', 'name', 'image', 'connect_url']
     def get_connect_url(self, obj):
         request = self.context.get('request')
         base_url = request.build_absolute_uri('/')[:-1] if request else '' 

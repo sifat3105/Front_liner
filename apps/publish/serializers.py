@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SocialPost, PostMediaFile
+from .models import SocialPost, PostMediaFile, MediaDraft
 
 class SocialMediaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -82,6 +82,11 @@ class SocialPostSerializer(serializers.ModelSerializer):
             for m in media:
                 PostMediaFile.objects.create(post=instance, **m)
         return instance
+    
+class MediaDraftSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MediaDraft
+        fields = ("id", "file")
 
 
     

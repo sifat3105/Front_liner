@@ -473,6 +473,7 @@ UNFOLD = {
                     {"title": "Social Posts", "link": "/admin/publish/socialpost/"},
                     {"title": "Social Media", "link": "/admin/publish/socialmedia/"},
                     {"title": "Social Post Publish", "link": "/admin/publish/socialpostpublish/"},
+                    {"title": "Social Mediaa Drafts", "link": "/admin/publish/mediadraft/"},
                 ],
             },
             {

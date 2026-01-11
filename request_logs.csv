@@ -2962,3 +2962,248 @@ Original exception text was: 'CourierOrder' object has no attribute 'courier_sta
 2026-01-08T10:52:17.491913,93901636-819c-40c3-a0b2-7f9a11c3e1ba,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
 2026-01-08T10:52:18.086118,3888b4ef-fe06-4722-9a74-a4e6f615f7cc,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
 2026-01-08T10:52:55.471355,7d5694d8-a6c1-49ce-b1d8-b371393582e4,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-08T10:54:57.162662,1684be38-b223-4f3a-9148-8dedaf9758f1,127.0.0.1,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-08T11:01:23.974507,2c0a0cc8-7fc5-471c-b598-7bd8e2a544a2,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T11:04:30.829536,521c0fd8-895c-4e02-88f2-185be85e2e12,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T11:13:33.780026,f26c3a28-5376-4e83-bff6-3e70c1c4557e,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:14:10.094313,451bb1d8-6176-4d0e-8ab4-86842d78da86,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:17:16.095974,80c9fb24-56b2-4ff5-ae29-eadb40241073,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:19:53.628551,33ad0ff5-534b-415d-bd1e-a54ba220849f,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:24:09.230496,91c8bff7-51ea-451d-ba4b-e451ea97563c,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:25:27.905551,c47bd93a-5f7d-4d24-9fb5-b04a5dae555f,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:28:16.816865,cb6a589c-df1c-49fa-8ce1-456bacc20353,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-08T11:28:26.190511,e289a77f-dddf-4151-88e3-2df0d8f2e675,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-08T11:29:21.104723,3cfc1c83-f55c-4ce8-9076-1eb942ee4d2d,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-08T11:31:32.019721,27924135-83d8-4307-9c52-1dc9b7bc5d72,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-08T11:31:53.455604,7fb6dbe3-737e-433d-8d7a-47569c863402,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-08T11:33:36.560308,55246621-a688-4c12-bafa-b2f1a0695902,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-08T11:34:28.703968,94dd1543-79a9-4be5-914d-44c2d1dcebfe,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-08T11:34:51.085545,80bdfc6a-c527-4ce2-b813-da2c217b0019,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T11:35:58.792552,193fabbc-105c-4d04-a76c-5f94a3354583,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T11:41:05.922517,fcec0722-6b8d-4ef2-ab87-b192968075cd,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:43:53.027309,0891fa8d-52c5-4b37-ad3d-c06778d0660d,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:47:19.051302,730c2bff-4d64-42a8-8b55-9dedf6bacb2d,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T11:48:10.251922,a2eaca35-7ac9-450d-9490-ce048cf6f6c7,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-08T11:53:43.976486,de2bd691-cc65-4be1-b535-c11ab9b50d1f,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T11:58:15.103152,2d237d1b-cd13-4c6c-a6e9-12f5709fb591,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T11:59:20.072277,21bd2ee8-9f3d-43a8-96bf-4a9b05458745,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T12:00:02.023468,24d5b318-e726-4510-b862-d54dc0c080cd,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T12:07:35.613950,490c9c6d-cb9d-41af-a838-c178006aff44,127.0.0.1,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T12:23:03.560851,e8fd0540-d62f-44ab-907e-b2e5a1f32a9e,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T12:25:08.439958,ab762944-b188-4d37-951a-b0b895f721ce,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T12:26:07.665562,be831c5c-af85-4970-89a7-c0c7e0376d47,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-08T12:27:08.185027,eef36de6-1971-448d-9489-0a4f2e3c9f7c,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-10T04:40:33.269429,8b72afe6-8528-4293-acda-beaaab6fca63,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-10T04:53:26.454285,37640965-6a90-4d47-ab9b-9c1910caccc4,172.31.40.247,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-10T04:53:35.301258,fd07fd90-b883-4ba3-aba3-5427700db2d0,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-10T04:54:14.343122,ffb42257-b5ad-4bd5-8699-2ae9f6dad048,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T04:55:19.985730,14bae1fd-86ea-4312-90c1-8218971a8919,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-10T04:55:53.459973,fb26b9eb-0a99-4c99-ab2a-f7a6a8b792c0,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-10T05:04:42.367806,1a4d7d35-26bf-4649-805d-1e5d9ea217e6,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-10T05:04:52.880658,19e1c018-494e-43c5-9cb5-658ef40c34eb,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T05:06:57.210716,508960b1-5555-4fcc-a4a1-3bca661933ad,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T05:16:43.874560,e47fb9d0-411d-41f9-92f6-61b560e6f0ef,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T05:18:56.907420,942ae1cc-628c-443a-ab9f-f9011188f2c2,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T05:36:41.367522,f4b5066b-5bf4-4573-b411-877e92ecd678,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T06:05:30.684123,2a289018-f52e-4577-a7c7-5ddf7c5a6a2b,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T06:14:34.181129,b4a063bd-eb0e-426e-843d-0f79f103893a,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T06:17:50.634710,9b8d12b0-d1b2-40e3-b37f-c272872f873c,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T06:19:51.807948,3c545c9f-0fbc-4f06-abac-f29da728ec45,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T06:20:12.852073,27438b8f-c916-4f11-b693-3c815d69aab9,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T06:25:05.174819,4f89c1af-68d5-4c76-b377-77364b4e180e,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T06:36:26.202572,8c0b1b1b-00c7-45ac-a67c-50966ae15591,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T06:36:57.756012,282a9765-ea30-4c07-80c5-adaf02dda316,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T06:53:21.774264,2c1bb4ab-accb-458e-82f8-d680ebaff958,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-10T06:53:26.259594,bd716ad1-b747-420a-bb3b-52769fe3e1b4,127.0.0.1,POST,/api/publish/demo/image/,200,Image draft fetched successfully,test@mail.com
+2026-01-10T06:54:05.569737,2e84fa85-4253-46c1-ae2d-4546e6b56406,127.0.0.1,POST,/api/publish/demo/image/,200,Image draft fetched successfully,test@mail.com
+2026-01-10T06:56:15.165561,18fe84ea-9079-44ee-92c6-819086044a61,103.98.107.22,GET,/api/social/facebook/webhook/,403,Invalid or expired token,
+2026-01-10T07:03:26.523613,7eed2ede-a453-4a95-b778-b5f1d82ccc61,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:05:59.808672,cd444a51-f5dd-4301-92fb-a89d6956aa1d,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:08:09.787369,b7cfd9de-b02c-449f-a7e4-697ba07146f6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:09:38.963015,c89504cb-0522-4ff1-9eb7-1063cda66858,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:09:53.958698,1b153200-c139-4b7d-850d-ec10542ef2b4,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:11:11.367845,1a63b62c-8d30-49d3-a0a8-1d65d2122cbd,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:11:30.176989,07045eb1-ef06-42a5-8c4a-63643ae41efa,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:13:21.874006,39678a27-7644-4732-a637-ceef451ddbc6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:13:48.312823,2b9fe483-b8cb-4a55-97cb-349d4c1a5f50,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:16:27.741259,e11dad9e-bde5-44d5-aeb8-8782ef5aad89,127.0.0.1,GET,/api/social/facebook/pages/,200,Facebook pages fetched successfully,test@mail.com
+2026-01-10T07:19:16.224416,7d66700e-32c8-47da-b26b-e66a974638c3,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,200,Successfully connected with bot,test@mail.com
+2026-01-10T07:27:36.468129,6f4bc0f5-6aa0-4582-8580-c13a76a1f4c1,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,500,Internal server error,test@mail.com
+2026-01-10T07:28:33.289978,1d1758ab-4f25-417c-bf69-510a8177ba3b,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,500,Internal server error,test@mail.com
+2026-01-10T07:28:34.825040,502031bb-bef1-4e88-a098-b4d2a81378ae,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,500,Internal server error,test@mail.com
+2026-01-10T07:29:03.047757,7bbbc110-5ae3-4684-a71b-d6d6ef846c21,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,200,Successfully connected with bot,test@mail.com
+2026-01-10T07:35:57.397387,d7f65d49-85db-4c10-9116-10537b868a84,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:37:20.017389,34243ddf-d519-4485-ba0b-dfc1df92d551,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:37:49.981682,d39d629d-54f5-41ea-8df1-e20f62425bc0,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T07:38:30.967925,cef3834e-ced8-4e8c-912a-cd89b8b5aa60,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T07:40:43.629887,dd316edb-da3c-4869-b334-1a9416b92ea5,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T07:50:09.065870,2cfe741c-e4e2-46d3-9397-be68f6456731,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T07:50:37.620855,99e8d4c3-dc54-432e-be9e-d55766f0b670,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T07:53:54.417762,c06bae7a-ea0f-449c-906e-2ff25b2f6568,127.0.0.1,POST,/api/publish/publish/,200,Social post published successfully,test@mail.com
+2026-01-10T07:55:59.483181,ce00e8f3-4064-4f68-b4d2-daebb66f9d41,127.0.0.1,POST,/api/publish/publish/,400,Post is already published,test@mail.com
+2026-01-10T07:56:08.060350,d3b3c73e-87e8-4812-80ae-b76bdd005778,127.0.0.1,POST,/api/publish/publish/,400,Post is already published,test@mail.com
+2026-01-10T07:56:20.461921,6c5dcc04-3e41-4572-8528-71fa550be7c8,127.0.0.1,POST,/api/publish/publish/,200,Social post published successfully,test@mail.com
+2026-01-10T07:56:47.798363,2080e1cf-7104-458d-a482-30b61e5f126d,127.0.0.1,POST,/api/publish/publish/,200,Social post published successfully,test@mail.com
+2026-01-10T07:57:30.473390,336d8484-d01c-499e-94c5-a1b072879f34,127.0.0.1,POST,/api/publish/publish/,200,Social post published successfully,test@mail.com
+2026-01-10T07:59:21.353148,7415aaa9-7d2a-4f53-8705-18a274d5d433,127.0.0.1,POST,/api/publish/publish/,200,Social post published successfully,test@mail.com
+2026-01-10T08:03:37.302689,1dc61164-35c2-43a1-88c1-b9a05e810b15,127.0.0.1,POST,/api/publish/publish/,400,Invalid data,test@mail.com
+2026-01-10T08:07:59.032451,dcc5a276-a7d1-4581-944a-0261eb172fe7,127.0.0.1,POST,/api/publish/publish/,400,Invalid data,test@mail.com
+2026-01-10T08:09:52.307145,1746a141-05bd-41c1-a6f5-8ad93f13a6f6,103.98.107.22,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-10T08:10:00.062388,ef2b3ea8-d463-441e-9d08-e9b48e1ae863,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-10T08:10:13.105425,d42ae100-5334-48b5-996e-ea0be9b3cf63,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T08:10:15.589822,3838bf14-90b7-4364-9c27-85cccb18b0c1,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-10T08:12:26.385776,fc7affe9-0f35-4798-9cb2-b9b480d05d8b,127.0.0.1,POST,/api/publish/publish/,400,Invalid data,test@mail.com
+2026-01-10T08:19:47.914550,fd8c53fa-3444-466e-9318-fa14fc49eb15,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T08:20:55.545345,2d541dbe-0a8e-49a4-8099-180fd0b06aec,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T08:26:39.323939,48c9dfcd-cf53-446e-92e1-455d7d576bb6,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T08:27:28.442202,c6e4a899-591d-4ea7-bb75-6b65ada0bdb8,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-10T08:27:34.313085,3a255be4-f522-45d7-aee1-4f2e6a129e2a,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-10T08:41:39.033299,d40da18b-495f-4799-93d4-0c34d0df69a0,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T08:41:51.998638,a0305d66-20d9-4fc1-b68d-83b16f9b5c6b,127.0.0.1,POST,/api/publish/publish/,400,Invalid data,test@mail.com
+2026-01-10T09:00:55.374739,a68c4ddc-5e27-4db5-9599-c7edad45565d,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-10T09:00:58.393946,eb67cbfe-3f07-440a-b4d7-64fc0a9b1986,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:14:44.480904,30e7b712-1441-48a1-bd36-8b0ed2fa8305,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-10T09:16:53.734762,717c81cd-3fa8-4d22-ba48-9bd7efbfa816,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:23:38.556781,7dbb94bf-bed7-4ed3-b15e-04083436edbb,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T09:25:05.007555,6ce359d1-f45a-493c-8628-25493e00f5de,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:35:13.559551,4e25c8e5-41cb-4078-b32f-6becf220de69,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:37:35.470733,f4c44e93-3245-4732-b6e0-69b6f19fbb54,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:38:26.419276,cb9b48fd-b4b3-4965-a91f-1e7c58facb9e,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:38:55.700610,b74374d4-35fa-4ce4-8d4a-6844050bc4ba,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:40:52.441150,a0ec3675-4035-4253-8fc6-86aeb87ace73,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:41:43.814108,10ebf27b-c22e-4c46-a634-4dc64c83e7d6,127.0.0.1,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-10T09:42:50.993229,103c5118-bee0-4aaf-9332-7692b134242b,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:44:23.773590,1bb5e721-441f-4af4-aa3a-67c6c2456410,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T09:44:46.632991,91224a93-07b3-44fd-b32d-05fbef1f3e99,172.31.40.247,GET,/api/publish/pages/,200,Page list fetched successfully,test@mail.com
+2026-01-10T09:45:11.811123,354b7c9a-ac7f-45f4-8df3-1ce8f75ff4e1,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-10T09:45:42.605714,b3c6a205-0b1f-4538-913c-774e07402aa5,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T09:46:14.340330,6638ea83-ba3f-46d4-8466-46135b01bcb0,172.31.40.247,POST,/api/publish/demo/image/,200,Image draft fetched successfully,test@mail.com
+2026-01-10T09:46:33.788468,e66e19a9-eb5f-491f-a619-609805525eef,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T09:46:36.733166,085d6dee-4f79-4cdc-ae5f-622b6dbed81a,172.31.40.247,POST,/api/publish/generate/image/,500,Internal server error,test@mail.com
+2026-01-10T09:49:02.091147,4a5fca34-022d-487f-8385-2552ba20b63b,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:49:26.003173,9ca47c44-7c2c-413c-9557-0713f27455db,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T09:50:25.329956,c309e948-bceb-4bb1-ac9a-16f64ea10c14,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T09:50:29.652168,842e63d3-9dcb-47c2-aaf5-d476f6ad26eb,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T09:52:05.570011,f9762de7-8cc3-4fc8-9da1-09ddb9f3131c,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T09:54:20.344264,ac641b7e-da45-45e2-942f-a0c0c6091c80,127.0.0.1,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T09:54:21.940788,475eea13-b34c-4eb8-b8e5-c500d33c6d83,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T09:54:41.887268,75a1f0a6-1332-495e-9d78-f46e95de832c,127.0.0.1,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-10T09:55:56.315299,7c848d4a-0537-4d53-901c-202aa01aba83,127.0.0.1,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T09:56:05.575269,834cc012-7b37-407a-924b-12cf3532e22a,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T09:57:15.375216,6f722849-6901-40ac-8d9f-d873889dfd95,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T09:57:57.153133,cd3b3d73-ab4c-4845-b2b3-419a4282166a,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T09:59:24.321880,5d8c12f7-cc57-43fb-b426-2087642d5b83,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:02:09.759205,f41c41a1-bd77-4570-b747-39706224e46e,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:02:13.469049,742f8a0a-7948-4157-8eba-d58565335916,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:04:25.142941,ac19dee0-6656-4721-8798-8848795702c0,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:06:46.084509,49a36e7e-b225-4948-ae94-c69975c901c4,127.0.0.1,GET,/api/publish/generate/image/,200,list fetched successfully,test@mail.com
+2026-01-10T10:10:00.271779,dde21e57-ecae-4162-84e7-e894b3613f56,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:11:33.088369,03d7072d-9d82-499e-80ff-c309f92c3bbe,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:11:43.716248,491ed6b0-628c-436f-adfd-84816167e733,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-10T10:12:13.786039,1dbc31fa-3330-4fce-b9a0-cfde00619038,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:12:16.451989,2ea8080b-152f-455f-9950-357de972c2aa,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:12:50.304689,7caacd79-5e56-4ddb-8bff-5a238bab6a37,127.0.0.1,POST,/api/publish/generate/image/,400,Image generation failed,test@mail.com
+2026-01-10T10:28:58.634396,3dcb19f9-4cf6-43a3-978a-42b75d553ab0,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-10T10:29:06.029630,78658922-1373-4e5c-a967-057ef249bae2,103.98.107.22,GET,/api/social/facebook/callback/,400,,test@mail.com
+2026-01-10T10:29:14.743657,6a89d27c-a0b4-43b6-ac42-29edbda0177d,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:29:15.795125,b59d6ad9-8cdf-48fa-af06-c2d610fee6d8,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-10T10:29:27.553293,91c877f1-fdca-462e-a138-3209d4db396a,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:29:29.320877,7043e305-c18e-4cca-9351-7f4961bca12f,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-10T10:32:57.699462,b8f1d157-d425-47e5-b460-da86ef0a7373,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:32:59.768284,47c2916f-e965-441b-8904-661b23c8da07,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-10T10:33:36.447617,acc9f406-ee02-47c3-a57b-fd370f3716c9,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:33:38.134650,6c62e6e0-675e-46e8-8fa7-303414749c11,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-10T10:36:23.141289,fa28b112-b155-4d5a-9105-34c424912347,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-10T10:36:24.799733,1eaea6a3-1727-4fbb-97a8-6bfb6db39d76,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-10T10:36:35.355823,703cf7b1-dfe8-4926-a9a4-edb92b02a746,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:36:38.245164,8ad5cd1f-c3da-42d3-8580-d778983e6d96,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-10T10:40:52.658993,48dbdde0-2d10-4f97-9848-b4faf8eebd19,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,500,Internal server error,test@mail.com
+2026-01-10T10:41:24.596994,ff916fc9-a248-4d8d-b1da-a0be98a04975,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,500,Internal server error,test@mail.com
+2026-01-10T10:41:57.412548,7e2073ad-6b2d-49c5-a431-8f05bf2f12de,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:42:05.479032,6ac4039f-f775-4599-ab7a-9026ecb5aed8,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:42:10.832558,521f8636-8add-4d74-bddc-bdfaf499790c,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:43:37.771937,c5494fba-17f0-46d2-a590-2f0912fae902,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:45:07.364860,55c889e7-f963-49f7-ac96-a9e7810a4e54,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:47:56.908080,30cb3462-4504-414f-8f8c-9fc894946839,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:48:18.972807,2c7fc2f6-a9c6-45a3-aeb9-36e1fa7db3f5,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:49:18.170418,41474005-5225-49be-a6b1-96a4a028c261,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:49:21.636019,ee846959-e070-4e00-b34d-da157df1e66c,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:50:03.415558,cd3f2473-22cb-4079-b15d-4cada7ba43ef,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T10:53:34.951499,d94c0675-26e9-470b-a97e-395c43bf852e,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:53:44.690849,0b303bcd-f131-4433-87d6-294305c25039,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:55:15.975946,f51eb50c-aaf6-4bfc-bc3f-c8ee22536470,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:55:18.628621,78776042-a1e5-4274-b6fa-46dc72ade9f6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:58:06.549510,bd6cbf90-9f46-4fcc-bd21-56d65d0159ba,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:58:09.061698,0fe69969-322e-4668-a005-972c7dec0b95,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T10:58:24.798455,bf4d0581-6a89-47cf-996f-6c32457190b6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T11:00:18.147252,f10e25f8-7f16-470f-b5df-734c561706dd,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T11:02:56.596567,c2f7732b-5230-4d51-9107-1bb1c34e57ca,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:02:56.984389,37a35edb-547c-4147-9538-1348d4756a37,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:03:01.290906,581b7004-074f-48cd-b910-5b7d6b30e508,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T11:03:05.247161,2e2f7b84-5148-4e3d-81a6-26a6db133573,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:03:10.065299,f92ce074-fef4-4873-971f-43fea5a4e6f3,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:03:15.337412,2e467f34-5dd1-4fe3-9bf3-816c59e8d92f,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:03:15.844533,4ef10d16-16dd-4137-ad0c-a9c01021887c,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:03:17.083588,d6febe4b-0df9-48ed-a7ad-f91704e89f72,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:03:18.008793,16af0681-d0ee-4894-a647-422f06c1edef,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:05:03.603185,ff13331b-1233-4c6e-b0c7-b37f26fae329,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T11:05:05.944459,51bf5a10-7fcb-4db5-b96b-4eb1a5820aae,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:05:30.211000,1b3e0f4b-f6da-44c4-b384-87a6327ee9b6,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-10T11:13:49.343912,c002fc3e-20bf-41b2-891d-d4863f8ac51f,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-10T11:16:01.212083,e2564990-f51e-41ae-b861-220fc571553a,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:16:10.145252,16871c73-ba09-45fb-993a-5245e14b56c8,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-10T11:16:37.871859,caed5fc5-ffc4-424d-8a2f-9f5f51f13580,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T11:18:05.773199,fce4b576-448d-4bc0-be22-f2ae30b28c6a,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T11:21:24.793321,55f4d418-ee52-4032-876a-3d644b97a2f9,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T11:21:45.093605,1e3eee50-0554-40bc-aa25-b6022b02ff14,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T11:23:14.972461,70470db1-397f-4453-a31c-14bce6d87a43,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T11:25:57.828198,23b356bb-e53b-4a4b-977a-0575c9ff3cdf,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T11:28:29.641895,e1013b3f-5222-485e-9eff-807f467445f8,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T11:28:49.879924,3ad1e4f8-a2c5-4fc7-b14f-b4d80d57cfbc,172.31.40.247,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-10T11:28:55.756674,4485841d-55d9-4112-9364-e8a3ea326747,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-10T11:29:48.372896,24136d57-7500-4a34-a2c8-3bdbbd2f027d,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-10T11:30:49.958069,b9fb3345-8ae7-401c-bad1-64e20bb949e0,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-10T11:35:41.453974,12f606a4-6501-4172-8cd9-e559b32d244f,172.31.40.247,GET,/api/receivers/,405,"Method ""GET"" not allowed.",test@mail.com
+2026-01-10T11:35:51.720448,ce708916-772b-44b2-a0ea-9332e2812c61,172.31.40.247,GET,/api/products/,405,"Method ""GET"" not allowed.",test@mail.com
+2026-01-10T11:36:02.982783,f6ca6ad2-b8e4-4e0d-a96a-028a49f27c36,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-10T11:36:13.275430,f650b852-3a0d-4953-a384-2eeb7d022440,172.31.40.247,GET,/api/debit-credit/report/,200,Debit Credit report fetched successfully,test@mail.com
+2026-01-10T11:36:57.536110,e8466aac-c80d-4bbe-aca6-1b4c13ea664e,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:37:14.082098,d2f0bb5f-d962-4280-b14f-e1c61ee24464,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T11:37:33.311468,9008e866-4eda-49a6-a43e-c553de2fecab,127.0.0.1,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T11:46:12.667011,4220775c-4574-454e-a5a7-88fe61057acf,172.31.40.247,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-10T11:46:26.948742,891e2135-6d74-4caf-87a0-8ea72676c378,172.31.40.247,GET,/api/orders/4/details/,200,Success,test@mail.com
+2026-01-10T11:46:42.303248,ecdd2b37-26ba-40d6-869b-b96e420cc4a2,172.31.40.247,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-10T11:46:51.443716,f890fb67-7830-4479-b8a4-a11537439095,172.31.40.247,GET,/api/orders/reject/,200,Success,test@mail.com
+2026-01-10T11:48:35.643033,e8696f6a-c104-4ecd-b952-d2c4e52882f2,172.31.40.247,GET,/api/orders/reject/,200,Success,test@mail.com
+2026-01-10T11:49:11.671522,84a173c3-1d57-4415-ae07-61b61fa21dfa,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-10T11:49:16.963367,27670f4e-2ec2-4ad0-b271-096d89705d24,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-10T11:49:21.797193,aa5b2cfd-1d3f-44a4-a132-8b1cc4b9a20d,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-10T11:49:51.802219,a94c318f-8106-4a27-aa0c-a56d0ad9b4d2,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-10T11:50:31.928594,49bec249-b798-42c7-b77d-0616c8f40baf,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:51:47.142784,1423d123-a8c6-4a9c-8d42-7db379be9501,172.31.40.247,GET,/api/couriers/collected/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-10T11:53:36.128820,262b80ec-67fc-43cc-8230-1d40a21ab59d,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:55:20.364964,1113a6c5-407c-4109-a43e-3c9a4b013b7e,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:55:35.602266,bf545314-1e53-433e-bce5-13e59878e081,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:56:49.258650,e95bbc25-56db-4cd5-b981-be76554dc380,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:57:10.342379,e6bcb317-7de9-455d-841d-881c28c30e6c,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:58:58.982661,e4a0c819-52da-4f96-8099-5860695be97e,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:59:39.054567,e5953442-42f9-4ef4-9cf5-0cb5cbf6e6fb,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:59:46.414407,b3fdc99d-c44e-4184-84ca-8d8078e2f49a,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T11:59:51.143359,85324e2a-afe1-4fb9-a4c5-46f8fdec7956,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T12:00:26.208205,00604f6e-5f62-4e70-b175-fcc6a04e6ce0,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T12:02:32.615802,6e38af46-25c0-44ab-9642-f23fa1ccbc1b,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-10T12:02:35.243041,d682bd2b-43d8-4f97-bb0d-f6225ed3849c,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T12:02:45.506019,b9289398-5ef9-4845-b504-dd1e432b9736,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T12:02:52.635184,ab0038cd-6515-46c9-8266-47abafe7c43d,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-10T12:03:42.550083,fd7f5303-b5eb-4eea-8cd4-4e5a20a7f123,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-10T12:04:19.245465,0521e588-83e7-45ce-a0f8-abe443ecd9bc,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-11T04:28:51.063349,08b91286-fd14-4b96-97a2-b50de16d8b29,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-11T05:00:23.711901,1c6f661b-8bea-4e9b-ad07-6542346125fb,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-11T05:00:31.966952,ba0c26e3-0570-48fa-885c-1d1083db2019,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-11T05:00:38.289290,7602e225-d0d1-4198-a29e-853e9fc8b7b0,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-11T05:00:50.744660,ab9a4627-5c80-4bda-a468-0ecbb74608a9,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-11T05:00:55.803212,aa8a8a65-0448-466a-b21f-a34fb4462f8f,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-11T05:02:01.452830,f34a2f8a-0d3d-46de-8f71-cdda33e043db,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-11T05:02:32.593796,ff40368e-9581-465c-9fad-8ba1a9f93de1,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-11T05:16:44.358023,cc928ff5-304f-430b-a6f8-7094d48f6b4b,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-11T05:17:47.923430,175f8081-22ca-4af7-9cdd-99bb315a3754,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com

@@ -41,4 +41,17 @@ class PostMediaFile(models.Model):
 
     def __str__(self):
         return f"{self.post.id} → {self.media_type}"
+    
+    
+class MediaDraft(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    file = models.FileField(upload_to="social_posts/drafts/")
+    media_type = models.CharField(max_length=10, default="image",
+        choices=(("image", "Image"), ("video", "Video")))
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.user.id} → {self.media_type}"
 

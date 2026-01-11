@@ -105,3 +105,48 @@ def generate_hashtags(
         return json.loads(output)["hashtags"]
     except Exception:
         return []
+    
+    
+from google import genai
+from google.genai import types
+from django.core.files.base import ContentFile
+import base64
+
+gemini_client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+
+
+
+def generate_image(caption: str, extra_prompt: str = "", aspect_ratio: str = "1:1"):
+    full_prompt = f"Generate a high-quality image of: {caption}. {extra_prompt}".strip()
+
+    try:
+        response = gemini_client.models.generate_content(
+            model="gemini-3-pro-image-preview", 
+            contents=full_prompt,
+            config=types.GenerateContentConfig(
+                temperature=1.0, 
+                response_modalities=["IMAGE"],
+                # Specific image settings
+                image_config=types.ImageConfig(
+                    aspect_ratio=aspect_ratio
+                )
+            )
+        )
+        
+        if response.candidates:
+            for part in response.candidates[0].content.parts:
+                if part.inline_data:
+                    image_bytes = part.inline_data.data
+                    return ContentFile(image_bytes, name="nano_banana_output.png")
+                
+                if part.file_data:
+                    print(f"Image generated at: {part.file_data.file_uri}")
+            
+    except Exception as e:
+        print(f"Error: {e}")
+    
+    return None
+
+
+        
+

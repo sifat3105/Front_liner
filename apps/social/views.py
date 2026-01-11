@@ -280,6 +280,8 @@ def subscribe_page_to_messages(page_id, page_access_token):
     return requests.post(url, params=params).json()
 
 
+
+
 class FacebookWebhook(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -293,8 +295,8 @@ class FacebookWebhook(APIView):
     
     def post(self, request):
         data = request.data
-        # print(data)
-
+        object = data.get("object")
+        print(object)
         for entry in data.get("entry", []):
             for event in entry.get("messaging", []):
                 sender_id = event["sender"]["id"]
@@ -307,6 +309,26 @@ class FacebookWebhook(APIView):
 
         return Response("EVENT_RECEIVED")
     
+    
+class InstagramWebhook(APIView):
+    permission_classes = [permissions.AllowAny]
+    
+    def post(self, request):
+        data = request.data
+        
+        for entry in data.get("entry", []):
+            for event in entry.get("messaging", []):
+                sender_id = event["sender"]["id"]
+                page_id = entry["id"]
+                
+                if "message" in event:
+                    text = event["message"].get("text", "")
+                    print(text)
+                    handle_message(page_id, sender_id, text)
+                    
+                    
+        return Response("EVENT_RECEIVED")
+    
 
     
 class MessangerConnectWithBot(APIView):
@@ -316,7 +338,12 @@ class MessangerConnectWithBot(APIView):
         data = request.data
         
         p_id = data.get("page_id")
-        page = FacebookPage.objects.get(id=p_id)
+        platform = data.get("platform")
+        if platform == "instagram":
+            page = InstagramAccount.objects.get(id=p_id)
+            print(page)
+        else:
+            page = FacebookPage.objects.get(id=p_id)
         
         response = subscribe_page_to_messages(page.page_id, page.page_access_token)
         print(response)
