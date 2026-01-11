@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
-from .models import SocialPost, SocialMedia, SocialPostPublish
+from .models import SocialPost, PostMediaFile
 
 @admin.register(SocialPost)
 class SocialPostAdmin(UnfoldModelAdmin):
@@ -11,7 +11,7 @@ class SocialPostAdmin(UnfoldModelAdmin):
     ordering = ("-created_at",)
 
 
-@admin.register(SocialMedia)
+@admin.register(PostMediaFile)
 class SocialMediaAdmin(UnfoldModelAdmin):
     list_display = ("id", "post", "media_type", "file", "created_at")
     list_filter = ("media_type", "created_at")
@@ -20,10 +20,4 @@ class SocialMediaAdmin(UnfoldModelAdmin):
     ordering = ("-created_at",)
 
 
-@admin.register(SocialPostPublish)
-class SocialPostPublishAdmin(UnfoldModelAdmin):
-    list_display = ("id", "post", "platform", "status", "published_at", "created_at")
-    list_filter = ("platform", "status", "published_at")
-    search_fields = ("post__title", "post__author__username", "platform_post_id")
-    readonly_fields = ("created_at", "published_at")
-    ordering = ("-created_at",)
+

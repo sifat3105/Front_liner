@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Account
+from .models import User, Account,Shop, Business,Banking
 from django.contrib.auth import authenticate
 
 
@@ -147,3 +147,51 @@ class ChildUserSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         return f"{obj.account.first_name} {obj.account.last_name}"
+    
+
+# Setting > Profile > Shop Info serializers
+
+class ShopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shop
+        fields = (
+            "id",
+            "shop_name",
+            "shop_description",
+            "business_email",
+            "business_phone",
+            "business_address",
+            "website_url",
+        )
+
+# Setting > Profile > business Info serializers
+class BusinessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Business
+        fields = (
+            "id",
+            "business_type",
+            "years_in_business",
+            "business_registration_number",
+            "tax_id_ein",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "created_at", "updated_at")
+
+# Setting > Profile > Banking Info serializers
+
+class BankingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banking
+        fields = (
+            "id",
+            "bank_name",
+            "account_name",
+            "account_number",
+            "routing_number",
+            "swift_bic_code",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "created_at", "updated_at")

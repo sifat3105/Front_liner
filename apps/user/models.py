@@ -3,6 +3,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.db import models
 from django.utils import timezone
 from django.db.models import JSONField
+import uuid
 
 ROLE_CHOICES = (
     ("user", "User"),
@@ -70,12 +71,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    username = models.CharField(max_length=255, blank=True, null=True)
+    full_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=255, blank=True, null=True)
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.0)
     organization = models.CharField(max_length=255, blank=True, null=True)
+    user_str_id= models.CharField(max_length=255, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     preferences = JSONField(default=dict, blank=True)
     last_login = models.DateTimeField(blank=True, null=True)
@@ -84,6 +84,9 @@ class Account(models.Model):
 
     def __str__(self):
         return f"{self.user.email} Account"
+    
+    def save(self, *args, **kwargs):
+        self.user_id = uuid
 
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subscriptions")
@@ -95,3 +98,57 @@ class Subscription(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.plan}"
+
+
+# Setting > Profile > Shop Info model
+
+class Shop(models.Model):
+
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="shop")
+
+    shop_name = models.CharField(max_length=255)
+    shop_description = models.TextField(blank=True, null=True)
+    business_email = models.EmailField()
+    business_phone = models.CharField(max_length=20)
+    business_address = models.TextField()
+    website_url = models.URLField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.shop_name
+
+
+# Setting > Profile > business Info Model
+class Business(models.Model):
+
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="business")
+
+    business_type = models.CharField(max_length=255)
+    years_in_business = models.CharField(max_length=255)
+    business_registration_number = models.CharField(max_length=100)
+    tax_id_ein =  models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.business_type
+
+# Setting > Profile > Banking Info Model
+
+class Banking(models.Model):
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Banking")
+
+    bank_name = models.CharField(max_length=255)
+    account_name =models.CharField(max_length=255)
+    account_number = models.IntegerField()
+    routing_number = models.IntegerField()
+    swift_bic_code = models.CharField(max_length=255)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.bank_name

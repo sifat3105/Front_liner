@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 import requests
 from requests.auth import HTTPBasicAuth
-from .serializers import CourierCompanySerializer, CourierOrderSerializer
+from .serializers import CourierCompanySerializer, CourierOrderSerializer, CourierOrderListSerializer
 from .models import (
     PaperflyMerchant,
     PaperflyOrder,
@@ -12,7 +12,8 @@ from .models import (
     SteadfastOrder, 
     SteadfastTracking, 
     SteadfastReturnRequest,
-    PathaoToken, PathaoStore, PathaoOrder,OrderCourierMap
+    PathaoToken, PathaoStore, PathaoOrder,OrderCourierMap,
+    CourierOrder
 )
 from django.shortcuts import get_object_or_404
 from .models import CourierList, UserCourier
@@ -62,6 +63,38 @@ class ToggleCourierStatusAPIView(APIView):
 
         except Exception as e:
             return self.error(message=str(e), status_code=500, meta={"action": "toggle-courier-status"})
+        
+class CourierOrderListCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, status=None):
+        if status == 'booking':
+            orders = CourierOrder.objects.filter(
+            order__user=request.user
+            ).exclude(
+                status__in=["reject", "cancel", "collected"]
+            )
+        elif status == 'reject':
+            orders = CourierOrder.objects.filter(
+                order__user=request.user,
+                status="reject"
+            )
+        elif status == 'collected':
+            orders = CourierOrder.objects.filter(
+                order__user=request.user,
+                status="collected"
+            )
+        else:
+            orders = None
+        data = CourierOrderListSerializer(orders, many=True).data
+        return self.success(
+            data=data,
+            message="Courier order list fetched successfully" if data else "No couriers assigned to this user",
+            meta={"action": "user-courier-list"}
+        )
+        
+        
+    
 
         
 class TrackOrderAPIView(APIView):
@@ -73,7 +106,7 @@ class TrackOrderAPIView(APIView):
             data = CourierOrderSerializer(response).data
             return self.success(
                 data=data,
-                message="Order tracking fetched successfully",
+                message="Order tracking fetched successfully" if data['courier_status'] else "No Courier Order found on this order id",
                 status_code=status.HTTP_200_OK
             )
         

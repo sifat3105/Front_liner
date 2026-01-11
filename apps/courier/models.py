@@ -2,7 +2,10 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from apps.orders.models import Order
+from django.db.models import Max
 User=get_user_model()
+
+
 
 class CourierList(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -55,7 +58,8 @@ class UserCourier(models.Model):
 class CourierOrder(models.Model):
     order = models.ForeignKey(Order,on_delete=models.CASCADE,related_name="courier_orders",null=True,blank=True)
     courier = models.ForeignKey(CourierList,on_delete=models.CASCADE,related_name="courier_orders")
-
+    couriers_id = models.CharField(max_length=100,unique=True,null=True,blank=True)
+    
     tracking_id = models.CharField(max_length=100,unique=True,null=True,blank=True)
     tracking_code = models.CharField(max_length=100,null=True,blank=True)
     tracking_status = models.CharField(max_length=50,null=True,blank=True)
@@ -78,6 +82,25 @@ class CourierOrder(models.Model):
 
     def __str__(self):
         return f"{self.tracking_id} ({self.courier.name})"
+    
+    def save(self, *args, **kwargs):
+        prefix = self.courier.name[:3].upper()
+        BRAND_PREFIX = f"FL-{prefix}"
+
+        if not self.couriers_id:
+            last_id = CourierOrder.objects.filter(
+                couriers_id__startswith=f"{BRAND_PREFIX}-"
+            ).aggregate(
+                max_id=Max('couriers_id')
+            )['max_id']
+
+            if last_id:
+                last_number = int(last_id.split('-')[-1])
+                self.couriers_id = f"{BRAND_PREFIX}-{last_number + 1}"
+            else:
+                self.couriers_id = f"{BRAND_PREFIX}-1001"
+
+        super().save(*args, **kwargs)
     
 class CourierOrderStatus(models.Model):
     courier_order = models.ForeignKey(CourierOrder, on_delete=models.CASCADE, related_name="track_status")

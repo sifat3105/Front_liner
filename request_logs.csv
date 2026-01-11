@@ -2173,7 +2173,6 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-05T05:43:44.966208,92440f25-a0df-42bc-bbe4-247cacbee1d2,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-05T05:52:45.615849,48f882c9-e3c7-456d-a16a-f2393f3f125e,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
 2026-01-05T06:11:13.386366,b6041428-edea-46b1-a4a1-269c0193f49f,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
-<<<<<<< HEAD
 2026-01-05T06:14:42.067976,ccc563ac-3bfd-4cf4-99e9-ed75f282da30,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-05T06:27:11.080733,e45881b6-95ed-4860-b168-7f354824bb8b,127.0.0.1,POST,/api/purchases/create/,201,Purchase created successfully,usernamem@gmail.com
 2026-01-05T06:27:19.436368,d555ce79-947c-45ed-a6ea-56bc2e91fbc9,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
@@ -2198,7 +2197,6 @@ timestamp,request_id,request_ip,method,path,status,message,user_email
 2026-01-05T10:19:01.805921,aa69cec7-50db-4fd1-965d-5e7a4585f5ed,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-05T10:19:35.379150,4aa2d97b-162a-420a-9ea8-23cea0677bdc,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
 2026-01-05T10:20:32.259516,dd67014f-531e-46fe-abeb-75f869b97f59,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
-=======
 2026-01-05T08:15:37.088820,cbcb33a7-1fc3-4de2-af71-1fcd9a941271,127.0.0.1,GET,/api/track-order/order-111111114/,500,Field 'id' expected a number but got 'order-111111114'.,test@mail.com
 2026-01-05T08:16:37.210498,7aec1528-8f23-4da0-837e-0e968ccc1b81,127.0.0.1,GET,/api/track-order/order-111111114/,500,You cannot call this from an async context - use a thread or sync_to_async.,test@mail.com
 2026-01-05T08:17:44.276882,5b16d6a4-d75b-411c-b511-36476ceb659b,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
@@ -2316,7 +2314,43 @@ Original exception text was: 'CourierOrder' object has no attribute 'courier_sta
 2026-01-05T10:35:58.184223,439fe150-1055-4729-bd05-b92b2276d00a,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
 2026-01-05T10:36:30.764268,688ac436-922d-4a68-8cd0-1ff0747c1402,172.31.40.247,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
 2026-01-05T10:37:26.358714,7ff5d19e-7533-4caa-b9f2-3f1e8107855e,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
->>>>>>> c3aca1a24e5d9516c516ee8e4b4c8f624d775a0a
+2026-01-05T10:39:49.159579,adafd5ae-100f-42bf-8468-207946c49ead,172.31.40.247,POST,/api/purchases/create/,400,Purchase creation failed,usernamem@gmail.com
+2026-01-05T10:41:07.973783,bcafe8ad-5c83-4f01-a633-0b21005101dc,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-05T10:42:28.414848,f42a5717-8b1e-4990-8475-585ecedc079e,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,usernamem@gmail.com
+2026-01-05T10:42:42.853408,d7f9d7af-06c1-40d7-8e0a-130617a718d9,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T11:05:29.939937,36f26842-737b-46ca-8e2a-6fc04cf28239,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T11:05:34.487008,546daa2b-d2ae-47f7-af52-c7d9b7d44127,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T11:05:38.104672,e912be8d-be3c-4a0b-b418-ca79233838d7,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T11:05:49.133117,5a27d02d-7f95-4bc4-99d8-5f5e6563101c,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T11:05:57.506260,43b5e971-78c7-49fe-bf9a-e3ee1cdef20e,172.31.40.247,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T11:06:42.855340,80919dd9-6112-43cb-aebb-4005046e5186,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:07:55.606064,65a92996-c993-457a-bcbc-aade711ed6e8,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:08:50.509298,6e4240d3-9151-4338-bc78-8da8cae38ea7,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:09:01.683664,db6cc48b-9a93-43c2-b71e-176668a9e27f,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T11:09:14.766433,3f3b4f54-d6fc-42ec-aace-db8e24108d97,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:10:31.883967,c29b5cb0-6cd0-4069-ad72-e1c064acb66c,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:13:34.919774,ee55e062-954b-4197-8036-5311218d80e8,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:16:36.389459,df86aac1-2697-4ac4-9378-847e31610fb2,127.0.0.1,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:19:24.085549,b7317f01-2852-411e-80c6-448b9f5c0119,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-05T11:25:14.764289,4b72e4f1-6b68-444a-b840-f76c3ded8ee4,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-05T12:00:58.926693,4cb1a71b-db46-4ffb-b290-afd69925b6c7,172.31.40.247,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T12:02:38.379895,00ff198e-a831-4209-8bcf-e929a2a1b324,172.31.40.247,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T12:02:38.534583,1df57667-9054-4423-bd02-cfa90dbdf444,172.31.40.247,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-05T12:02:41.142442,0d40d7ce-0109-4958-84fe-67421633dc50,172.31.40.247,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-05T12:03:09.759252,87a9d958-515d-44b8-9431-f6e5b140d0e9,172.31.40.247,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-05T12:04:07.194927,6b7b9ef5-5691-4f8b-b71f-e943e1411d07,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-05T12:05:22.726448,dd7c89bb-c7af-49ef-9195-a7d7a64cfb11,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T12:05:28.530758,a8deb428-9e7c-4c6f-bb12-993f1f015104,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-05T12:05:41.222290,8e08c31b-6ea9-45a8-ac1a-7904050c13cf,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-05T12:06:13.772288,6a480966-7aa0-41f0-a4e7-12ce96ae2f82,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-05T12:06:26.374247,cbacc1e6-3bf8-4ff5-88a0-12e360462f7c,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,usernamem@gmail.com
+2026-01-05T12:09:06.215723,45d13ccc-cb65-42e8-9162-e8dfdc8f7caa,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-06T05:36:12.234554,b906c17e-bd70-4e5b-a034-38837c5613cb,172.31.40.247,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
+2026-01-06T05:36:18.297389,a6c33454-54f6-4904-ae9f-a367a366d9ca,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-06T05:36:20.155394,61cd84d4-7f72-4da3-87fa-e50585b52cca,172.31.40.247,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-06T05:36:21.444857,1e07fd7b-4ace-4c8f-8a19-6c56792a455f,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-06T05:36:26.133676,cc0f3aed-2ff0-4d2e-bfe8-857a22393c6e,172.31.40.247,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+c3aca1a24e5d9516c516ee8e4b4c8f624d775a0a
 2026-01-05T10:41:46.214963,463b8aac-a318-4b9e-80f1-02f0a534a1a1,127.0.0.1,GET,/api/couriers-list/,200,Courier list fetched successfully,usernamem@gmail.com
 2026-01-05T10:42:17.354536,a16cf465-f17a-4ee8-820f-fb02ba06e43d,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
 2026-01-05T10:45:50.169325,c65ffad6-a8dd-4a40-b13f-524322eed3dd,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
@@ -2350,3 +2384,655 @@ Original exception text was: 'CourierOrder' object has no attribute 'courier_sta
 2026-01-05T12:01:20.528668,db37f6fb-fb19-4ac5-a90d-d66732fcb11b,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
 2026-01-05T12:01:24.588622,b17856da-4f65-47c9-87d9-95f9a28800ff,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
 2026-01-05T12:02:10.140984,8c264171-1b15-4ef3-899e-f8d4b6bbc089,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-07T10:18:17.812744,2c87b642-3a45-49c0-8c29-3de217ae4ca7,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T10:19:43.849655,04b931b5-1942-45c5-81fb-b8a1d5c7d329,127.0.0.1,GET,/api/shops/1/,404,Shop not found,usernamem@gmail.com
+2026-01-07T10:20:38.187005,1007b64b-3c89-48e3-b873-2d1e671ec822,127.0.0.1,GET,/api/shops/1/update/,405,"Method ""GET"" not allowed.",usernamem@gmail.com
+2026-01-07T10:20:48.096920,86a59a34-97a2-457d-baa6-fbc9b18fc445,127.0.0.1,PATCH,/api/shops/1/update/,404,Shop not found,usernamem@gmail.com
+2026-01-07T10:21:01.939872,27db3be3-e000-43ef-8f34-121d1ddfa467,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T10:22:02.762735,38f1aa04-aa23-4260-8a8d-29c3fa93bcb6,127.0.0.1,GET,/api/shops/1/,404,Shop not found,usernamem@gmail.com
+2026-01-07T10:22:26.867027,00cee1b9-2157-4b85-a646-7d9008bb8f0f,127.0.0.1,GET,/api/shops/1/,404,Shop not found,usernamem@gmail.com
+2026-01-07T10:46:06.147554,605c309f-0325-4b51-ba68-c20f0d0dcf43,127.0.0.1,PATCH,/api/shops/1/update/,500,Internal server error,usernamem@gmail.com
+2026-01-07T10:46:22.074643,7bb5ce30-52ee-47a0-8be2-24d230ae8025,127.0.0.1,GET,/api/shops/1/,500,Internal server error,usernamem@gmail.com
+2026-01-07T10:50:58.411585,4d2b4ea0-56b8-4591-a277-cb33ca902c4c,127.0.0.1,PATCH,/api/shops/1/update/,200,Shop updated successfully,usernamem@gmail.com
+2026-01-07T10:51:07.809676,899c2526-40d3-4f50-8528-ec35e56f4320,127.0.0.1,GET,/api/shops/1/,200,Shop fetched successfully,usernamem@gmail.com
+2026-01-07T11:16:03.917299,57ed538e-7542-4315-bd48-82bc59fd7da0,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T11:16:08.148468,a83fef13-06b4-4587-a85f-50af280041a2,127.0.0.1,GET,/api/shops/1/,200,Shop fetched successfully,usernamem@gmail.com
+2026-01-07T11:16:13.024681,293da081-eb2b-4118-9088-2aecc021bcde,127.0.0.1,PATCH,/api/shops/1/update/,200,Shop updated successfully,usernamem@gmail.com
+2026-01-07T11:23:07.430684,355819e4-a51e-4657-9bf6-c162e8878148,127.0.0.1,PATCH,/api/shops/1/update/,200,Shop updated successfully,usernamem@gmail.com
+2026-01-07T11:23:21.377485,81744371-f5e0-478b-94fc-8546a1248d17,127.0.0.1,PATCH,/api/shops/1/update/,200,Shop updated successfully,usernamem@gmail.com
+2026-01-07T11:23:36.792259,9fbbdf47-0ad7-4516-aaf8-1b064fe198e4,127.0.0.1,PATCH,/api/shops/1/update/,200,Shop updated successfully,usernamem@gmail.com
+2026-01-07T12:13:40.436947,4a38de80-99d7-4557-8431-6b21ef92f576,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T12:13:44.706320,203d9bd6-b5b8-4c7c-bd7c-4a80de9687e8,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:15:13.389774,205d1755-a2f5-4170-ac3a-d1853b090ac0,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:17:00.162757,2ca5fc6b-f3e9-4585-b6f3-8310b16b3d0a,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:17:03.685887,d46e962b-d166-4c3a-9197-1274712c8940,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:18:08.600312,65ab1876-072e-48bb-a4ae-94e484a8e02d,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:18:11.693085,805ba67d-c610-48ef-af55-7edce94f52f4,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:18:18.947258,3fb01ad7-1cfb-4069-93b3-f2087fa64a2e,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:20:13.530229,ddfec1e8-ff12-4752-9eb5-8f59307f4c93,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:20:36.049092,edc49bea-d07e-4c20-9080-d4d6ea7a3310,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:20:40.915287,3368e63e-bba5-4f52-860c-3a3ddb149efb,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:21:11.485939,466d840b-ef51-4521-a95b-fa65584ee58c,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:24:57.801354,f5bbe356-67cb-4bc8-a59f-d580bb255f24,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:24:59.515347,80fbf6d8-7852-49a0-9726-18fad1d140f2,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:25:01.045574,19cc15a0-8d71-44f1-bb17-c7471aaa0380,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:25:02.499530,bbfd82c0-a318-4ad9-8fe9-64629ee703fa,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:25:16.402811,a5837cd0-065b-4ced-8b74-b8ac5d8b2be9,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T12:25:19.999828,589143cd-333a-4e41-abd7-d583a9619530,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:25:23.785321,9d086fc0-c0c5-4714-b6c0-cbb9d2498e5c,127.0.0.1,GET,/api/shops/1/,200,Shop fetched successfully,usernamem@gmail.com
+2026-01-07T12:26:15.210021,b28e02a6-b71c-4584-8b0a-97f6d274415d,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:29:35.712222,c1507d2b-621a-49d7-adf0-549a89afe023,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:29:40.726912,45e2fc9a-a558-4978-b0cc-279b1f4f971c,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T12:29:44.592145,37dded82-d82f-466b-ae2e-cbdcbee72672,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:30:04.695668,1a4093cc-00d5-4a16-82e9-c2e7faa47944,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-07T12:30:11.100575,98cfe17c-a756-40be-876d-945ad8ea4730,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:06:58.137017,ca14d972-e669-427a-96ad-e41f40ffd739,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-08T07:07:08.341674,c09bee4e-cab4-4b49-9142-e5773da03607,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-08T07:07:21.160444,a9b6cdc5-e2ed-44e9-87c1-0b0b1aaa49e2,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:07:30.785421,887b2c0f-a390-42c3-ad2a-8b4e0f27d559,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:07:36.053722,49481243-173e-438e-bc6b-adbb306201fe,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:07:47.409840,682a402a-7b54-4443-b8fb-64fef99de2aa,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:07:52.466738,67e780be-fd57-46d2-a7f1-f6d74584aab6,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:08:03.695776,b83a0548-0785-43e9-a512-60aa5d43d6a0,127.0.0.1,GET,/api/shops/1/,200,Shop fetched successfully,usernamem@gmail.com
+2026-01-08T07:08:12.627494,f03384ce-b109-4075-be05-2500e0cf3d34,127.0.0.1,PATCH,/api/shops/1/update/,200,Shop updated successfully,usernamem@gmail.com
+2026-01-08T07:08:18.277667,b35ac663-3e73-4dde-9dfd-d515bf3b3fe7,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:09:18.876901,543faef6-6241-4a1d-84e4-3b780ab34da7,127.0.0.1,GET,/api/business/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:09:25.323300,2f9ec736-6ee4-42b4-aca7-6e4524cf8252,127.0.0.1,PATCH,/api/business/update/,404,Business not found,usernamem@gmail.com
+2026-01-08T07:09:34.574084,8b317464-72b7-478e-89e2-fd3349cef8a9,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:10:22.106130,33ca2a1c-12f5-40db-8109-165352600b5e,127.0.0.1,PATCH,/api/banking/update/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:16:11.236734,51e105c9-3c5c-4ade-adb6-3ba3abcba645,127.0.0.1,GET,/api/business/,200,Business fetched successfully,usernamem@gmail.com
+2026-01-08T07:16:16.530671,aac3ad93-ebc0-409c-a120-2090c5a17183,127.0.0.1,PATCH,/api/business/update/,200,Business updated successfully,usernamem@gmail.com
+2026-01-08T07:18:20.522421,05c82c6f-07f3-4c1b-8a8a-876d979b1c88,127.0.0.1,PATCH,/api/banking/update/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:18:25.802150,ba3ccd9c-6a7f-4eed-834c-b5b89eda93c2,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:20:02.111149,aa195a6b-d4f5-4a7f-9e5f-ad55ce800c8c,127.0.0.1,GET,/api/banking/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:20:32.873185,4b7ec0dc-924e-40f8-bb23-2926c05bdc7d,127.0.0.1,PATCH,/api/banking/update/,404,Banking information not found,usernamem@gmail.com
+2026-01-08T07:20:47.010061,9c250e41-2ad5-4d81-94ca-727beefc9290,127.0.0.1,PATCH,/api/banking/update/,200,Banking information updated successfully,usernamem@gmail.com
+2026-01-08T07:20:53.497445,36f68b40-cb2e-4d1b-91d1-03927e52280a,127.0.0.1,GET,/api/banking/,200,Banking information fetched successfully,usernamem@gmail.com
+2026-01-08T07:21:26.629795,49737bbb-6118-49e9-8fa2-3bbf0c66bb52,127.0.0.1,GET,/api/business/,200,Business fetched successfully,usernamem@gmail.com
+2026-01-08T07:21:31.283825,ecb3272c-b7f7-489f-8273-35a47f84b047,127.0.0.1,PATCH,/api/business/update/,200,Business updated successfully,usernamem@gmail.com
+2026-01-08T07:21:34.698422,40b1feaa-acf4-4d17-b014-2bf81df4e92e,127.0.0.1,GET,/api/banking/,200,Banking information fetched successfully,usernamem@gmail.com
+2026-01-08T07:21:38.028179,9c241390-6122-446e-bacb-25d56fd26c17,127.0.0.1,PATCH,/api/banking/update/,200,Banking information updated successfully,usernamem@gmail.com
+2026-01-08T07:36:27.617662,48a85327-837c-4603-9f11-69cd6ee773da,127.0.0.1,GET,/api/change-password/,405,"Method ""GET"" not allowed.",usernamem@gmail.com
+2026-01-08T07:36:49.607334,aad162ac-7105-46b5-85f4-3f5009d17565,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T07:37:02.328523,7d58c087-06e6-4b02-9429-9ddc7257bf18,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T07:37:10.056768,f934aaa4-11e2-4c6a-99dd-5524b842b654,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T07:40:27.121184,fac61c00-c879-4003-9221-5cfaee5bc12e,127.0.0.1,PATCH,/api/change-password/,200,Password updated successfully,usernamem@gmail.com
+2026-01-08T07:40:41.261666,cd8e0826-0d66-40ff-9032-fb5782d3f9e8,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T08:16:54.511068,bb6f5602-63cd-4656-9687-317db41d3d79,127.0.0.1,PATCH,/api/change-password/,400,Current password is incorrect,usernamem@gmail.com
+2026-01-08T08:17:21.762634,36035173-bd71-4cd3-bca3-48be4f35040e,127.0.0.1,PATCH,/api/change-password/,200,Password updated successfully,usernamem@gmail.com
+db72aa45f1f75e54ba6f9e1a196a6e7e7540c4e7
+2026-01-06T06:15:54.225367,db1f985e-7b94-43e0-9666-ced4fb470ffe,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-06T06:16:01.553645,01bf553c-72d5-4f27-9084-ab20a7e23fc4,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,usernamem@gmail.com
+2026-01-06T06:16:03.856878,c9c85265-c352-464d-bf41-041290de4a56,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-06T06:16:10.521597,a872080b-d3b5-426a-b3f2-23f8186279a1,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-06T06:16:15.116133,da374129-b881-4663-9bec-0dbe9ccfaf42,103.98.107.22,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-06T06:16:19.769015,19bfcc24-18c5-4ed7-a03a-350cb8de1dc2,103.98.107.22,GET,/api/orders/reject/,200,Success,test@mail.com
+2026-01-06T06:16:54.534068,46bc5d4d-98cf-41ac-9660-277be310b157,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T06:17:00.934609,c5ed0703-a5d3-492a-89a3-548a9b82ec97,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T06:17:17.123552,da344a1e-a043-4d6f-b686-ad162f261a48,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T06:17:34.461343,90df5d18-1435-4ab0-b618-377557dde647,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,usernamem@gmail.com
+2026-01-06T06:17:34.966763,8e12686b-8b6a-44b9-adda-06e65a813ff4,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T06:17:41.508938,769179e3-2b29-4cba-a07e-2ce90a8d7ac1,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,usernamem@gmail.com
+2026-01-06T06:19:15.086632,5134bb4e-7e39-453b-ab67-26b9ba10e134,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T06:21:04.909946,72bf966e-d184-41f9-998a-b307ba6bab55,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T06:44:46.672887,9c471e60-d57f-459c-a64f-e7020aceb5b6,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T06:49:58.452404,3f1e5409-4696-45de-8fbe-611f203cdd01,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-06T06:50:02.928511,20ea8fb3-309b-47b5-8018-11ba338dfd52,127.0.0.1,GET,/api/couriers/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T06:50:50.345954,4878e592-6214-4189-8e0b-23f1df8d6d00,127.0.0.1,GET,/api/couriers-booking/,500,Internal server error,test@mail.com
+2026-01-06T06:51:26.215214,949f9df0-aea9-4b72-a351-61bfc02e4f10,127.0.0.1,GET,/api/couriers-booking/,500,Internal server error,test@mail.com
+2026-01-06T06:51:27.621892,649d84b3-cf59-460f-9efb-eeddc42f6ad9,127.0.0.1,GET,/api/couriers-booking/,500,Internal server error,test@mail.com
+2026-01-06T06:51:30.187577,a15bf2de-ce5b-4b97-ae4c-e789a6114582,127.0.0.1,GET,/api/couriers-booking/,500,Internal server error,test@mail.com
+2026-01-06T06:51:48.279131,d2758ccd-aac5-415f-9ecf-99c54938e267,127.0.0.1,GET,/api/couriers-booking/,500,Internal server error,test@mail.com
+2026-01-06T06:53:20.721057,26e45cb5-2baf-4dd2-9500-6d7f0863a394,127.0.0.1,GET,/api/couriers-booking/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T06:54:25.162777,c37c2aee-03cc-4c2a-b612-9537c97f73bf,127.0.0.1,GET,/api/couriers-booking/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T07:00:58.217947,e8531762-a7a9-4ad8-9052-004b817a0be4,69.171.234.39,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:01:00.194040,dc4bba6f-2ed7-4998-8ccc-e511e84c84b4,66.220.149.4,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:01:01.561571,de823ccd-acd9-45f7-b34a-d7854f7d5ac6,66.220.149.17,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:01:03.126864,6ea4e74e-7563-421e-8dab-cb6f54919c2f,66.220.149.38,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:01:04.446947,823a2dbe-964d-42f9-bee2-e4a714ffc7f3,66.220.149.43,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:01:06.428747,cacac7c5-199c-4a23-a908-6d3e0ff7df04,66.220.149.12,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:01:10.467546,304dcd2b-2063-4e92-b7e2-9513b5f75f6a,66.220.149.47,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:01:12.413004,3e258204-3cc5-46da-afae-fc8d62f778ec,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:01:16.877340,70c689bd-8075-4c45-8d4d-94d4c738f16c,66.220.149.9,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:02:29.596412,da1a378a-0bfb-4e11-86f1-0445658f22e2,66.220.149.6,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:03:29.757353,10c79329-8e27-4aa4-b3a5-2c5fadb469f6,66.220.149.56,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:03:52.440988,b805d3d9-7642-4bab-a1b7-ceb0b8fe8507,66.220.149.10,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:04:45.595905,36541c4e-96ab-4364-92a7-23e9c01fd6e8,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-06T07:04:48.874903,dcbc69e7-6ba4-4d14-9d3a-d8d4b2bd860b,66.220.149.9,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:05:03.165000,ac006024-71f5-44e2-823e-6340ca9bdd45,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-06T07:05:04.931374,1c31a35f-f67e-48ca-8143-01f40e7d5a82,66.220.149.36,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:05:16.412893,ce03a7ca-7d9c-4b91-8071-88d00fedf149,66.220.149.2,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:05:59.043215,58c3548b-3853-448e-942f-8ea57b6bb464,66.220.149.28,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:06:29.825522,db2317ab-c1c2-487a-b3ff-1f9725698923,66.220.149.13,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:06:44.212383,8a9bc230-40c3-4224-a084-aa5b486de048,66.220.149.20,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:07:34.726938,e558d560-f8fd-4049-b2da-c3d9a3855b0b,66.220.149.34,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:07:57.710545,5829fc14-bcd5-4b9a-9e0e-5a54bac79cdb,66.220.149.35,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:08:18.497521,64169b56-7e90-42b0-a06a-f062739cfd09,66.220.149.34,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:08:53.806453,91dbdf42-a879-4236-87ba-540692355802,66.220.149.6,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:09:46.156013,7844c8e9-3315-4940-9734-12063755239d,66.220.149.9,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:10:01.996771,27139d09-640d-4468-ac4d-53969100433d,66.220.149.17,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:11:16.151643,f7c16419-0f30-4a36-a71a-31406aabc337,66.220.149.112,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:11:20.796143,d7d7a18f-e5d8-4a35-9aba-e9ae4d3127be,66.220.149.1,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:11:24.351410,6cdb41c3-950d-4a9d-b049-cfb7284e702b,66.220.149.10,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:12:40.764209,9671a135-e2d4-4b36-bc79-43493f8454a6,66.220.149.26,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:12:59.646590,a849be5d-5d7f-47ad-8d43-49ac056886a8,66.220.149.13,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:13:02.626990,e65fa1bc-dee3-4fba-ab66-ad9eab48c520,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:13:27.390713,1dfbe2eb-571b-4c2a-a3ea-dbb276260426,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:13:36.985201,bf45bd2a-1f52-4014-a297-2ef04158b3cc,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:14:05.941446,2b01ce65-9aec-4b93-a9e7-c8ba71961006,66.220.149.16,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:14:25.782238,1738d0cc-3362-45ed-b3ca-42f86d11ca2c,66.220.149.2,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:14:34.602933,ece8cd92-56b7-48b5-9b6f-89125762dca7,66.220.149.2,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-06T07:16:55.213441,810bb00b-623c-4673-946c-7ba2ee011f73,127.0.0.1,GET,/api/couriers-booking/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T07:23:06.598972,f5118262-d820-456e-a306-9498b4523639,127.0.0.1,GET,/api/couriers-booking/,500,Internal server error,test@mail.com
+2026-01-06T07:23:26.845240,a9edfcb3-feba-48fd-a956-f898f2f2307d,127.0.0.1,GET,/api/couriers-booking/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T07:24:04.486121,f45815a1-7545-444c-80a3-81e6ab8f393b,127.0.0.1,GET,/api/couriers-booking/,500,Internal server error,test@mail.com
+2026-01-06T07:42:23.490647,25038ef8-53ab-4306-a079-dc9f2d13f868,127.0.0.1,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T07:44:30.759620,7be03857-9a55-480e-a238-7ff552c269c4,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:45:38.949300,734292a0-acfb-4c85-a4b2-da8e70e195ac,127.0.0.1,GET,/api/couriers/reject/list/,200,No couriers assigned to this user,test@mail.com
+2026-01-06T07:45:55.237056,3c4e6247-4808-45dd-bb46-db070ec47b1a,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:46:30.034978,1ba97ca3-de5e-40f6-99b4-308cb57daf83,127.0.0.1,GET,/api/couriers/collected/list/,200,No couriers assigned to this user,test@mail.com
+2026-01-06T07:46:42.899234,1440fbb8-26ce-49ce-a0d2-fb7ea00f72cf,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:46:55.085269,3b757c58-33e0-4492-a615-40f436903e59,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:47:45.079891,606f2136-357d-4f7b-9ba1-90f680f08842,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:47:48.864517,fed851f6-6803-46df-9652-60cbc5e9b0ea,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:48:02.239967,cd885fa2-c153-4599-8f3e-95d2c28dfbdf,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:48:13.012062,1d572bf1-3dc3-4e07-b15c-96f28eeb37e9,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:48:19.364212,584a6e44-729a-4caf-87b2-a38243de8846,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:50:06.505333,08ddbb9e-833c-4766-a498-513a3ce2d603,103.98.107.22,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T07:51:05.455227,879a5832-0c5d-44ef-9bdc-827d05b8f518,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:54:30.442714,0717a737-ac0b-4bcc-901a-3589b2b3074a,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:54:31.999791,8a09b78a-4b20-4485-975b-b82dc7531a09,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:54:58.733805,b7cb68b3-0b87-4dfd-8cc9-9ccff64847b3,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:55:08.433964,5099626a-f3c1-487f-82f6-8f06d5349205,127.0.0.1,GET,/api/track-order/order-111111113/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:55:41.977659,3b985ade-71c7-4114-a6d5-24a4e52383d7,127.0.0.1,GET,/api/track-order/order-111111113/,500,'ReturnDict' object has no attribute 'courier_status',test@mail.com
+2026-01-06T07:55:50.809968,a1a61134-4be9-4237-8f96-ffe0c0c8ca18,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:56:04.694516,88323a1a-a159-4ef5-893d-e04d02badc87,127.0.0.1,GET,/api/track-order/order-111111113/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:56:05.215354,b542c518-0bdd-4000-b41e-1a1a912df6cf,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:56:14.457559,432b8ede-b49e-4558-9bbd-73f64e9f1fa3,127.0.0.1,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:56:15.726997,ef59b94c-02da-4108-9342-b0f71935f83a,172.31.40.247,GET,/api/track-order/ORD-1001/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:56:26.909768,bc5f01d3-aae4-4e3b-a4f3-d4edb3a0a5fc,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:56:33.603182,94bae39a-c042-4907-8d79-257968723b3d,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:56:37.849840,5f46f978-f1d8-480d-8ca5-ed3a54ab8524,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:56:44.543672,e128e8d6-1d24-47d2-bf40-590b0a4d6ec6,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:56:54.201336,3f8eacc9-6fbc-4768-9181-f28573210173,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:56:57.998276,da558029-7bdd-4c15-bc15-912c44711fc6,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:57:03.929577,04c6731b-8501-469a-95ad-595cde2a7fde,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:57:39.139318,990f03b7-e39e-4e13-a6ea-e9a80b9fff3d,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:57:42.557828,e9793d79-e4ba-407c-883b-cf67e04852ea,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:57:47.885769,73bf03e8-6b73-481d-8c28-f517c1284dd9,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:57:55.750271,134390cb-8099-473e-985e-3502582ba3c7,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:57:59.354776,12bbe021-37d3-4813-a551-f84ea023d554,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:58:03.665808,63ab54d8-4f38-4134-b4df-f75f6b36134e,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:59:40.253569,206693dc-937d-4101-bcb3-81a43810743a,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T07:59:49.590307,2cb1c61c-12ae-4189-9e85-a0ee119f543f,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:59:54.042832,35b5a2e2-0911-49ac-b691-88019af2c0ba,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:59:55.385938,859ad8ac-7473-4fcb-91e0-dbea32453e93,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:59:56.280434,7a637f51-9c0c-4bf6-841d-e6930b4169df,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T07:59:59.494756,643b1edc-67da-436f-84de-dd66ab1092a8,172.31.40.247,GET,/api/track-order/=/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:00:03.202699,42a675fe-be9d-4cd9-bbc7-82ff1c4415ed,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:00:16.312915,f3be9182-847b-4214-9c4b-1212a64a09fa,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:00:20.577516,9f1b49bd-250b-41ac-99de-697d83e4fde3,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:00:35.363878,83002230-c423-49f8-8094-bd26a0520088,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:00:36.849850,ee458b0d-1d02-4cb8-be6b-d544d150ce0e,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:00:40.930630,ef937bcf-3489-4db5-ab78-2eea6fcb1079,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:00:50.334177,dcfcfcbb-1e94-447e-9e44-097f1b400989,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:01:39.000920,6bd86f50-27b7-42f8-9898-1d35ae0ae81b,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:01:46.722639,b4e9f2ad-7d5f-4437-8cc8-ec10721dc80f,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:03:05.265527,2ed1e81d-0208-464d-b387-bbda19006889,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:03:13.754583,055b00b8-2afd-4381-9ef8-cc32a128c6ba,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:03:19.663193,ad11fd70-651d-4791-8a3c-75ab5ce1b6a1,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:06:32.263116,9df34cab-6866-4287-9a36-02a49668d8d3,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:06:37.389564,209f65bc-d89f-45a8-9444-7dbb7b13b1b1,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:06:39.993210,da0f1de3-4afe-456c-b7bf-06c5537d1f15,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:06:45.617699,f023d9d9-1c20-44ad-8ff2-231923e165b2,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:06:45.679901,d6bf35e6-286a-4e8c-a95f-473346933966,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:11:02.327622,c5152bb8-27be-45c6-8a9b-2390d2859509,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:11:09.349802,819596c4-feb3-419c-a762-51a5253d41e8,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:11:15.237284,a7e69221-7712-4910-928b-5eec735cc602,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:11:53.691404,ccabfd81-defc-457d-a060-04936482f1fd,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:12:07.446432,1bd1ef44-bb25-4f2a-b784-7ffbec662619,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:12:14.081173,a586427b-8deb-4d92-8968-088dd1dfc919,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:12:18.807986,47cba844-2bac-43bf-ac9a-54e1fb572a98,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:12:22.814020,98056734-d7ec-4640-a5ea-98ed56c53baa,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:12:37.455033,f346b07b-d3fe-457d-b22f-17cdaf906179,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:13:19.313956,b281bc7f-ce2b-49a6-9a2d-a1425ba834af,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:13:25.037178,5a22c800-5486-4a04-a70b-54b515e4b85b,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:19:41.779745,96c5653d-cee4-4c54-b0ac-faba6d81fa20,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:19:54.370689,c1cf0059-5473-46c5-917b-99efa2b1e143,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T08:22:47.923117,2078e95e-2611-45f1-9564-83cb94fc443a,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T08:34:18.207886,38243343-120c-451a-a871-d549708b9e4e,103.222.20.3,POST,/api/auth/login/,200,Login successful,
+2026-01-06T08:59:42.596472,40d75bf3-13a4-4c70-984c-939085778993,103.98.107.22,GET,/api/orders/list/,200,Success,test@mail.com
+2026-01-06T08:59:45.278687,950ce132-9c47-46c3-bd79-5dae8dc5a71d,103.98.107.22,GET,/api/orders/confirm/,200,Success,test@mail.com
+2026-01-06T08:59:51.430914,dddbc78a-c3dd-40bd-9be6-6acd493aee72,103.98.107.22,GET,/api/orders/reject/,200,Success,test@mail.com
+2026-01-06T09:00:18.223315,7a3f48db-0f7a-46e5-98d0-037e13a3774e,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T09:00:52.164530,9ea454f4-fba5-4bb5-9a7d-14927f627f46,172.31.40.247,GET,/api/couriers/booking/list/,200,No couriers assigned to this user,usernamem@gmail.com
+2026-01-06T09:01:31.918158,3b0d7d20-08a4-459c-8cb1-9c32746787dd,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-06T09:01:37.004748,be4fbd09-e117-4fd7-8daf-07e724ce8af3,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:14:35.892830,fb46ec84-3618-4797-85ab-b91dc52fe481,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:20:21.490160,6efdf414-cf37-4d0d-a6f5-156d07050be6,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:21:56.945320,121f84ff-0cfd-4c4c-8b06-beee2ed185ee,172.31.40.247,GET,/api/couriers/reject/list/,200,No couriers assigned to this user,test@mail.com
+2026-01-06T09:22:35.935827,a2891451-b585-4e4b-b00d-e130fd4e65bf,172.31.40.247,GET,/api/couriers/collected/list/,200,No couriers assigned to this user,test@mail.com
+2026-01-06T09:26:25.899259,fcf2f46b-353d-4e67-b481-b28220e50bd8,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:32:45.239931,fca12152-1d98-4019-adcb-93a00c3bc75b,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:34:47.769486,fe07f4d6-a524-494b-a5ec-02f6474b5c6e,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:35:09.449634,c6e8a3b9-525f-4e60-9ba2-525dfd680907,172.31.40.247,GET,/api/track-order/order-111111113/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T09:35:11.594253,b66aa8b8-1dc9-4abc-abff-0e2dbe194bc4,103.222.20.3,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-06T09:35:15.008913,50eefe6a-9f9b-4530-99a4-a708cab42019,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T09:35:24.101221,7b2181d5-ffce-4185-a6d1-741a785de2f4,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:37:27.870992,6fb59c26-d7b9-4885-ae65-e3a7bd3066bc,172.31.40.247,GET,/api/couriers/collected/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:38:07.023534,48dcee5e-147f-4ae4-b8aa-76167bb1402d,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:38:32.425041,05b36b40-e939-4e27-9087-137de47054d8,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:39:10.104788,fd389f60-aa46-43c5-8e05-f5be0f85926c,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:39:37.265291,c04e1af3-e3f6-467f-aaf5-881f6a44e175,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:40:52.175627,7915efad-8ded-4172-aa44-bc73cabb83e2,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:41:03.922620,ba035432-94b4-4b03-9f73-01b6de391140,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:41:14.928626,73856aec-e674-406a-82bd-e7cff4fbb79a,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:51:23.441264,9a199e07-5889-4abf-9690-e9d85d927f49,172.31.40.247,GET,/api/couriers/collected/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T09:59:58.778936,8e173eb3-8ca6-4bd1-b02a-366ec73dc1db,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T10:00:10.153239,6daec58c-5bf2-4b8b-8fe0-ad5538247685,103.98.107.22,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-06T10:03:38.352551,c6016d0c-8abe-4639-917d-8239761fd7ec,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-06T10:03:48.142840,ad6d0bc3-34b8-4c91-8aad-f0e62d418208,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-06T10:04:57.111942,5cbf70fe-867c-486f-a13a-cc234d12abc6,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T10:22:57.699178,4a193d4d-7cc9-480d-9f36-79b2a0dd4561,127.0.0.1,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-06T10:25:45.723609,de3cbcfc-16ef-4c73-9318-613ac98a1aed,127.0.0.1,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-06T10:26:22.978153,5f3338c0-5d7e-441d-9286-2e6cb676baa9,127.0.0.1,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-06T10:27:03.017622,9f70cea8-c44c-44ad-927a-53afc25ffdd2,127.0.0.1,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-06T10:27:26.766601,174b0a84-79ee-48ff-aa11-40473d3929f0,127.0.0.1,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-06T10:28:02.672136,410e5adc-c291-4777-83b9-d5ae99c030c1,127.0.0.1,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-06T10:30:31.651439,c359eb8a-325a-4719-8da0-1feab4265242,127.0.0.1,POST,/api/products/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or this vendor does not belong to you', code='invalid')}",test@mail.com
+2026-01-06T10:32:20.822111,00556f1a-5fa4-4c93-87a0-902ec3c96767,127.0.0.1,POST,/api/products/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or this vendor does not belong to you', code='invalid')}",test@mail.com
+2026-01-06T10:33:15.754758,55c449e0-53ae-4c84-af92-0265360c7f0a,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-06T10:33:55.011351,23e1cb47-2fc4-4cc9-933a-d13c6f2d725e,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T10:33:58.518273,a3c8c9b9-6897-42f0-8a1c-d24968c22eb7,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T10:34:03.195477,b4422ae7-dcd5-40e2-9b7c-a906b96213f7,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:34:38.957577,836be685-ef57-4ae5-89bd-6dbc50bea37f,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:34:54.236231,5fdc50d2-9bca-4d70-9e93-0be2c1b37ed1,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:35:00.676921,22cc33c6-b9b3-4e22-a6fc-21c4518bbf02,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:35:04.870261,5f72f7ff-4771-4d4d-b0e6-6700417639d5,172.31.40.247,GET,/api/track-order/order-111111113/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T10:35:09.978040,b48d9430-c433-4ca5-8a9b-70cf27369613,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:35:49.117628,55e25418-f965-48d4-a37a-077c6ff775e6,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:35:51.332878,6e7085ca-1f5d-4673-b8b1-4edae20de32b,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:35:53.396763,5d7ebc4d-0cbb-4ae4-a519-809fb2573923,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:35:58.438186,57c18926-2ca6-4cbc-8af2-f34551b489f4,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:37:37.143017,1cce3ff9-f9c1-462c-bbd2-40419ad24998,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:37:41.180010,302a7e8a-398a-41c6-ad93-47e2e70bc390,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:37:47.146276,f31f0fb1-c147-4148-ac26-1d95ada3b9b9,127.0.0.1,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-06T10:38:15.915166,3ba4a9a9-9aa1-4679-b83a-071ec0629183,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-06T10:38:49.925218,42970f7e-72b7-4105-95ca-6725dae9384e,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:39:00.276509,630da961-b056-4621-bbd0-7cc3046a4e20,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:40:06.408746,4a6ebd89-c589-475e-91fb-aef1a5258e91,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:40:08.638616,a32542ac-2f6d-49f4-895f-8012a93a8aea,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:40:57.496716,58742ec6-acb6-4046-98c3-64857a86bdcd,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T10:41:03.922825,c2a27529-4415-4a0d-a07a-f82642b6b919,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:41:05.640720,2772a1d1-f216-449f-86eb-7dac3746c608,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:41:30.079966,f556225b-90b4-4614-b3dd-9c3f5dec92da,172.31.40.247,GET,/api/track-order/order-111111114/,200,Order tracking fetched successfully,test@mail.com
+2026-01-06T10:41:50.752581,75226693-8600-4f9f-bbcf-d0b977e8d2e3,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:42:08.471595,ce16e156-7af6-4b72-996a-012be109ca21,172.31.40.247,GET,/api/track-order/ORD-1001/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T10:42:26.320441,6db94b45-1ab7-43e2-84e5-1c8ca8cf06f4,172.31.40.247,GET,/api/track-order/order-111111112/,500,Unknown error: Invalid URL 'None': No scheme supplied. Perhaps you meant https://None?,test@mail.com
+2026-01-06T10:43:21.465154,7c6e14ee-675a-4a1e-ab35-39a82ee2c8c6,172.31.40.247,GET,/api/track-order/sifat ali/,200,No Courier Order found on this order id,test@mail.com
+2026-01-06T10:44:01.083549,5c22d60b-25a4-4bf6-be96-0f7959bc3a1d,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-06T10:44:56.559555,0939948d-e2a6-4985-8832-7b2eafbc813f,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:46:51.864289,5ccdb0d1-a253-405d-b09a-5cd10f894f50,127.0.0.1,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T10:46:52.752714,b093603e-2ab0-4fbc-a8f7-3ef3f1ed558b,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:47:55.731641,e87dc59c-6e81-46c4-bfc1-ad2aeddc00ba,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:48:03.448778,0ac27a48-e346-4a89-b2e7-3c5c1ef99cca,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:48:23.157681,23b7d2c2-05f2-4c13-9357-74f75266aa8a,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:48:27.486755,869742b2-96e6-4788-b5f1-56ffd72fb02c,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:48:43.133733,12821852-932e-4454-9216-c4b9eba01f26,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:50:19.041765,dc290170-c0ff-479c-85f3-930d40c30b12,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:52:30.427144,bbe8e1d0-3127-40e3-bd4a-8b509a56d2b1,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:53:33.827937,5d8a8810-f749-490a-bb96-2e7938efe534,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T10:53:44.428345,16bf4542-889f-4f14-97cf-92a011c9fb42,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:01:16.697395,c0118b45-3e58-4a58-af4f-c671169f8b94,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:05:52.826471,3a38fdbb-c24b-43a1-b9d2-bda209e4605b,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:06:41.085669,6769abfc-4e60-40b6-bde1-d48b46d43187,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T11:06:42.174826,01c2e3df-ef9f-4d17-9c17-8f11fa16638d,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:07:36.652747,947e3688-ed50-4abb-9231-a3c17b8489d1,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:07:49.522403,d9d569cb-94e1-46f0-a285-ba4290253794,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T11:08:20.365747,383046de-f73d-4aee-a22c-bb43bae9ed2a,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T11:08:25.050870,3072fd1d-047c-4557-aff8-1f1afcf32c12,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T11:08:33.312809,df518dd9-e581-4d89-9ccd-47d62d706954,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:09:16.269292,86634830-df72-4710-a82b-2776127b3ab2,172.31.40.247,GET,/api/couriers-list/,200,Courier list fetched successfully,test@mail.com
+2026-01-06T11:09:26.799440,0aaef262-dde9-4117-bedf-1f0f18c5eebe,172.31.40.247,GET,/api/couriers/reject/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T11:09:29.877368,5e8e7b7d-83a0-4e50-9d8a-5c279f620d3b,172.31.40.247,GET,/api/couriers/booking/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T11:09:38.963818,0970ad49-459d-453a-ab49-ede7ff9d8221,172.31.40.247,GET,/api/couriers/collected/list/,200,Courier order list fetched successfully,test@mail.com
+2026-01-06T11:10:56.192386,2011696e-9e95-4a90-8916-0f6ae808ad59,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:11:17.105318,31cc789c-c523-49f9-83c0-3b3e4da1ee86,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T11:11:44.449934,ba1f57f8-fa31-43a4-a76a-09c395e5ca8b,172.31.40.247,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-06T11:11:49.792137,bdc8fca8-7468-4911-b10d-133f5617428c,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:12:25.587828,4258a0d1-0393-44b1-a07d-232ef0688bbe,127.0.0.1,GET,/api/products/,405,"Method ""GET"" not allowed.",test@mail.com
+2026-01-06T11:12:34.348947,6e226da9-3ce9-4d71-a0e0-46738755d19f,127.0.0.1,GET,/api/products/1/,500,Internal server error,test@mail.com
+2026-01-06T11:13:12.672371,18941777-fa18-4b8f-9e04-7646147cd407,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T11:13:13.566409,7d36087e-2adb-46f5-b03d-3caa3a5e2463,172.31.40.247,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-06T11:13:13.865298,8a367489-a894-483a-8881-49fc4580399d,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:14:07.492916,2700b5ea-cdf3-47c5-8350-6c7fcd5fcc43,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T11:14:41.296790,6f15d71f-2503-4d54-8eb2-c3595c81c7cf,127.0.0.1,GET,/api/products/1/,500,Internal server error,test@mail.com
+2026-01-06T11:14:44.977661,7ccdfa63-d8a3-4487-964a-cd8df0e9ed6c,127.0.0.1,GET,/api/products/1/,500,Internal server error,test@mail.com
+2026-01-06T11:14:49.204110,febc7c13-5a34-4e36-b30d-a78db8cfa2fa,127.0.0.1,GET,/api/products/1/,500,Internal server error,test@mail.com
+2026-01-06T11:15:18.752329,15548f58-c9b4-4205-b63b-69e8ade59633,127.0.0.1,GET,/api/products/1/,200,Product fetched successfully,test@mail.com
+2026-01-06T11:17:16.726425,3dfc2206-0b28-4231-a0b2-35e81ef5573b,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T11:22:10.371264,3ddde16a-9168-423b-90d6-2afdce094dc6,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T11:24:47.432923,a5652515-ac36-4084-8215-38b8313a3638,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T11:54:35.557478,8a72ceea-dd35-4e6a-b148-533f93f52352,103.98.107.22,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-06T11:54:37.370160,b7bb0f74-5163-459c-8a68-0332ef8ec748,103.98.107.22,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-06T11:54:39.024250,75295659-f8e8-49a5-bf5a-6e156b75d23d,103.98.107.22,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-06T11:54:42.490751,02e5a57a-b7f1-46b7-9aa5-337ef91d5e19,103.98.107.22,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-06T11:59:54.138358,2c81b24e-ab28-45c9-85a1-7a7fe58e18cc,172.31.40.247,GET,/api/products/38/,500,Internal server error,test@mail.com
+2026-01-06T12:00:09.357370,cc20aab7-600c-47ca-8a9e-91cac429bb22,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-06T12:00:12.415307,ba2ce769-724d-4444-82aa-928dc68e5523,172.31.40.247,GET,/api/products/38/,500,Internal server error,test@mail.com
+2026-01-06T12:00:32.925054,eaeaa4fb-6171-4d75-bd5e-60555073c25e,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T12:00:32.977483,621b2f4d-3ab7-47b4-953d-d4c43212b9bc,172.31.40.247,GET,/api/products/38/,500,Internal server error,test@mail.com
+2026-01-06T12:00:50.502230,2fc2f93d-0f14-40e5-ad86-ee54a4bd371d,127.0.0.1,GET,/api/products/38/,200,Product fetched successfully,test@mail.com
+2026-01-06T12:01:13.198598,fb5ea351-8f9c-40fc-ac37-19a69c80ee16,127.0.0.1,GET,/api/products/38/,200,Product fetched successfully,test@mail.com
+2026-01-06T12:02:06.777984,480b9a93-0aea-4365-9f9a-fce49d630171,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T12:02:06.830860,eff0ba28-e78f-41da-b67a-5f4b89620eac,172.31.40.247,GET,/api/products/38/,500,Internal server error,test@mail.com
+2026-01-06T12:02:32.366175,9be390be-e68f-45cb-85d6-bfee88276961,172.31.40.247,GET,/api/products/1/,500,Internal server error,test@mail.com
+2026-01-06T12:02:56.621395,a6c41e7d-c46a-4ac5-8ef0-73278d1e4140,172.31.40.247,GET,/api/products/1/,200,Product fetched successfully,test@mail.com
+2026-01-06T12:03:02.820066,e91f25e2-74f1-42df-846f-fdbb9f2db2b9,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T12:03:02.883723,792e6425-c2a8-42f4-9157-cc3f9814ce96,172.31.40.247,GET,/api/products/38/,200,Product fetched successfully,test@mail.com
+2026-01-06T12:03:31.578947,445924af-4407-471a-890b-ca4ff3c2cee2,172.31.40.247,PATCH,/api/products/38/,500,Internal server error,test@mail.com
+2026-01-06T12:03:31.643025,a900fefe-f844-41d3-ae8d-cc7bbed38251,172.31.40.247,GET,/api/products/38/,200,Product fetched successfully,test@mail.com
+2026-01-06T12:08:15.382801,1f35c98e-3209-4196-91f8-3634acdd6570,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-06T12:08:25.190179,bfa96f31-ae34-4b0c-b748-7e48adf86455,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-06T12:48:51.232345,b56007d0-a4d2-4524-874e-bc18b8cea65d,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-06T12:55:49.489841,ad93935e-c927-4bdb-ac70-9b8f9f84369b,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T04:12:24.676788,66c37eac-7609-4af4-8ab8-f60a4c598303,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-07T04:24:23.325572,09bcdb69-3414-4149-88dd-806823a3709c,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-07T04:24:23.387064,d3923134-a135-4f64-9165-867b0f04cb9e,172.31.40.247,GET,/api/products/38/,200,Product fetched successfully,test@mail.com
+2026-01-07T04:49:17.306381,7df5213b-368b-4b42-812b-9e84cbccb74a,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T04:49:28.744530,aad2b30a-8f5e-4c21-840d-4c36a0c87a4a,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T04:52:42.927808,977ab9f3-25ea-4833-a6f7-5c3bc533e3c1,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T05:14:42.379291,808fd93f-5dce-4f81-aef5-f1bb0cfa081e,127.0.0.1,GET,/api/social/platforms/,200,Social platforms fetched successfully,
+2026-01-07T05:18:05.431955,5046127b-b329-4003-8cda-bdf975411e42,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T05:18:09.058819,96185cdb-e6ec-4f3e-91f3-64f900d37519,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-07T05:25:37.301221,ba4932b6-7cc9-4f36-8cd6-71c4d8a696e0,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-07T05:25:49.318463,71d86ec8-551e-4869-b740-038fd00e119b,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,usernamem@gmail.com
+2026-01-07T05:25:51.561465,4fba7e97-bec7-45dd-8b7b-e63166dc59a3,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,usernamem@gmail.com
+2026-01-07T05:28:03.029724,469c9386-7f05-4518-88db-7b48d95c844a,172.31.40.247,GET,/api/social/facebook/callback/,400,,usernamem@gmail.com
+2026-01-07T05:28:18.920054,b7cc99ca-9bdf-4624-8a68-6a94983521e7,172.31.40.247,GET,/api/social/tiktok/connect/,200,TikTok connect URL generated successfully,usernamem@gmail.com
+2026-01-07T05:28:28.573081,6c2cea50-2772-4fd3-a60d-015aad2778bf,172.31.40.247,GET,/api/social/facebook/callback/,400,,usernamem@gmail.com
+2026-01-07T05:36:40.574695,2e72630a-aa2b-43a5-ac49-f5a3d367afaf,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,usernamem@gmail.com
+2026-01-07T05:37:00.781764,f6dc4a32-44d4-4f07-b5f5-a3802fb6865a,172.31.40.247,GET,/api/social/facebook/callback/,400,,usernamem@gmail.com
+2026-01-07T05:37:17.513758,a7577af9-4e68-4e20-b621-87acde59e655,172.31.40.247,GET,/api/social/facebook/callback/,400,,usernamem@gmail.com
+2026-01-07T06:00:05.902137,c7528beb-7301-4663-b4f8-99fe4ef8929e,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:00:26.225375,73e727c3-c0ab-4a59-b4c9-1f0fe712b8ed,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:01:56.342239,ccb32ab5-4f49-49b9-9938-bb241aa2c8e2,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-07T06:02:05.681075,4f03c34c-98d7-4f16-8ef9-d3fad5ea561d,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:02:30.549453,7f553cc1-5693-473f-bfd2-d5ef78035855,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:02:37.544319,756306b4-ce71-43f3-85ea-82308f325182,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:07:44.107030,bdaa0731-c58c-4fcc-bfce-d6abea2c1c43,103.98.107.22,GET,/api/social/facebook/callback/,400,,test@mail.com
+2026-01-07T06:07:47.288225,9e09c2ab-ec5c-4cac-a66b-cc2041420a6e,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:08:39.432126,b492a039-1905-4e8d-ab4e-75c8cc1110c9,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-07T06:08:52.867278,e99697ff-897a-4e86-b70b-49a43194b24d,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-07T06:09:01.753530,fa0d04ee-d480-4399-88d5-2770fcc39866,172.31.40.247,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-07T06:09:15.027219,1b403cd3-4a80-4ffd-92e9-269db61a011f,172.31.40.247,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-07T06:09:51.586814,65f3544f-411c-4392-8081-a720f91c082b,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-07T06:10:22.368776,3449f767-9f6c-49a5-9d49-bfc135990ae3,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-07T06:13:07.998824,6aac58e3-3cf2-4a1a-af30-04ad53d347ff,172.31.40.247,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-07T06:13:16.609813,71282fa8-8489-4683-b8e9-26a6727ee577,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-07T06:13:23.169764,e897e372-a841-4359-926c-443fb2c9bfa3,172.31.40.247,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-07T06:15:35.685819,7c5f847d-4ba0-434c-9d42-df66e4f16445,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-07T06:15:38.281254,1379461c-b1b3-4ed5-8e7c-75160d30ba1f,172.31.40.247,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-07T06:16:43.732854,2b4e0a86-b4b4-40f5-8c8d-df4a20b9fae1,127.0.0.1,GET,/api/social/platforms/,200,Social platforms fetched successfully,
+2026-01-07T06:18:13.009423,6a26aafd-0658-4445-89ea-d6f4f68b64a8,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-07T06:18:52.653961,3351ca79-c8ee-49b2-a88c-6304b0b8bc3d,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-07T06:39:46.577782,ddd855c6-0bea-4898-9cb8-0fb28e5e419d,103.98.107.22,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-07T06:39:52.891397,45c3b416-da0b-4d6f-9387-6a7b2eb48960,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-07T06:39:58.935680,b3304b5a-9483-4d0b-ae5a-fb921422fb96,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:40:01.928664,3b7c4e6e-7a4c-493d-9f32-e314719429b9,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T06:40:17.069349,77b7f48b-950b-4957-9455-543c88a21e42,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:44:36.641900,9a06e617-36e4-4a79-a75f-59f44262888a,127.0.0.1,GET,/api/social/platforms/,200,Social platforms fetched successfully,
+2026-01-07T06:46:06.810777,f4afa331-0a36-494f-af9f-d9bb97d9e252,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-07T06:46:10.812692,33e40acf-b90d-4afa-aad4-383f64709235,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T06:54:40.980023,05d7c84d-e191-4188-adeb-34a78f6dff6e,127.0.0.1,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-07T06:55:10.880357,902d0b2b-e7bf-4fa7-8a9b-5410baa7f0fd,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T06:55:33.810124,f9ea1250-6be7-41ec-95be-8de5fa8506fd,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T06:56:03.050970,0f4064f6-355a-43e4-a225-ab0a6e9614a6,127.0.0.1,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-07T07:02:27.671103,b88e8a36-6b34-476e-9666-ec08ec965c42,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:05:23.269195,b9846cc7-574b-499d-89eb-cd4f74ecf90d,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:15:52.920217,61a3259b-2e79-4582-b2db-0aa75ea34f6c,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:17:56.220016,f7ef8c15-ffe6-495a-8d55-246e826a56fb,127.0.0.1,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-07T07:18:43.256082,b668fe06-82da-4989-a4df-c3337f2e9f92,127.0.0.1,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-07T07:18:52.320615,e7ee5d18-4f44-4994-9924-47e1ebbc6fa7,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:19:26.859657,2f06e086-35b9-499b-a360-157e4a9750ee,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:19:28.574818,6577bf85-92ae-4a10-b4a5-0f2fb20062a9,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-07T07:19:43.556015,09ebf592-87a2-4e6e-a381-d8928520d0df,103.98.107.22,GET,/api/social/facebook/callback/,400,,test@mail.com
+2026-01-07T07:19:56.298751,e2a885ed-603f-41ea-a9d3-887cf226962b,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:22:04.657767,983ddb7d-0d92-4e54-90f5-b7750678d830,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:22:06.093185,5365f20e-a267-47af-8a66-e61a1240be10,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:22:25.782682,55e751ef-bf2b-43e9-bfa0-0250fada3ceb,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:23:04.217821,5a9cf3be-fc92-49e7-8d15-4af435f953da,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:23:26.917037,ff7aa80d-25b7-4f47-be45-0b8ae45672ab,103.98.107.22,GET,/api/social/facebook/callback/,400,,test@mail.com
+2026-01-07T07:27:20.025953,d545ef93-22a4-4743-ae96-432848920415,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T07:28:10.030491,57c1cf4d-8ecd-4cab-b2d9-b0edc688e49b,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:45:38.144468,83b8b042-74d2-4b71-aa39-af9dd77bb536,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:45:45.209760,1b9eaf9a-8703-4ea1-a359-05dbf980d83b,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T07:49:58.932198,769b24ee-f17b-4790-b3f7-81e24449d6fd,127.0.0.1,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:51:12.081285,ed55a13c-e443-4732-82e2-9185a19612d0,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T07:53:09.220277,5efb5d70-2a8c-429c-9f8b-eac5bbcb45e8,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:53:10.065161,0899a30f-c629-4a34-b915-1316534fdffd,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T07:53:14.460805,0aaf36e0-b5ac-4a1d-b126-79188ddca882,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T07:54:24.919845,03228ea3-ff58-458f-873e-7e502649d250,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:58:30.979124,bf2c0a6c-72c3-4a0a-886a-cf9a87effc2f,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:59:05.842020,93039273-1a6a-4f40-ae18-38a05ed643db,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-07T07:59:07.541548,14290db7-ac1b-419e-9dd4-9c139936207a,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T07:59:34.004610,3c850243-ab1e-4d23-aef4-692adcd1f4e4,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T07:59:35.801765,8b43c816-c5a2-454d-99e8-fa4de5fb554f,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T08:16:48.192730,d7f7288a-07cd-4276-9aa7-d589e099412f,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T08:17:04.775392,23abff97-dc83-4721-9022-81fa81510cbf,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T08:18:20.408843,ddc1dea8-64de-4a10-9f7d-08dee3f07e50,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T08:20:40.400705,e2b8b124-7115-4238-8e03-d99ffd8c0dd9,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T08:56:22.252715,31909426-2497-42a2-845f-549e7eb070f7,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-07T09:02:51.055568,e37bf2d5-d6e0-4f8c-b129-da8484953608,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:05:40.578805,453c62fd-65dc-423b-82da-e8541e9ffdac,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:08:14.971885,6938b289-d256-4bb1-bd0d-11d39f4894e6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:20:48.049364,af118f6f-c68a-44d9-b65b-614e4603bd95,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:50:56.620254,e282ee2f-856b-4349-8bf2-51ac5b673cb5,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:53:21.530628,7f72f789-875a-4c32-9a17-8bf617bf4b80,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:55:10.613435,75f7ff7b-7e4e-4f14-86c4-ac96516d8819,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:56:56.377855,60af2cf6-3982-4636-90b1-469a154b13be,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T09:57:10.481327,a50bdbcc-362f-4daf-903e-d333b9d53abf,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:57:11.608628,681a2110-44dc-48f8-8af5-32f575684449,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T09:57:17.438407,ca0d0679-3b82-49b2-afb2-82b48e9e3a48,103.98.107.22,GET,/api/social/instagram/callback/,500,Internal server error,test@mail.com
+2026-01-07T09:59:33.104653,c10d7e53-2aa5-46d8-9b1e-13b296292f03,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T09:59:46.973713,9b9352f7-0117-4344-8469-222942e6804e,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T09:59:47.934934,0264bff7-ddff-416a-ad6e-9fb3d36719cd,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T09:59:55.310114,c8414bce-b9bf-437a-a3ac-aee6d8f3f5e7,103.98.107.22,GET,/api/social/instagram/callback/,500,Internal server error,test@mail.com
+2026-01-07T10:02:25.942847,99e8fc4d-476d-4666-ba52-5118e98861d1,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:02:25.993263,8bb04e8c-0da5-48b5-bd5e-f9a1751d0284,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:02:27.590794,3a4387ea-d708-43df-b3ab-64d7daffacaa,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:02:33.660073,38932be6-db81-4c0f-8b0f-2d98a414367f,103.98.107.22,GET,/api/social/instagram/callback/,500,Internal server error,test@mail.com
+2026-01-07T10:02:54.377455,80b3f25e-fbd9-415a-a308-d58b5ab5f091,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T10:03:13.541741,d6a7e8de-4e6a-4a16-8d13-1da43b1a58b0,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T10:08:00.810784,39def8be-0b10-48bc-88ee-e77df8834c4a,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:08:02.148419,e2d6afe5-798a-4304-8826-688774963dde,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:09:45.356652,c2432e5d-4a76-499f-a38f-60a57ee78735,172.31.40.247,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-07T10:09:52.923848,0d72faed-226c-441b-9ed4-6661a32747da,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-07T10:10:08.553459,66d48190-54be-4247-9cc4-2aae3b9da8b3,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:16:03.316564,1c4eeaaa-c0bb-4471-a33f-63555a92b0fa,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:16:16.266326,dabcfdf7-69a9-427c-b888-acb16980e4c4,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:16:17.521055,78c35532-7142-418b-9189-e67d64db4beb,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:16:59.132333,a5b6ab53-a8f7-4acf-9dd3-0b14fe6a5b97,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:17:47.906134,d1617213-8524-4103-abed-a58422d7fed8,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:17:49.255182,434b0af6-00de-4cb4-8a59-bc6086ea1196,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:20:15.760617,9d9e56e0-9cc5-47b0-a833-fe73d824796b,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:20:17.466177,f0b9059f-5558-4123-b7da-f990a3161149,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:21:11.408227,7de249f5-e3e5-4a31-b121-d41ac94dd1f6,103.98.107.22,GET,/api/social/instagram/callback/,500,Internal server error,test@mail.com
+2026-01-07T10:24:46.050434,ad38f17f-604c-46a7-a84d-5556cff82514,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:24:46.965530,bae92c0b-f914-421b-8444-5d5e95de676f,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:24:53.395202,5d24251b-3f0f-432d-9988-75d35531442b,103.98.107.22,GET,/api/social/instagram/callback/,500,Internal server error,test@mail.com
+2026-01-07T10:25:16.531442,dc8ebbf2-2c09-4637-a8c0-350c5fe77136,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:25:17.426555,11ee5459-120a-442a-9b59-a4593153b228,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:25:22.447401,f75b7536-5cf7-468a-b296-63e403669153,103.98.107.22,GET,/api/social/instagram/callback/,500,Internal server error,test@mail.com
+2026-01-07T10:25:34.754563,2aed04a4-ace9-41ee-9a20-124b10d61db4,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-07T10:25:35.774744,d835143e-ec2b-4c1b-8fa5-6fd587904b2a,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:25:36.375286,2bd0ecbb-0a16-4601-b145-11c29537a745,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:25:37.534880,2b25aac3-64ef-461f-9956-bb5c381f322c,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:25:46.516592,8e342e11-46f6-4a4e-99c3-dceaea458b5d,103.98.107.22,GET,/api/social/instagram/callback/,500,Internal server error,test@mail.com
+2026-01-07T10:30:17.436494,5ebe6a4e-59d0-422e-9587-8b92730e307c,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:30:18.547087,fc1ad858-882e-4e28-a8ab-e7d60a47ae34,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-07T10:39:41.423517,b787b2b4-7546-4dee-93b4-2eb726de6546,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T10:58:07.272472,438e3d2d-3a61-4f92-97d1-a96f992f18bc,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:02:46.501064,528af15a-894c-432c-92da-682276071bf6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:03:08.304717,45554a3d-b361-4fb8-b865-5d867da82d04,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:04:25.921708,7edf2e83-ca87-445c-83d7-26c2e0310275,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:04:28.200549,0fd75879-09f7-424a-924d-9797189ae9f5,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:06:33.787760,b72e5b68-00ef-42b2-92c9-4b2ceb043dfd,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:07:30.687100,2ff23df7-d1c9-475d-9bbb-8000174575d1,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:08:57.283197,533d0db2-f697-4b57-ab3e-6dc0f771cd93,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:09:02.198717,93b2479e-4fdb-4a14-8150-2d14ab1d7ba6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:09:23.596821,d58e7a49-e06e-4168-9a74-d2340b4a21d5,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:15:05.644290,4bbeec1a-ca12-4536-879b-a06e0f678cdd,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:16:21.914377,e8d8558d-4680-4464-9717-bf50b25b67e9,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:18:09.349465,336e44fd-bcf6-465f-9bd9-79f3d9441544,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:18:42.023232,82359e65-18b0-410b-99ef-7a6cac1aea01,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:23:41.527395,bee1b6ac-4a10-4c36-bb34-eeb16bccf3c1,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:23:57.394387,c530b6dc-b3fc-4453-8305-484b17eeaefa,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:24:18.794401,376d5357-f81e-4f02-b62e-96d46f0f6faf,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:27:57.334563,7ea1cc61-796c-410a-ab5f-ecd6e22e99b3,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:28:39.592921,c48674de-81dd-456c-b722-e3829f82158f,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:33:51.467623,e694670c-514a-4200-ac59-bbb8c16374e1,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:36:31.752784,9202bd72-4ec3-4cf7-8a4a-17a23d621313,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:37:25.507847,1b623730-8a1a-40ce-b534-91fd96c35cfb,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T11:45:15.861109,15bb62f1-442b-4e24-ad86-1ba14f05a374,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:50:45.804122,527ac297-c367-4882-9959-e99c55b172be,172.31.40.247,POST,/api/publish/post/,400,Invalid data,test@mail.com
+2026-01-07T11:59:22.130387,977fcb4f-efd0-420a-ad14-7535da2ab30f,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T12:08:28.250531,493914c1-1cb3-4f54-b432-c4dba5aa39de,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-07T13:15:48.966162,2c679af4-8417-4ea5-8c85-7fea5419cb82,127.0.0.1,POST,/api/publish/post/,400,"{'caption': [ErrorDetail(string='This field is required.', code='required')], 'platforms': [ErrorDetail(string='This field is required.', code='required')]}",test@mail.com
+2026-01-07T13:20:37.870297,a6e5f2af-d6b1-448f-a1e5-c4219bf74181,127.0.0.1,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-07T13:21:35.998547,dd6328f6-9268-40e9-997a-b6d69aa8bd77,127.0.0.1,POST,/api/publish/post/,400,"{'platforms': [ErrorDetail(string='This field is required.', code='required')]}",test@mail.com
+2026-01-07T13:22:01.319134,7b543cb5-5023-4362-aa39-e750e1da97c1,127.0.0.1,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-07T13:24:26.804668,446f542b-4bb2-4622-94b1-0c5f0f2259e3,127.0.0.1,POST,/api/publish/post/,400,"{'platforms': [ErrorDetail(string='This field is required.', code='required')]}",test@mail.com
+2026-01-07T13:25:49.943538,fddbf092-8de0-466c-9f7a-df613e2c2d40,127.0.0.1,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-07T13:27:57.181135,24e683d7-9197-41d8-b0e2-d9300a7706ee,127.0.0.1,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-07T13:29:04.209385,69dc50df-9641-4a8b-8db6-f3246469bab2,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T13:33:05.286625,de2ce277-35d8-4128-af8c-f4bb6c9423a9,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T13:42:43.390034,501060e6-4e0f-431c-8b4b-1d4c7d960c1b,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-07T13:42:59.809276,51c5e6d0-387a-44be-9b8b-213d4b95037e,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T13:47:38.312485,fbe2143a-c406-422b-8723-6957962c952a,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T13:49:02.154587,e3dc4493-399d-4e21-affd-ab37433ef75d,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T13:51:44.654745,e6f3003c-218e-4f7e-b5a9-c8ef8ca5cab8,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T13:53:01.181373,2a995d6a-4f44-455f-84de-96c9f3b46fb4,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T13:54:22.973157,de5c1a82-ec86-4965-9c6e-c631378e4fa9,103.98.107.22,POST,/api/publish/publish/,400,Invalid data,test@mail.com
+2026-01-07T13:54:49.917888,d5e1f09c-cc89-4783-b7d6-8060ab14bedf,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T14:11:52.258287,1d1759d9-36e0-46fb-8a70-4ed3e9907119,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T14:12:59.782546,d61221ee-786c-4774-b2fc-a159926a7607,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-07T19:07:18.797707,bc42e938-7ecf-4820-85d8-cd90652402bc,103.133.140.144,POST,/api/auth/login/,200,Login successful,
+2026-01-07T19:29:55.110991,f27dfbb7-fa85-4b20-9d5b-5f1f62f42aa2,119.30.41.59,POST,/api/auth/login/,200,Login successful,
+2026-01-07T19:30:52.541783,ba485511-4432-47b2-9afc-e2b15181cb51,119.30.41.59,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-07T19:30:58.857715,8a47fada-c149-48b0-8492-0ebe5f07cd9c,119.30.41.59,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-07T19:31:34.338976,70d84e87-b353-49d1-8d18-12efa80afe23,119.30.41.59,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-07T19:31:56.037754,c178c18a-2ff1-4873-87d1-be720ba491e0,119.30.41.59,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-08T04:38:42.499277,bf38983d-42db-446a-9873-c02d39af0818,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T04:39:04.540213,84b6f224-5e18-463b-b03d-88c43da1faca,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-08T04:41:40.434302,8e0d285b-adb4-4200-ac3a-1f2968bf6c5b,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-08T04:41:53.263578,f034279e-d085-45a5-8586-a565cfce7558,172.31.40.247,POST,/api/post/generate-caption/,200,Caption generated successfully,test@mail.com
+2026-01-08T04:45:56.069797,b61301fb-551b-49d4-8d71-33f9bac98237,172.31.40.247,POST,/api/publish/publish/,400,Post is already published,test@mail.com
+2026-01-08T04:46:25.850677,22d7ca81-53d6-42f9-8c4c-63dffefece39,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-08T04:47:26.026378,df31df04-4ead-4da6-baeb-4374cfd0b108,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': [ErrorDetail(string='This field is required.', code='required')]}",test@mail.com
+2026-01-08T04:47:55.387538,3f5cc62c-2622-4600-a832-0fba7c79545c,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-08T04:48:17.342973,2c3a2c10-4f47-449a-a44f-4f627ad545ff,172.31.40.247,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-08T05:12:00.520455,68a6aee2-3fb9-4a38-81e0-e59a3c9f983b,103.98.107.22,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-08T05:14:04.416385,b603a56e-a213-48d5-a7b6-8e3457175d70,103.98.107.22,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-08T05:14:10.191414,dc0b73b3-620b-4cb5-a228-84f7139dd932,103.98.107.22,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-08T05:14:47.288252,5781371a-6dc9-4b63-8e80-d9e6fe61f4d2,103.98.107.22,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-08T05:22:25.916611,3947c63b-eb16-4336-8b6f-42afafbe46d1,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-08T05:22:31.687087,64df8f69-6025-4d4f-a6b1-f8b0b9939aa5,103.98.107.22,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-08T05:25:01.974492,4c56584d-2f2f-4953-a963-ec0bc1c63168,103.98.107.22,POST,/api/publish/post/,500,Internal server error,test@mail.com
+2026-01-08T05:29:37.987606,a6263f28-f639-4729-adb8-d1638ac61f1b,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-08T06:56:20.808031,83109831-6b0b-4890-8fee-830c7223751c,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-08T06:58:33.189363,5b1fc035-1d6d-4cf1-be2d-811c34e90622,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,
+2026-01-08T06:58:37.625526,f516c595-3355-4bc2-bf3b-fa7775d3e330,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,
+2026-01-08T06:59:55.774385,30c7be08-84cd-49a5-8d93-c51cac3b79c6,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-08T07:00:53.113590,6422aefe-2dec-4510-90bd-64b0656fa1c4,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-08T07:11:23.980722,d6b83ef8-9d32-4105-baac-c52825b672b7,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T07:13:58.620528,d2fd9791-f421-4339-8159-84e597199f0c,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T07:14:27.170918,fb8f021c-c0e8-4cfb-9f95-3df61eee51b3,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-08T07:16:00.673258,ae249c10-4c94-49f5-8da7-df47ca4041f4,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T07:17:30.928936,43c2f1cf-504c-4a3d-a9b6-2662cc21b549,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T07:18:59.628964,c20081d8-e114-428d-8828-9ceaf8f52507,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-08T08:04:57.759441,2527a058-e7a0-44c2-8bf4-5769f4ca5970,172.31.40.247,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-08T08:05:00.406627,6edbce5e-69c6-4216-868d-46751a3e38bb,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-08T08:05:15.672741,6b3cabdf-44d6-4d06-8654-8741ba410500,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-08T08:05:26.829681,6fd6a507-17a0-44b1-8b86-82e713e4d07b,172.31.40.247,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-08T08:05:33.350427,b292790e-912c-4335-b6ca-51e803d2a243,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-08T08:05:33.829131,143ad1c3-5911-4ffb-849e-dca638ee7a72,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-08T08:05:38.975343,9e997cff-946e-40a3-b0ca-21d9c809a17d,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-08T08:05:44.856429,e4a22e6c-6cf1-4a81-b8b4-f031d42808e7,172.31.40.247,GET,/api/update/vendors/5/,200,Vendor details fetched successfully,test@mail.com
+2026-01-08T08:05:59.003522,94ff7d2c-3138-406e-a88d-c513530cb9cc,172.31.40.247,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
+2026-01-08T08:06:00.112675,9073058f-dff2-4962-a6b1-b1d55e336bc8,172.31.40.247,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
+2026-01-08T08:06:33.751003,fff13c1b-585b-4cff-abcb-a4a7958bcf03,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-08T08:07:09.439615,5d3c4c35-eb0d-49a6-b470-5d08eba2b753,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-08T08:08:26.332345,ad7c16ff-f7d3-4f44-9f6b-c92a2f3da62a,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-08T08:26:19.302263,4df32493-6fd8-48ec-a7a2-3e43c788fe05,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-08T08:27:00.815365,3a86da31-1652-49f3-a2f6-cfb2a8ef4abe,103.98.107.22,GET,/api/publish/post/12/,200,Social post fetched successfully,test@mail.com
+2026-01-08T08:28:11.450953,c97a400c-0881-4bca-91d5-8462f60d6c0e,103.98.107.22,PATCH,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T08:28:16.790790,5d445a83-dd11-4e87-b024-6c871a044417,103.98.107.22,PATCH,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T09:14:58.414462,b889e078-badb-4f09-889c-59011903e085,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-08T09:15:22.821045,4778e154-ba1c-4f31-9f31-6fdfdefdf39a,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-08T09:16:56.689217,f78faf88-7168-4270-9227-7384ea202cfb,103.98.107.22,PATCH,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T09:19:16.793744,dedc0d9a-5803-4fc3-8216-bc02d4258243,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-08T09:19:20.955696,7f08c779-8ad5-4c3a-9802-ce10d8f3560b,127.0.0.1,PATCH,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T09:20:02.927139,8de4f76c-abd4-4d6f-ada1-d74f43765175,127.0.0.1,PATCH,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T09:21:28.956955,b2447abc-f468-43c7-9414-64e8661f6dc7,127.0.0.1,PATCH,/api/publish/post/12/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:23:10.180561,e7c07a28-a0b5-4acd-ab9b-fc61604acc1f,127.0.0.1,PATCH,/api/publish/post/12/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:23:19.423094,81afc99e-59ed-47ff-bdf0-1e95f8241602,127.0.0.1,PATCH,/api/publish/post/12/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:23:35.168359,dbb8469d-6aac-4c6a-8939-6d88a95c4fcc,127.0.0.1,PATCH,/api/publish/post/12/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:24:17.773739,0a99f59e-057d-4c06-8d9d-ca4be83e5f24,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T09:26:52.589398,44574a0e-0815-4845-bf17-a9c75b05a1b5,127.0.0.1,GET,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T09:28:34.277544,daf5adb2-f3be-4e4d-8c93-4c68206eacec,127.0.0.1,GET,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T09:30:37.642017,c0a18cbe-c15d-4141-bb57-03cbbea90ded,127.0.0.1,GET,/api/publish/post/12/,500,Internal server error,test@mail.com
+2026-01-08T09:31:23.807790,0ba661ee-187c-49f3-aed1-d9ee84b96eb3,127.0.0.1,GET,/api/publish/post/12/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:31:43.392212,7417808d-944c-4309-8465-49f28c57f312,127.0.0.1,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:32:18.873346,6cfe362a-fbcb-4170-8db0-bcec11979fff,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-08T09:32:33.999041,04ff85e6-2465-4cc8-bd80-a0c9abbfb34b,127.0.0.1,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:34:06.627058,ed3e54e1-a9fd-4324-957b-577e3efcc4f2,127.0.0.1,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:34:26.480300,6700a192-f564-4885-a2fa-85e7986fa72f,127.0.0.1,PATCH,/api/publish/post/22/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:34:37.616361,58f8fe54-02ab-4a6a-8dcc-ea1b8ae06a40,127.0.0.1,PATCH,/api/publish/post/22/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:37:24.144235,56cc7999-0777-4ebb-a797-c28953b4b2f6,127.0.0.1,GET,/api/publish/post/12/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:37:25.505132,4c758d94-0d69-4c51-b475-6dcdb255f125,127.0.0.1,GET,/api/publish/post/12/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:37:40.784127,e0780abb-789e-42b7-b3cb-47a730d352cb,127.0.0.1,GET,/api/publish/post/22/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:39:28.670744,db8f340e-8818-4aca-a3fc-5534bccaef5b,127.0.0.1,GET,/api/publish/post/22/,200,Social post fetched successfully,test@mail.com
+2026-01-08T09:39:32.039808,aeeb40b7-c805-4355-b321-69669a93f9a9,127.0.0.1,PATCH,/api/publish/post/22/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:43:15.508570,7eda223f-2525-44bb-882a-d08315adaa25,127.0.0.1,PATCH,/api/publish/post/22/,400,Social post publishing failed,test@mail.com
+2026-01-08T09:43:58.931596,6b5ce10a-b013-4957-89f7-b34cb01bfec8,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:44:24.108054,056a62d0-825f-40bd-99e8-3eb130dff344,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:45:28.311960,d4ee8fa9-f895-4576-ba2b-a69511c18d98,127.0.0.1,PATCH,/api/publish/post/22/,200,Social post published successfully,test@mail.com
+2026-01-08T09:53:35.427240,a35a2f63-2e68-4b22-8711-659ae08ec103,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T09:54:11.206311,02e5a066-0628-4f95-8ba0-29f5e995a519,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:54:45.376850,f9eb4359-7e64-4785-999c-d3b70c76bbd1,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:54:55.956904,24236f09-ef3d-46e0-8a5e-fdbf08643832,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:55:35.253222,17cc10c9-a94b-4a5d-9e83-85dd737c9da6,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:55:59.783352,99e9cfa8-e4fc-4e56-85cd-6e4601731242,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:56:21.759546,51590232-5032-44bc-8fa4-a1c185f7e0b7,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:56:26.764156,83adbfcf-274a-42a1-bc2d-e6091d7e4fbe,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T09:57:00.107111,85de58ed-90a4-4e1d-8043-abdd43d9e5c9,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:57:19.520674,67183125-3f44-4a0d-8fcc-f52ee420683f,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:57:54.913550,2ea1d9eb-2f48-43c3-a299-e208acabcc8a,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:58:47.909682,a61a62e0-e706-49e6-b910-0e0546279356,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-08T09:58:49.304902,6c17752a-d072-4e0c-a70d-b2324aa1d15a,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:59:22.285616,05e54d22-d190-4595-bc23-e1d0ca43be32,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T09:59:22.339303,7cd55e6f-b042-4cd4-8a7c-bcc99c210207,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T09:59:39.453714,b14b3728-72a5-408f-bdd4-be0d6c2aeae2,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T10:00:10.566026,500d6728-f153-4941-98a6-87c8c63e9d2c,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T10:00:31.008264,ced7cb54-9ccd-47bc-a241-1ea1a2feaf3a,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T10:01:05.281005,d2906b6d-5fac-44ea-863f-c321b11bb764,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T10:01:31.558624,b837d97c-a3df-45b8-94cb-0f3aecdb92e3,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T10:03:57.329357,beb21fee-9150-492e-b340-7139e45250bc,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T10:04:14.736253,b98cb7b1-7c9d-45aa-a9ac-71903e9061af,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-08T10:08:30.363207,b1e40c0c-9e26-4f6b-847f-5de22f6d003f,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T10:41:58.545122,f0099d74-b4d9-4b3a-9f3c-75c515809950,127.0.0.1,GET,/api/publish/generate/caption/,500,Internal server error,test@mail.com
+2026-01-08T10:45:21.241729,afa3b55d-5ec0-451b-bec9-2a2a983e2aa8,127.0.0.1,GET,/api/publish/generate/caption/,500,Internal server error,test@mail.com
+2026-01-08T10:46:15.611802,3bbc840f-e1ad-4ead-8882-b538d01114d0,127.0.0.1,POST,/api/publish/generate/caption/,400,Generate post caption failed,test@mail.com
+2026-01-08T10:48:12.294469,61ddacda-9bf0-4d9d-a27e-10d6d7820400,127.0.0.1,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-08T10:48:47.409264,7748a674-f45a-4c3b-a71d-95144a7c6fca,127.0.0.1,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-08T10:49:35.268291,87004389-9d26-4ea1-949e-284bc9969d1a,127.0.0.1,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-08T10:49:54.912683,342f07b5-918f-456d-9fbe-8c4d3848fdb8,127.0.0.1,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-08T10:51:04.137818,68a6652b-9503-4a4b-9354-a1654d455626,127.0.0.1,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-08T10:52:02.543106,9ee1d10e-3117-487c-9a96-6c4e1b21bc75,172.31.40.247,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-08T10:52:09.985162,fac344b2-35d6-4095-b959-685199094848,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-08T10:52:11.553320,4f1b6dd3-19bd-4bc2-9e28-b0c1f02fa617,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-08T10:52:17.491913,93901636-819c-40c3-a0b2-7f9a11c3e1ba,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-08T10:52:18.086118,3888b4ef-fe06-4722-9a74-a4e6f615f7cc,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-08T10:52:55.471355,7d5694d8-a6c1-49ce-b1d8-b371393582e4,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+>>>>>>> 44c49cd5164f5c4471bfd680d4e7007cc901eb6a
