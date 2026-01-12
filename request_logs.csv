@@ -3470,3 +3470,23 @@ db72aa45f1f75e54ba6f9e1a196a6e7e7540c4e7
 2026-01-12T05:04:18.334080,c45363f2-d5a5-49ef-a245-f6cc8ec46679,103.98.107.22,GET,/api/shops/,200,Shop fetched successfully,test@mail.com
 2026-01-12T05:11:38.888496,35e8c310-f52f-495d-84ab-bc1d7ff8a711,127.0.0.1,POST,/api/auth/login/,200,Login successful,
 2026-01-12T05:11:44.631327,85327142-470c-49a1-ac04-9a2bb42efa2b,127.0.0.1,GET,/api/shops/,200,Shop fetched successfully,test@mail.com
+2026-01-12T05:42:15.446523,096cd2fb-6284-4267-a0ec-fbfd00008948,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T05:42:48.610084,7fd2f291-9f3b-4f78-82f1-629a6d115042,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T05:42:53.438173,69f0c113-2d52-48bc-9378-731a1ab049dd,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T05:42:55.756993,ddb572da-5f6c-48cb-a471-8c569b63d19a,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T05:43:03.338981,3f0be97b-2c21-4b2e-a521-da9158643876,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T05:44:00.706934,3cd0210f-fa4e-4e4e-8e60-adbe85960a04,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T05:44:05.191517,97d6a94b-7f9f-4f64-b4a0-ca36761d620e,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T06:13:49.856743,8d9cd2cb-8360-4e23-a014-7e5e5dfe1255,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T06:17:56.056811,a03898c9-cbe3-42b3-af8c-5c5a9f2ad771,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T06:19:30.948820,7131d7fa-52e4-44f3-be29-11be721129b9,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T06:19:32.976784,2bd7d6ac-b14b-43bd-83a0-344ad5de83dd,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T06:26:18.439710,0d8216ca-0883-46c6-b2ea-b957d07b891c,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-12T06:26:41.579166,d0808502-403e-4d05-867f-3d8073f9c872,172.31.40.247,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-12T06:31:19.306651,255f44be-4fce-444d-81e3-592253d547d9,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-12T06:31:25.947472,e44ad3f1-dcb8-41a4-902e-803e96c9c2e7,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T06:31:27.833600,16299026-fed5-4461-b7dc-6732d1626966,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T06:41:55.448155,e78c2f0c-bc58-49d7-8c92-fa04a6e62536,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T06:42:51.554564,cec9693f-3f87-4bf7-a697-427705544351,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T06:44:55.512818,ef738b87-8c68-4c71-a8bf-7b1674820833,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T06:45:11.477004,6b2cf206-efc3-4c6a-bcfb-ce291448292b,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
