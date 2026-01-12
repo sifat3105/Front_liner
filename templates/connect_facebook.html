@@ -1,58 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Connect WhatsApp</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Login</title>
 </head>
 <body>
 
-<button onclick="connectWhatsApp()">Connect WhatsApp</button>
-<pre id="result"></pre>
+  <!-- WhatsApp Login Button -->
+  <button id="wa-login-btn" 
+          style="background-color: #25D366; border: 0; border-radius: 4px; color: #fff; cursor: pointer; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold; height: 40px; padding: 0 24px;">
+    Login with WhatsApp
+  </button>
 
-<div id="fb-root"></div>
+  <!-- Load Facebook SDK -->
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
 
-<script>
-  window.fbAsyncInit = function () {
-    FB.init({
-      appId: "3184250695088317",
-      cookie: true,
-      xfbml: false,
-      version: "v19.0",
-    });
-  };
+  <script>
+    // Initialize SDK
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId: '3184250695088317',   // Your App ID
+        autoLogAppEvents: true,
+        xfbml: true,
+        version: 'v19.0'             // Graph API version
+      });
+      console.log('FB SDK Initialized');
+    };
 
-  (function (d, s, id) {
-    if (d.getElementById(id)) return;
-    var js = d.createElement(s);
-    js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js";
-    var fjs = d.getElementsByTagName(s)[0];
-    fjs.parentNode.insertBefore(js, fjs);
-  })(document, "script", "facebook-jssdk");
-
-  function connectWhatsApp() {
-    FB.login(
-      function (response) {
-        if (!response.authResponse) return;
-
-        fetch("https://test.frontliner.io/api/social/facebook/callback/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            code: response.authResponse.code,
-          }),
-        });
-      },
-      {
-        response_type: "code",
-        scope:
-          "whatsapp_business_management,whatsapp_business_messaging",
-        extras: {
-          feature: "whatsapp_embedded_signup",
-        },
+    // Listen for embedded signup messages (optional)
+    window.addEventListener('message', (event) => {
+      if (!event.origin.endsWith('facebook.com')) return;
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'WA_EMBEDDED_SIGNUP') {
+          console.log('Message Event:', data);
+        }
+      } catch {
+        console.log('Message Event:', event.data);
       }
-    );
+    });
+
+    // Callback after WhatsApp login
+    const fbLoginCallback = (response) => {
+  if (response.authResponse && response.authResponse.code) {
+    const code = response.authResponse.code;
+    console.log('Login Code:', code);
+
+    // Send code to backend
+    fetch('https://test.frontliner.io/api/social/whatsapp/callback/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code }) // send "code", not access_token
+    })
+    .then(res => res.json())
+    .then(data => console.log('Backend Response:', data))
+    .catch(err => console.error('Error:', err));
+  } else {
+    console.log('Login failed or code not returned:', response);
   }
-</script>
+};
+
+    // Launch WhatsApp login
+    const launchWhatsAppSignup = () => {
+      FB.login(fbLoginCallback, {
+        config_id: '3483969311755010', // Your Configuration ID
+        response_type: 'code',
+        override_default_response_type: true,
+        extras: { setup: {} }
+      });
+    };
+
+    // Attach click listener
+    document.getElementById('wa-login-btn').addEventListener('click', launchWhatsAppSignup);
+  </script>
 
 </body>
 </html>

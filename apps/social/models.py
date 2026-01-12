@@ -92,3 +92,14 @@ class InstagramAccount(models.Model):
 
     def __str__(self):
         return self.username
+    
+class WhatsAppBusinessAccount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    business_id = models.CharField(max_length=100)
+    business_name = models.CharField(max_length=255)
+    waba_id = models.CharField(max_length=100)
+    waba_name = models.CharField(max_length=255)
+    phone_number_id = models.CharField(max_length=100)
+    display_phone_number = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

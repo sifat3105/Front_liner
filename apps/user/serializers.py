@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import User, Account
+from .models import User, Account,Shop, Business,Banking
 from django.contrib.auth import authenticate
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['id', 'first_name', 'last_name', 'phone', 'username', 'organization']
+        fields = ['id', 'first_name', 'full_name', 'phone', 'username', 'organization']
         read_only_fields = ['id']
 
     def update(self, instance, validated_data):
@@ -41,7 +41,7 @@ class UserSerializer(serializers.ModelSerializer):
             Account.objects.create(
                 user=user,
                 first_name=account_data.get('first_name', ''),
-                last_name=account_data.get('last_name', ''),
+                full_name=account_data.get('full_name', ''),
                 username=account_data.get('username', ''),
                 phone=account_data.get('phone', ''),
                 organization=account_data.get('organization', '')
@@ -89,9 +89,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = [
             "user_id",
-            "first_name",
-            "last_name",
-            "username",
+            "full_name",
             "email",
             "phone",
             "balance",
@@ -125,9 +123,7 @@ class AccountSerializer(serializers.ModelSerializer):
         }
     
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get("first_name", instance.first_name)
-        instance.last_name = validated_data.get("last_name", instance.last_name)
-        instance.username = validated_data.get("username", instance.username)
+        instance.full_name = validated_data.get("full_name", instance.full_name)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.organization = validated_data.get("organization", instance.organization)
         instance.save()
@@ -146,4 +142,52 @@ class ChildUserSerializer(serializers.ModelSerializer):
     organization = serializers.CharField(source='account.organization', read_only=True)
 
     def get_name(self, obj):
-        return f"{obj.account.first_name} {obj.account.last_name}"
+        return f"{obj.account.first_name} {obj.account.full_name}"
+    
+
+# Setting > Profile > Shop Info serializers
+
+class ShopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shop
+        fields = (
+            "id",
+            "shop_name",
+            "shop_description",
+            "business_email",
+            "business_phone",
+            "business_address",
+            "website_url",
+        )
+
+# Setting > Profile > business Info serializers
+class BusinessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Business
+        fields = (
+            "id",
+            "business_type",
+            "years_in_business",
+            "business_registration_number",
+            "tax_id_ein",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "created_at", "updated_at")
+
+# Setting > Profile > Banking Info serializers
+
+class BankingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Banking
+        fields = (
+            "id",
+            "bank_name",
+            "account_name",
+            "account_number",
+            "routing_number",
+            "swift_bic_code",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "created_at", "updated_at")

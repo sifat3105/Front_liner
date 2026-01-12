@@ -1,13 +1,23 @@
 from rest_framework import permissions, status
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-from django.contrib.auth import get_user_model
-from .serializers import UserSerializer, UserLoginSerializer, AccountSerializer, ChildUserSerializer
 from utils.base_view import BaseAPIView as APIView
 from utils.permission import IsAdmin, RolePermission, IsOwnerOrParentHierarchy
+from rest_framework.permissions import IsAuthenticated
 from middleware.cryptography import encrypt_token
-from . models import Account
+from django.contrib.auth import get_user_model
+from django.template.context_processors import request
 User = get_user_model()
+from . models import Account,Shop,Business,Banking
+from .serializers import (
+    UserSerializer,
+    UserLoginSerializer,
+    AccountSerializer, 
+    ChildUserSerializer,
+    ShopSerializer,
+    BusinessSerializer,
+    BankingSerializer
+)
 
 
 class UserRegistrationView(APIView):
@@ -223,9 +233,9 @@ class AccountView(APIView):
             data=serializer.data
         )
     
-    def put(self, request):
+    def patch(self, request):
         account = request.user.account
-        serializer = AccountSerializer(account, data=request.data)
+        serializer = AccountSerializer(account, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return self.success(
@@ -307,8 +317,207 @@ class UpdateChildUserView(APIView):
         )
 
 
-    
+
+# Setting > Profile > Shop Info APIView
+
+class ViewShopAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            shop = Shop.objects.filter(owner=request.user).first()
+            serializer = ShopSerializer(shop)
+            return self.success(
+                message="Shop fetched successfully",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+        except Shop.DoesNotExist:
+            return self.error(
+                message="Shop not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+class UpdateShopAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        # Each user has only one shop
+        try:
+            return self.request.user.shop.first()
+        except Shop.DoesNotExist:
+            return None
+
+    def patch(self, request, format=None):
+        shop = self.get_object()
+        if not shop:
+            return self.error(
+                message="Shop not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = ShopSerializer(shop, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return self.success(
+                message="Shop updated successfully",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+        return self.error(
+            message="Invalid data",
+            errors=serializer.errors,
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
 
 
-    
+# Setting > Profile > business Info APIView
 
+class BusinessRetrieveAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        business = Business.objects.filter(owner=request.user).first()
+
+        if not business:
+            return self.error(
+                message="Business not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = BusinessSerializer(business)
+        return self.success(
+            message="Business fetched successfully",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data
+        )
+
+class BusinessUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
+        business = Business.objects.filter(owner=request.user).first()
+
+        if not business:
+            return self.error(
+                message="Business not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = BusinessSerializer(
+            business,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return self.success(
+                message="Business updated successfully",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+
+        return self.error(
+            message="Invalid data",
+            errors=serializer.errors,
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
+
+# Setting > Profile > Banking Info APIView
+
+class BankingDetailAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        banking = Banking.objects.filter(owner=request.user).first()
+
+        if not banking:
+            return self.error(
+                message="Banking information not found",
+                status_code=status.HTTP_200_OK
+            )
+
+        serializer = BankingSerializer(banking)
+        return self.success(
+            message="Banking information fetched successfully",
+            status_code=status.HTTP_200_OK,
+            data=serializer.data
+        )
+
+class BankingUpdateAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request):
+        banking = Banking.objects.filter(owner=request.user).first()
+
+        if not banking:
+            return self.error(
+                message="Banking information not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = BankingSerializer(
+            banking,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+            return self.success(
+                message="Banking information updated successfully",
+                status_code=status.HTTP_200_OK,
+                data=serializer.data
+            )
+
+        return self.error(
+            message="Invalid data",
+            errors=serializer.errors,
+            status_code=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class ChangePasswordAPIView(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch (self, request):
+        
+        user = request.user
+
+        current_password = request.data.get("current_password")
+        new_password = request.data.get("new_password")
+        confirm_new_password = request.data.get("confirm_new_password")
+
+        # New password match check
+        if new_password != confirm_new_password:
+            return self.error(
+                message="New password and confirm password do not match",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                errors={
+                    "confirm_new_password": "Password mismatch"
+                }
+            )
+
+        # Current password check with DB
+        if not user.check_password(current_password):
+            return self.error(
+                message="Current password is incorrect",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                errors={
+                    "current_password": "Invalid current password"
+                }
+            )
+
+        # Save new password
+        user.set_password(new_password)
+        user.save()
+
+        return self.success(
+            message="Password updated successfully",
+            status_code=status.HTTP_200_OK,
+            meta={
+                "action": "change_password"
+            }
+        )

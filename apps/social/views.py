@@ -4,7 +4,7 @@ from utils.base_view import BaseAPIView as APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 import requests
-from .models import SocialAccount, FacebookPage, SocialPlatform, InstagramAccount
+from .models import SocialAccount, FacebookPage, SocialPlatform, InstagramAccount, WhatsAppBusinessAccount
 from .serializers import SocialAccountSerializer, FacebookPageSerializer, SocialPlatformSerializer
 from apps.chat.utils import handle_message, send_message
 import urllib.parse
@@ -12,7 +12,7 @@ import uuid
 from django.core.cache import cache
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .utils import get_long_lived_token
+from .utils import get_long_lived_token, fetch_whatsapp_assets
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -247,6 +247,93 @@ class InstagramCallback(APIView):
             "https://frontliner-dashboard.vercel.app/user/social/connect/fallback"
             "?platform=instagram&status=success"
         )
+        
+        
+class WhatsappCallback(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+
+        access_token = request.data.get("access_token")
+        user = request.user
+
+        if not access_token:
+            return self.error(
+                message="Missing access_token",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        result = []
+
+        businesses_resp = requests.get(
+            "https://graph.facebook.com/v19.0/me/businesses",
+            params={"access_token": access_token}
+        )
+        businesses_data = businesses_resp.json()
+        businesses = businesses_data.get("data", [])
+
+        if not businesses:
+            return Response({
+                "error": "No businesses found or token lacks business_management permission",
+                "meta": businesses_data
+            }, status=400)
+
+        for biz in businesses:
+            business_id = biz.get("id")
+            business_name = biz.get("name")
+
+            waba_resp = requests.get(
+                f"https://graph.facebook.com/v19.0/{business_id}/owned_whatsapp_business_accounts",
+                params={"access_token": access_token}
+            )
+            waba_data = waba_resp.json()
+            wabas = waba_data.get("data", [])
+
+            if not wabas:
+                continue
+
+            for waba in wabas:
+                waba_id = waba.get("id")
+                waba_name = waba.get("name")
+
+                phones_resp = requests.get(
+                    f"https://graph.facebook.com/v19.0/{waba_id}/phone_numbers",
+                    params={"access_token": access_token}
+                )
+                phones_data = phones_resp.json()
+                phones = phones_data.get("data", [])
+
+                # 4️⃣ Save to DB (or update if exists)
+                for phone in phones:
+                    WhatsAppBusinessAccount.objects.update_or_create(
+                        user=user,
+                        waba_id=waba_id,
+                        phone_number_id=phone.get("id"),
+                        defaults={
+                            "business_id": business_id,
+                            "business_name": business_name,
+                            "waba_name": waba_name,
+                            "display_phone_number": phone.get("display_phone_number"),
+                        }
+                    )
+
+                result.append({
+                    "business_id": business_id,
+                    "business_name": business_name,
+                    "waba_id": waba_id,
+                    "waba_name": waba_name,
+                    "phone_numbers": phones,
+                })
+
+        if not result:
+            return Response({
+                "error": "No WhatsApp Business Accounts found. Make sure you are admin of a Business that owns WhatsApp.",
+            }, status=400)
+        print(result)
+        return Response({
+            "status": "success",
+            "accounts": result
+        })
 
     
 

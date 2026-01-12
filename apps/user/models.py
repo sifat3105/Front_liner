@@ -98,3 +98,56 @@ class Subscription(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.plan}"
+
+
+
+class Shop(models.Model):
+
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="shop")
+
+    shop_name = models.CharField(max_length=255)
+    shop_description = models.TextField(blank=True, null=True)
+    business_email = models.EmailField()
+    business_phone = models.CharField(max_length=20)
+    business_address = models.TextField()
+    website_url = models.URLField(blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.shop_name
+
+
+# Setting > Profile > business Info Model
+class Business(models.Model):
+
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="business")
+
+    business_type = models.CharField(max_length=255)
+    years_in_business = models.CharField(max_length=255)
+    business_registration_number = models.CharField(max_length=100)
+    tax_id_ein =  models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.business_type
+
+# Setting > Profile > Banking Info Model
+
+class Banking(models.Model):
+    owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Banking")
+
+    bank_name = models.CharField(max_length=255)
+    account_name =models.CharField(max_length=255)
+    account_number = models.IntegerField()
+    routing_number = models.IntegerField()
+    swift_bic_code = models.CharField(max_length=255)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.bank_name

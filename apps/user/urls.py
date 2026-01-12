@@ -9,7 +9,13 @@ from .views import (
     ViewChildUserListView,
     ViewChildUserView,
     UpdateChildUserView,
-    
+    ViewShopAPIView,
+    UpdateShopAPIView,
+    BusinessRetrieveAPIView,
+    BusinessUpdateAPIView,
+    BankingDetailAPIView,
+    BankingUpdateAPIView,
+    ChangePasswordAPIView
 )
 
 urlpatterns = [
@@ -29,4 +35,17 @@ urlpatterns = [
     path("child/<int:pk>/", ViewChildUserView.as_view(), name="child_user_detail"),
     path("child/<int:pk>/update/", UpdateChildUserView.as_view(), name="update_child_user"),
     
+    # Setting > Profile > Shop Info Urls
+    path("shops/", ViewShopAPIView.as_view()),
+    path("shops/update/", UpdateShopAPIView.as_view()),
+
+    # Setting > Profile > business Info Urls
+    path("business/", BusinessRetrieveAPIView.as_view(), name="business-get"),
+    path("business/update/", BusinessUpdateAPIView.as_view(), name="business-update"),
+
+    # Setting > Profile > business Info Urls
+    path("banking/", BankingDetailAPIView.as_view(), name="banking-detail"),
+    path("banking/update/", BankingUpdateAPIView.as_view(), name="banking-update"),
+
+    path("change-password/", ChangePasswordAPIView.as_view(), name="change-password"),
 ]
