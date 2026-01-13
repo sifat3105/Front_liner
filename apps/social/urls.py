@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (SocialConnectURL, FacebookCallback, FacebookPageListView, FacebookWebhook, 
                     MessangerConnectWithBot, SocialPlatformListView, TikTokConnectURL, FacebookDeletion,
-                    InstagramCallback, MetaDataDeletionAPIView, WhatsappCallback
+                    InstagramCallback, MetaDataDeletionAPIView, WhatsappCallback, TikTokCallback
                 )
 
 urlpatterns = [
@@ -14,7 +14,6 @@ urlpatterns = [
     path("facebook/pages/", FacebookPageListView.as_view()),
     path("facebook/delete/", FacebookDeletion.as_view()),
     path("whatsapp/callback/", WhatsappCallback.as_view()),
-    
     path("facebook/messanger_connect_with_bot/", MessangerConnectWithBot.as_view()),
     
     #webhook

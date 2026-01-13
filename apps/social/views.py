@@ -13,6 +13,10 @@ from django.core.cache import cache
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .utils import get_long_lived_token, fetch_whatsapp_assets
+from urllib.parse import urlencode, quote_plus
+from django.http import HttpResponse
+from datetime import datetime, timedelta
+from .close_response import close_html_response
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -39,7 +43,7 @@ class MetaDataDeletionAPIView(APIView):
 
 
 class SocialPlatformListView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         platforms = SocialPlatform.objects.all()
@@ -53,18 +57,15 @@ class SocialPlatformListView(APIView):
 
 class SocialConnectURL(APIView):
     permission_classes = []
-    PLATFORM_CONFIG =settings.PLATFORM_CONFIG
-    
+    PLATFORM_CONFIG = settings.PLATFORM_CONFIG
+
     def get(self, request, platform):
         user = request.user
         platform = platform.lower()
 
         config = self.PLATFORM_CONFIG.get(platform)
-        if not config or not config.get("auth_url"):
-            return Response(
-                {"error": "Unsupported platform"},
-                status=400
-            )
+        if not config:
+            return Response({"error": "Unsupported platform"}, status=400)
 
         state = str(uuid.uuid4())
         cache.set(
@@ -73,17 +74,27 @@ class SocialConnectURL(APIView):
             timeout=300
         )
 
-        scope = ",".join(config["scope"])
+        if platform == "tiktok":
+            params = {
+                "client_key": config["client_id"],
+                "response_type": "code",
+                "scope": " ".join(config["scope"]),  # SPACE separated
+                "redirect_uri": config["redirect_uri"],
+                "state": state,
+            }
 
-        url = (
-            f"{config['auth_url']}"
-            f"?client_id={config['client_id']}"
-            f"&redirect_uri={config['redirect_uri']}"
-            f"&response_type=code"
-            f"&state={state}"
-            f"&scope={scope}"
-            f"&force_reauth={config.get('force_reauth', False)}"
-        )
+            url = f"{config['auth_url']}?{urlencode(params, quote_via=quote_plus)}"
+
+        else:
+            params = {
+                "client_id": config["client_id"],
+                "response_type": "code",
+                "scope": ",".join(config["scope"]),
+                "redirect_uri": config["redirect_uri"],
+                "state": state,
+            }
+
+            url = f"{config['auth_url']}?{urlencode(params)}"
 
         return Response({
             "status": "success",
@@ -161,9 +172,9 @@ class FacebookCallback(APIView):
                 }
             )
     
-        return redirect(
-            "https://frontliner-dashboard.vercel.app/user/social/connect/fallback?platform=facebook&status=success"
-        )
+        
+
+        return close_html_response('facebook', status='success')
         
         
 class InstagramCallback(APIView):
@@ -243,10 +254,8 @@ class InstagramCallback(APIView):
                 }
             )
 
-        return redirect(
-            "https://frontliner-dashboard.vercel.app/user/social/connect/fallback"
-            "?platform=instagram&status=success"
-        )
+
+        return close_html_response('instagram', status='success')
         
         
 class WhatsappCallback(APIView):
@@ -334,6 +343,70 @@ class WhatsappCallback(APIView):
             "status": "success",
             "accounts": result
         })
+        
+        
+class TikTokCallback(APIView):
+    permission_classes = [permissions.AllowAny]
+    
+    def get(self, request):
+        code = request.GET.get("code")
+        state = request.GET.get("state")
+
+        if not code or not state:
+            return Response({"error": "Missing code or state"}, status=400)
+
+        # Validate state
+        cache_key = f"tiktok_oauth_{state}"
+        user_id = cache.get(cache_key)
+        if not user_id:
+            return Response({"error": "Invalid or expired state"}, status=400)
+
+        cache.delete(cache_key)
+
+        # 🔁 Exchange code for access token
+        token_url = "https://open.tiktokapis.com/v2/oauth/token/"
+
+        payload = {
+            "client_key": settings.TIKTOK_CLIENT_KEY,
+            "client_secret": settings.TIKTOK_CLIENT_SECRET,
+            "code": code,
+            "grant_type": "authorization_code",
+            "redirect_uri": settings.TIKTOK_REDIRECT_URI,
+        }
+
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+
+        response = requests.post(token_url, data=payload, headers=headers)
+        token_data = response.json()
+
+        if response.status_code != 200:
+            return Response({
+                "error": "Failed to get access token",
+                "details": token_data
+            }, status=400)
+
+        access_token = token_data["access_token"]
+        refresh_token = token_data.get("refresh_token")        
+        expires_in_seconds = token_data.get("expires_in")  
+        access_token_expires_at = datetime.utcnow() + timedelta(seconds=expires_in_seconds)
+        
+
+        SocialAccount.objects.update_or_create(
+            user_id=user_id,
+            platform="tiktok",
+            defaults={
+                "user_access_token": access_token,
+                "long_lived_token": access_token,
+                "token_expires_at": access_token_expires_at,
+                "refresh_token": refresh_token,
+                "refresh_expires_at": access_token_expires_at,
+                "access_token_expires_at": access_token_expires_at,
+            }
+        )
+
+        return close_html_response('tiktok', status='success')
 
     
 

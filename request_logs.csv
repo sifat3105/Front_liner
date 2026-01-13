@@ -3490,3 +3490,247 @@ db72aa45f1f75e54ba6f9e1a196a6e7e7540c4e7
 2026-01-12T06:42:51.554564,cec9693f-3f87-4bf7-a697-427705544351,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
 2026-01-12T06:44:55.512818,ef738b87-8c68-4c71-a8bf-7b1674820833,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
 2026-01-12T06:45:11.477004,6b2cf206-efc3-4c6a-bcfb-ce291448292b,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T06:51:24.261794,a1bfb9e5-ee38-4d98-a376-b0f0147a6d63,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T06:59:28.229138,4605ca90-3bec-4cf3-89fb-5712fe207723,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T06:59:36.351945,ce20316c-0eeb-425b-96ba-d43737607f14,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T07:08:12.792964,f4bd94f0-4324-46a7-9251-2d290a8bcbf6,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T07:08:24.492869,313752ce-d785-4cd3-b465-d8cffbda8329,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T07:08:29.241894,d3a85fed-7cb1-493b-a031-ddbc773079be,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T07:09:13.722466,e64b4268-a085-4a79-a22c-ef569e9e254c,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T07:29:38.502841,7d527e51-85cc-4512-978f-02631ce0b5e4,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T07:29:40.725444,d73e6a24-433c-4e03-801d-66f314484d4c,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T07:32:48.057006,3ea9d328-af9c-4301-992d-2b9821c4c01a,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T07:32:49.923773,54cdaa37-3dc5-448d-837e-ea51f3027bb1,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T07:35:54.802410,a04daf17-b4fa-4cb1-97c4-f5f7d7ed6ff7,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T07:39:55.499739,5dd63e8f-9533-4384-82d4-e1106da5e51c,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T07:39:56.659359,83387bf2-c75f-4097-95df-4c9ca0347269,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T07:40:24.019750,918eb66b-7551-4cb3-a2db-709acae72086,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T07:41:11.349851,24817ff9-28f9-4b65-8dfa-6bf4dda80972,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T07:41:18.338413,89d91190-78a6-47ce-8681-ac1ecf4a149e,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T07:41:22.943213,46c9f264-db6f-4bc7-96d4-22aa5079a103,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T08:35:13.024868,1fa7e51f-70dc-41d8-9334-c3a925bcde0d,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T08:35:19.027870,01470b4f-f1bc-4cc8-91c5-6f739c24a53a,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T08:45:34.915499,1abe76c9-b57f-4747-b30f-371869d6aa19,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T08:45:36.754593,76940a07-c306-4ba5-997f-181f00913a49,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T08:46:32.761586,3aa05689-a902-4a2b-bac6-645749b4cd04,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T08:46:37.176195,4c95c6ff-9fbb-42dd-845c-5c02ec361c62,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T08:47:15.121975,d46a226f-6f77-47e1-88a7-4a09342e8c4c,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T08:47:17.278883,4b91ba83-4d6f-4227-9f01-bdf949bd41b1,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T08:47:24.440251,09595eac-f113-497d-8917-f6a634ae0352,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T08:47:39.402369,6e802dd9-9b20-4ecc-a45f-3c6afbc8bb2d,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T08:47:51.106086,5f20d238-833f-4281-bebd-7ab3a060bb04,103.98.107.22,GET,/api/social/tiktok/callback/,400,,test@mail.com
+2026-01-12T08:50:05.506466,7ad5f9a1-3851-40ce-87c6-aed3fb7ea554,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T08:50:07.399720,a1c4edf2-aa11-4d97-b7c0-67909f3fd43f,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T08:52:52.064457,0fe6b770-1401-452b-acc7-44e844c253b8,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T08:53:00.491394,d515377f-5fb3-4920-b800-71fd8245fabe,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:01:11.228195,907c1f46-63f9-4c36-87fa-515b14d160a1,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:01:12.964805,33a15c43-1bd2-4575-b875-fb5fa40d0804,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:01:15.233237,c308bb07-4d2e-47be-b16e-86ee45b6c769,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:03:26.869169,c814446b-b399-487e-b85a-55fffb64f66e,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:03:28.221346,3966e81d-4567-4052-a71e-121e4d423df4,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:03:31.096974,5cdb9bf9-eb0d-4244-a302-d57e9afdee1a,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:04:01.739711,284013a2-6122-43c3-99fb-90dd2ff1011f,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:04:02.494305,1b0eb59b-ddb7-4053-97d3-437ab0968ec2,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:04:04.683897,2892c505-5e9c-4a1a-8bd3-a1f2a8c3b2ad,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:04:52.840702,88a38461-82c9-47ff-88f0-08c97ed8c76d,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:04:55.147323,c5a11680-e0b2-48ec-9685-8d8c05338b43,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:05:00.241842,3e884205-7036-41ac-8500-4fd4a7dea2e8,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:05:01.380849,807af0ac-e277-4029-b5e6-84ccdd91621d,103.98.107.22,GET,/api/social/tiktok/callback/,400,,test@mail.com
+2026-01-12T09:05:27.277791,9652d84a-1b41-4f38-8587-3969361e75b2,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:05:43.638705,0a506822-a308-43fd-a23f-75be0b2241ef,172.31.40.247,GET,/api/social/platforms/,403,Invalid or expired token,
+2026-01-12T09:05:50.518939,d82e250e-422a-4841-a464-5edfcb3596f8,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:05:51.771004,af14cb3e-711b-4dde-8b99-205328f9883f,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-12T09:05:59.310072,9718eba8-dd22-48cd-9361-4ee5e791d367,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:07:02.364335,8786d690-2005-40da-ba7b-4989d20c5389,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-12T09:07:15.280771,505d4690-a288-4db9-b6b1-7ae0ce064dd2,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:07:57.019345,1ba2d9ff-3818-4fbd-a85d-6d8b65bbe8da,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:08:50.207247,f624dd09-cc50-43a9-a500-c19f4fad2dc8,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:08:53.388604,2df0665c-4650-473b-be8c-84e536860975,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:09:12.348224,8b5fe796-c9b3-4cbb-beb8-4c4bde3dc74f,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:09:19.122787,02fd7823-d591-4a22-974d-e68755e6b7cd,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:09:21.926938,36a65e49-64d1-452a-aa10-1e7d18707d37,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:09:24.648420,ccf27fb0-1ecf-47c7-a5ca-81dca78a8059,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:09:27.530761,366b3ec0-1253-4bc0-862f-bf33fefa8fe6,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:09:32.463127,5a1a5633-0da8-4ed1-bd35-9e4434d32c4f,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:09:35.797299,94fb270b-fb41-4754-94e1-5974cae6bda1,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:09:37.240201,f95cc1f8-bdd7-4fe3-b463-020177e7d40e,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:10:01.491991,890fe622-e315-4661-8a4c-afa174ab0a89,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:10:03.182461,841549ca-f495-47aa-b9e8-56d3ce127d6b,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:10:06.992149,7a01b87e-2276-457d-a486-882249d2775b,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:10:10.353856,ce07ca7f-2c92-4a16-bf4a-9fb192346ddf,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:10:14.353337,83cff12d-738e-48e8-b1a9-37e485b369f4,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:10:35.482614,873ba425-4703-4346-a99f-48d043cdcc72,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:10:46.112413,275cf1d5-0b2c-4df8-9783-09847dd7a8ee,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:11:01.073025,b488901a-fdbe-4f58-b726-13bdb4e71c78,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:11:21.469146,db9cc4c1-88f5-4ce7-a434-f52fc03afcf2,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:11:26.555128,4704b5cb-d2b2-471a-89b0-9c6e36dec0e9,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:11:29.353117,887dcfa6-97bc-43bc-9bf9-d2dc42eadfa5,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:11:31.254549,6735bf56-5bdd-4190-9f78-c6ce5923f8f7,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:11:34.203939,b7989111-19b0-4f35-af9e-25834ac70877,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:11:35.183630,fe50bcd9-4ecf-4732-a8db-84cf50c8bf56,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:11:40.040269,99f6d717-2039-4275-83d6-8a229a9fbd85,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:11:58.155702,100aadf1-73ad-42d8-b3c4-e3f9337ad672,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:12:11.349603,407de25c-5d67-4eb1-a9ee-ea2d62d57fe6,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:13:19.956737,921e5b11-560a-4d04-ab65-eee523a3e792,172.31.40.247,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-12T09:13:39.429333,f26b2723-cbdd-4c47-be6f-b4b94c36255b,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:13:50.831087,6b046786-d701-4f5e-bbf5-30f528edc213,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:13:52.582638,b7ef0e56-bf3c-4316-b4a2-11a871524d38,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:14:21.956013,b7a1f9a8-efe5-458d-a935-21767b535694,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-12T09:14:45.343288,b02a8974-7331-41bc-8cfa-f97179a79c4c,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:14:55.517395,e8a0d988-b10f-4a02-b514-b26591ee3079,172.31.40.247,POST,/api/publish/post/,400,"{'platforms': {0: [ErrorDetail(string='A valid integer is required.', code='invalid')]}}",test@mail.com
+2026-01-12T09:21:19.629632,4b985d4f-a6a8-4625-a419-05c283171cc5,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:21:22.226282,3b7e917e-2889-4e63-b72e-969255d09b85,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:21:25.069555,61d4b1ea-2df5-4fc0-aa3d-da2ec2cf8463,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:22:55.334452,7a9a4e9b-743d-4e90-ae4e-ce6b67bce0f8,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:22:57.493497,d6a70952-72b5-4e33-a9d0-b5179a2c92a1,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:24:09.368669,68fddccb-8d63-4997-9218-c6d81cec4a1c,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:24:11.625917,de6ed265-89b1-4ba6-89fc-80fe3ac6d969,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:24:46.474430,e04504ea-05dc-4b4e-a06c-88701da13198,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:24:48.558310,cdc263e3-eb26-48f1-8ec3-7b3dda29c98b,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:26:40.274198,02a92ef0-04ae-45f6-a189-e0e99552e45b,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:27:29.420638,04f4de9e-39b0-4fbc-89b6-d94dc56890c7,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:35:31.517521,e511716a-c9b5-4dc2-910a-d5f8ae62b8fe,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:35:34.124024,ff37cbba-acf4-4498-85a8-194248079c11,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:35:34.564968,4fbf8c85-e1db-4af1-a3f5-034a8b937427,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:35:34.995029,8fbb55bf-1bf9-4640-9d71-bf507f308075,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:35:35.898361,b35445ae-0db8-47a2-ad87-dbd8b94c4bde,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:35:53.064606,1a8dea1f-f8b7-4649-9cc1-1561dab92f7c,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:35:54.241634,97be0089-aca2-4e4a-ba59-ccf0cfe68e43,103.98.107.22,GET,/api/social/tiktok/callback/,400,,test@mail.com
+2026-01-12T09:36:14.317502,b6adab3c-b371-4d57-8899-5ea7521b360b,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:37:20.565286,b23b1575-3452-4b82-b15a-5790d9ad2609,172.31.40.247,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:37:28.922824,70696c3d-bf65-4559-b76f-2ca7f64d8285,172.31.40.247,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:38:35.589880,12731bd0-d5be-45a9-aa31-121a5d27ed05,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:38:38.559262,becb70ea-6d87-47eb-bcdd-33525d38b5ce,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:38:40.983619,1576ea6f-e120-4515-8113-aaebb6903119,103.98.107.22,GET,/api/social/tiktok/callback/,500,Internal server error,test@mail.com
+2026-01-12T09:42:20.395719,6213a075-def4-4c88-a44b-2559c107e081,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T09:47:28.919213,1172ce4c-0108-4af6-bcd3-271507c1c05b,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:47:34.354042,b64c5098-c16e-4324-8d3c-6a9c3e2519da,103.98.107.22,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T09:47:47.880055,fbaca525-b5b3-4a9e-9aef-fd020b716d90,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T09:47:53.780721,b1272457-5569-4a71-8142-82cd9c83d8f8,103.98.107.22,GET,/api/social/instagram/callback/,400,,test@mail.com
+2026-01-12T09:49:29.474239,cf479c8b-7cfc-4961-917f-94e68b9153fb,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T09:49:30.436770,42f138dc-a71f-453f-882f-61bcaf6f61e9,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T10:02:17.685107,615d0db3-55b1-4d11-b7f5-19c5d6931ad8,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T10:02:18.813211,5f889e81-71bf-41a0-a814-ddf3d6d3a0c4,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,test@mail.com
+2026-01-12T10:07:25.936853,ca7c553f-b1dd-4312-be96-ff012a6628a3,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T10:26:56.984904,bacd28ca-d72c-4edb-8ac2-62f8d37c6121,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T10:27:06.346051,8a13014d-9d7a-4148-b976-ea668c982273,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T10:35:37.991505,00d4713d-15fc-4c9a-9711-40533741d303,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T10:35:39.892706,a5e2949e-7b8b-4c0e-81a1-bbecd6d4f4c9,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T10:45:53.515091,377422bb-4b81-470b-957b-22516b982041,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T10:45:56.494838,27e0b8c0-1e8e-4bd5-bcf3-05b5a44004c2,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T11:08:41.836744,98b39e09-31b8-4a2b-a246-f68850482c0b,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T11:08:48.207452,5a9effe6-e485-4c7f-839d-18cfa86c6c8e,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T11:12:58.077128,518af7b4-fab7-48de-aeb4-69b5d6ab8632,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T11:21:48.202552,a250cc3c-e5d9-4580-9cd0-13ba8c7e2a5d,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T11:21:48.930088,cecd20da-064a-4956-ac0a-d20a8a27d568,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T11:22:12.228819,11645193-735e-44b1-96f9-1084f80e39f6,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T12:16:18.166608,0c25a6db-f47e-4fb0-a8aa-927a2188d1af,127.0.0.1,GET,/api/social/platforms/,200,Social platforms fetched successfully,
+2026-01-12T12:22:10.778244,c6ced913-5ff4-482e-ba27-d61a0c198b99,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T12:22:21.974583,eef4fe9c-607b-4cb1-bf4f-dce26cb84483,127.0.0.1,GET,/api/social/platforms/,500,Internal server error,test@mail.com
+2026-01-12T12:22:46.821034,a10a6a2d-3822-40d0-a40e-1dfad929ff0d,127.0.0.1,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:24:17.258701,229ea569-f610-4529-8720-82b168125b29,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:28:19.200874,aee261dd-f208-4023-a70c-89177705423d,127.0.0.1,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-12T12:29:51.271021,de4f6d3e-9c70-4686-b687-ccbf2b7563d8,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:29:55.002081,db5a00ff-97c1-4c3b-b404-a9827acc9caa,127.0.0.1,GET,/api/products/38/,404,Product not found,test@mail.com
+2026-01-12T12:30:01.660335,1c664c41-4f59-4114-9e23-5c2f56cb97b9,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T12:30:23.657120,a2b204c1-de7e-4585-966e-aa5bf01286d0,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:30:24.891284,5606b9a2-eb1f-437c-afc9-9907a7525936,172.31.40.247,GET,/api/social/instagram/connect/,200,Instagram connect URL generated successfully,test@mail.com
+2026-01-12T12:30:31.686780,497e7272-b9d8-4739-81c1-f8823bed0019,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T12:30:53.973734,f7648593-1488-4157-aa50-ac0fdf6d3516,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:33:38.544257,0a030d12-66d0-4283-951a-4a7c5fda7216,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T12:38:30.495744,5c453d08-aaaf-4c72-a02e-25efc5387086,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T12:38:34.658413,3aeb81e1-b428-40c1-a951-570a690fed39,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T12:39:18.937810,aabacc1f-0142-4f74-93f5-f89f31094435,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:39:20.463857,db200cb9-bfef-4faf-8cac-aec740badc2a,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T12:40:23.541640,b9431c8d-8d82-4f04-a000-55810cab65a6,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:43:17.455977,edb257dd-5024-449e-a761-0090bc74954e,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:43:57.999064,0e8ad154-f0a7-48de-801d-e272f97c2163,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:43:58.877506,0eb6157d-f208-4d8b-84e4-6ee39f765931,103.98.107.22,GET,/api/social/tiktok/connect/,200,Tiktok connect URL generated successfully,test@mail.com
+2026-01-12T12:44:25.116086,d387d801-0f9a-458c-bf8d-68a542aaeb9d,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T12:45:57.667765,9e75c2f7-24fc-4aba-aecd-bb50ed8bcaaa,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T12:46:07.014582,b18751a5-a50e-4e02-bb74-0bc8d4728b12,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T12:52:10.145175,9f49f547-c6a7-4c26-a553-26b1dc6faef3,127.0.0.1,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T12:52:17.290120,631326f3-ae61-4cdb-abcd-2334558d433d,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T13:10:33.193249,3739edc4-9a8e-4f57-86b5-07ca4a270a57,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T13:10:38.491433,4dd12ab2-80da-4ba6-9082-e9f5ada050ef,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T13:12:50.409569,f2afe08e-1d7a-4cd8-860e-32868693db46,127.0.0.1,POST,/api/products/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or this vendor does not belong to you', code='invalid')}",test@mail.com
+2026-01-12T13:13:30.902970,84769f61-3b3d-4343-8ac2-75742c51d632,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T13:13:40.449368,4682ccb7-3e5f-449e-b929-3feff324fd4a,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-12T13:19:00.189710,ff397a79-2efe-47dc-b433-839522ac63ee,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-12T13:19:03.854892,46ec5b81-a6d5-438f-b075-e1675fd0469e,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T13:20:18.609604,81ff5c2b-f03d-4624-8b9a-050742bf844b,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T13:22:48.824657,c82399e6-809e-4d90-b645-40319f726aea,127.0.0.1,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T13:23:12.054383,5a7ae8c3-96d6-441a-8055-0e93b2e35f06,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-12T13:23:20.999906,5cd93ea4-1d07-4141-977e-247ff8358f23,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-12T13:24:35.752872,5cbf9e95-96bd-4131-8a80-53844868966d,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T13:27:19.264585,9f62a613-d4c9-465b-bad8-7215bd3c39ab,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-12T13:27:21.702622,75a917a2-fc09-4094-94c1-a963a5ed12cc,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-12T13:27:31.235809,e051a721-f01c-41fa-bf9e-adccd0bbd493,172.31.40.247,POST,/api/purchases/create/,500,Internal server error,test@mail.com
+2026-01-12T13:29:42.046311,890c5b22-c805-498b-8d61-571d73d392f7,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-12T13:29:50.413307,3ddb9ee6-1c33-426e-8a57-eb1558473f35,103.98.107.22,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T13:31:09.947914,ffab8ce7-9e9f-41ea-a037-83162c44e33d,103.98.107.22,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T13:31:11.982352,2c128a5b-8410-4712-b6f1-f599fb7d62fc,103.98.107.22,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T13:31:13.206698,152c1ab4-3af1-4934-bce4-fb00777fd056,103.98.107.22,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T13:31:23.235633,dda7d70e-2f86-4657-9686-c1ac1fbad342,103.98.107.22,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T13:31:47.950590,6742cbae-27b3-43c6-9cfe-bb7918665b7e,103.98.107.22,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-12T14:35:17.366122,0f2f5bef-fe00-48d1-89b5-58d587b1bc06,172.31.40.247,POST,/api/auth/login/,400,Invalid credentials,
+2026-01-12T14:35:49.056150,678929c1-a6de-4f40-8140-d3c9ddf1a296,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-12T14:36:01.897823,698e9d9e-4e9a-44b8-bdad-f6742daedeee,172.31.40.247,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-12T14:36:24.048500,e1eb8621-4323-4bc9-9a85-6e1c0f4c0b3b,172.31.40.247,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-12T14:37:03.484106,a34c77c0-56a5-4042-b6e8-2fab00d2c305,172.31.40.247,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-13T04:59:44.189055,64576242-4ed6-4755-8c5b-d47a6f99f346,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-13T05:01:11.507410,7c9de2ad-52b2-46db-b201-114633a61037,103.98.107.22,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:03:39.823701,5f451eca-8e54-4624-9f43-bab4205ccbe5,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-13T05:04:02.070249,6076e074-1e17-4b17-b384-52475e6859b1,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:06:29.186009,8b3d4d9b-e648-46d2-b998-e20d7562cd51,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:07:45.613095,50693299-13df-426a-b924-52926e250cdc,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,usernamem@gmail.com
+2026-01-13T05:08:06.371837,108c48cb-0643-4088-83ed-bc3c72bf0f66,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:10:11.298853,01a0cd58-6445-49d8-bed9-e3eaaf919673,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:12:06.715476,6d422ca4-4de1-4e69-807b-570bd1f4cbbc,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:15:20.596601,e94e63ab-6cb7-499b-a41a-b0e3d67937ff,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-13T05:16:21.417658,5695f807-9f14-4a3d-8b7d-c2ccd72075b9,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:19:48.332058,b5965b26-3e4a-4c92-ab23-4c4ee2a0c749,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:21:00.858742,618681a4-da92-435e-bf7d-6c2b3c5d8cf8,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-13T05:21:04.132720,68e4c1c5-de27-4822-88d6-ba603b728439,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-13T05:23:05.715774,906214a3-a4ec-4e85-ba6d-6f546470f40d,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-13T05:23:32.540730,5c6261cc-e929-4cff-a76e-1d3d28ea170e,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,
+2026-01-13T05:27:38.378245,8d93f003-8a2d-48f2-818a-87988716dd87,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-13T05:28:03.227510,75e1b554-7e3f-4a39-ace5-e2e94563461d,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-13T05:28:25.376590,75059d09-498f-4e18-99aa-d713ce7cd2e4,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,
+2026-01-13T05:30:45.943579,9cd17479-0cfd-4ed9-8079-c6006904798e,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,
+2026-01-13T05:30:57.884484,d24fdcec-01bc-4562-b99d-c288f27cda14,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-13T05:31:06.236509,9c1009cd-f3f4-4100-b00f-ffae195121b6,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:31:11.560547,05f4d299-72b3-44f0-92f1-a5b4133c7f37,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:34:01.811376,d7f4262c-2e5d-453c-86fc-fda6414eccfa,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:34:34.925076,a1d3f0fd-9315-469b-8b4e-3bbfb6cf1c8c,127.0.0.1,POST,/api/products/create/,400,"{'vendor_id': ErrorDetail(string='Invalid vendor or this vendor does not belong to you', code='invalid')}",usernamem@gmail.com
+2026-01-13T05:35:39.358609,c9b0fac1-37b6-4ddd-b7d3-c940497e6371,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-13T05:35:53.523585,a3498811-be77-466c-a0c0-bce3f17f0a65,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-13T05:36:03.660736,8d43a73d-fb2b-42fd-ac42-cd50cc81ebf6,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:36:36.034000,3f686139-ba44-4e22-b538-d522507282cc,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-13T05:36:39.246453,93682141-e3d9-4f6d-8b23-4ab5d1406238,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:37:06.472022,24900b54-8ee5-4dee-a7dd-adf25aa579d0,127.0.0.1,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T05:37:36.863576,617f493f-4587-4308-8bcb-300e36623eb6,127.0.0.1,POST,/api/list/products/,405,"Method ""POST"" not allowed.",test@mail.com
+2026-01-13T05:38:01.837770,eeed1509-d856-4fbe-a5c4-7e1a59d0b203,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:40:09.232226,d4fb16a7-3b45-4480-ac1f-d7595a7d7131,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:40:18.629282,6c9c8220-3d0b-4619-a18d-1d58eb877f43,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:41:57.662359,2224c814-b731-483e-9229-937677c19ab5,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T05:41:59.146356,ce2109e6-a14d-4b6f-8f26-9f29415d0867,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T05:42:00.094559,cb2060e5-0076-4c24-9f8f-c23cd6af7067,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T05:42:06.908389,1bb0880d-0bb3-40ce-9269-99c0cf76ba76,103.98.107.22,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T05:42:13.347912,0031eee0-62a7-448c-9264-cc85c0911cbf,127.0.0.1,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T05:42:16.933677,0ef3b92a-3191-494f-91d7-d3a14d84ecd4,172.31.40.247,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T05:42:50.700030,917a4a7e-41b6-4759-9090-86f59a8513b2,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:42:57.025597,41f8341d-dd77-40ce-8db1-0dddfdc922e4,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:43:12.657873,f794fae9-8675-4999-964f-8be7426b4608,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T05:47:35.156387,1e12a836-8029-4d38-8fd7-d0bb61546cb5,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:47:51.151200,1eb0c7c6-fa4e-46d8-93d3-8ef13cdc4459,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T05:48:57.823856,6c259b12-bbe2-4fa8-abfe-4c51f5edf9c3,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T05:49:58.225900,11b9fa1a-9d5b-47dc-a0d9-88a6e7349740,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T05:51:41.706957,7ca58a25-69f6-42c3-80d2-574f77ee3a4e,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T05:59:31.677745,832a11bf-fbaa-4b37-9926-ff0994089e7d,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T06:01:51.672577,2d223469-7d6f-4fe4-96ce-5642131ef15f,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T06:01:56.395191,de9d9b3d-b3df-492f-890d-78de191bfc57,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T06:02:10.323440,bc2838f3-ac16-4151-abef-73ee19ae5127,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T06:02:55.424433,2175d8e3-a1a5-4136-87b9-53635d45fa32,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T06:06:29.009108,298dd734-9306-4c3c-9d09-f41d63b32672,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T06:06:42.156457,3175b627-590c-4073-b8dd-bac53fc3011f,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
