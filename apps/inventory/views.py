@@ -3,12 +3,12 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
-from .models import Product, Size, Color,ProductPurchase
+from .models import Product,ProductPurchase
 
 from .serializers import (
     ProductSerializer,
-    SizeSerializer,
-    ColorSerializer,
+    ProductItemSerializer,
+    ProductSerializer,
     ProductPurchaseSerializer
 )
 
@@ -45,37 +45,20 @@ class ProductListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        vendor_id = request.GET.get("vendor_id")
-        search = request.GET.get("search")
-        status_filter = request.GET.get("status")
+        queryset = Product.objects.prefetch_related("items").all()
 
-        products = Product.objects.filter(
-            vendor__owner=request.user
-        ).order_by("-created")
+        serializer = ProductSerializer(queryset, many=True)
 
-        if vendor_id:
-            products = products.filter(
-                vendor_id=vendor_id,
-                vendor__owner=request.user
-            )
-
-        if search:
-            products = products.filter(
-                Q(product__icontains=search) |
-                Q(brand__icontains=search)
-            )
-
-        if status_filter:
-            products = products.filter(status=status_filter)
-
-        serializer = ProductSerializer(products, many=True, context={'request': request})
         return self.success(
             message="Product list fetched successfully",
-            data=serializer.data,
             status_code=status.HTTP_200_OK,
-            meta={"total": products.count()}
+            data=serializer.data,
+            meta={
+                "total": queryset.count()
+            }
         )
-        
+    
+
 class ProductDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
     

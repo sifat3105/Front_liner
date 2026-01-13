@@ -13,7 +13,6 @@ urlpatterns = [
     path('list/products/', ProductListAPIView.as_view()),
     path('products/<int:product_id>/', ProductDetailAPIView.as_view()),
 
-
     # product Purchase
     path("purchases/create/", ProductPurchaseCreateAPIView.as_view()),
     path("list/purchases/", ProductPurchaseListAPIView.as_view()),

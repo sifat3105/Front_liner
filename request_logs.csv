@@ -3470,3 +3470,74 @@ db72aa45f1f75e54ba6f9e1a196a6e7e7540c4e7
 2026-01-12T05:04:18.334080,c45363f2-d5a5-49ef-a245-f6cc8ec46679,103.98.107.22,GET,/api/shops/,200,Shop fetched successfully,test@mail.com
 2026-01-12T05:11:38.888496,35e8c310-f52f-495d-84ab-bc1d7ff8a711,127.0.0.1,POST,/api/auth/login/,200,Login successful,
 2026-01-12T05:11:44.631327,85327142-470c-49a1-ac04-9a2bb42efa2b,127.0.0.1,GET,/api/shops/,200,Shop fetched successfully,test@mail.com
+2026-01-12T07:21:24.809566,eea9eae0-f857-4c6f-b30b-7f1dadcdaa88,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T07:21:29.488594,1ca3b1bc-4116-4734-9a29-559d6a88bfe6,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-12T07:36:04.148078,104438ce-94f3-422c-90d8-87cd247a647a,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,usernamem@gmail.com
+2026-01-12T08:35:43.131734,ca82f7cc-a041-416f-88c5-0ab00b243284,127.0.0.1,POST,/api/products/create/,500,BaseAPIView.error() got an unexpected keyword argument 'data',usernamem@gmail.com
+2026-01-12T09:06:22.450472,fbf3afb8-e822-4ad2-8648-9943eb16b898,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:06:31.314376,05e547c5-95b0-43fb-babf-a76949d68b81,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T09:06:35.063532,4d9a1bc7-d962-44e0-badc-84c2effa3f69,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:07:08.723884,c5a4eb45-2b8e-422f-87cb-583219cf8f77,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:09:27.163922,8f7caf46-07e9-451a-bf3e-5cc39e4e893b,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:09:29.557497,c0e94346-d582-401a-8a8c-a877e921af7a,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:14:20.110513,b0c3e5c0-95b4-44c2-a44b-2030fba142b4,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:15:09.325590,c2815401-3362-4893-96f3-0e9eb3bbd5b7,127.0.0.1,POST,/api/auth/login/,400,Email and password required,
+2026-01-12T09:15:20.263886,a670cace-c69c-4911-b5d3-82484e940f8e,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T09:17:26.972056,d9f0d1ee-a279-48ba-9cab-99086ec27376,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:17:32.278284,26ae35e4-f8d0-4582-b028-57d25cc667ad,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T09:17:39.257563,227cecf7-4b87-4163-88ac-8ac90a26dcbd,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:17:41.145233,7ccc2e23-0b3a-4d4d-88f2-496799695435,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:29:35.077104,412352a2-20e0-4e01-9ec7-26a374a89536,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:29:39.920515,01c0eab7-c78c-4bc4-89dc-7a16f43adbeb,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T09:29:44.466254,c1aa2a6e-544e-4867-a987-fee42f283749,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:38:42.846110,fd9a17a3-e11e-49fa-993c-8374823f66a8,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:41:55.653830,78741019-4ab2-4b8b-8e51-3c36a7408f9f,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:46:13.019865,4b9b0c50-a8cb-438b-b0e3-40399be57ac6,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T09:50:25.709830,1897bf90-f254-41ce-acf5-9f42ca5207fb,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:50:36.178633,b3d9bfff-ca94-4e8f-8f8a-e1b09f6495e8,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T09:50:40.175330,2d224044-bd9a-41eb-97fa-ce335e75f130,127.0.0.1,POST,/api/products/create/,400,Validation error,usernamem@gmail.com
+2026-01-12T09:57:42.083160,f0e247bc-60d3-4574-a036-eb8aa8ae267e,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T09:58:01.991201,00bf6730-3f16-470e-9b8e-0a70f9ad5772,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T09:59:46.436324,d6e8b707-13f3-46d1-8f05-53223733f702,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:01:18.383215,01eae057-38d6-4941-ba75-0122cfd02907,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:03:54.275652,3e44db40-469e-4d1e-9fb4-6f33e75f41da,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:04:13.403105,3de137fd-6726-417f-b029-9b7782956805,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:08:52.360640,f0f5d1f0-3f48-4bf9-b6be-8aa4907bbed8,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:10:46.025416,1cf2b9b7-3666-490a-ae20-817887aed662,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:10:58.613271,8e6340ca-5f94-46d3-950e-6de34d3ad8fc,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:15:19.968720,3993cea7-438a-4c7a-9954-b41213335adf,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:15:51.045382,285f2423-c6ac-43c8-8f4b-32390861cf88,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:33:17.541984,15a279e1-367d-4868-8d84-7093c5710ae2,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T10:50:18.055603,b1e1ba87-09a6-40a1-8dd7-ca9ad7ec1a9a,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T10:50:30.482612,ab92ad74-cf69-46c0-b20e-2d3da9b7f630,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T10:50:41.094042,6a6dd4fa-1704-402f-af39-d41a1c357c24,127.0.0.1,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
+2026-01-12T11:10:43.838988,e0d87950-115e-4150-bd61-356fa4afb265,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T11:10:55.103748,b067378b-75e5-465e-8696-9acb93e9ca19,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T11:11:01.211004,6955abb7-cbff-4419-bb11-dec9f429885f,127.0.0.1,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
+2026-01-12T11:23:04.327877,492a57a1-953c-46eb-a592-8eae1fbaf434,127.0.0.1,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
+2026-01-12T11:23:33.011923,29806556-a5dc-4deb-b001-25057a2d7587,127.0.0.1,GET,/api/list/products/,500,Internal server error,usernamem@gmail.com
+2026-01-12T11:23:44.831830,0ee89ee6-c5f4-4cf0-a8d1-75738ea4dc5f,127.0.0.1,POST,/api/products/create/,415,"Unsupported media type ""text/plain"" in request.",usernamem@gmail.com
+2026-01-12T11:23:57.158233,c1cd36a6-36b4-41cb-b50f-dd5f38a4f89e,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T11:38:38.324459,04240664-4a36-4398-b540-d804edec71e7,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T11:38:50.191457,3adb174f-64b3-4ba9-b7a4-71bb79ec5c3a,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T11:51:09.978123,39df25ff-5434-4af7-ab08-74e191ce0b22,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T11:51:38.253583,e3782cb0-5fd1-4240-8eb5-1a491eae7877,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T12:01:55.034510,53b2befb-492c-49af-9492-bfe66ddc5562,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T12:06:53.150071,0cd3e12a-3197-4eec-9398-0e05dc02cc58,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:07:23.914505,97bca046-79f2-4e9a-a5ce-f1029ac64063,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-12T12:07:28.534678,138b4304-408c-4b51-98d5-9c8a51da9d09,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:07:32.872359,b28d80b9-8c6f-492e-8cb4-3cd5bb211d53,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T12:23:02.854800,47083d9b-933f-4378-8ddf-d2ff4181d84a,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T12:24:39.209521,44580d69-4ca0-4705-874f-7bfd341f7410,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T12:25:54.686662,8aa3cbee-d76e-4045-b93b-af744f4d66b2,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:26:14.985356,8ec5ae1d-9d99-48ef-a792-36140d431d9e,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:26:52.488328,5e34c2de-f311-4f01-add5-2aefa6949145,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:27:13.661686,ebffed49-0a51-4d31-8eaf-fa6dc63f8ca0,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:27:21.615490,6f18f246-d575-432e-938c-27c2820491e1,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:29:39.024068,6705fa5e-375c-4f2c-b9a8-63e92ad7b797,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:30:18.526758,0ffe8867-9bc5-41f7-9e63-529217773d00,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-12T12:30:37.428571,ff7fde15-939b-4382-b64f-9da387bed41f,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-12T12:35:58.771798,9b5b0650-4b27-43bd-8240-906618a3a47b,127.0.0.1,POST,/api/products/create/,201,Product created successfully,usernamem@gmail.com
+2026-01-12T12:49:19.608471,297b8012-f8c2-40d6-b1df-2179bb747578,127.0.0.1,POST,/api/products/create/,400,Product creation failed,usernamem@gmail.com
+2026-01-12T12:49:40.456512,46915aae-2f08-4973-88a1-96d697983d2a,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com
+2026-01-12T13:24:36.557217,0768c04a-ca04-41d7-ab38-f22c2fd175a3,127.0.0.1,POST,/api/products/create/,500,Internal server error,usernamem@gmail.com

@@ -1,17 +1,5 @@
 from django.contrib import admin
-from .models import Product, Size, Color,ProductPurchase, ProductPurchaseItem
-
-
-@admin.register(Size)
-class SizeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'size')
-    search_fields = ('size',)
-
-
-@admin.register(Color)
-class ColorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'colors')
-    search_fields = ('colors',)
+from .models import Product,ProductItem,ProductPurchase, ProductPurchaseItem
 
 
 @admin.register(Product)
@@ -21,12 +9,11 @@ class ProductAdmin(admin.ModelAdmin):
         "product",
         "image",
         "vendor",
-        "brand",
+        # "brand",
         "price",
         "status",
-        "created",
     )
-    list_filter = ("status", "brand", "vendor")
+    list_filter = ("status", "vendor")
     search_fields = ("product", "brand")
 
 

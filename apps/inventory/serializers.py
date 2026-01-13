@@ -1,23 +1,25 @@
 from rest_framework import serializers
-from .models import Product, Size, Color,ProductPurchaseItem,ProductPurchase
+from .models import Product,ProductItem,ProductPurchaseItem,ProductPurchase
 from apps.vendor.models import Vendor
 
-class SizeSerializer(serializers.ModelSerializer):
+class ProductItemSerializer(serializers.ModelSerializer):
+    unit_cost = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
     class Meta:
-        model = Size
-        fields = ("id", "size")
+        model = ProductItem
+        fields = (
+            "size",
+            "color",
+            "quantity",
+            "unit_cost",
+        )
 
-
-class ColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Color
-        fields = ("id", "colors")
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    items = ProductItemSerializer(many=True, read_only=True)
     price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
     sale_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
-    cost_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
+
 
     vendor_id = serializers.IntegerField(write_only=True)
     vendor = serializers.StringRelatedField(read_only=True)
@@ -25,21 +27,17 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = (
-            "vendor_id",
             "id",
+            "vendor_id",
             "vendor",
             "product",
             "image",
             "short_description",
-            "brand",
-            "campaign",
+            # "brand",
             "price",
             "sale_price",
-            "cost_price",
-            "quantity",
-            "sizes",
-            "colors",
             "status",
+            "items",
         )
         read_only_fields = ("id","created_at")
 
