@@ -6,42 +6,57 @@ User=get_user_model()
 
 # Create your models here.
 
+class Size(models.Model):
+    size = models.CharField(max_length=20, unique=True)
+
+    def __str__(self):
+        return self.size
+
+
+class Color(models.Model):
+    colors = models.CharField(max_length=30, unique=True)
+    code = models.CharField(
+        max_length=10,
+        blank=True,
+        null=True,
+        help_text="Hex code like #FF0000"
+    )
+
+    def __str__(self):
+        return self.colors
 
 class Product(models.Model):
     STATUS_CHOICES = (
-        ("Draft", "Draft"),
-        ("Published", "Published"),
+        ('published', 'Published'),
+        ('draft', 'Draft'),
     )
 
-    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name="products",null=True,blank=True)
+    vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name='orders')
+    image = models.ImageField(upload_to='orders/',blank=True,null=True)
     product = models.CharField(max_length=255)
-    short_description = models.TextField(blank=True)
-    # brand = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=10,decimal_places=2)
-    sale_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    short_description = models.TextField(blank=True,null=True)
+    brand = models.CharField(max_length=100,blank=True,null=True)
+    quantity = models.IntegerField(default=0,blank=True,null=True)
+    campaign = models.CharField(max_length=100,blank=True,null=True)
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Draft")
+    price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
+    sale_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
+    cost_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
 
-    image = models.ImageField(upload_to="products/",null=True,blank=True)
+    status = models.CharField(max_length=20,choices=STATUS_CHOICES,default='draft')
 
-    created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-    updated_at = models.DateTimeField(auto_now=True,null=True,blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.product} ({self.brand})"
-
-
-
+        return self.product
+    
 class ProductItem(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="items")
-    size = models.CharField(max_length=50)
-    color = models.CharField(max_length=50)
-    quantity = models.PositiveIntegerField(default=0)
-    unit_cost = models.DecimalField(max_digits=10,decimal_places=2)
-
-
-    def __str__(self):
-        return f"{self.product.product} | {self.size} | {self.color}"
+    size = models.JSONField(default=list, blank=True, null=True)
+    color = models.JSONField(default=list, blank=True, null=True)
+    quantity = models.IntegerField(default=0,blank=True,null=True)
+    unit_cost = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
+    
 
 
 # PRODUCT PURCHASE
@@ -73,5 +88,66 @@ class ProductPurchaseItem(models.Model):
 
     def __str__(self):
         return f"{self.product} ({self.quantity})"
+    
+
+class Stock(models.Model):
+    product = models.OneToOneField(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="stock"
+    )
+
+    opening = models.PositiveIntegerField(default=0)
+    purchase = models.PositiveIntegerField(default=0)
+    customer_return = models.PositiveIntegerField(default=0)
+
+    sales = models.PositiveIntegerField(default=0)
+    supplier_return = models.PositiveIntegerField(default=0)
+    damage = models.PositiveIntegerField(default=0)
+
+    balance = models.IntegerField(default=0)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def calculate_balance(self):
+        return (
+            self.opening
+            + self.purchase
+            + self.customer_return
+            - self.sales
+            - self.supplier_return
+            - self.damage
+        )
+
+    def save(self, *args, **kwargs):
+        self.balance = self.calculate_balance()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Stock - {self.product.sku}"
+    
+    
+class StockMovement(models.Model):
+    MOVEMENT_TYPE = (
+        ("OPENING", "Opening"),
+        ("PURCHASE", "Purchase"),
+        ("SALE", "Sale"),
+        ("CUSTOMER_RETURN", "Customer Return"),
+        ("SUPPLIER_RETURN", "Supplier Return"),
+        ("DAMAGE", "Damage"),
+    )
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    movement_type = models.CharField(max_length=20, choices=MOVEMENT_TYPE)
+    quantity = models.IntegerField()
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.sku} - {self.movement_type}"
+
+
 
 

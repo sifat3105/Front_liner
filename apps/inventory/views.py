@@ -20,8 +20,7 @@ class ProductCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        print(request.data['colors'])
-        print(list(request.data['colors']))
+        print(request.data)
         serializer = ProductSerializer(
             data=request.data,
             context={"request": request}
@@ -35,7 +34,7 @@ class ProductCreateAPIView(APIView):
                 status_code=status.HTTP_201_CREATED
             )
 
-        return self.success(
+        return self.error(
             message="Product creation failed",
             data=serializer.errors,
             status_code=status.HTTP_400_BAD_REQUEST

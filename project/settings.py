@@ -310,8 +310,16 @@ PLATFORM_CONFIG = {
         },
         # Future-ready
         "tiktok": {
-            "auth_url": None,  # add later
+            "auth_url": "https://www.tiktok.com/v2/auth/authorize/",
+            "client_id": TIKTOK_CLIENT_KEY,
+            "redirect_uri": TIKTOK_REDIRECT_URI,
+            "scope": [
+                "user.info.basic",
+                
+            ],
+            "state_prefix": "tiktok_oauth_",
         },
+
     }
 
 

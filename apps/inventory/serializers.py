@@ -1,25 +1,28 @@
 from rest_framework import serializers
-from .models import Product,ProductItem,ProductPurchaseItem,ProductPurchase
+from .models import Product, Size, Color,ProductPurchaseItem,ProductPurchase, ProductItem
 from apps.vendor.models import Vendor
 
+class SizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Size
+        fields = ("id", "size")
+
+
+class ColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Color
+        fields = ("id", "colors")
+        
 class ProductItemSerializer(serializers.ModelSerializer):
-    unit_cost = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
     class Meta:
         model = ProductItem
-        fields = (
-            "size",
-            "color",
-            "quantity",
-            "unit_cost",
-        )
-
+        fields = ("id", "size", "color", "quantity", "unit_cost")
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    items = ProductItemSerializer(many=True, read_only=True)
     price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
     sale_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
-
+    items = ProductItemSerializer(many=True)
 
     vendor_id = serializers.IntegerField(write_only=True)
     vendor = serializers.StringRelatedField(read_only=True)
@@ -27,23 +30,25 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = (
-            "id",
             "vendor_id",
+            "id",
             "vendor",
             "product",
             "image",
             "short_description",
-            # "brand",
+            "brand",
             "price",
             "sale_price",
-            "status",
+            "quantity",
             "items",
+            "status",
         )
         read_only_fields = ("id","created_at")
 
     def create(self, validated_data):
         request = self.context["request"]
         vendor_id = validated_data.pop("vendor_id")
+        items = validated_data.pop("items")
 
         if not Vendor.objects.filter(id=vendor_id,owner=request.user).exists():
             raise serializers.ValidationError({
@@ -55,6 +60,12 @@ class ProductSerializer(serializers.ModelSerializer):
             **validated_data
             
         )
+        for item in items:
+            ProductItem.objects.create(
+                product=product,
+                **item
+            )
+        
         return product
     
     def update(self, instance, validated_data):
@@ -131,3 +142,7 @@ class ProductPurchaseSerializer(serializers.ModelSerializer):
             )
 
         return purchase
+    
+    
+    
+
