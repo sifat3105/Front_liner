@@ -2,28 +2,16 @@ from django.db import models
 from django.utils import timezone
 from apps.vendor.models import Vendor
 from django.contrib.auth import get_user_model
+import re
+
+
 User=get_user_model()
 
-# Create your models here.
 
-class Size(models.Model):
-    size = models.CharField(max_length=20, unique=True)
+def clean_text(text, length):
+    text = re.sub(r"[^A-Za-z0-9]", "", text)
+    return text.upper()[:length]
 
-    def __str__(self):
-        return self.size
-
-
-class Color(models.Model):
-    colors = models.CharField(max_length=30, unique=True)
-    code = models.CharField(
-        max_length=10,
-        blank=True,
-        null=True,
-        help_text="Hex code like #FF0000"
-    )
-
-    def __str__(self):
-        return self.colors
 
 class Product(models.Model):
     STATUS_CHOICES = (
@@ -37,12 +25,11 @@ class Product(models.Model):
     short_description = models.TextField(blank=True,null=True)
     brand = models.CharField(max_length=100,blank=True,null=True)
     quantity = models.IntegerField(default=0,blank=True,null=True)
-    campaign = models.CharField(max_length=100,blank=True,null=True)
-
-    price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
-    sale_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
-    cost_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
-
+    
+    sku = models.CharField(max_length=100,blank=True,null=True, unique=True, db_index=True)
+    barcode = models.ImageField(upload_to="barcodes/", blank=True, null=True)
+    qr_code = models.ImageField(upload_to="qrcodes/", blank=True, null=True)
+    
     status = models.CharField(max_length=20,choices=STATUS_CHOICES,default='draft')
 
     created = models.DateTimeField(auto_now_add=True)
@@ -50,44 +37,58 @@ class Product(models.Model):
     def __str__(self):
         return self.product
     
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if is_new and not self.sku:
+            vendor_code = clean_text(self.vendor.shop_name, 2)
+            product_code = clean_text(self.product, 3)
+
+            self.sku = f"FL-{vendor_code}-{product_code}-{self.id:06d}"
+
+            super().save(update_fields=["sku"])
+            
+            
+            
 class ProductItem(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="items")
-    size = models.JSONField(default=list, blank=True, null=True)
-    color = models.JSONField(default=list, blank=True, null=True)
+    size = models.CharField(max_length=20, blank=True, null=True)
+    color = models.CharField(max_length=20, blank=True, null=True)
     quantity = models.IntegerField(default=0,blank=True,null=True)
     unit_cost = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
+    sell_price = models.DecimalField(max_digits=10, decimal_places=2,blank=True,null=True)
+    
+    sku = models.CharField(max_length=100,blank=True,null=True, unique=True, db_index=True)
+    barcode = models.ImageField(upload_to="barcodes/", blank=True, null=True)
+    qr_code = models.ImageField(upload_to="qrcodes/", blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.product.sku} - {self.size} - {self.color}"
     
 
 
-# PRODUCT PURCHASE
 class ProductPurchase(models.Model):
     vendor = models.ForeignKey(Vendor,on_delete=models.CASCADE,related_name="purchases")
+    purchase_id = models.CharField(max_length=100, blank=True, null=True)
     order_date = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)
+    items = models.JSONField(default=dict, blank=True)
+    
+    
     created_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"PO-{self.id} | {self.vendor}"
 
 
-# PURCHASE ITEMS
 class ProductPurchaseItem(models.Model):
-    purchase = models.ForeignKey(ProductPurchase,on_delete=models.CASCADE,related_name="items")
+    purchase = models.ForeignKey(ProductPurchase,on_delete=models.CASCADE,related_name="purchase_items")
     product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name="purchase_items")
-    variant = models.CharField(max_length=100, blank=True, null=True)
+    quantity = models.PositiveIntegerField(default=0)
 
-    quantity = models.PositiveIntegerField()
-    unit_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    total = models.DecimalField(max_digits=12, decimal_places=2)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-
-    def save(self, *args, **kwargs):
-        self.total = self.quantity * self.unit_cost
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.product} ({self.quantity})"
     
 
 class Stock(models.Model):
@@ -126,6 +127,36 @@ class Stock(models.Model):
 
     def __str__(self):
         return f"Stock - {self.product.sku}"
+    
+    
+class StockItem(models.Model):
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name="items")
+    product_item = models.OneToOneField(ProductItem, on_delete=models.CASCADE, related_name="stock_item")
+    
+    opening = models.PositiveIntegerField(default=0)
+    purchase = models.PositiveIntegerField(default=0)
+    sales = models.PositiveIntegerField(default=0)
+    returns = models.PositiveIntegerField(default=0)
+    damage = models.PositiveIntegerField(default=0)
+    
+
+    @property
+    def stock_qty(self):
+        """Current stock for this item"""
+        return self.opening + self.purchase + self.returns - self.sales - self.damage
+
+    @property
+    def available(self):
+        """Available stock"""
+        return self.stock_qty
+
+    @property
+    def value(self):
+        """Total value for this stock item"""
+        return self.available * self.product_item.price
+
+    def __str__(self):
+        return f"{self.product_item.sku} in {self.stock.product.product}"
     
     
 class StockMovement(models.Model):

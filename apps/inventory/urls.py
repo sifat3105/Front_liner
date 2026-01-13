@@ -2,9 +2,11 @@ from django.urls import path
 from .views import (
     ProductCreateAPIView,
     ProductListAPIView,
-    ProductPurchaseCreateAPIView,
+    ProductPurchaseAPIView,
     ProductPurchaseListAPIView,
-    ProductDetailAPIView
+    ProductDetailAPIView,
+    StockListAPIView,
+    StockDetailAPIView
 )
 
 urlpatterns = [
@@ -15,6 +17,10 @@ urlpatterns = [
 
 
     # product Purchase
-    path("purchases/create/", ProductPurchaseCreateAPIView.as_view()),
+    path("purchases/product/", ProductPurchaseAPIView.as_view()),
     path("list/purchases/", ProductPurchaseListAPIView.as_view()),
+    
+    # stock
+    path("stock/list/", StockListAPIView.as_view()),
+    path("stock/<int:stock_id>/", StockDetailAPIView.as_view()),
 ]

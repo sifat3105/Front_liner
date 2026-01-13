@@ -3734,3 +3734,172 @@ db72aa45f1f75e54ba6f9e1a196a6e7e7540c4e7
 2026-01-13T06:02:55.424433,2175d8e3-a1a5-4136-87b9-53635d45fa32,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
 2026-01-13T06:06:29.009108,298dd734-9306-4c3c-9d09-f41d63b32672,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
 2026-01-13T06:06:42.156457,3175b627-590c-4073-b8dd-bac53fc3011f,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T06:25:52.072414,62ec1dbe-5d00-4e76-8f3e-d3b25f49f0a4,127.0.0.1,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T06:30:28.037714,65b3d882-a436-4f54-bee6-0dcb8219215f,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T06:32:48.196340,ad41a6a3-bca8-46c8-9c61-af5e40b67528,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-13T06:33:03.622965,6fc915f6-cb02-425d-89cd-9f990fd98e79,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T06:33:10.605676,58d05ddb-fdd5-4697-9a5c-391c0035517f,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T06:33:47.484828,f32022e0-e6f4-423a-b42d-fd5a71a8abfe,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T06:34:24.157820,69341bf0-499f-4c91-9065-6f8ef00756a3,172.31.40.247,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T06:36:45.347675,05b4e3cf-a33b-4a95-ba6f-b0a4925e180e,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T06:40:10.764265,5149bb0b-33f9-4502-b98d-fe0a0224d75d,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-13T06:41:57.814391,ac90b4c4-46c5-4388-87d5-66798bdc1d66,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T06:42:30.893778,1116f88b-af69-464b-b075-e44746fc9eed,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T06:49:20.980561,9e8d7121-7a2b-48a2-ac47-c0ff4dbd295a,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T06:49:53.069663,b5f93ee1-6939-4f00-abc7-7a8724e8ad0b,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T06:59:08.455129,18819452-3a5d-4e13-8e02-bdc1d2283257,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T07:00:04.604146,cc4f56ab-0bee-410e-b75e-fbacdfbeeaa6,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T07:00:10.139336,4ad013a3-1d41-4fd7-8ea6-1f1f5de5f9dd,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T07:00:18.098638,00887f71-1834-405c-b324-10f5f14a752f,172.31.40.247,POST,/api/purchases/create/,201,Purchase created successfully,test@mail.com
+2026-01-13T07:08:01.507526,81ee82d2-4044-4834-8f76-ecad7467f935,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T07:08:04.986378,494567f3-a7f7-49f7-9401-25237f5d5be1,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T07:08:16.716659,95eea10e-7f11-4222-a4d3-755ee1958c87,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T07:09:18.321824,e3783393-3c32-43f8-bce0-4dcb86209861,172.31.40.247,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T07:09:23.102984,b725731f-494e-4d3a-81e8-5df613fb6e3b,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T07:10:17.919429,8694e519-7fd3-4210-977a-deeaab2fd275,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T07:13:07.591434,9f328d83-8b34-4c23-a0f8-e4949ef7e2e9,172.31.40.247,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T07:13:17.846746,cf07d573-938e-47dc-a86b-6ffe21d64c8a,172.31.40.247,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T07:13:44.326101,08be193e-fa3c-4d0d-a37f-4b6663084726,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T07:13:48.821306,8a660555-ae22-4550-bfad-66eb701f8f4d,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T07:14:02.987304,dcf53de2-c29c-4d1d-98ea-cb8c1b2b465b,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T07:16:45.548935,7300f360-258d-449b-a95f-27820b19ffd4,103.98.107.22,POST,/api/purchases/create/,201,Purchase created successfully,test@mail.com
+2026-01-13T07:16:52.507912,d7e7ba30-95a6-45e3-b5ec-be42dba49636,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T07:26:55.043188,969715ec-6c46-4b8b-8a5e-a4ffbcbcb865,127.0.0.1,GET,/api/stock/list/,200,Stock list fetched,test@mail.com
+2026-01-13T07:38:01.131143,a8f9a3b7-f686-4bd7-aa03-a0c94ec981d4,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-13T07:38:11.036974,8e02fff9-dbf9-47e8-9e2c-dd63f0c8cc99,127.0.0.1,GET,/api/stock/list/,200,Stock list fetched,test@mail.com
+2026-01-13T07:40:05.830552,94c253d9-8f2b-4ba6-996d-380b9d808095,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-13T07:44:48.682861,c404cb17-a648-4b07-a066-3cf326563ccb,127.0.0.1,GET,/api/stock/list/,200,Stock list fetched,test@mail.com
+2026-01-13T07:45:34.481246,601fa094-9898-45a5-b595-a5ceb6c93572,127.0.0.1,GET,/api/stock/list/,200,Stock list fetched,test@mail.com
+2026-01-13T07:47:47.586310,e83510f4-8c27-4e79-8e39-5b4483ea08d4,172.31.40.247,POST,/api/auth/login/,200,Login successful,
+2026-01-13T07:47:50.645316,142fa0c1-5dea-4e5f-92f8-21e2a38944dd,172.31.40.247,GET,/api/stock/list/,200,Stock list fetched,test@mail.com
+2026-01-13T07:52:32.849691,15eac956-1577-4b9c-9c49-c3bb17d5c4a2,127.0.0.1,GET,/api/stock/list/,200,Stock list fetched,test@mail.com
+2026-01-13T07:55:36.698611,467f719c-a47a-442e-bb4c-05c771320d2c,172.31.40.247,GET,/api/stock/list/,200,Stock list fetched,test@mail.com
+2026-01-13T07:56:32.393670,a3e02bef-d8ca-4264-865a-c5eabdd020c9,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T07:58:22.062820,0402b19f-aa3e-4b34-9f91-89e625399521,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T08:25:22.654237,7af57329-5cca-4b35-aefe-4456c24d7ffa,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T08:29:54.437931,af9eca9f-db0a-424a-89fd-0a43d50a3b55,103.98.107.22,GET,/api/account/,200,Account fetched successfully,test@mail.com
+2026-01-13T08:30:53.155797,28769800-21ee-4ae5-9bfc-9e3c0da76458,172.31.40.247,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-13T08:30:56.140975,328c87ad-520b-435e-bc60-ffe8a8b4e50e,172.31.40.247,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-13T08:30:58.696522,43755482-51c1-4ce2-94ef-aa016cb5aeda,172.31.40.247,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-13T08:31:04.697151,e46f05b8-b031-499c-96fb-8fad1ad6d294,172.31.40.247,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-13T08:36:37.768422,011bfb61-e449-4963-90b3-d3ba6ea35fd6,172.31.40.247,GET,/api/account/,200,Account fetched successfully,test@mail.com
+2026-01-13T09:02:33.604188,49252fa9-7849-4511-b4aa-817b4a0a8561,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T09:28:42.072782,2127910c-9aad-416a-8091-cca2cfd5232e,127.0.0.1,GET,/api/stock/2/,500,"relation ""inventory_stockitem"" does not exist
+LINE 1: ...m"".""returns"", ""inventory_stockitem"".""damage"" FROM ""inventory...
+                                                             ^
+",test@mail.com
+2026-01-13T09:29:41.135640,070803f5-4a30-4516-9d70-907622da2f15,127.0.0.1,GET,/api/stock/2/,200,Stock fetched successfully,test@mail.com
+2026-01-13T09:35:26.089199,cd6d82ac-d9fc-4f6d-88d2-c2b0eacc0479,127.0.0.1,GET,/api/stock/2/,200,Stock fetched successfully,test@mail.com
+2026-01-13T09:36:37.571523,6efe5b25-b069-4667-baa6-5b5009f532d4,127.0.0.1,GET,/api/stock/1/,500,Field name `sku` is not valid for model `StockItem` in `apps.inventory.serializers.StockItemSerializer`.,test@mail.com
+2026-01-13T09:36:54.645437,e77b4644-1699-4050-a4ea-e4c0a718559b,127.0.0.1,GET,/api/stock/2/,200,Stock fetched successfully,test@mail.com
+2026-01-13T09:38:18.128617,7da7bb80-4f1b-4d58-8974-c479bbe4584c,127.0.0.1,GET,/api/stock/1/,500,Field name `sku` is not valid for model `StockItem` in `apps.inventory.serializers.StockItemSerializer`.,test@mail.com
+2026-01-13T09:38:52.341111,98593d11-03eb-47ab-b5bc-5f76106f32ca,127.0.0.1,GET,/api/stock/1/,500,"Got AttributeError when attempting to get a value for field `price` on serializer `StockItemSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `StockItem` instance.
+Original exception text was: 'ProductItem' object has no attribute 'price'.",test@mail.com
+2026-01-13T10:16:56.760676,3fcdabe0-f176-4c3e-bd82-d1c9f2eabf0d,127.0.0.1,GET,/api/stock/1/,500,"Got AttributeError when attempting to get a value for field `cost_price` on serializer `StockItemSerializer`.
+The serializer field might be named incorrectly and not match any attribute or key on the `StockItem` instance.
+Original exception text was: 'ProductItem' object has no attribute 'cost_price'.",test@mail.com
+2026-01-13T10:17:21.674976,3a31ae7c-9cea-4de2-9e70-8515a3b5ee6f,127.0.0.1,GET,/api/stock/1/,200,Stock fetched successfully,test@mail.com
+2026-01-13T10:18:17.356992,604ce61f-c06d-447d-be07-9bc0139241eb,127.0.0.1,GET,/api/stock/1/,200,Stock fetched successfully,test@mail.com
+2026-01-13T10:18:20.215518,8656c883-5006-4627-8e36-61dea3468ee2,127.0.0.1,GET,/api/stock/1/,200,Stock fetched successfully,test@mail.com
+2026-01-13T10:18:40.565117,b78c0e23-ad71-49c7-9fba-a26cc7f45ed5,127.0.0.1,GET,/api/stock/1/,200,Stock fetched successfully,test@mail.com
+2026-01-13T10:19:56.799468,30d7f997-c4c3-40f7-821b-6f02cac1b5e1,127.0.0.1,GET,/api/stock/1/,200,Stock fetched successfully,test@mail.com
+2026-01-13T10:21:22.139217,716e4050-f274-4fa1-bb5a-90d17feecb05,127.0.0.1,GET,/api/stock/1/,200,Stock fetched successfully,test@mail.com
+2026-01-13T10:22:15.774410,33172e4b-9dc1-4465-ad49-d48d591cfb6c,127.0.0.1,GET,/api/stock/1/,200,Stock fetched successfully,test@mail.com
+2026-01-13T10:25:59.758214,bba4a12c-a1fc-4ca6-b9a7-c04343708308,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T10:27:01.834991,86648b84-a7ba-41fa-a073-0255ff2504d2,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T10:27:21.127854,8567955c-841c-46d4-8207-23eb3cb874a4,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:37:59.492534,6c96367f-e7d1-482a-87e0-6b8227b403d1,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:38:43.831776,67ddff4d-6401-404d-bbad-6d619ecf1b2c,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:38:59.249925,3640ac17-54a6-4a79-bb84-63703d16d09c,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T10:39:10.694890,2d880bbf-60bd-44ed-9ce2-2a73fa29eb2a,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:39:14.821990,067b751f-0a03-454b-b740-93c52f6bee79,127.0.0.1,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:40:39.207754,4fedc953-d234-4f25-ad5c-9f7cc2e0a989,103.98.107.22,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T10:42:37.677169,5e410e96-152c-4378-ad6d-855cd9d1173d,172.31.40.245,GET,/api/list/purchases/,200,Purchase list fetched,test@mail.com
+2026-01-13T10:42:40.527520,4ee4a0e6-cb71-4d6c-beab-0e267b209186,172.31.40.245,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T10:42:42.514473,56017e27-a12e-464c-8df8-6b179821b306,172.31.40.245,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T10:45:07.345562,85b714a1-7793-4adf-9823-b85805e85e5f,172.31.40.245,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T10:45:09.085552,fb5614ff-3ccc-4306-bb11-662d776a5f57,172.31.40.245,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T10:46:31.995723,f3471cca-ee2e-4b45-8ca1-1712024ef915,172.31.40.245,GET,/api/list/products/,500,Internal server error,test@mail.com
+2026-01-13T10:49:06.919195,e24a9999-b8ec-4cee-90c5-6f9c0cc5d9c5,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:49:13.115904,4e6b6141-4ca7-480d-86fb-169eb332967d,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:50:09.146027,0583ec2b-d5ca-41f9-b65e-08692c3f1e0d,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:50:12.214374,bec922aa-020a-439c-88d6-daa7a94cd960,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:50:15.144889,b3a33690-d025-4ef3-a674-64f65b47ee82,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:50:21.414928,0ab0aecf-0c02-44af-a366-8c04ab9c885d,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:50:24.495482,f5196753-8f51-4609-b9da-1cbfb0b8fd36,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:56:13.614030,98507603-c1fb-403f-b029-a9f3aa5d5c51,172.31.40.245,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T10:58:17.303914,380979a0-d9b0-46c1-b41b-ccc4e7cfa63f,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T10:58:19.279785,af3c510a-22c4-44df-a79b-aa48415bc9d7,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T10:58:30.235778,33d8bd2a-4923-43ef-bb31-c3aaa9ff4a01,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:58:38.299121,693b88e7-c5e7-48e7-bec3-91840a65be4e,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T10:59:00.596602,d76d6e57-4884-4425-80ea-0690dc8ebed9,172.31.40.245,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T10:59:01.362986,8df05bd1-fc9f-4ad1-adb1-e89fc101d24d,172.31.40.245,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T10:59:06.298467,19fe6415-ef1a-4688-a302-5c4d064860ce,172.31.40.245,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T10:59:08.251102,1dac5630-454b-4553-9ddd-252c18456554,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T10:59:21.551277,2897b934-d80e-438b-b894-f9bdc4dd12bc,172.31.40.245,POST,/api/purchases/create/,400,Purchase creation failed,test@mail.com
+2026-01-13T11:08:17.590656,44d256d1-d22e-4f18-870a-d128d7def790,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:09:00.065096,06b07ceb-12b0-41f6-82ff-5c9e19d096ad,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T11:09:01.757737,24b544b6-bd7d-4f0e-82fc-8f9aa5125701,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:10:52.598387,4d104e31-adc6-4e55-b0c1-fdbdb52485c2,172.31.40.245,POST,/api/auth/login/,200,Login successful,
+2026-01-13T11:11:33.462431,364c5797-07f5-4a51-999d-6ed5dd01e484,172.31.40.245,POST,/api/auth/login/,200,Login successful,
+2026-01-13T11:11:40.905615,8a18f0c4-883e-431c-bb46-80181e818470,172.31.40.245,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:12:44.679370,4a5325e0-d786-4d5c-98c2-5ce6535ed548,172.31.40.245,POST,/api/auth/login/,200,Login successful,
+2026-01-13T11:12:52.804496,b1d4da63-6f88-411c-85ac-4012faa7d32e,172.31.40.245,POST,/api/auth/login/,200,Login successful,
+2026-01-13T11:13:04.519638,11967ad2-6df7-4b59-96b7-6d674243dcce,172.31.40.245,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:13:21.657485,bbeaf80a-c2ae-4a0c-bf25-a7d02aa0a05c,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:13:22.707435,453b8c4f-0fa1-49aa-9945-8a9f8d771358,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T11:13:24.523031,2864593d-16ef-401f-a509-5e0e4a539f85,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:13:26.338343,bf6b0226-4657-4425-8b33-2ee93bc92512,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:13:28.148627,1281a187-1d76-459f-93f1-2733b1ba8c7f,103.98.107.22,GET,/api/list/purchases/,500,Internal server error,test@mail.com
+2026-01-13T11:14:45.432721,6099757c-3556-47cb-a440-b46e1725d70a,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T11:15:26.006541,e788af00-a938-4b51-9843-2713630cda73,172.31.40.245,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T11:15:58.994983,86156684-fc8e-4a9d-be39-6ccc9ab5a146,172.31.40.245,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T11:17:16.389821,29ea0c24-664c-4565-80c4-8c28ce2ae036,127.0.0.1,POST,/api/products/create/,201,Product created successfully,test@mail.com
+2026-01-13T11:17:24.655595,5a915335-29bc-422e-9db0-0134f97d5cd3,172.31.40.245,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T11:19:36.973971,74328ac1-b505-4c1f-a22e-9dc38ee001da,172.31.40.245,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T11:22:06.196555,9cb2b6c4-2332-439d-b83a-5d03963da42b,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T11:23:37.657868,3b46282b-3c81-44ff-88b0-0361b0d04978,172.31.40.245,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T11:25:11.535741,1f6285ed-e89f-425b-9d90-db7dc893e49f,172.31.40.245,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:27:13.946162,29d69401-a4d0-484f-a1a2-cb60851319a9,172.31.40.245,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:30:22.647348,6a607c47-7302-40f8-8e45-f360f41f4027,127.0.0.1,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T11:36:21.479321,ac79f1f2-4d6f-4161-af95-2a561dd2ad44,172.31.40.245,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:37:01.426902,e0cfa0ef-ae4f-4e13-bf37-69bb02948332,172.31.40.245,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T11:37:05.017941,c91472dd-880c-475a-a08b-dc0543b87747,172.31.40.245,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:38:57.113981,976859e5-cfbb-4f1c-9c8e-b2483e2169ee,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T11:38:59.079296,63988152-b630-496f-b1c8-307db96db8c0,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T11:39:06.192516,c3668760-38e1-47dc-8e74-70b7a5a1a785,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T11:39:30.430650,c379a74b-83cd-40ee-8cfc-af3145b5d429,103.98.107.22,POST,/api/purchases/create/,400,Purchase creation failed,test@mail.com
+2026-01-13T11:39:51.375495,3de20b58-5dc1-4060-9c00-8cf8e060c54c,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T11:40:03.233002,acd80dc6-5bb2-461f-9106-830850ad5b2a,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:40:27.380064,5fe7450c-197d-4325-abd0-4b718a82232e,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:42:02.560016,6ea7a3bf-d603-4732-a1df-c23989520e13,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:42:44.824315,e4498852-0c2d-47c5-80c9-86ddf50f6dbb,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:44:14.006104,64e0661f-f5a2-4f58-ab59-ebc1b6a1cbd9,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:45:12.952281,184e8cb4-64b6-4888-9e45-6af4f96218e2,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:46:09.531562,19204b43-e5b1-4111-a950-3e11c62376cf,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:46:26.883220,fc56e117-8418-487e-97ab-1dacdd7bdaf9,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:46:47.015708,63a68e7a-699d-4fe9-9413-a90dff20555e,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:48:05.931742,583495c9-d060-4121-93ef-d06603288f07,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:49:39.524350,114dffd2-12f8-42c2-acd3-2d6d6590acd6,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:49:55.156587,27cad771-3723-47f1-b214-2be17109416f,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T11:53:37.094729,1aa6a61d-0d12-4edd-ad27-b0d55e4ddb09,127.0.0.1,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T12:13:02.235472,7c2067d2-6a2c-4dd2-a203-865edef1698b,127.0.0.1,POST,/api/purchases/product/,400,"{'vendor': [ErrorDetail(string='This field is required.', code='required')]}",test@mail.com
+2026-01-13T12:14:00.121101,b2214558-553c-457e-a9ce-d2b7b2a11727,127.0.0.1,POST,/api/purchases/product/,400,"{'vendor': [ErrorDetail(string='This field is required.', code='required')]}",test@mail.com
+2026-01-13T12:15:24.955075,4fccaefd-9d55-4250-aeb2-1c7272b86aa2,127.0.0.1,POST,/api/purchases/product/,500,Internal server error,test@mail.com
+2026-01-13T12:15:26.733014,6eeb45a6-3de3-4be8-8f6e-d86a6bafd9c9,172.31.40.245,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T12:15:56.866344,e8535996-6a6b-492b-aa05-315bd13847e6,127.0.0.1,POST,/api/purchases/product/,500,Internal server error,test@mail.com
+2026-01-13T12:16:02.863297,4db7f273-de9d-4a11-a65b-537ec94bd828,172.31.40.245,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T12:17:56.117207,60faa09f-2636-447c-b5fd-a12954e33959,127.0.0.1,POST,/api/purchases/product/,500,Internal server error,test@mail.com
+2026-01-13T12:18:34.506329,a3acd68f-b99b-4afb-a2d8-c84c1f2b6e01,127.0.0.1,POST,/api/purchases/product/,500,Internal server error,test@mail.com
+2026-01-13T12:20:07.614320,5307ae0c-9dc9-4072-bbbb-5d9435886aa2,172.31.40.245,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-13T12:20:37.036356,b0cdb95a-8c46-4485-8fb2-3295d40df68d,172.31.40.245,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T12:22:51.895237,2bd0dbf0-a7fc-4638-a83c-a44aa63c9c00,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T12:23:38.929665,f6f40713-4da8-4aac-bff2-7c5eceecd0e8,172.31.40.245,POST,/api/products/create/,500,Internal server error,test@mail.com
+2026-01-13T12:27:20.724085,f3eaa631-3d43-4ed1-88c3-da2a1c6d6d12,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T12:27:31.627167,9649c4ee-ffba-4272-b9dd-7c1658059491,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T12:28:31.457788,33d4eb68-9bee-4b04-87b0-44c2b86ae722,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T12:29:18.427393,e087ec7e-541e-4924-9d14-fb39b855f806,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T12:30:26.420180,8f190fd8-cc52-42ea-b28c-ec35a3db4689,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com
+2026-01-13T12:32:08.813239,497134e7-d302-4d45-a8b2-79b41ca93eec,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-13T12:32:20.913130,1007a652-c81b-4469-a0e9-a216a5602b15,103.98.107.22,POST,/api/products/create/,400,Product creation failed,test@mail.com

@@ -1,29 +1,18 @@
 from rest_framework import serializers
-from .models import Product, Size, Color,ProductPurchaseItem,ProductPurchase, ProductItem
+from .models import Product, ProductPurchaseItem,ProductPurchase, ProductItem, Stock, StockItem
 from apps.vendor.models import Vendor
+from rest_framework.exceptions import ValidationError
+import json
 
-class SizeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Size
-        fields = ("id", "size")
-
-
-class ColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Color
-        fields = ("id", "colors")
-        
 class ProductItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductItem
-        fields = ("id", "size", "color", "quantity", "unit_cost")
+        fields = ("id", "size", "color", "quantity", "unit_cost", "sell_price")
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
-    sale_price = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
     items = ProductItemSerializer(many=True)
-
+    
     vendor_id = serializers.IntegerField(write_only=True)
     vendor = serializers.StringRelatedField(read_only=True)
 
@@ -37,18 +26,19 @@ class ProductSerializer(serializers.ModelSerializer):
             "image",
             "short_description",
             "brand",
-            "price",
-            "sale_price",
             "quantity",
+            "sku",
             "items",
             "status",
         )
-        read_only_fields = ("id","created_at")
+        read_only_fields = ("id","sku","created_at")
+        
 
     def create(self, validated_data):
         request = self.context["request"]
         vendor_id = validated_data.pop("vendor_id")
         items = validated_data.pop("items")
+        item = json.loads(items)
 
         if not Vendor.objects.filter(id=vendor_id,owner=request.user).exists():
             raise serializers.ValidationError({
@@ -65,6 +55,24 @@ class ProductSerializer(serializers.ModelSerializer):
                 product=product,
                 **item
             )
+        
+        opening_qty = sum(
+            item.quantity for item in product.items.all() if (item.quantity or 0) > 0
+        )
+            
+        Stock.objects.update_or_create(
+            product=product,
+            defaults={
+                "opening": opening_qty,
+                "purchase": 0,
+                "customer_return": 0,
+                "sales": 0,
+                "supplier_return": 0,
+                "damage": 0,
+                "balance": 0,
+                "amount": 0,
+            }
+        )
         
         return product
     
@@ -95,54 +103,166 @@ class ProductPurchaseItemSerializer(serializers.ModelSerializer):
         read_only_fields = ("total",)
 
 
-# PURCHASE SERIALIZER
+
 class ProductPurchaseSerializer(serializers.ModelSerializer):
-    items = ProductPurchaseItemSerializer(many=True)
     vendor_id = serializers.IntegerField(write_only=True)
-
-    vendor = serializers.StringRelatedField(read_only=True)
-
+    items = serializers.JSONField(default=dict, write_only=True)
     class Meta:
         model = ProductPurchase
         fields = (
             "id",
             "vendor",
-            "vendor_id",
             "order_date",
-            "notes",
+            "vendor_id",
             "items",
+            "notes",
         )
-        read_only_fields = ("order_date",)
+        read_only_fields = ("order_date", 'vendor')
 
     def create(self, validated_data):
         request = self.context["request"]
-
-        items_data = validated_data.pop("items")
         vendor_id = validated_data.pop("vendor_id")
-
-        vendor = Vendor.objects.filter(
-            id=vendor_id,
-            owner=request.user
-        ).first()
-
-        if not vendor:
+        items_data = validated_data.pop("items")
+        try:
+            vendor = Vendor.objects.get(id=vendor_id)
+        except Vendor.DoesNotExist:
             raise serializers.ValidationError({
                 "vendor_id": "Invalid vendor or not owned by you"
             })
-
+        
         purchase = ProductPurchase.objects.create(
             vendor=vendor,
             **validated_data
         )
+        
+        required_fields = ["product", "size", "color", "unit_cost", "quntity", "sell_price"]
+        total_unit = 0
+        total_item = len(items_data)
+        for index, item in enumerate(items_data):
+            for field in required_fields:
+                if field not in item or item[field] in ("", None):
+                    raise ValidationError({
+                        "items": f"Item {index + 1}: '{field}' is required."
+                    })
 
-        for item in items_data:
-            ProductPurchaseItem.objects.create(
-                purchase=purchase,
-                **item
-            )
-
+            product_id = item.pop("product")
+            size = item.pop("size")
+            color = item.pop("color")
+            unit_cost = item.pop("unit_cost")
+            quantity = item.pop("quntity")
+            sell_price = item.pop("sell_price")
+            total_unit += quantity
+            
+            try:
+                product = Product.objects.get(id=product_id)
+            except Product.DoesNotExist:
+                raise ValidationError({
+                    "items": f"Item {index + 1}: Product not found."
+                })
+            try:
+                product_item, created = ProductItem.objects.get_or_create(
+                    product=product,
+                    size=size,
+                    color=color,
+                )
+                if created:
+                    product_item.quantity = quantity
+                    product_item.unit_cost = unit_cost
+                    product_item.sell_price = sell_price
+                    product_item.save()
+                else:
+                    product_item.quantity += quantity
+                    product_item.unit_cost += unit_cost
+                    product_item.sell_price += sell_price
+                    product_item.save()
+            except:
+                raise ValidationError({
+                    "items": f"Item {index + 1}: Product Item not found."
+                })
+                
+        purchase.items = {
+            "unit": total_unit,
+            "items": total_item
+        }
+        purchase.save()
         return purchase
+
+
     
+    
+class StockSerializer(serializers.ModelSerializer):
+    sku = serializers.CharField(source="product.sku", read_only=True)
+    product_name = serializers.CharField(source="product.product", read_only=True)
+
+    class Meta:
+        model = Stock
+        fields = (
+            "id",
+            "sku",
+            "product_name",
+            "opening",
+            "purchase",
+            "customer_return",
+            "sales",
+            "supplier_return",
+            "damage",
+            "balance",
+            "amount",
+            "updated_at",
+        )
+        read_only_fields = ("balance", "updated_at")
+        
+
+class StockItemSerializer(serializers.ModelSerializer):
+    stock_qty = serializers.ReadOnlyField()
+    available = serializers.ReadOnlyField()
+    value = serializers.ReadOnlyField()
+    attributes = serializers.SerializerMethodField()
+    barcode = serializers.URLField(source="product_item.barcode.url")
+    qr_code = serializers.URLField(source="product_item.qr_code.url")
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, source="product_item.sell_price")
+    cost_price = serializers.DecimalField(max_digits=10, decimal_places=2, source="product_item.unit_cost")
+    sku = serializers.CharField(source="product_item.sku", read_only=True)
+    weight = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StockItem
+        fields = [
+            'id',
+            'sku',
+            'attributes',
+            'barcode',
+            'qr_code',
+            'price',
+            'cost_price',
+            'opening',
+            'purchase',
+            'sales',
+            'returns',
+            'damage',
+            'stock_qty',
+            'available',
+            'value',
+            'weight',
+            'status',
+            
+        ]
+        read_only_fields = fields 
+        
+        
+    def get_attributes(self, obj):
+        return {
+            "size": obj.product_item.size,
+            "color": obj.product_item.color,
+        }
+        
+    def get_weight(self, obj):
+        return "NA"
+    
+    def get_status(self, obj):
+        return "In Stock" if obj.stock_qty > 0 else "Out of Stock"
+
     
     
 

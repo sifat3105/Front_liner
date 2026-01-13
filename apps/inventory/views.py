@@ -3,24 +3,18 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
-from .models import Product, Size, Color,ProductPurchase
+from .models import Product, ProductPurchase, Stock, StockItem
+from .serializers import StockSerializer, StockItemSerializer
 
 from .serializers import (
     ProductSerializer,
-    SizeSerializer,
-    ColorSerializer,
     ProductPurchaseSerializer
 )
 
-
-# =========================
-# PRODUCT
-# =========================
 class ProductCreateAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        print(request.data)
         serializer = ProductSerializer(
             data=request.data,
             context={"request": request}
@@ -36,7 +30,7 @@ class ProductCreateAPIView(APIView):
 
         return self.error(
             message="Product creation failed",
-            data=serializer.errors,
+            errors=serializer.errors,
             status_code=status.HTTP_400_BAD_REQUEST
         )
 
@@ -137,64 +131,6 @@ class ProductDetailAPIView(APIView):
         )
         
 
-# # SIZE
-# class SizeListCreateAPIView(APIView):
-#     # permission_classes = [IsAuthenticated]
-
-#     def get(self, request):
-#         serializer = SizeSerializer(Size.objects.all(), many=True)
-#         return self.success(
-#             message="Size list fetched",
-#             data=serializer.data,
-#             status_code=status.HTTP_200_OK
-#         )
-
-#     def post(self, request):
-#         serializer = SizeSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return self.success(
-#                 message="Size created",
-#                 data=serializer.data,
-#                 status_code=status.HTTP_201_CREATED
-#             )
-#         return self.success(
-#             message="Size creation failed",
-#             data=serializer.errors,
-#             status_code=status.HTTP_400_BAD_REQUEST
-#         )
-
-# # COLOR
-# class ColorListCreateAPIView(APIView):
-#     # permission_classes = [IsAuthenticated]
-
-#     def get(self, request):
-#         serializer = ColorSerializer(Color.objects.all(), many=True)
-#         return self.success(
-#             message="Color list fetched",
-#             data=serializer.data,
-#             status_code=status.HTTP_200_OK
-#         )
-
-#     def post(self, request):
-#         serializer = ColorSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return self.success(
-#                 message="Color created",
-#                 data=serializer.data,
-#                 status_code=status.HTTP_201_CREATED
-#             )
-#         return self.success(
-#             message="Color creation failed",
-#             data=serializer.errors,
-#             status_code=status.HTTP_400_BAD_REQUEST
-#         )
-
-
-
-
-
 # =========================
 # CREATE + LIST PURCHASE
 # =========================
@@ -236,3 +172,62 @@ class ProductPurchaseListAPIView(APIView):
             status_code=status.HTTP_200_OK,
             meta={"total": purchases.count()}
         )
+
+
+class StockListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        stocks = Stock.objects.filter(
+            product__vendor__owner=request.user
+        ).order_by("-updated_at")
+        
+        serializer = StockSerializer(stocks, many=True)
+
+        return self.success(
+            message="Stock list fetched",
+            data=serializer.data,
+            status_code=status.HTTP_200_OK,
+            meta={"total": stocks.count()}
+        )
+        
+class StockDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, stock_id):
+        try:
+            stock = Stock.objects.prefetch_related("items").get(id=stock_id)
+            stock_items = stock.items.all()
+            serializer = StockItemSerializer(stock_items, many=True, context = {'request': request})
+            return self.success(
+                message="Stock fetched successfully",
+                data=serializer.data,
+                status_code=status.HTTP_200_OK
+            )
+        except Stock.DoesNotExist:
+            return self.error(
+                message="Stock not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            return self.error(
+                message=str(e),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+            
+            
+class ProductPurchaseAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        serializer = ProductPurchaseSerializer(
+            data=request.data,
+            context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return self.success(
+            message="Purchase created successfully",
+            status_code=status.HTTP_201_CREATED
+        )
+
+    
