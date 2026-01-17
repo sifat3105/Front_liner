@@ -17,7 +17,8 @@ from .serializers import (
     ChildUserSerializer,
     ShopSerializer,
     BusinessSerializer,
-    BankingSerializer
+    BankingSerializer,
+    UserCreateSerializer
 )
 
 
@@ -252,7 +253,30 @@ class AccountView(APIView):
             status_code=status.HTTP_400_BAD_REQUEST
         )
     
+class UserCreateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        serializer = UserCreateSerializer(
+            data=request.data,
+            context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+
+        return self.success(
+            message="User created successfully",
+            data={
+                "id": user.id,
+                "email": user.email,
+                "role": user.role,
+                "name": user.account.name,
+                "phone": user.account.phone,
+                "balance": user.account.balance,
+                "organization": user.account.organization,
+            },
+            status_code=status.HTTP_201_CREATED
+        )
 
 class CreateChildUserView(APIView):
     allowed_roles = ["seller", "sub_seller"]
@@ -274,17 +298,26 @@ class CreateChildUserView(APIView):
         )
     
 class ViewChildUserListView(APIView):
-    allowed_roles = ["seller", "sub_seller"]
-    permission_classes = [RolePermission]
+    # allowed_roles = ["superuser", "admin", "seller", "sub_seller"]
+    # permission_classes = [RolePermission]
+    permission_classes = [IsAuthenticated]
+
 
     def get(self, request):
-        users = User.objects.filter(parent=request.user)
+        users = (User.objects.filter(parent=request.user).select_related("account"))
+
         serializer = ChildUserSerializer(users, many=True)
+
         return self.success(
             message="User fetched successfully",
             status_code=status.HTTP_200_OK,
-            data=serializer.data
+            data={
+                "count": users.count(),
+                "users": serializer.data
+            }
         )
+    
+
 
 class ViewChildUserView(APIView):
     allowed_roles = ["seller", "sub_seller"]
@@ -480,6 +513,7 @@ class BankingUpdateAPIView(APIView):
             status_code=status.HTTP_400_BAD_REQUEST
         )
 
+# Setting > Profile > Change Password Info APIView
 
 class ChangePasswordAPIView(APIView):
 

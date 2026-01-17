@@ -107,18 +107,19 @@ def generate_hashtags(
         return []
     
     
-from google import genai
+# import google.generativeai as genai
 from google.genai import types
 from django.core.files.base import ContentFile
 import base64
 
-gemini_client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
 
 
 
 def generate_image(caption: str, extra_prompt: str = "", aspect_ratio: str = "1:1"):
     full_prompt = f"Generate a high-quality image of: {caption}. {extra_prompt}".strip()
 
+    gemini_client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+    
     try:
         response = gemini_client.models.generate_content(
             model="gemini-3-pro-image-preview", 

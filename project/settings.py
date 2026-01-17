@@ -97,7 +97,7 @@ INSTALLED_APPS = [
     'apps.vendor',
     'apps.orders',
     'apps.inventory',
-
+    'apps.popup'
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -255,6 +255,11 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
 
 # ==============================================================================
 # THIRD-PARTY INTEGRATIONS

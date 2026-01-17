@@ -18,7 +18,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
 
     
-
 class UserSerializer(serializers.ModelSerializer):
     account = UserProfileSerializer(required=False)
 
@@ -64,9 +63,6 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
     
-
-
-    
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
@@ -87,7 +83,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = [
             "user_id",
-            "full_name",
+            "name",
             "email",
             "phone",
             "balance",
@@ -121,27 +117,118 @@ class AccountSerializer(serializers.ModelSerializer):
         }
     
     def update(self, instance, validated_data):
-        instance.full_name = validated_data.get("full_name", instance.full_name)
+        instance.name = validated_data.get("name", instance.name)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.organization = validated_data.get("organization", instance.organization)
         instance.save()
         return instance
     
 
-class ChildUserSerializer(serializers.ModelSerializer):
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=6)
+    name = serializers.CharField(max_length=255)
+    phone = serializers.CharField(max_length=20)
+    balance = serializers.DecimalField(max_digits=12, decimal_places=2)
+    organization = serializers.CharField(max_length=255)
+
     class Meta:
         model = User
-        fields = ['id', 'email', 'role', 'name', 'phone', 'balance', 'organization']
+        fields = [
+            "email",
+            "password",
+            "role",
+            "name",
+            "phone",
+            "balance",
+            "organization",
+        ]
 
-    name = serializers.SerializerMethodField()
-    phone = serializers.CharField(source='account.phone', read_only=True)
-    balance = serializers.DecimalField(source='account.balance', read_only=True, decimal_places=2, max_digits=12)
-    balance = serializers.DecimalField(source='account.balance', max_digits=10,decimal_places=2,read_only=True)
-    organization = serializers.CharField(source='account.organization', read_only=True)
+    def validate_role(self, value):
+        parent = self.context["request"].user
+
+        if parent.role == "reseller" and value != "sub_reseller":
+            raise serializers.ValidationError(
+                "Reseller can create only sub reseller"
+            )
+
+        if parent.role == "sub_reseller":
+            raise serializers.ValidationError(
+                "Sub reseller cannot create users"
+            )
+
+        return value
+
+    def create(self, validated_data):
+        parent = self.context["request"].user
+        password = validated_data.pop("password")
+
+        account_data = {
+            "name": validated_data.pop("name"),
+            "phone": validated_data.pop("phone"),
+            "balance": validated_data.pop("balance"),
+            "organization": validated_data.pop("organization"),
+        }
+
+        user = User(
+            email=validated_data["email"],
+            role=validated_data["role"],
+            parent=parent
+        )
+        user.set_password(password)
+        user.save()
+
+        Account.objects.create(
+            user=user,
+            **account_data
+        )
+
+        return user
+
+
+
+class ChildUserSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="account.name", allow_null=True)
+    phone = serializers.CharField(source="account.phone", allow_null=True)
+    balance = serializers.DecimalField(
+        source="account.balance",
+        max_digits=12,
+        decimal_places=2,
+        allow_null=True
+    )
+    organization = serializers.CharField(
+        source="account.organization",
+        allow_null=True
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "role",
+            "name",
+            "phone",
+            "balance",
+            "organization",
+        )
+
 
     def get_name(self, obj):
-        return f"{obj.account.first_name} {obj.account.full_name}"
-    
+        if hasattr(obj, "account"):
+            return obj.account.name
+        return ""
+
+    def get_phone(self, obj):
+        return obj.account.phone if hasattr(obj, "account") else None
+
+    def get_balance(self, obj):
+        return obj.account.balance if hasattr(obj, "account") else 0
+
+    def get_organization(self, obj):
+        return obj.account.organization if hasattr(obj, "account") else None
+
+
 
 # Setting > Profile > Shop Info serializers
 

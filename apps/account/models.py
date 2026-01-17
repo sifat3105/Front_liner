@@ -25,41 +25,6 @@ class Income(models.Model):
     def __str__(self):
         return f"{self.customer} - {self.amount}"
 
-
-class Payments(models.Model):
-
-    owner = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='payments',
-        null=True,blank=True
-    )
-    
-    PAYMENT_METHOD_CHOICES = [
-        ('cash', 'Cash'),
-        ('card', 'Card'),
-        ('bank', 'Bank Transfer'),
-        ('paypal', 'Paypal'),
-        ('other', 'Other'),
-    ]
-
-    STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('paid', 'Paid'),
-        ('failed', 'Failed'),
-    ]
-
-    date = models.DateField()
-    customer = models.CharField(max_length=255)
-    amount = models.DecimalField(max_digits=12, decimal_places=2)
-    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.customer} - {self.amount}"
-
 # SELL Model
 class Sells(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name='Sells',null=True, blank=True)
@@ -145,12 +110,16 @@ class Refund(models.Model):
         return f"{self.owner} - {self.location} ({self.id})"
     
 # Debit Credit section
-
 class DebitCredit(models.Model):
 
     PAYMENT_TYPE = (
         ('cash', 'Cash'),
         ('bank', 'Bank'),
+    )
+
+    ENTRY_TYPE = (
+        ('debit', 'Debit'),
+        ('credit', 'Credit'),
     )
 
     owner = models.ForeignKey(
@@ -164,36 +133,20 @@ class DebitCredit(models.Model):
 
     payment_description = models.TextField(blank=True, null=True)
 
-    payment_type = models.CharField(
-        max_length=10,
-        choices=PAYMENT_TYPE
-    )
+    payment_type = models.CharField(max_length=10,choices=PAYMENT_TYPE)
+
+    entry_type = models.CharField(max_length=10,choices=ENTRY_TYPE,default='debit')
 
     invoice_no = models.CharField(max_length=100, blank=True, null=True)
     due_date = models.DateField(blank=True, null=True)
 
+    debit = models.DecimalField(max_digits=12,decimal_places=2,default=Decimal('0.00'),editable=False)
 
-    debit = models.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        default=Decimal('0.00'),
-        editable=False
-    )
-
-    credit = models.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        default=Decimal('0.00'),
-        editable=False
-    )
+    credit = models.DecimalField(max_digits=12,decimal_places=2,default=Decimal('0.00'),editable=False)
 
     amount = models.DecimalField(max_digits=12, decimal_places=2)
-    balance = models.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        default=Decimal('0.00'),
-        editable=False
-    )
+
+    balance = models.DecimalField(max_digits=12,decimal_places=2,default=Decimal('0.00'),editable=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -201,8 +154,6 @@ class DebitCredit(models.Model):
         ordering = ['created_at']
 
     def clean(self):
-        if not self.payment_type:
-            raise ValidationError({"payment_type": "Payment type is required."})
         if self.amount <= 0:
             raise ValidationError({"amount": "Amount must be greater than zero."})
 
@@ -210,17 +161,16 @@ class DebitCredit(models.Model):
         with transaction.atomic():
 
             # Auto debit / credit
-            if self.payment_type == 'debit':
+            if self.entry_type == 'debit':
                 self.debit = self.amount
                 self.credit = Decimal('0.00')
-
-            elif self.payment_type == 'credit':
+            else:
                 self.credit = self.amount
                 self.debit = Decimal('0.00')
 
             super().save(*args, **kwargs)
 
-            # Auto balance (customer wise)
+            # Auto balance (customer + owner wise)
             totals = DebitCredit.objects.filter(
                 owner=self.owner,
                 customer_name=self.customer_name
@@ -286,102 +236,25 @@ class ProfitLossReport(models.Model):
 
 
 # Payment section
-class Receiver(models.Model):
-    """
-    Receiver can be a User or Supplier
-    """
 
-    RECEIVER_TYPE_CHOICES = (
-        ('user', 'User'),
-        ('supplier', 'Supplier'),
-    )
-
-    name = models.CharField(max_length=100)
-    receiver_type = models.CharField(
-        max_length=10,
-        choices=RECEIVER_TYPE_CHOICES
-    )
-
-    def __str__(self):
-        return f"{self.name} ({self.receiver_type})"
-
-
-class Product(models.Model):
-
-    name = models.CharField(max_length=150)
-    description = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Invoice(models.Model):
-
-
-    invoice_number = models.CharField(max_length=50, unique=True)
-    receiver = models.ForeignKey(
-        Receiver,
-        on_delete=models.CASCADE,
-        related_name='invoices'
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.invoice_number
-
+PAYMENT_METHODS = (
+    ('credit_card', 'Credit Card'),
+    ('bkash', 'Bkash'),
+    ('rocket', 'Rocket'),
+)
 
 class Payment(models.Model):
-    PAYMENT_METHOD_CHOICES = (
-        ('cash', 'Cash'),
-        ('cheque', 'Cheque'),
-        ('gateway', 'Gateway'),
-    )
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments',default=1)
+    voucher_no = models.CharField(max_length=50,blank=True, null=True)
+    receiver_name = models.CharField(max_length=255,blank=True, null=True)
+    product = models.CharField(max_length=255,blank=True, null=True)
+    quantity = models.PositiveIntegerField(default=1,blank=True, null=True)
+    amount = models.DecimalField(max_digits=12, decimal_places=2,blank=True, null=True)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS,blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True,blank=True, null=True)
 
-    receiver = models.ForeignKey(
-        Receiver,
-        on_delete=models.CASCADE,
-        related_name='payments',
-        null=True,       # old rows-এর জন্য null allow
-        blank=True
-    )
-
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.SET_NULL,
-        null=True
-    )
-
-    invoice = models.ForeignKey(
-        Invoice,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
-
-    description = models.TextField(blank=True,null=True)
-
-    quantity = models.PositiveIntegerField(default=1)
-
-    amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0.0   # old rows-এর জন্য default
-    )
-
-    payment_method = models.CharField(
-        max_length=10,
-        choices=PAYMENT_METHOD_CHOICES,
-        default='cash'   # old rows-এর জন্য default
-    )
-
-    cheque_number = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
-        return f"Payment #{self.id}"
+        return f"{self.voucher_no} - {self.receiver_name}"
