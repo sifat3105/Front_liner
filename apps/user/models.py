@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 from django.db.models import JSONField
 import uuid
+from django.core.exceptions import ValidationError
+
 
 ROLE_CHOICES = (
     ("user", "User"),
@@ -12,6 +14,8 @@ ROLE_CHOICES = (
     ("staff", "Staff"),
     ("seller", "Seller"),
     ("sub_seller", "Sub Seller"),
+    ("reseller", "Reseller"),
+    ("sub_reseller", "Sub_Reseller"),
     ("merchant", "Merchant"),
     ("sub_merchant", "Sub Merchant"),
 )
@@ -48,6 +52,28 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    def clean(self):
+
+        # reseller to only sub_reseller
+        if self.parent and self.parent.role == "reseller":
+            if self.role != "sub_reseller":
+                raise ValidationError({
+                    "role": "Reseller can create only sub reseller"
+                })
+
+        # sub_reseller to cannot create anyone
+        if self.parent and self.parent.role == "sub_reseller":
+            raise ValidationError({
+                "parent": "Sub reseller cannot create any user"
+            })
+        
+
+    # ENFORCE clean() EVERYWHERE (API / ADMIN / SHELL)
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
 
     def get_all_users(self):
         """Return all users under this seller/sub_seller recursively."""
@@ -60,10 +86,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return users
 
     def has_perm(self, perm, obj=None):
-        return self.is_superuser
+        return self.is_superuser or self.is_staff
 
     def has_module_perms(self, app_label):
-        return self.is_superuser
+        return self.is_superuser or self.is_staff
     
     @property
     def username(self):
@@ -71,10 +97,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
-    full_name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=255, blank=True, null=True)
-    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0.0)
-    organization = models.CharField(max_length=255, blank=True, null=True)
+    name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    organization = models.CharField(max_length=255, null=True, blank=True)
     user_str_id= models.CharField(max_length=255, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     preferences = JSONField(default=dict, blank=True)
@@ -85,8 +111,9 @@ class Account(models.Model):
     def __str__(self):
         return f"{self.user.email} Account"
     
-    def save(self, *args, **kwargs):
-        self.user_id = uuid
+    # def save(self, *args, **kwargs):
+    #     self.user_id = uuid
+
 
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subscriptions")
@@ -100,7 +127,7 @@ class Subscription(models.Model):
         return f"{self.user.email} - {self.plan}"
 
 
-
+# Setting > Profile > Shop Info Model
 class Shop(models.Model):
 
     owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="shop")
@@ -117,7 +144,6 @@ class Shop(models.Model):
 
     def __str__(self):
         return self.shop_name
-
 
 # Setting > Profile > business Info Model
 class Business(models.Model):
@@ -136,7 +162,6 @@ class Business(models.Model):
         return self.business_type
 
 # Setting > Profile > Banking Info Model
-
 class Banking(models.Model):
     owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Banking")
 
