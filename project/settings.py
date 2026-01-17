@@ -97,7 +97,7 @@ INSTALLED_APPS = [
     'apps.vendor',
     'apps.orders',
     'apps.inventory',
-
+    'apps.popup'
 ]
 
 AUTH_USER_MODEL = 'user.User'

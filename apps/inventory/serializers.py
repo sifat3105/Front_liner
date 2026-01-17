@@ -1,18 +1,10 @@
 from rest_framework import serializers
-from .models import Product, Size, Color,ProductPurchaseItem,ProductPurchase, ProductItem
+from .models import Product, ProductItem,OrderItem
 from apps.vendor.models import Vendor
 
-class SizeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Size
-        fields = ("id", "size")
+from decimal import Decimal
+from django.db import transaction
 
-
-class ColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Color
-        fields = ("id", "colors")
-        
 class ProductItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductItem
@@ -75,74 +67,149 @@ class ProductSerializer(serializers.ModelSerializer):
         return instance
         
 
+class OrderItemCreateSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    size = serializers.CharField()
+    color = serializers.CharField()
+    quantity = serializers.IntegerField()
 
-# ITEM SERIALIZER
-class ProductPurchaseItemSerializer(serializers.ModelSerializer):
 
-    product_id = serializers.PrimaryKeyRelatedField(
-        source="product",
-        queryset=Product.objects.all(), 
-        write_only=True
+    unit_cost = serializers.DecimalField(
+        max_digits=10, decimal_places=2, required=False
     )
-    product = serializers.StringRelatedField(read_only=True)
-
-    unit_cost = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False)
-    total = serializers.DecimalField(max_digits=10,decimal_places=2,coerce_to_string=False,read_only=True)
-
-    class Meta:
-        model = ProductPurchaseItem
-        fields = ("product_id", "id","product","variant","quantity","unit_cost","total",)
-        read_only_fields = ("total",)
-
-
-# PURCHASE SERIALIZER
-class ProductPurchaseSerializer(serializers.ModelSerializer):
-    items = ProductPurchaseItemSerializer(many=True)
-    vendor_id = serializers.IntegerField(write_only=True)
-
-    vendor = serializers.StringRelatedField(read_only=True)
-
-    class Meta:
-        model = ProductPurchase
-        fields = (
-            "id",
-            "vendor",
-            "vendor_id",
-            "order_date",
-            "notes",
-            "items",
-        )
-        read_only_fields = ("order_date",)
+    sell_price = serializers.DecimalField(
+        max_digits=10, decimal_places=2, required=False
+    )
 
     def create(self, validated_data):
-        request = self.context["request"]
+        order = self.context['order']
 
-        items_data = validated_data.pop("items")
-        vendor_id = validated_data.pop("vendor_id")
+        quantity = validated_data['quantity']
 
-        vendor = Vendor.objects.filter(
-            id=vendor_id,
-            owner=request.user
-        ).first()
-
-        if not vendor:
-            raise serializers.ValidationError({
-                "vendor_id": "Invalid vendor or not owned by you"
-            })
-
-        purchase = ProductPurchase.objects.create(
-            vendor=vendor,
-            **validated_data
-        )
-
-        for item in items_data:
-            ProductPurchaseItem.objects.create(
-                purchase=purchase,
-                **item
+        try:
+            variant = OrderItem.objects.select_for_update().get(
+                product_id=validated_data['product_id'],
+                size=validated_data['size'],
+                color=validated_data['color'],
+            )
+        except OrderItem.DoesNotExist:
+            raise serializers.ValidationError(
+                "Product variant does not exist"
             )
 
-        return purchase
-    
-    
-    
+        unit_cost = variant.unit_cost
+        sell_price = variant.sell_price
 
+        total_price = Decimal(quantity) * sell_price
+
+        item = OrderItem.objects.create(
+            order=order,
+            product=variant.product,
+            size=variant.size,
+            color=variant.color,
+            quantity=quantity,
+            unit_cost=unit_cost,
+            sell_price=sell_price,
+            total_price=total_price,
+        )
+
+
+        variant.total_quantity += quantity
+        variant.save(update_fields=['total_quantity'])
+
+        return item
+
+
+
+
+class OrderItemCreateSerializer(serializers.Serializer):
+    product_id = serializers.IntegerField()
+    size = serializers.CharField()
+    color = serializers.CharField()
+    quantity = serializers.IntegerField()
+
+    unit_cost = serializers.DecimalField(
+        max_digits=10, decimal_places=2, required=False
+    )
+    sell_price = serializers.DecimalField(
+        max_digits=10, decimal_places=2, required=False
+    )
+
+    def create(self, validated_data):
+        order = self.context['order']
+
+        quantity = validated_data['quantity']
+
+        try:
+            variant = OrderItem.objects.select_for_update().get(
+                product_id=validated_data['product_id'],
+                size=validated_data['size'],
+                color=validated_data['color'],
+            )
+        except OrderItem.DoesNotExist:
+            raise serializers.ValidationError(
+                "Product variant does not exist"
+            )
+
+        unit_cost = variant.unit_cost
+        sell_price = variant.sell_price
+
+        total_price = Decimal(quantity) * sell_price
+
+
+        item = OrderItem.objects.create(
+            order=order,
+            product=variant.product,
+            size=variant.size,
+            color=variant.color,
+            quantity=quantity,
+            unit_cost=unit_cost,
+            sell_price=sell_price,
+            total_price=total_price,
+        )
+
+        variant.total_quantity += quantity
+        variant.save(update_fields=['total_quantity'])
+
+        return item
+
+
+class OrderCreateSerializer(serializers.Serializer):
+    vendor_id = serializers.IntegerField()
+    order_date = serializers.DateField()
+    notes = serializers.CharField(required=False, allow_blank=True)
+    items = OrderItemCreateSerializer(many=True)
+
+    @transaction.atomic
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+
+        order = OrderItem.objects.create(**validated_data)
+
+        total_sell = Decimal('0')
+        total_cost = Decimal('0')
+
+        for item_data in items_data:
+            serializer = OrderItemCreateSerializer(
+                data=item_data,
+                context={'order': order}
+            )
+            serializer.is_valid(raise_exception=True)
+            item = serializer.save()
+
+            total_sell += item.total_price
+            total_cost += item.unit_cost * item.quantity
+
+        order.total_sell = total_sell
+        order.total_cost = total_cost
+        order.total_profit = total_sell - total_cost
+        order.save(
+            update_fields=['total_sell', 'total_cost', 'total_profit']
+        )
+
+        return {
+            "vendor_id": validated_data['vendor_id'],
+            "order_date": validated_data['order_date'],
+            "notes": validated_data.get('notes'),
+            "items": items_data
+        }

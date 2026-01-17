@@ -1,15 +1,17 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
-from .models import Product,ProductPurchase
+from .models import Product, ProductItem,OrderItem
+from django.db import transaction
 
 from .serializers import (
     ProductSerializer,
     ProductItemSerializer,
     ProductSerializer,
-    ProductPurchaseSerializer
+    OrderCreateSerializer
 )
 
 
@@ -181,41 +183,104 @@ class ProductDetailAPIView(APIView):
 # =========================
 # CREATE + LIST PURCHASE
 # =========================
-class ProductPurchaseCreateAPIView(APIView):
 
-    def post(self, request):
-        serializer = ProductPurchaseSerializer(
-            data=request.data,
-            context={"request": request}
-        )
-
-        if serializer.is_valid():
-            serializer.save()
-            return self.success(
-                message="Purchase created successfully",
-                data=serializer.data,
-                status_code=status.HTTP_201_CREATED
-            )
-
-        return self.success(
-            message="Purchase creation failed",
-            data=serializer.errors,
-            status_code=status.HTTP_400_BAD_REQUEST
-        )
-
-
-class ProductPurchaseListAPIView(APIView):
+class OrderListCreateAPIView(APIView):
 
     def get(self, request):
-        purchases = ProductPurchase.objects.filter(
-            vendor__owner=request.user
-        ).order_by("-order_date")
+        orders = OrderItem.objects.prefetch_related('items').all()
 
-        serializer = ProductPurchaseSerializer(purchases, many=True)
+        data = []
+        for order in orders:
+            data.append({
+                "vendor_id": order.vendor_id,
+                "order_date": order.order_date,
+                "notes": order.notes,
+                "items": [
+                    {
+                        "product_id": item.product_id,
+                        "size": item.size,
+                        "color": item.color,
+                        "quantity": item.quantity,
+                        "unit_cost": item.unit_cost,
+                        "sell_price": item.sell_price,
+                    }
+                    for item in order.items.all()
+                ]
+            })
 
         return self.success(
-            message="Purchase list fetched",
-            data=serializer.data,
-            status_code=status.HTTP_200_OK,
-            meta={"total": purchases.count()}
+            message="Order list fetched successfully",
+            data=data
+        )
+
+    def post(self, request):
+        serializer = OrderCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.save()
+            return self.success(
+                message="Order created successfully",
+                data=data
+            )
+        return self.error(serializer.errors)
+
+
+
+class OrderDetailAPIView(APIView):
+
+    def get(self, request, pk):
+        order = get_object_or_404(
+            ProductItem.objects.prefetch_related('items'),
+            pk=pk
+        )
+
+        data = {
+            "vendor_id": order.vendor_id,
+            "order_date": order.order_date,
+            "notes": order.notes,
+            "items": [
+                {
+                    "product_id": item.product_id,
+                    "size": item.size,
+                    "color": item.color,
+                    "quantity": item.quantity,
+                    "unit_cost": item.unit_cost,
+                    "sell_price": item.sell_price,
+                }
+                for item in order.items.all()
+            ]
+        }
+
+        return self.success(
+            message="Order fetched successfully",
+            data=data
+        )
+
+    @transaction.atomic
+    def put(self, request, pk):
+        order = get_object_or_404(OrderItem, pk=pk)
+
+        # remove old items & reset totals
+        order.items.all().delete()
+        order.total_cost = 0
+        order.total_sell = 0
+        order.total_profit = 0
+        order.save()
+
+        serializer = OrderCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.save()
+            return self.success(
+                message="Order updated successfully",
+                data=data
+            )
+        return self.error(serializer.errors)
+
+    @transaction.atomic
+    def delete(self, request, pk):
+        order = get_object_or_404(OrderItem, pk=pk)
+        order.delete()
+
+        return self.success(
+            message="Order deleted successfully",
+            data=None
         )
