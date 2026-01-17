@@ -93,42 +93,42 @@ class ProductPurchaseItem(models.Model):
 
     
 
-# class Stock(models.Model):
-#     product = models.OneToOneField(
-#         Product,
-#         on_delete=models.CASCADE,
-#         related_name="stock"
-#     )
+class Stock(models.Model):
+    product = models.OneToOneField(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="stock"
+    )
 
-#     opening = models.PositiveIntegerField(default=0)
-#     purchase = models.PositiveIntegerField(default=0)
-#     customer_return = models.PositiveIntegerField(default=0)
+    opening = models.PositiveIntegerField(default=0)
+    purchase = models.PositiveIntegerField(default=0)
+    customer_return = models.PositiveIntegerField(default=0)
 
-#     sales = models.PositiveIntegerField(default=0)
-#     supplier_return = models.PositiveIntegerField(default=0)
-#     damage = models.PositiveIntegerField(default=0)
+    sales = models.PositiveIntegerField(default=0)
+    supplier_return = models.PositiveIntegerField(default=0)
+    damage = models.PositiveIntegerField(default=0)
 
-#     balance = models.IntegerField(default=0)
-#     amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    balance = models.IntegerField(default=0)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
-#     updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     def calculate_balance(self):
-#         return (
-#             self.opening
-#             + self.purchase
-#             + self.customer_return
-#             - self.sales
-#             - self.supplier_return
-#             - self.damage
-#         )
+    def calculate_balance(self):
+        return (
+            self.opening
+            + self.purchase
+            + self.customer_return
+            - self.sales
+            - self.supplier_return
+            - self.damage
+        )
 
-#     def save(self, *args, **kwargs):
-#         self.balance = self.calculate_balance()
-#         super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.balance = self.calculate_balance()
+        super().save(*args, **kwargs)
 
-#     def __str__(self):
-#         return f"Stock - {self.product.sku}"
+    def __str__(self):
+        return f"Stock - {self.product.sku}"
     
     
 class StockItem(models.Model):
