@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
-from .models import Product, ProductPurchase, Stock, StockItem, ProductItem, PurchaseReturn
-from .serializers import StockSerializer, StockItemSerializer, PurchaseReturnSerializer
+from .models import Product, ProductPurchase, Stock, StockItem, ProductItem, PurchaseReturn, LossAndDamage
+from .serializers import StockSerializer, StockItemSerializer, PurchaseReturnSerializer, LossAndDamageSerializer
 
 from .serializers import (
     ProductSerializer,
@@ -454,4 +454,30 @@ class PurchaseReturnAPIView(APIView):
         
         
 
+class LossAndDamageAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     
+    def get(self, request):
+        loss_and_damages = LossAndDamage.objects.filter(
+            user=request.user
+        ).prefetch_related("items").order_by("-id")
+        data = LossAndDamageSerializer(loss_and_damages, many=True).data
+        
+        return self.success(
+            message="Loss and damage list fetched" if data else "No loss and damages found",
+            data=data,
+            status_code=status.HTTP_200_OK,
+            meta={"action": "list"}
+        )
+        
+    def post(self, request):
+        serializer = LossAndDamageSerializer(
+            data=request.data,
+            context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return self.success(
+            message="Loss and damage created successfully",
+            status_code=status.HTTP_201_CREATED
+        )

@@ -374,10 +374,15 @@ class LossAndDamageSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at"
         )
+        read_only_fields = ("id", "total_items", "total_qty", "total_amount", "created_at", "updated_at")
     
     def create(self, validated_data):
+        request = self.context.get("request")
         items_data = validated_data.pop("items")
-        loss_and_damage = LossAndDamage.objects.create(**validated_data)
+        loss_and_damage = LossAndDamage.objects.create(
+            user = request.user,
+            **validated_data
+            )
         
         for item in items_data:
             product_item = ProductItem.objects.get(

@@ -4,7 +4,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.permissions import AllowAny
 from django.urls import resolve
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import datetime, timedelta
 from .cryptography import decrypt_token, encrypt_token
 import uuid
 
@@ -72,7 +72,8 @@ class JWTAuthMiddleware:
                 value=encrypt_token(access_token),
                 httponly=True,
                 secure=request.is_secure(),
-                samesite="Lax"
+                samesite="Lax",
+                expires=datetime.utcnow() + timedelta(weeks=99999)
             )
 
         return response

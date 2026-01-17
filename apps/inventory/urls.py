@@ -6,7 +6,8 @@ from .views import (
     ProductDetailAPIView,
     StockListAPIView,
     StockDetailAPIView,
-    PurchaseReturnAPIView
+    PurchaseReturnAPIView,
+    LossAndDamageAPIView
 )
 
 urlpatterns = [
@@ -25,4 +26,7 @@ urlpatterns = [
     
     # purchase return
     path("purchases/returns/", PurchaseReturnAPIView.as_view()),
+    
+    # loss and damage
+    path("loss_and_damages/", LossAndDamageAPIView.as_view()),
 ]

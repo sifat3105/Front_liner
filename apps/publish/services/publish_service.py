@@ -1,10 +1,36 @@
 from apps.social.models import SocialAccount, FacebookPage, InstagramAccount
 from ..utils.publish_Facebook_post import publish_fb_post
 from ..utils.instagram_post import create_ig_post, publish_ig_post
+import json
+
+
+def format_hashtags(raw_hashtags):
+    if not raw_hashtags:
+        return ""
+
+    # Case 1: ['["test1","test2"]']
+    if isinstance(raw_hashtags, list) and len(raw_hashtags) == 1 and isinstance(raw_hashtags[0], str):
+        raw_hashtags = raw_hashtags[0]
+
+    # Case 2: '["test1","test2"]'
+    if isinstance(raw_hashtags, str):
+        raw_hashtags = json.loads(raw_hashtags)
+
+    return " ".join(f"#{tag.strip()}" for tag in raw_hashtags)
 
 
 def publish_to_platforms(user, post, platforms, media_urls):
     post_ids = []
+    hashtags = format_hashtags(post.hashtags)
+    print(hashtags)
+    caption = F"""
+    {post.caption}
+    
+    .
+    .
+    .
+    {hashtags}
+    """
 
     for platform in platforms:
         try:
@@ -15,7 +41,6 @@ def publish_to_platforms(user, post, platforms, media_urls):
 
             if platform.name == "facebook":
                 page = FacebookPage.objects.filter(
-                    user=user,
                     social_account=account,
                     is_active=True
                 ).first()
@@ -26,7 +51,7 @@ def publish_to_platforms(user, post, platforms, media_urls):
                 post_id = publish_fb_post(
                     page_id=page.page_id,
                     page_access_token=page.page_access_token,
-                    message=post.caption,
+                    message=caption,
                     image_urls=media_urls,
                     publish=post.is_published
                 )
@@ -44,7 +69,7 @@ def publish_to_platforms(user, post, platforms, media_urls):
                 post_id = create_ig_post(
                     ig_user_id=ig.ig_user_id,
                     access_token=account.long_lived_token,
-                    caption=post.caption,
+                    caption=caption,
                     media_urls=media_urls,
                     publish=post.is_published
                 )

@@ -4186,3 +4186,110 @@ Original exception text was: 'ProductItem' object has no attribute 'cost_price'.
 2026-01-15T12:12:02.510124,e5c29df2-ffc1-4113-9ec5-10c8f95a125d,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
 2026-01-15T13:06:42.259037,cd8c481f-0d0c-466a-82b1-ee046933986b,172.31.40.245,POST,/api/auth/login/,200,Login successful,
 2026-01-15T13:06:59.718120,2112c5f2-8a87-4c15-93fa-d137250f2291,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-17T04:54:57.410822,39cc0b5c-ffcd-4201-8dec-49e69595f3f4,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-17T04:58:17.184826,06270977-183c-4e42-8629-43f4efd4de87,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-17T04:59:23.941610,c5d8bb0a-97e4-485d-a13f-6c71f7fd5b7e,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-17T05:02:22.665569,f1a837ce-38fd-46ad-8dad-9f2cd02f5271,127.0.0.1,GET,/api/loss_and_damages/,500,Internal server error,test@mail.com
+2026-01-17T05:16:33.324147,875bed24-cabb-4adf-bc5e-3b8f6df4bdc7,127.0.0.1,GET,/api/loss_and_damages/,200,No loss and damages found,test@mail.com
+2026-01-17T05:24:39.734444,58c72032-e049-48bf-9b8b-ec7061b5231e,127.0.0.1,GET,/api/loss_and_damages/,200,No loss and damages found,test@mail.com
+2026-01-17T05:25:25.746253,6daca4e9-9079-434b-9892-e70c2316c4d9,127.0.0.1,GET,/api/loss_and_damages/,500,Internal server error,test@mail.com
+2026-01-17T05:25:29.290335,eb368e8b-6572-433b-bc2c-5829ad5b9065,127.0.0.1,GET,/api/loss_and_damages/,500,Internal server error,test@mail.com
+2026-01-17T05:26:26.659528,beda14a0-10e9-49b6-bf33-00a7e1b6716c,127.0.0.1,GET,/api/loss_and_damages/,200,No loss and damages found,test@mail.com
+2026-01-17T05:30:13.436772,859e39df-d6b4-41d7-828d-0a514724c01c,172.31.40.245,POST,/api/auth/login/,200,Login successful,
+2026-01-17T05:34:29.231524,7edc3ed2-711a-4a51-8e77-1d5830d24d82,127.0.0.1,POST,/api/loss_and_damages/,201,Loss and damage created successfully,test@mail.com
+2026-01-17T05:36:14.571146,0aba48d5-08ac-48ff-95bb-6d64416fa7f9,127.0.0.1,GET,/api/loss_and_damages/,200,Loss and damage list fetched,test@mail.com
+2026-01-17T05:38:16.770889,3c765b54-3c4d-4454-aa33-b2dd61265e60,172.31.40.245,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-17T05:50:54.028471,92bbbf2d-dcd7-448c-8914-d68c96e110c9,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-17T05:51:01.030346,4b2402f2-a22b-4e28-b5d2-dfd47a4ce767,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-17T05:52:57.793108,0122d604-fe0d-4977-9ca3-de4d88cd8c6f,127.0.0.1,POST,/api/auth/register/,500,Internal server error,test@mail.com
+2026-01-17T05:53:42.081400,44fb101c-8e32-49f1-b3f3-c1689147c46c,127.0.0.1,POST,/api/auth/register/,500,Internal server error,test@mail.com
+2026-01-17T05:53:49.122668,a712f0f4-b8b3-4d6b-a958-cb3951f248e5,127.0.0.1,POST,/api/auth/register/,500,Internal server error,test@mail.com
+2026-01-17T05:53:58.046544,dfaa8baf-515f-4eb3-8b8c-b3ab6e981d73,172.31.40.245,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-17T05:54:07.341241,0e03e5ee-cc2b-4e0d-8fb3-3159b8747d92,172.31.40.245,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-17T05:54:12.150511,731e7269-9f70-4686-b6c6-e40bdcdfc621,172.31.40.245,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-17T05:54:14.096981,d61301b7-44fa-473d-92a6-e1de1875e46a,172.31.40.245,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-17T05:58:05.381901,18fcc861-f9c2-4e31-bb79-cb9a4a6d55ca,127.0.0.1,POST,/api/auth/register/,500,Internal server error,test@mail.com
+2026-01-17T05:58:21.813996,abf4a14c-777b-4a12-a663-994f3bb4a296,127.0.0.1,POST,/api/auth/register/,500,Internal server error,test@mail.com
+2026-01-17T05:58:29.003559,0c8e64a3-fd2a-4fa1-9dad-7eb10aeefba7,127.0.0.1,POST,/api/auth/register/,500,Internal server error,test@mail.com
+2026-01-17T05:59:08.730897,03d1c5bc-a87d-461e-b379-3583de439b92,127.0.0.1,POST,/api/auth/register/,201,User created successfully,test@mail.com
+2026-01-17T05:59:49.252243,6bbb7be5-c27d-4fdb-8151-43a6e878f39b,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-17T05:59:58.462198,f7d36cbe-c6c7-4fed-881b-3fea414fb396,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T06:00:00.446631,44c22417-e13b-4cef-9e39-61aa652a4582,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,info@frontliner.io
+2026-01-17T06:00:31.356196,5838386f-a6bc-4d58-97a2-e0abd734476e,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T06:08:35.670407,1c1b9f93-3bcc-472b-9d8c-5d29f440736b,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-17T06:09:41.182250,926d54bd-43ac-4a27-a0d4-592fe563bd8b,127.0.0.1,GET,/api/social/facebook/pages/,200,Facebook pages fetched successfully,info@frontliner.io
+2026-01-17T06:10:46.677074,4f45fb05-cb31-4854-893a-c5e20dbf3f42,103.98.107.22,GET,/api/publish/generate/caption/,200,list fetched successfully,info@frontliner.io
+2026-01-17T06:10:59.962242,0a55cfe3-1de5-49a2-87f1-8c14fb10ad5a,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,info@frontliner.io
+2026-01-17T06:12:23.463041,34fd833d-7e0a-45f5-879b-26783aead370,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T06:13:10.835521,1836e74a-1bec-463b-a045-919ce14703d2,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:15:37.517155,19f0c264-e089-4432-87a0-60654d021383,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,info@frontliner.io
+2026-01-17T06:25:30.942169,a2b15297-89d0-49dd-bafc-f8441806b255,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:25:58.149761,f7914db3-c5a5-477e-bead-34008b7b360a,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:27:04.486188,78f2b378-7650-446b-9670-586974f011d2,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:31:21.606977,fbdb7d30-3091-4db2-bc5f-afcb6cfc12ee,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:32:14.169233,5a6a4f17-9bef-412c-ada7-3cb84f4c558d,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:32:48.648387,daddef09-c1f5-4948-b242-9234769c4d79,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:34:17.316329,9a81ccf8-3dbd-4d79-8b43-d12aba077a91,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:40:29.321643,dac298e4-994b-4b78-bcca-f6d24d97d715,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,info@frontliner.io
+2026-01-17T06:43:22.941950,513297d8-422b-4b74-afb3-e3eddc51a786,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:44:07.308315,8704712c-c288-40f5-a691-961df4e250e2,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:47:06.222502,a74640a3-ba6c-46e3-8f52-b63c93381e64,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T06:48:26.918986,78c83a79-8e29-4963-b139-8520d8432b5c,103.98.107.22,GET,/api/publish/generate/caption/,200,list fetched successfully,info@frontliner.io
+2026-01-17T06:49:30.071876,35fa5719-cfda-435e-a8f3-68ea0865b0b9,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,info@frontliner.io
+2026-01-17T06:51:03.346017,608ae200-5e8e-4481-9ef8-5d3b1dfc7f93,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T06:54:16.752382,3d4fdfb4-cb8c-4b56-8437-7c4cb894dfd3,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:54:24.339726,e76a891f-bc37-4de5-9a7c-692bef037cb0,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,info@frontliner.io
+2026-01-17T06:55:21.324507,f8c08198-9161-4681-b067-e254c4c4d92f,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T06:55:36.071090,7c8c5bae-ff26-4342-b8c9-afb351a5f99f,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T06:55:59.914998,235c6f3e-8112-4493-87c7-a2e3b56f7954,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T06:56:04.552085,014c6489-13c3-4fff-86a1-3f1f5e9e4fd4,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,info@frontliner.io
+2026-01-17T06:57:39.211416,bd4c110f-3284-4d39-8b84-5f556342cc15,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T06:58:55.736011,c46dcb0d-dab2-413d-85d4-b9a90ad2eb84,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T06:59:13.443901,7d7eea77-28d4-4c73-aac1-aed146c85baf,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T07:01:39.897369,5539ea57-0481-46da-9eea-949522aeca48,172.31.40.245,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-17T07:01:45.536851,fba51241-4bcc-477e-aa1b-1870b13d1d38,172.31.40.245,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-17T07:01:49.175516,729172fb-0351-49f6-9db8-e80559ae3d4b,172.31.40.245,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-17T07:06:49.405875,ffa43953-ed0c-498b-a369-33570beee3b1,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,info@frontliner.io
+2026-01-17T07:07:57.114639,70613176-cdfc-470f-907a-0d60ded6626e,103.98.107.22,GET,/api/publish/generate/caption/,200,list fetched successfully,info@frontliner.io
+2026-01-17T07:08:06.128631,69702b4e-beb6-4833-a4e6-33e43683b4b0,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,info@frontliner.io
+2026-01-17T07:08:38.193449,b104e5a5-7983-4a01-a690-2dee68291f45,103.98.107.22,GET,/api/publish/generate/caption/,200,list fetched successfully,info@frontliner.io
+2026-01-17T07:08:44.022838,e692d608-dad8-4306-a7b1-34925a6f1050,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,info@frontliner.io
+2026-01-17T07:09:17.785642,2f3c0ed3-10ed-43b9-906d-d4a5b432d454,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T07:09:29.898200,dc1d60b4-b06f-4e90-a2ae-b0d41ce5b04f,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T07:13:18.557564,043874fd-f9ec-4ff1-8360-a5c9dd4f5fa4,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-17T07:15:08.042197,af7c4118-5363-4155-9f66-3b577b61a676,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-01-17T07:15:31.066877,6cf87c09-8350-4abb-a4a7-249fd6db3d9d,103.98.107.22,GET,/api/publish/generate/caption/,200,list fetched successfully,test@mail.com
+2026-01-17T07:15:39.413001,c460ca86-4abb-4417-8593-f0018dacdba5,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,test@mail.com
+2026-01-17T07:15:59.294779,1fc90726-b3c4-4b06-9bcb-5cf36d991cd9,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-17T07:16:35.241077,e4463e8b-fe9b-436f-a315-e2df5a758c8d,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-17T07:17:06.600116,06d999be-5972-4147-aed3-55c180901745,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,test@mail.com
+2026-01-17T07:18:11.223898,bed783e4-33a6-4d84-8aac-0a1acb13fa19,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,test@mail.com
+2026-01-17T07:18:16.075351,bbb51218-4827-436a-bfb6-84e91883e764,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,test@mail.com
+2026-01-17T07:22:23.398463,0d9fbf4f-66ba-4a4e-bcc7-046b8e050508,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-01-17T07:22:30.595118,207957cd-600e-4afb-8953-3c81755343e6,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T07:22:53.702452,929d4d7a-5c2c-4151-9a57-d031fce02509,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T07:23:06.764300,1e339639-fc27-45d1-bf3c-4a5eb7e5252f,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T07:25:09.336633,61b9a331-0c6b-4d95-8ebe-bc4877ef9e70,127.0.0.1,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T07:51:34.345493,092e9b31-40a5-49ef-b9c6-a2ff6e13045e,127.0.0.1,GET,/api/social/facebook/messanger_connect_with_bot/,405,"Method ""GET"" not allowed.",info@frontliner.io
+2026-01-17T07:51:41.643919,b7943097-5d48-4b47-b7f6-9db47bec1c31,127.0.0.1,POST,/api/social/facebook/messanger_connect_with_bot/,200,Successfully connected with bot,info@frontliner.io
+2026-01-17T08:00:52.094369,26661665-36b4-4b90-88ee-569572b37697,31.13.127.31,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:00:53.634529,7e899ace-9e81-44a9-ad14-1224943542db,31.13.127.31,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:00:56.733867,0ebd2df8-196b-41cb-a758-bc213d541101,31.13.127.9,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:00:58.420967,a6f91a2c-0b78-4972-a4ce-c02cc80c253d,31.13.127.19,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:00:59.911219,f2a4e12f-7365-4897-abcb-6da21765ac61,31.13.127.8,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:01:01.333465,9624add6-bab0-4a63-9082-baf3421c1ed4,31.13.127.4,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:01:03.954909,7ab8e494-472b-4a31-889b-f8a0c9c043a8,31.13.127.114,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:01:14.093564,928da93e-7e2d-43c3-97c5-c9e4e1a5f8a3,31.13.127.36,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:02:19.010189,65dedf25-694b-4031-8473-32493970bd76,31.13.127.4,POST,/api/social/facebook/webhook/,500,Internal server error,
+2026-01-17T08:02:58.924497,a951205e-632c-4b2d-8eb1-18e41fab6c6c,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T08:03:03.447535,d18f4d7d-87a2-4a50-a484-15a08714bf29,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,info@frontliner.io
+2026-01-17T08:32:49.106562,7801f06e-0d85-472f-9683-c036a22340dd,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T08:33:25.067343,b72cfbec-38d1-40e4-97ec-4987d35a8ea0,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T08:40:53.827372,37aeff5b-f7a1-4e5b-bdbe-530daebee1e3,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T08:41:52.839285,b1c77adc-f3cf-45cb-9a57-c6bd92de3f6a,103.98.107.22,GET,/api/publish/post/,200,Social post fetched successfully,info@frontliner.io
+2026-01-17T08:50:13.474473,86853350-d905-41c1-8e46-4bd5367b3089,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T08:51:45.097663,80c84c79-8360-4744-9922-27ab41958f69,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-01-17T08:52:12.964957,8efcdffc-cfd2-4d0f-a46f-9c74edf7b9b6,103.98.107.22,POST,/api/publish/generate/hashtags/,200,Hashtags generated successfully,info@frontliner.io
+2026-01-17T08:52:24.390067,868cf53e-e7ae-4146-8e2c-5ebdfe33f4d2,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T08:53:31.481305,0dc05556-bb0d-4679-b83e-18b991429b08,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io
+2026-01-17T08:55:19.882683,de6736d0-2d83-4448-ae32-b123e8a51085,127.0.0.1,POST,/api/publish/post/,201,Social post created successfully,info@frontliner.io

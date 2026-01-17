@@ -27,7 +27,7 @@ class AutoPagination(PageNumberPagination):
 class BaseAPIView(APIView):
     pagination_class = AutoPagination
 
-    def success(self, message="Success", data=None, meta=None, cookies=None, status_code=status.HTTP_200_OK):
+    def success(self, message="Success", data=None, extra_data=None, meta=None, cookies=None, status_code=status.HTTP_200_OK):
 
         paginated_data = data
 
@@ -36,6 +36,9 @@ class BaseAPIView(APIView):
                 paginator = self.pagination_class()
                 paginator.request = self.request
                 paginated_data = paginator.get_paginated_data(self.request, data)
+                if extra_data:
+                    for key, value in extra_data.items():
+                        paginated_data[key] = value
 
         return ApiResponse.success(
             message=message,

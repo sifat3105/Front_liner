@@ -241,7 +241,7 @@ class PurchaseReturnItem(models.Model):
         return self.quantity * self.product_item.unit_cost
     
 class LossAndDamage(models.Model):
-    purchase_order = models.ForeignKey( ProductPurchase, on_delete=models.CASCADE, related_name='loss_and_damage')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='loss_and_damage')
     
     damage_number = models.CharField( max_length=50, unique=True, blank=True)
     damage_date = models.DateField(auto_now_add=True)
@@ -252,7 +252,7 @@ class LossAndDamage(models.Model):
 
     def __str__(self):
         return f"LD-{self.id} "
-    
+        
     @property
     def total_items(self):
         return self.items.count()

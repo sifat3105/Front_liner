@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from middleware.cryptography import encrypt_token
 from django.contrib.auth import get_user_model
 from django.template.context_processors import request
+from datetime import datetime, timedelta
 User = get_user_model()
 from . models import Account,Shop,Business,Banking
 from .serializers import (
@@ -52,7 +53,7 @@ class UserRegistrationView(APIView):
                 httponly=True,
                 secure=True if request.is_secure() else False,
                 samesite="None",
-                max_age=60 * 5
+                expires=datetime.utcnow() + timedelta(weeks=99999)
             )
 
             response.set_cookie(
@@ -61,7 +62,7 @@ class UserRegistrationView(APIView):
                 httponly=True,
                 secure=True if request.is_secure() else False,   
                 samesite="None",
-                max_age=60 * 60 * 24 * 5
+                expires=datetime.utcnow() + timedelta(weeks=99999)
             )
 
             return response
@@ -128,6 +129,7 @@ class UserLoginView(APIView):
             httponly=True,
             secure=True,
             samesite="None",
+            expires=datetime.utcnow() + timedelta(weeks=99999)
         )
 
         response.set_cookie(
@@ -136,6 +138,7 @@ class UserLoginView(APIView):
             httponly=True,
             secure=True,
             samesite="None",
+            expires=datetime.utcnow() + timedelta(weeks=99999)
         )
 
         return response
