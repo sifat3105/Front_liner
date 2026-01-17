@@ -4245,3 +4245,5 @@ Original exception text was: 'ProductItem' object has no attribute 'cost_price'.
 2026-01-17T09:47:07.946552,63f9c5e3-5145-4fd3-8d50-b8b14cc64f0e,127.0.0.1,GET,/api/child/list/,200,User fetched successfully,test@mail.com
 2026-01-17T09:49:00.933213,de732458-be8f-4e02-aade-53f1a8cf42f3,127.0.0.1,GET,/api/child/list/,200,User fetched successfully,test@mail.com
 2026-01-17T09:49:26.879126,31c95311-806b-44b6-8ff4-0d1ee3e50324,127.0.0.1,POST,/api/users/create/,500,Internal server error,test@mail.com
+2026-01-17T09:52:32.678221,894023f2-50df-4460-a423-2e9e1124e4f0,127.0.0.1,POST,/api/users/create/,201,User created successfully,test@mail.com
+2026-01-17T09:52:51.106411,11abf49e-576b-4569-90ae-5c49f8692ce4,127.0.0.1,GET,/api/child/list/,200,User fetched successfully,test@mail.com
