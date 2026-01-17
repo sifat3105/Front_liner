@@ -4236,3 +4236,12 @@ Original exception text was: 'ProductItem' object has no attribute 'cost_price'.
 2026-01-17T07:30:12.908092,7ae44210-04ee-49f8-8317-29f9d597f88e,127.0.0.1,GET,/api/payment/list/,200,Refund orders fetched successfully,test@mail.com
 2026-01-17T07:30:23.971033,877f8489-f467-4978-8969-19e5359701f2,127.0.0.1,POST,/api/payment/create/,201,Payment saved successfully,test@mail.com
 2026-01-17T07:30:30.428437,3ffb8090-eaaf-4ff0-b246-1c3bd8b3ff2b,127.0.0.1,GET,/api/payment/list/,200,Refund orders fetched successfully,test@mail.com
+2026-01-17T09:06:55.042402,1cba7bb4-81c7-4814-90b5-74ad1263212e,127.0.0.1,GET,/api/payment/list/,200,Refund orders fetched successfully,test@mail.com
+2026-01-17T09:31:48.694262,318ca3c7-f193-4578-a37f-ab4274956988,127.0.0.1,POST,/api/users/create/,400,"{'email': [ErrorDetail(string='user with this email already exists.', code='unique')]}",test@mail.com
+2026-01-17T09:32:04.422551,fb41e893-9a70-43ca-9ac5-c0213dd05825,127.0.0.1,POST,/api/users/create/,201,User created successfully,test@mail.com
+2026-01-17T09:32:12.714322,47928a0d-c53c-4fb0-8fb7-da16519eceae,127.0.0.1,GET,/api/child/list/,200,User fetched successfully,test@mail.com
+2026-01-17T09:33:05.229000,490df812-3cb8-43d3-b8c6-ca0a86aff8a0,127.0.0.1,POST,/api/users/create/,400,"{'email': [ErrorDetail(string='user with this email already exists.', code='unique')]}",test@mail.com
+2026-01-17T09:33:16.477382,28a700b0-9a5c-4cba-be71-43d49e02b729,127.0.0.1,POST,/api/users/create/,201,User created successfully,test@mail.com
+2026-01-17T09:47:07.946552,63f9c5e3-5145-4fd3-8d50-b8b14cc64f0e,127.0.0.1,GET,/api/child/list/,200,User fetched successfully,test@mail.com
+2026-01-17T09:49:00.933213,de732458-be8f-4e02-aade-53f1a8cf42f3,127.0.0.1,GET,/api/child/list/,200,User fetched successfully,test@mail.com
+2026-01-17T09:49:26.879126,31c95311-806b-44b6-8ff4-0d1ee3e50324,127.0.0.1,POST,/api/users/create/,500,Internal server error,test@mail.com

@@ -97,7 +97,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
-    name = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20, null=True, blank=True)
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     organization = models.CharField(max_length=255, null=True, blank=True)

@@ -267,7 +267,7 @@ class UserCreateAPIView(APIView):
                 "id": user.id,
                 "email": user.email,
                 "role": user.role,
-                "name": user.account.name,
+                "full_name": user.account.full_name,
                 "phone": user.account.phone,
                 "balance": user.account.balance,
                 "organization": user.account.organization,

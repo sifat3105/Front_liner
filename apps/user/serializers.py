@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['id', 'name', 'phone', 'username', 'organization']
+        fields = ['id', 'full_name', 'phone', 'username', 'organization']
         read_only_fields = ['id']
 
     def update(self, instance, validated_data):
@@ -40,7 +40,8 @@ class UserSerializer(serializers.ModelSerializer):
             Account.objects.create(
                 user=user,
                 # first_name=account_data.get('first_name', ''),
-                name=account_data.get('name', ''),
+                
+                full_name=account_data.get('full_name', ''),
                 username=account_data.get('username', ''),
                 phone=account_data.get('phone', ''),
                 organization=account_data.get('organization', '')
@@ -85,7 +86,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = [
             "user_id",
-            "name",
+            "full_name",
             "email",
             "phone",
             "balance",
@@ -119,7 +120,7 @@ class AccountSerializer(serializers.ModelSerializer):
         }
     
     def update(self, instance, validated_data):
-        instance.name = validated_data.get("name", instance.name)
+        instance.full_name = validated_data.get("full_name", instance.full_name)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.organization = validated_data.get("organization", instance.organization)
         instance.save()
@@ -129,7 +130,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=6)
-    name = serializers.CharField(max_length=255)
+    full_name = serializers.CharField(max_length=255)
     phone = serializers.CharField(max_length=20)
     balance = serializers.DecimalField(max_digits=12, decimal_places=2)
     organization = serializers.CharField(max_length=255)
@@ -140,7 +141,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "email",
             "password",
             "role",
-            "name",
+            "full_name",
             "phone",
             "balance",
             "organization",
@@ -166,7 +167,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         password = validated_data.pop("password")
 
         account_data = {
-            "name": validated_data.pop("name"),
+            "full_name": validated_data.pop("full_name"),
             "phone": validated_data.pop("phone"),
             "balance": validated_data.pop("balance"),
             "organization": validated_data.pop("organization"),
@@ -190,7 +191,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class ChildUserSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source="account.name", allow_null=True)
+    full_name = serializers.CharField(source="account.full_name", allow_null=True)
     phone = serializers.CharField(source="account.phone", allow_null=True)
     balance = serializers.DecimalField(
         source="account.balance",
@@ -209,7 +210,7 @@ class ChildUserSerializer(serializers.ModelSerializer):
             "id",
             "email",
             "role",
-            "name",
+            "full_name",
             "phone",
             "balance",
             "organization",
