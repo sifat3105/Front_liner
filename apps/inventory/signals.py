@@ -1,6 +1,9 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Product, ProductItem, Stock
+from .models import Product, ProductItem, Stock, StockItem, PurchaseReturnItem
+from django.db import transaction
+
+
 from .utils import generate_barcode, generate_qr
 import re
 def clean_text(text, length):
@@ -40,25 +43,31 @@ def generate_sku_and_codes_item(sender, instance, created, **kwargs):
 
         instance.save(update_fields=["sku", "barcode", "qr_code"])
         
-        
-# @receiver(post_save, sender=ProductItem)
-# def update_stock_on_item_save(sender, instance, created, **kwargs):
-#     product = instance.product
-#     opening_qty = sum(
-#         item.quantity for item in product.items.all() if (item.quantity or 0) > 0
-#     )
-    
-#     # Either create or update stock
-#     Stock.objects.update_or_create(
-#         product=product,
-#         defaults={
-#             "opening": opening_qty,
-#             "purchase": 0,
-#             "customer_return": 0,
-#             "sales": 0,
-#             "supplier_return": 0,
-#             "damage": 0,
-#             "balance": 0,
-#             "amount": 0,
-#         }
-#     )
+
+
+
+@receiver(post_save, sender=PurchaseReturnItem)
+def update_stock_on_purchase_return(sender, instance, created, **kwargs):
+    if not created:
+        return
+    print(instance.product_item)
+    with transaction.atomic():
+        product_item = instance.product_item
+        qty = instance.quantity
+
+        # --- PRODUCT LEVEL STOCK ---
+        stock = Stock.objects.select_for_update().get(
+            product=product_item.product
+        )
+
+        stock.supplier_return += qty
+        stock.save()
+
+        # --- ITEM LEVEL STOCK ---
+        print(product_item.stock_item)
+        stock_item = StockItem.objects.select_for_update().get(
+            product_item=product_item
+        )
+
+        stock_item.returns += qty  
+        stock_item.save()

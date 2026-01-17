@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from apps.vendor.models import Vendor
 from django.contrib.auth import get_user_model
+from django.db.models import Sum, F
 import re
 
 
@@ -74,14 +75,15 @@ class ProductPurchase(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)
     items = models.JSONField(default=dict, blank=True)
+    total_acount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     
     
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
-class OrderItem(models.Model):
-    order = models.ForeignKey(ProductItem, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items')
+    def __str__(self):
+        return f"PO-{self.id} | {self.vendor}"
+    
 
 
 class ProductPurchaseItem(models.Model):
@@ -131,7 +133,7 @@ class ProductPurchaseItem(models.Model):
     
 class StockItem(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE, related_name="items")
-    product_item = models.OneToOneField(ProductItem, on_delete=models.CASCADE, related_name="stock_item")
+    product_item = models.ForeignKey(ProductItem, on_delete=models.CASCADE, related_name="stock_item")
     
     opening = models.PositiveIntegerField(default=0)
     purchase = models.PositiveIntegerField(default=0)
@@ -143,7 +145,7 @@ class StockItem(models.Model):
     @property
     def stock_qty(self):
         """Current stock for this item"""
-        return self.opening + self.purchase + self.returns - self.sales - self.damage
+        return self.opening + self.purchase - self.returns - self.sales - self.damage
 
     @property
     def available(self):
@@ -176,9 +178,109 @@ class StockMovement(models.Model):
 
 #     created_at = models.DateTimeField(auto_now_add=True)
 
-#     def __str__(self):
-#         return f"{self.product.sku} - {self.movement_type}"
+    def __str__(self):
+        return f"{self.product.sku} - {self.movement_type}"
+    
+    
+
+class PurchaseReturn(models.Model):
+    purchase_order = models.ForeignKey( ProductPurchase, on_delete=models.CASCADE, related_name="returns")
+    
+    return_number = models.CharField( max_length=50, unique=True, blank=True)
+    return_date = models.DateField(auto_now_add=True)
+    reason = models.TextField(blank=True, null=True)
+
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"PR-{self.id} "
+    
+
+    @property
+    def total_amount(self):
+        return self.items.aggregate(total=Sum(F("product_item__unit_cost") * F("quantity")))["total"]
+
+    
+    @property
+    def total_items(self):
+        return self.items.count()
+    
+    @property
+    def total_qty(self):
+        return self.items.aggregate(total=Sum("quantity"))["total"]
+    
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_new and not self.return_number:
+            self.return_number = f"PR-{self.id:06d}"
+            super().save(update_fields=["return_number"])
+
+        
 
 
 
 
+
+class PurchaseReturnItem(models.Model):
+    purchase_return = models.ForeignKey( PurchaseReturn, on_delete=models.CASCADE, related_name="items")
+
+    product_item = models.ForeignKey(ProductItem, on_delete=models.CASCADE)
+
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.product_item.sku} - {self.quantity}"
+    
+    @property
+    def total_price(self):
+        return self.quantity * self.product_item.unit_cost
+    
+class LossAndDamage(models.Model):
+    purchase_order = models.ForeignKey( ProductPurchase, on_delete=models.CASCADE, related_name='loss_and_damage')
+    
+    damage_number = models.CharField( max_length=50, unique=True, blank=True)
+    damage_date = models.DateField(auto_now_add=True)
+    damage_type = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"LD-{self.id} "
+    
+    @property
+    def total_items(self):
+        return self.items.count()
+    
+    @property
+    def total_qty(self):
+        return self.items.aggregate(total=Sum("quantity"))["total"]
+    
+    @property
+    def total_amount(self):
+        return self.items.aggregate(total=Sum(F("product_item__unit_cost") * F("quantity")))["total"]
+    
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+
+        if is_new and not self.damage_number:
+            self.damage_number = f"DMG-{self.id:06d}"
+            super().save(update_fields=["damage_number"])
+    
+    
+    
+class LossAndDamageItem(models.Model):
+    loss_and_damage = models.ForeignKey( LossAndDamage, on_delete=models.CASCADE, related_name="items")
+    
+    product_item = models.ForeignKey(ProductItem, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    condition_notes = models.TextField(blank=True, null=True)
+    
+    @property
+    def total_price(self):
+        return self.quantity * self.product_item.unit_cost

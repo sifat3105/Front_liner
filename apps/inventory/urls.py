@@ -3,23 +3,25 @@ from .views import (
     ProductCreateAPIView,
     ProductListAPIView,
     ProductPurchaseAPIView,
-    ProductPurchaseListAPIView,
     ProductDetailAPIView,
     StockListAPIView,
-    StockDetailAPIView
+    StockDetailAPIView,
+    PurchaseReturnAPIView
 )
 
 urlpatterns = [
     # product
     path('products/create/', ProductCreateAPIView.as_view()),
     path('list/products/', ProductListAPIView.as_view()),
-    path('products/<int:product_id>/', ProductDetailAPIView.as_view()),
+    path('products/<int:pk>/', ProductDetailAPIView.as_view()),
 
     # product Purchase
-    path("purchases/product/", ProductPurchaseAPIView.as_view()),
-    path("list/purchases/", ProductPurchaseListAPIView.as_view()),
+    path("purchases/products/", ProductPurchaseAPIView.as_view()),
     
     # stock
     path("stock/list/", StockListAPIView.as_view()),
     path("stock/<int:stock_id>/", StockDetailAPIView.as_view()),
+    
+    # purchase return
+    path("purchases/returns/", PurchaseReturnAPIView.as_view()),
 ]
