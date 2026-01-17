@@ -3,7 +3,6 @@ from django.dispatch import receiver
 from .models import Product, ProductItem, Stock
 from .utils import generate_barcode, generate_qr
 import re
-
 def clean_text(text, length):
     text = re.sub(r"[^A-Za-z0-9]", "", text)
     return text.upper()[:length]

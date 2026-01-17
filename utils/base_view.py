@@ -45,7 +45,7 @@ class BaseAPIView(APIView):
             cookies=cookies
         )
 
-    def error(self, message="Error", errors=None, meta=None, status_code=status.HTTP_400_BAD_REQUEST):
+    def error(self, message="Error", errors=None, meta=None, data=None, status_code=status.HTTP_400_BAD_REQUEST):
         return ApiResponse.error(
             message=message,
             errors=errors,
