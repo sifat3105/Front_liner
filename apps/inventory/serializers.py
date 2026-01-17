@@ -39,18 +39,14 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "sku", "created_at")
 
 
-class OrderItemCreateSerializer(serializers.Serializer):
-    product_id = serializers.IntegerField()
-    size = serializers.CharField()
-    color = serializers.CharField()
-    quantity = serializers.IntegerField()
 
+# ITEM SERIALIZER
+class ProductPurchaseItemSerializer(serializers.ModelSerializer):
 
-    unit_cost = serializers.DecimalField(
-        max_digits=10, decimal_places=2, required=False
-    )
-    sell_price = serializers.DecimalField(
-        max_digits=10, decimal_places=2, required=False
+    product_id = serializers.PrimaryKeyRelatedField(
+        source="product",
+        queryset=Product.objects.all(), 
+        write_only=True
     )
     product = serializers.StringRelatedField(read_only=True)
 

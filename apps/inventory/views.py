@@ -1,8 +1,6 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
-from apps import transaction
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
 from .models import Product, ProductPurchase, Stock, StockItem, ProductItem, PurchaseReturn
@@ -144,20 +142,37 @@ class ProductListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        queryset = Product.objects.prefetch_related("items").all()
+        vendor_id = request.GET.get("vendor_id")
+        search = request.GET.get("search")
+        status_filter = request.GET.get("status")
 
-        serializer = ProductSerializer(queryset, many=True)
+        products = Product.objects.filter(
+            vendor__owner=request.user
+        ).order_by("-created")
 
+        if vendor_id:
+            products = products.filter(
+                vendor_id=vendor_id,
+                vendor__owner=request.user
+            )
+
+        if search:
+            products = products.filter(
+                Q(product__icontains=search) |
+                Q(brand__icontains=search)
+            )
+
+        if status_filter:
+            products = products.filter(status=status_filter)
+
+        serializer = ProductSerializer(products, many=True, context={'request': request})
         return self.success(
             message="Product list fetched successfully",
-            status_code=status.HTTP_200_OK,
             data=serializer.data,
-            meta={
-                "total": queryset.count()
-            }
+            status_code=status.HTTP_200_OK,
+            meta={"total": products.count()}
         )
-    
-
+        
 class ProductDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
     
@@ -437,6 +452,3 @@ class PurchaseReturnAPIView(APIView):
             status_code=status.HTTP_201_CREATED
         )
         
-        
-
-    
