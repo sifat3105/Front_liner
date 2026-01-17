@@ -4186,3 +4186,53 @@ Original exception text was: 'ProductItem' object has no attribute 'cost_price'.
 2026-01-15T12:12:02.510124,e5c29df2-ffc1-4113-9ec5-10c8f95a125d,103.98.107.22,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
 2026-01-15T13:06:42.259037,cd8c481f-0d0c-466a-82b1-ee046933986b,172.31.40.245,POST,/api/auth/login/,200,Login successful,
 2026-01-15T13:06:59.718120,2112c5f2-8a87-4c15-93fa-d137250f2291,172.31.40.245,GET,/api/list/products/,200,Product list fetched successfully,test@mail.com
+2026-01-17T05:23:18.009741,db758c57-16eb-4200-a7ee-e4c5a25dc9eb,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-17T05:23:23.106657,aab6b11c-7dba-4af1-b033-bb2596a71b7e,127.0.0.1,POST,/api/vendors/register/,201,Vendor registered successfully,test@mail.com
+2026-01-17T05:23:46.184203,0f50d5e7-acaa-459d-b67a-1ced779ea0c7,127.0.0.1,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-01-17T05:23:57.686203,33d1ab11-9aee-454a-96cd-77a64e9bef77,127.0.0.1,GET,/api/vendors/payments/history/,200,Vendor payment history fetched successfully,test@mail.com
+2026-01-17T05:24:08.913261,e7d0b3ff-b019-47b8-92f6-991c3438776a,127.0.0.1,GET,/api/vendors/payments/due/,200,Vendor due list fetched successfully,test@mail.com
+2026-01-17T05:24:20.248874,21b2ef1f-3f0a-4777-b0fc-768044a2b65a,127.0.0.1,PATCH,/api/update/vendors/10/,200,Vendor updated successfully,test@mail.com
+2026-01-17T05:24:27.945705,c781b848-42e7-4de1-bfc5-7c66babac29a,127.0.0.1,GET,/api/update/vendors/10/,200,Vendor details fetched successfully,test@mail.com
+2026-01-17T05:24:55.536208,0ce3f0f4-c7cf-4d46-bf97-a2f9ede5843d,127.0.0.1,PATCH,/api/update/vendors/10/,200,Vendor updated successfully,test@mail.com
+2026-01-17T05:25:20.929407,cc85eb94-1abc-4645-ba54-c39472e43800,127.0.0.1,PATCH,/api/update/vendors/10/,200,Vendor updated successfully,test@mail.com
+2026-01-17T05:25:36.048249,7c750419-d652-4d24-965a-9ee82295858d,127.0.0.1,GET,/api/update/vendors/10/,200,Vendor details fetched successfully,test@mail.com
+2026-01-17T05:25:41.905837,a61e23a9-890e-43e0-8412-71a20b266608,127.0.0.1,GET,/api/update/vendors/12/,404,Vendor not found,test@mail.com
+2026-01-17T05:25:56.944764,b2de5055-e80f-4ad5-8e27-0906386a15a8,127.0.0.1,GET,/api/update/vendors/11/,200,Vendor details fetched successfully,test@mail.com
+2026-01-17T05:26:36.978431,1abf3f17-da9a-4867-a16e-3223670a436d,127.0.0.1,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-17T05:29:40.172368,5ef41ab1-d09e-4f9c-aae1-4bea60f988db,127.0.0.1,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-17T05:29:46.156210,3c5735e0-6615-4434-a5a2-af50276a1ead,127.0.0.1,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-17T05:29:56.312815,972b8ca7-bb29-4bc8-9b12-743262f4328a,127.0.0.1,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-17T05:30:02.448085,7806c712-72a7-4f56-9b18-72cf489b0b77,127.0.0.1,GET,/api/debit-credit/report/,200,Debit Credit report fetched successfully,test@mail.com
+2026-01-17T05:39:04.791162,22820869-a8ae-4569-8f89-67a008fe9f6b,127.0.0.1,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-17T05:40:49.592634,1da47373-5fb3-4d5d-8d33-c90443b46030,127.0.0.1,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-17T05:41:30.449814,19be265a-6b1f-4414-85c2-1e721796cf0e,127.0.0.1,GET,/api/profit-loss/,200,Profit & Loss data fetched successfully,test@mail.com
+2026-01-17T05:42:39.579185,7d698700-665b-4c8e-9af4-0fd319b6d24e,127.0.0.1,GET,/api/refund/,200,Refund orders fetched successfully,test@mail.com
+2026-01-17T05:43:35.174211,d9121c00-4cea-416c-999c-ade24529c4d2,127.0.0.1,GET,/api/sells/,200,Sell orders fetched successfully,test@mail.com
+2026-01-17T05:44:47.406018,02b821c8-67bb-4ab1-9de6-7977c9c71d38,127.0.0.1,GET,/api/debit-credit/report/,200,Debit Credit report fetched successfully,test@mail.com
+2026-01-17T05:59:44.139552,0fda8685-0084-42ef-9fec-768fe947078f,127.0.0.1,POST,/api/auth/login/,200,Login successful,
+2026-01-17T05:59:47.107479,fbd05188-068e-4726-8a1f-bd283ac9600d,127.0.0.1,GET,/api/debit-credit/report/,500,Internal server error,test@mail.com
+2026-01-17T06:01:23.387113,92cef089-8669-4855-b14b-bfbcd9197266,127.0.0.1,GET,/api/debit-credit/report/,500,Internal server error,test@mail.com
+2026-01-17T06:09:16.907024,f0c90030-b6f8-4172-a0be-b43ff3766be6,127.0.0.1,GET,/api/debit-credit/report/,200,Debit Credit report fetched successfully,test@mail.com
+2026-01-17T06:12:22.108475,5b82f6b3-218e-4473-8125-786a903b241f,127.0.0.1,GET,/api/debit-credit/report/,200,Debit Credit report fetched successfully,test@mail.com
+2026-01-17T06:25:26.706208,28f730e7-7490-49c9-86b3-5cf8c2e659c0,127.0.0.1,GET,/api/debit-credit/report/,200,Debit Credit report fetched successfully,test@mail.com
+2026-01-17T06:27:55.032198,af0eb8dd-754b-43b8-b309-083b3a8a11c2,127.0.0.1,GET,/api/receivers/,405,"Method ""GET"" not allowed.",test@mail.com
+2026-01-17T06:28:27.006083,03b58c0d-72c6-4646-befc-4ffd0ab73e1c,127.0.0.1,POST,/api/receivers/,400,Name is required,test@mail.com
+2026-01-17T06:29:19.814690,1a85a913-3772-498d-a897-025c048a239c,127.0.0.1,POST,/api/receivers/,400,Receiver type required for new receiver,test@mail.com
+2026-01-17T06:30:27.250685,8460e570-f298-4b27-b4cb-89dfd7ea78c9,127.0.0.1,POST,/api/receivers/,201,Receiver created successfully,test@mail.com
+2026-01-17T06:34:32.618725,dc713249-b935-4123-afcf-3392018755e6,127.0.0.1,POST,/api/receivers/,201,Receiver created successfully,test@mail.com
+2026-01-17T06:34:46.293276,e24486a4-fe2f-49c5-966f-ecb268b5fc2b,127.0.0.1,GET,/api/products/,405,"Method ""GET"" not allowed.",test@mail.com
+2026-01-17T06:34:50.548449,e1b4c2b5-b23a-46ff-95e1-1d6c5b7afed0,127.0.0.1,POST,/api/products/,400,Name is required,test@mail.com
+2026-01-17T06:35:04.785929,4dd94130-ad67-4410-ade6-8ead629fe529,127.0.0.1,POST,/api/products/,200,Receiver already exists,test@mail.com
+2026-01-17T06:35:12.406552,14a02375-0de8-4bc0-82cc-26c7c509fc77,127.0.0.1,GET,/api/invoices/,200,Invoices fetched successfully,test@mail.com
+2026-01-17T06:35:21.701020,1b61e06c-b516-46de-908c-eb2975989fee,127.0.0.1,POST,/api/payment/,400,Payment failed,test@mail.com
+2026-01-17T06:35:42.347462,0df4ce6b-f60a-43c8-b5d6-724c412c6725,127.0.0.1,POST,/api/payment/,400,Payment failed,test@mail.com
+2026-01-17T07:12:18.973367,30f90a98-c7b2-4b8a-b890-196389c1a1f6,127.0.0.1,GET,/api/income/,200,Income fetched successfully,test@mail.com
+2026-01-17T07:12:23.331589,cd8466fb-0db9-4a45-ac62-dfce75522287,127.0.0.1,POST,/api/payments/,201,Payment saved successfully,test@mail.com
+2026-01-17T07:16:29.194960,04c5925f-fa44-4104-a4c4-fb4842ec2d6a,127.0.0.1,POST,/api/payment/list/,201,Payment saved successfully,test@mail.com
+2026-01-17T07:16:52.539001,9fd148d4-90c2-4876-bac9-249a29c92b4b,127.0.0.1,GET,/api/payment/list/,200,Payments fetched successfully,test@mail.com
+2026-01-17T07:17:10.242007,2f47afd1-4a63-4dfa-93b8-f600cb5ce599,127.0.0.1,GET,/api/payment/list/,200,Payments fetched successfully,test@mail.com
+2026-01-17T07:23:18.644192,a5cad290-d468-40ab-972d-10548bd10e3c,127.0.0.1,GET,/api/payment/list/,500,Internal server error,test@mail.com
+2026-01-17T07:26:27.579716,3d31b7ed-229e-46b7-9c58-7a5442cf3766,127.0.0.1,GET,/api/payment/list/,500,Internal server error,test@mail.com
+2026-01-17T07:30:12.908092,7ae44210-04ee-49f8-8317-29f9d597f88e,127.0.0.1,GET,/api/payment/list/,200,Refund orders fetched successfully,test@mail.com
+2026-01-17T07:30:23.971033,877f8489-f467-4978-8969-19e5359701f2,127.0.0.1,POST,/api/payment/create/,201,Payment saved successfully,test@mail.com
+2026-01-17T07:30:30.428437,3ffb8090-eaaf-4ff0-b246-1c3bd8b3ff2b,127.0.0.1,GET,/api/payment/list/,200,Refund orders fetched successfully,test@mail.com

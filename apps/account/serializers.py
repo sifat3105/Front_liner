@@ -1,13 +1,10 @@
 from rest_framework import serializers
 import re
 from .models import (
-    Income, Payments,
-    Refund,
+    Income, Refund,
     DebitCredit,
-    ProfitLossReport,
-    Receiver, Product, 
-    Invoice, Payment,
-    Sells,
+    ProfitLossReport, Sells,
+    Payment
 )
 
 
@@ -17,14 +14,6 @@ class IncomeSerializer(serializers.ModelSerializer):
         model = Income
         fields = '__all__'
         read_only_fields = ('id','customer', 'created_at', 'updated_at')
-
-
-class PaymentsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Payments
-        fields = '__all__'
-        read_only_fields = ('owner', 'created_at', 'updated_at')
-
 
 
 # Sell Orders serializers section
@@ -124,76 +113,13 @@ class ProfitLossReportSerializer(serializers.ModelSerializer):
         ]
 
 
-
 # Payment section
-class ReceiverSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Receiver
-        fields = ('id', 'name', 'receiver_type')
-
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ('id', 'name', 'description')
-
-
-
-class InvoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Invoice
-        fields = ('id', 'invoice_number', 'receiver', 'created_at')
-
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = (
-            'id',
-            'receiver',
-            'product',
-            'invoice',
-            'description',
-            'quantity',
-            'amount',
-            'payment_method',
-            'cheque_number',
-            'created_at',
-        )
-        read_only_fields = ["receiver"]
-    def create(self, validated_data):
-        receiver = self.context.get('receiver')
-        validated_data['receiver'] = receiver
-        return super().create(validated_data)
-
-    # def validate(self, data):
-    #     receiver = data.get('receiver')
-    #     invoice = data.get('invoice')
-    #     payment_method = data.get('payment_method')
-    #     cheque_number = data.get('cheque_number')
-
-    #     # Supplier must have invoice
-    #     if receiver.receiver_type == 'supplier' and not invoice:
-    #         raise serializers.ValidationError({
-    #             "invoice": "Invoice is required for supplier."
-    #         })
-
-    #     # User cannot have invoice
-    #     if receiver.receiver_type == 'user' and invoice:
-    #         raise serializers.ValidationError({
-    #             "invoice": "Invoice is not allowed for user."
-    #         })
-
-    #     # Cheque number validation
-    #     if payment_method == 'cheque' and not cheque_number:
-    #         raise serializers.ValidationError({
-    #             "cheque_number": "Cheque number is required for cheque payment."
-    #         })
-
-    #     if payment_method != 'cheque' and cheque_number:
-    #         raise serializers.ValidationError({
-    #             "cheque_number": "Cheque number should be empty for non-cheque payment."
-    #         })
-
-    #     return data
+        fields = [
+            'id', 'voucher_no', 'receiver_name', 'product',
+            'quantity', 'amount', 'payment_method', 'created_at'
+        ]
+        read_only_fields = ['id', 'created_at']
