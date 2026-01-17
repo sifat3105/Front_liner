@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-from django.contrib import admin
-from .models import Product,ProductItem
-
-
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "product",
-        "image",
-        "vendor",
-        "price",
-        "status",
-    )
-    list_filter = ("status", "vendor")
-    search_fields = ("product", "brand")
-
-=======
 # from django.contrib import admin
 # from unfold.admin import ModelAdmin as UnfoldModelAdmin
 # from .models import Product, ProductItem, ProductPurchase, ProductPurchaseItem, Stock, StockItem
@@ -68,4 +49,3 @@ class ProductAdmin(admin.ModelAdmin):
 #     search_fields = ("product_item__product__product", "product_item__product__sku", "product_item__sku")
 #     list_filter = ("stock", "product_item", "opening", "purchase", "sales", "returns", "damage")
 #     readonly_fields = ("stock_qty", "available", "value")
->>>>>>> 7e9c39fd0eaefde2ae09d5a8e30ba913eea59c3a

@@ -2,9 +2,8 @@ from django.contrib import admin
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
 
 from .models import (
-    Income, Payments, Sells, Refund,
-    DebitCredit, ProfitLossReport,
-    Receiver, Product, Invoice, Payment
+    Income, Sells, Refund,
+    DebitCredit, ProfitLossReport,Payment
 )
 
 # =========================
@@ -21,23 +20,6 @@ class IncomeAdmin(UnfoldModelAdmin):
     search_fields = ("customer", "owner__username")
     ordering = ("-date",)
     readonly_fields = ("created_at",)
-
-
-# =========================
-# Payments (Customer)
-# =========================
-@admin.register(Payments)
-class PaymentsAdmin(UnfoldModelAdmin):
-    list_display = (
-        "id", "owner", "customer",
-        "amount", "payment_method",
-        "status", "date"
-    )
-    list_filter = ("status", "payment_method", "date")
-    search_fields = ("customer", "owner__username")
-    ordering = ("-date",)
-    readonly_fields = ("created_at", "updated_at")
-
 
 # =========================
 # Sells
@@ -105,55 +87,26 @@ class ProfitLossReportAdmin(UnfoldModelAdmin):
     readonly_fields = ("created_at",)
 
 
-# =========================
-# Receiver
-# =========================
-@admin.register(Receiver)
-class ReceiverAdmin(UnfoldModelAdmin):
-    list_display = ("id", "name", "receiver_type")
-    list_filter = ("receiver_type",)
-    search_fields = ("name",)
-
-
-# =========================
-# Product
-# =========================
-@admin.register(Product)
-class ProductAdmin(UnfoldModelAdmin):
-    list_display = ("id", "name")
-    search_fields = ("name",)
-
-
-# =========================
-# Invoice
-# =========================
-@admin.register(Invoice)
-class InvoiceAdmin(UnfoldModelAdmin):
-    list_display = (
-        "id", "invoice_number",
-        "receiver", "created_at"
-    )
-    search_fields = (
-        "invoice_number",
-        "receiver__name"
-    )
-    readonly_fields = ("created_at",)
-
-
-# =========================
-# Payment
-# =========================
 @admin.register(Payment)
-class PaymentAdmin(UnfoldModelAdmin):
-    list_display = (
-        "id", "receiver",
-        "product", "quantity",
-        "amount", "payment_method",
-        "created_at"
-    )
-    list_filter = ("payment_method", "created_at")
-    search_fields = (
-        "receiver__name",
-        "product__name"
-    )
-    readonly_fields = ("created_at",)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = [
+        'voucher_no',
+        'receiver_name',
+        'product',
+        'quantity',
+        'amount',
+        'payment_method',
+        'owner',
+        'created_at'
+    ]
+
+    search_fields = ['voucher_no', 'receiver_name', 'product']
+ 
+    list_filter = ['payment_method', 'created_at']
+
+    readonly_fields = ['created_at']
+
+    def save_model(self, request, obj, form, change):
+        if not obj.owner:
+            obj.owner = request.user
+        super().save_model(request, obj, form, change)
