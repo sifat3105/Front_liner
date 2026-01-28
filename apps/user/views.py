@@ -254,7 +254,8 @@ class AccountView(APIView):
         )
     
 class UserCreateAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    allowed_roles = ["seller", "sub_seller"]
+    permission_classes = [RolePermission]
 
     def post(self, request):
         serializer = UserCreateSerializer(
@@ -266,15 +267,7 @@ class UserCreateAPIView(APIView):
 
         return self.success(
             message="User created successfully",
-            data={
-                "id": user.id,
-                "email": user.email,
-                "role": user.role,
-                "name": user.account.name,
-                "phone": user.account.phone,
-                "balance": user.account.balance,
-                "organization": user.account.organization,
-            },
+            data={"id": user.id},
             status_code=status.HTTP_201_CREATED
         )
 
@@ -283,7 +276,12 @@ class CreateChildUserView(APIView):
     permission_classes = [RolePermission]
 
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        if request.user.role != "seller" or request.user.role != "sub_seller":
+            return self.error(
+                message="Only sellers and sub-sellers can create child users",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+        serializer = UserCreateSerializer(data=request.data, context={"request": request})
         if serializer.is_valid():
             serializer.save()
             return self.success(
@@ -298,9 +296,9 @@ class CreateChildUserView(APIView):
         )
     
 class ViewChildUserListView(APIView):
-    # allowed_roles = ["superuser", "admin", "seller", "sub_seller"]
-    # permission_classes = [RolePermission]
-    permission_classes = [IsAuthenticated]
+    allowed_roles = ["superuser", "admin", "seller", "sub_seller"]
+    permission_classes = [RolePermission]
+
 
 
     def get(self, request):

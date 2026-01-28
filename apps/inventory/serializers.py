@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Product, ProductPurchaseItem,ProductPurchase, ProductItem, Stock, StockItem, PurchaseReturn, PurchaseReturnItem,
-    LossAndDamage, LossAndDamageItem
+    LossAndDamage, LossAndDamageItem, clean_text
     )
 from apps.vendor.models import Vendor
 from rest_framework.exceptions import ValidationError
@@ -180,9 +180,41 @@ class ProductPurchaseSerializer(serializers.ModelSerializer):
             purchase.total_acount = total_acount
             purchase.save(update_fields=["items", "total_acount"])
             
-   
-
         return purchase
+
+class PurchaseItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    unit_cost = serializers.DecimalField(
+        source="product.unit_cost",
+        max_digits=10,
+        decimal_places=2,
+        read_only=True
+    )
+    total_price = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = ProductPurchaseItem
+        fields = [
+            "id",
+            "product"
+            "quantity",
+            "unit_cost",
+            "total_price"
+        ]
+
+class PurchaseListSerializer(serializers.ModelSerializer):
+    items = PurchaseItemSerializer(many=True)
+    vendor_name = serializers.CharField(source="vendor.shop_name", read_only=True)
+    
+    class Meta:
+        model = ProductPurchase
+        fields = (
+            "id",
+            "vendor_name",
+            "notes",
+            "order_date",
+            "items",
+        )
 
 
     
@@ -396,4 +428,39 @@ class LossAndDamageSerializer(serializers.ModelSerializer):
             )
         
         return loss_and_damage
+    
+    
+    
+class ProductPurchaseForReturnSerializer(serializers.ModelSerializer):
+    vendor_name = serializers.CharField(source="vendor.shop_name", read_only=True)
+    purchase_id = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = ProductPurchase
+        fields = (
+            "id",
+            "vendor_name",
+            "purchase_id",
+        )
+    def get_purchase_id(self, obj):
+        if obj.purchase_id:
+            return obj.purchase_id
+        else:
+            return f"FL-PO-VA-{obj.id:06d}"
+        
+        
+        
+class ProductMiniSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="product")
+    class Meta:
+        model = Product
+        fields = ["id", "name", "sku"] 
+
+
+class ProductPurchaseItemMiniSerializer(serializers.ModelSerializer):
+    product = ProductMiniSerializer()
+
+    class Meta:
+        model = ProductPurchaseItem
+        fields = ["id", "quantity", "product"]
         

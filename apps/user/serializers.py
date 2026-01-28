@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import User, Account,Shop, Business,Banking
 from django.contrib.auth import authenticate
+from django.db import transaction
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -10,7 +11,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
     def update(self, instance, validated_data):
-        # Update profile fields dynamically
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
@@ -83,7 +83,7 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = [
             "user_id",
-            "name",
+            "full_name",
             "email",
             "phone",
             "balance",
@@ -117,7 +117,7 @@ class AccountSerializer(serializers.ModelSerializer):
         }
     
     def update(self, instance, validated_data):
-        instance.name = validated_data.get("name", instance.name)
+        instance.full_name = validated_data.get("full_name", instance.full_name)
         instance.phone = validated_data.get("phone", instance.phone)
         instance.organization = validated_data.get("organization", instance.organization)
         instance.save()
@@ -127,7 +127,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
 class UserCreateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=6)
-    name = serializers.CharField(max_length=255)
+    full_name = serializers.CharField(max_length=255)
     phone = serializers.CharField(max_length=20)
     balance = serializers.DecimalField(max_digits=12, decimal_places=2)
     organization = serializers.CharField(max_length=255)
@@ -138,7 +138,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "email",
             "password",
             "role",
-            "name",
+            "full_name",
             "phone",
             "balance",
             "organization",
@@ -164,31 +164,30 @@ class UserCreateSerializer(serializers.ModelSerializer):
         password = validated_data.pop("password")
 
         account_data = {
-            "name": validated_data.pop("name"),
+            "full_name": validated_data.pop("full_name"),
             "phone": validated_data.pop("phone"),
-            "balance": validated_data.pop("balance"),
             "organization": validated_data.pop("organization"),
         }
+        with transaction.atomic():
+            user = User(
+                email=validated_data["email"],
+                role=validated_data["role"],
+                parent=parent
+            )
+            user.set_password(password)
+            user.save()
 
-        user = User(
-            email=validated_data["email"],
-            role=validated_data["role"],
-            parent=parent
-        )
-        user.set_password(password)
-        user.save()
+            Account.objects.create(
+                user=user,
+                **account_data
+            )
 
-        Account.objects.create(
-            user=user,
-            **account_data
-        )
-
-        return user
+            return user
 
 
 
 class ChildUserSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source="account.name", allow_null=True)
+    full_name = serializers.CharField(source="account.full_name", allow_null=True)
     phone = serializers.CharField(source="account.phone", allow_null=True)
     balance = serializers.DecimalField(
         source="account.balance",
@@ -207,7 +206,7 @@ class ChildUserSerializer(serializers.ModelSerializer):
             "id",
             "email",
             "role",
-            "name",
+            "full_name",
             "phone",
             "balance",
             "organization",
@@ -216,7 +215,7 @@ class ChildUserSerializer(serializers.ModelSerializer):
 
     def get_name(self, obj):
         if hasattr(obj, "account"):
-            return obj.account.name
+            return obj.account.full_name    
         return ""
 
     def get_phone(self, obj):

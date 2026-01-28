@@ -13,7 +13,7 @@ from apps.social.models import (
     SocialAccount, FacebookPage, FacebookPage, SocialPlatform, InstagramAccount, 
     )
 
-from .utils.publish_Facebook_post import publish_fb_post
+from .utils.publish_Facebook_post import publish_fb_post, get_post_insights
 from .utils.instagram_post import create_ig_post
 from .services.media_service import save_media_files
 from .services.publish_service import publish_to_platforms, publish_post
@@ -128,6 +128,47 @@ class SocialPostdetailView(APIView):
             status_code=status.HTTP_400_BAD_REQUEST,
             data={"error": "Invalid data"}
         )
+        
+        
+class PostInsightsView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, post_id):
+        try:
+            post = SocialPost.objects.get(id=post_id)
+            post_datas = []
+            for id in post.post_ids:
+                if id.get("platform") == "facebook":
+                    insights = get_post_insights(post.page_access_token, id.get("post_id")[0])
+                    post_datas.append({
+                        "platform": id.get("platform"),
+                        "post_id": id.get("post_id"),
+                        "insights": insights
+                    })
+                elif id.get("platform") == "instagram":
+                    insights = get_post_insights(id.get("post_id"))
+                    post_datas.append({
+                        "platform": id.get("platform"),
+                        "post_id": id.get("post_id"),
+                        "insights": insights
+                    })
+                else:
+                    post_datas.append({
+                        "platform": id.get("platform"),
+                        "post_id": id.get("post_id"),
+                        "insights": {}
+                    })
+            return self.success(
+                message="Post insights fetched successfully",
+                status_code=status.HTTP_200_OK,
+                data=post_datas
+            )
+        except Exception as e:
+            return self.error(
+                message="Post insights fetched failed",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                errors={"detail": str(e)}
+            )
 
 class SocialMediaGalleryView(APIView):
     permission_classes = [permissions.IsAuthenticated]

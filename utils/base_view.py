@@ -2,25 +2,26 @@ from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from .response import ApiResponse
+from .pagination import AutoPagination
 
-class AutoPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = "page_size"
-    max_page_size = 100
+# class AutoPagination(PageNumberPagination):
+#     page_size = 10
+#     page_size_query_param = "page_size"
+#     max_page_size = 100
 
-    def get_paginated_data(self, request, data):
-        page = self.paginate_queryset(data, request)
-        return {
-            "items": page,
-            "pagination": {
-                "count": self.page.paginator.count if hasattr(self, 'page') else len(data),
-                "page": self.page.number if hasattr(self, 'page') else 1,
-                "page_count": self.page.paginator.num_pages if hasattr(self, 'page') else 1,
-                "page_size": self.get_page_size(request),
-                "next": self.get_next_link(),
-                "previous": self.get_previous_link(),
-            }
-        }
+#     def get_paginated_data(self, request, data):
+#         page = self.paginate_queryset(data, request)
+#         return {
+#             "items": page,
+#             "pagination": {
+#                 "count": self.page.paginator.count if hasattr(self, 'page') else len(data),
+#                 "page": self.page.number if hasattr(self, 'page') else 1,
+#                 "page_count": self.page.paginator.num_pages if hasattr(self, 'page') else 1,
+#                 "page_size": self.get_page_size(request),
+#                 "next": self.get_next_link(),
+#                 "previous": self.get_previous_link(),
+#             }
+#         }
 
 
 

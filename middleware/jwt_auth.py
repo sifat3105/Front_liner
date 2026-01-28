@@ -18,10 +18,12 @@ class JWTAuthMiddleware:
         '/connect-facebook/',
         '/api/social/facebook/connect/',
         '/api/social/facebook/callback/',
+        '/api/social/facebook/webhook/',
         '/api/social/facebook/pages/',
         '/post-generate/',
         '/media/',
         '/admin/login/',
+        '/api/voice/embed/',
         
     ]
 

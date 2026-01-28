@@ -2,7 +2,8 @@ from asyncio.log import logger
 from rest_framework import serializers
 from django.db import transaction
 from apps import assistant
-from .models import Assistant, AssistantFile
+from apps.assistant.service.assistant_history import generate_history_topic
+from .models import Assistant, AssistantFile, AssistantHistory
 from django.urls import reverse
 from .ElevenLabs.create_agent import create_agent
 
@@ -12,7 +13,7 @@ class AssistantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assistant
         fields = [
-            "id", "name", "first_message_mode", "first_message", "system_prompt", "voice",
+            "id", "name", "first_message_mode", "first_message", "agent_type", "system_prompt", "voice", 'agent_type',
             "language", "enabled", "model", "max_tokens", "temperature", "public_id", "theme_primary",
             "crisis_keywords", "crisis_keywords_prompt", "description", "avatar_url", "config",
             'created_at', 'updated_at'
@@ -81,17 +82,22 @@ class AssistantSerializer(serializers.ModelSerializer):
 
     
     def update(self, instance, validated_data):
+        request = self.context.get("request")
+
         files = validated_data.pop("files", None)
+
+        if request and request.user.is_authenticated:
+            instance._changed_by = request.user
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
+
         instance.save()
 
         if files is not None:
             instance.files.all().delete()
             for f in files:
                 AssistantFile.objects.create(assistant=instance, file=f)
-
         return instance
     
 class AssistantWidgetSerializer(serializers.ModelSerializer):
@@ -166,8 +172,43 @@ class TranscriptListSerializer(serializers.ModelSerializer):
 
     def get_duration(self, obj):
         return obj.duration
+    
+    
+class AssistantHistoryListSerializer(serializers.ModelSerializer):
+    changed_by_name = serializers.CharField(
+        source="changed_by.username", read_only=True
+    )
+    topic = serializers.SerializerMethodField()
+
+    class Meta:
+        model = AssistantHistory
+        fields = [
+            "id",
+            "changed_by_name",
+            "topic",
+            "created_at",
+        ]
+
+    def get_topic(self, obj):
+        return generate_history_topic(obj.diff)
 
 
+class AssistantHistoryDetailSerializer(serializers.ModelSerializer):
+    changed_by_name = serializers.CharField(
+        source="changed_by.username", read_only=True
+    )
 
+    class Meta:
+        model = AssistantHistory
+        fields = [
+            "id",
+            "assistant",
+            "changed_by",
+            "changed_by_name",
+            "old_data",
+            "new_data",
+            "diff",
+            "created_at",
+        ]
     
 

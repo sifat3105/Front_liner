@@ -4,7 +4,7 @@ from django.db.models import Q
 from utils.base_view import BaseAPIView as APIView
 from apps.vendor.models import Vendor
 from .models import Product, ProductPurchase, Stock, StockItem, ProductItem, PurchaseReturn, LossAndDamage
-from .serializers import StockSerializer, StockItemSerializer, PurchaseReturnSerializer, LossAndDamageSerializer
+from .serializers import ProductPurchaseForReturnSerializer, ProductPurchaseItemMiniSerializer, StockSerializer, StockItemSerializer, PurchaseReturnSerializer, LossAndDamageSerializer
 
 from .serializers import (
     ProductSerializer,
@@ -481,3 +481,56 @@ class LossAndDamageAPIView(APIView):
             message="Loss and damage created successfully",
             status_code=status.HTTP_201_CREATED
         )
+        
+        
+class PurchaseProductDataAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        
+        purchases = ProductPurchase.objects.filter(
+            vendor__owner=request.user
+        ).order_by("-order_date")
+        
+        serializer = ProductPurchaseForReturnSerializer(purchases, many=True)
+        
+        return self.success(
+            message="Purchase list fetched" if serializer.data else "No purchases found",
+            data=serializer.data,
+            status_code=status.HTTP_200_OK,
+            meta={"action": "list"}
+        )
+        
+        
+class ProductListByPOIDAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, purchase_id):
+        print(purchase_id)
+        purchase = (
+            ProductPurchase.objects
+            .filter(id=purchase_id)
+            .prefetch_related("purchase_items__product")
+            .first()
+        )
+        print(purchase)
+        if not purchase:
+            return self.error(
+                status_code=status.HTTP_404_NOT_FOUND,
+                message="Purchase not found",
+                errors={"purchase_id": ["Purchase not found"]},
+            )
+    
+        items = purchase.purchase_items.all()
+        print(items)
+        data = ProductPurchaseItemMiniSerializer(items, many=True).data
+
+        return self.success(
+            message="Purchase fetched successfully",
+            data=data,
+            status_code=status.HTTP_200_OK
+        )
+        
+        
+        
+        

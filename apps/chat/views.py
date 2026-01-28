@@ -1,35 +1,53 @@
 
 from utils.base_view import BaseAPIView as APIView
-from rest_framework import permissions
-from . chat_bot import chatbot_reply
-from .whatsapp.service import send_whatsapp_text
+from rest_framework.response import Response
+from rest_framework import status
+from django.shortcuts import get_object_or_404
 
-class ChatView(APIView):
-    permission_classes = [permissions.AllowAny]
+from .models import Conversation, Message
+from .serializers import ConversationSerializer, MessageSerializer
+
+
+
+class ConversationListAPIView(APIView):
     def get(self, request):
-        return self.success(
-            data={"message": "Hello World"}
-        )
-        
-    def post(self, request):
-        message = request.data.get("message")
-        print(message)
-        chat_history = request.data.get("chat_history", [])
+        conversations = Conversation.objects.filter(
+            social_account__user=request.user
+        ).order_by("-last_message_at")
 
-        result = chatbot_reply(message, chat_history)
-        return self.success(data=result)
-    
-    
-class Send_message(APIView):
-    permission_classes = [permissions.AllowAny]
-    
-    def post(self, request):
-        PHONE_NUMBER_ID = 61586104842593
-        TO_NUMBER = "8801790166212"          # Recipient in international format
-        MESSAGE = "Hello from Front Liner!"
-        res = send_whatsapp_text(PHONE_NUMBER_ID, TO_NUMBER, MESSAGE)
-        print(res)
-        return self.success(
-            data={"message": "Hello World"}
+        serializer = ConversationSerializer(conversations, many=True, context={"request": request})
+        return self.success(data=serializer.data, message="Conversations retrieved successfully")
+
+
+class MessageAPIView(APIView):
+
+    def get(self, request, conversation_id):
+        conversation = get_object_or_404(
+            Conversation,
+            id=conversation_id,
+            social_account__user=request.user
         )
-        
+
+        messages = Message.objects.filter(conversation=conversation).order_by("-created_at")
+        serializer = MessageSerializer(messages, many=True, context={"request": request})
+        return self.success(data=serializer.data, message="Messages retrieved successfully")
+    
+class MarkMessagesReadAPIView(APIView):
+    def post(self, request, conversation_id):
+        conversation = get_object_or_404(
+            Conversation,
+            id=conversation_id,
+            social_account__user=request.user
+        )
+
+        Message.objects.filter(
+            conversation=conversation,
+            sender_type="customer",
+            is_read=False
+        ).update(is_read=True)
+
+        return self.success(message="Messages marked as read successfully")
+    
+
+
+

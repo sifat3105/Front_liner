@@ -1,6 +1,35 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
-from .models import SocialPost, PostMediaFile, MediaDraft
+from .models import SocialPost, PostMediaFile, MediaDraft, Comment, Reaction
+
+
+class CommentInline(admin.TabularInline):
+    model = Comment
+    extra = 0
+    readonly_fields = (
+        "comment_id",
+        "commenter_name",
+        "commenter_id",
+        "text",
+        "attachments",
+        "reactions_count",
+        "platform",
+        "created_at",
+        "updated_at",
+    )
+    can_delete = False
+
+
+class ReactionInline(admin.TabularInline):
+    model = Reaction
+    extra = 0
+    readonly_fields = (
+        "reaction",
+        "reactor_name",
+        "reactor_id",
+        "platform",
+    )
+    can_delete = False
 
 @admin.register(SocialPost)
 class SocialPostAdmin(UnfoldModelAdmin):
@@ -9,6 +38,7 @@ class SocialPostAdmin(UnfoldModelAdmin):
     search_fields = ("author__username", "title", "caption")
     readonly_fields = ("created_at", "updated_at")
     ordering = ("-created_at",)
+    inlines = (CommentInline, ReactionInline)
 
 
 @admin.register(PostMediaFile)
@@ -25,4 +55,3 @@ class MediaDraftAdmin(UnfoldModelAdmin):
     list_filter = ("media_type", "created_at")
     search_fields = ("user__username", "file")
     readonly_fields = ("created_at", "updated_at")      
-

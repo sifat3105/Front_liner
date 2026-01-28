@@ -1,4 +1,5 @@
 from utils.base_view import BaseAPIView as APIView
+from utils.permission import HasActiveSubscription
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status, generics, filters
@@ -12,10 +13,13 @@ from .serializers import(
     AssistantWidgetSerializer
     )
 from .agent_prompt_generator import generate_agentic_prompt
+from .service.get_language import get_language_full_name, build_language_list_from_voices
 import asyncio
 import requests
 import os
 from django.conf import settings
+from django.core.cache import cache
+from django.urls import reverse
 
 import azure.cognitiveservices.speech as speechsdk
 AZURE_SPEECH_KEY = os.environ.get("AZURE_SPEECH_KEY")
@@ -169,79 +173,103 @@ class AssistantDetailView(APIView):
         try:
             obj = Assistant.objects.get(pk=assistant_id, owner=request.user)
             serializer = AssistantSerializer(obj, data=request.data, partial=False, context={"request": request})
+
             if serializer.is_valid():
-                serializer.save()
+                instance = serializer.save()
                 return self.success(
                     message="Assistant updated successfully.",
-                    data=AssistantSerializer(serializer.instance, context={"request": request}).data,
+                    data=AssistantSerializer(instance, context={"request": request}).data,
                     status_code=status.HTTP_200_OK,
-                    meta={"action": "assistant-update"}
+                    meta={"action": "assistant-update"},
                 )
+
             return self.error(
                 message="Assistant update failed.",
                 errors=serializer.errors,
                 status_code=status.HTTP_400_BAD_REQUEST,
-                meta={"action": "assistant-update"}
+                meta={"action": "assistant-update"},
+            )
+
+        except Assistant.DoesNotExist:
+            return self.error(
+                message="Assistant not found.",
+                errors=None,
+                status_code=status.HTTP_404_NOT_FOUND,
+                meta={"action": "assistant-detail"},
             )
         except Exception as e:
             return self.error(
                 message="An unexpected error occurred during assistant update.",
                 errors={"detail": str(e)},
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                meta={"action": "assistant-update"}
+                meta={"action": "assistant-update"},
             )
 
-    def patch(self, request, assistant_id):
 
+    def patch(self, request, assistant_id):
         try:
             obj = Assistant.objects.get(pk=assistant_id, owner=request.user)
             serializer = AssistantSerializer(obj, data=request.data, partial=True, context={"request": request})
+
             if serializer.is_valid():
-                serializer.save()
+                instance = serializer.save()
                 return self.success(
                     message="Assistant partially updated successfully.",
-                    data=AssistantSerializer(serializer.instance, context={"request": request}).data,
+                    data=AssistantSerializer(instance, context={"request": request}).data,
                     status_code=status.HTTP_200_OK,
-                    meta={"action": "assistant-partial-update"}
+                    meta={"action": "assistant-partial-update"},
                 )
+
             return self.error(
                 message="Partial update failed.",
                 errors=serializer.errors,
                 status_code=status.HTTP_400_BAD_REQUEST,
-                meta={"action": "assistant-partial-update"}
+                meta={"action": "assistant-partial-update"},
             )
+
         except Assistant.DoesNotExist:
             return self.error(
                 message="Assistant not found.",
                 errors=None,
                 status_code=status.HTTP_404_NOT_FOUND,
-                meta={"action": "assistant-detail"}
+                meta={"action": "assistant-detail"},
             )
         except Exception as e:
             return self.error(
                 message="An unexpected error occurred during partial update.",
                 errors={"detail": str(e)},
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                meta={"action": "assistant-partial-update"}
+                meta={"action": "assistant-partial-update"},
             )
-        
+
 
     def delete(self, request, assistant_id):
         try:
             obj = Assistant.objects.get(pk=assistant_id, owner=request.user)
+
+            obj._changed_by = request.user
+
             obj.delete()
             return self.success(
                 message="Assistant deleted successfully.",
                 status_code=status.HTTP_204_NO_CONTENT,
-                meta={"action": "assistant-delete"}
+                meta={"action": "assistant-delete"},
+            )
+        except Assistant.DoesNotExist:
+            return self.error(
+                message="Assistant not found.",
+                errors=None,
+                status_code=status.HTTP_404_NOT_FOUND,
+                meta={"action": "assistant-detail"},
             )
         except Exception as e:
             return self.error(
                 message="An unexpected error occurred during assistant deletion.",
                 errors={"detail": str(e)},
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                meta={"action": "assistant-delete"}
+                meta={"action": "assistant-delete"},
             )
+
         
 
 class AssistantEmbedView(APIView):
@@ -258,6 +286,65 @@ class AssistantEmbedView(APIView):
 
         serializer = AssistantWidgetSerializer(assistant)
         return Response(serializer.data)
+    
+    
+class AssistantSystemTraningView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = request.data
+        assistant_id = data.get("assistant_id")
+        new_prompt = data.get("system_prompt")
+
+        if not assistant_id:
+            return self.error(
+                message="Missing assistant_id",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        if new_prompt is None:
+            return self.error(
+                message="Missing system_prompt",
+                status_code=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            assistant = Assistant.objects.get(id=assistant_id)
+
+            old_prompt = assistant.system_prompt or ""
+            if old_prompt.strip() == new_prompt.strip():
+                return self.success(
+                    message="System prompt is unchanged. No update required.",
+                    status_code=status.HTTP_200_OK,
+                    meta={
+                        "action": "assistant-system-training",
+                        "updated": False
+                    }
+                )
+
+            assistant._changed_by = request.user
+
+            assistant.system_prompt = new_prompt
+            assistant.save()
+
+            return self.success(
+                message="System prompt updated successfully",
+                status_code=status.HTTP_200_OK,
+                meta={
+                    "action": "assistant-system-training",
+                    "updated": True
+                }
+            )
+
+        except Assistant.DoesNotExist:
+            return self.error(
+                message="Assistant not found",
+                status_code=status.HTTP_404_NOT_FOUND
+            )
+
+            
+            
+        
         
 #------------------------------------------------------------------------------
 # Transcripts API Views
@@ -395,41 +482,40 @@ class VoicePagination(PageNumberPagination):
         }
 
 
-class VoicesListView(APIView):
+CACHE_KEY = "azure_voices:v1"
+CACHE_TTL = 60 * 60 * 6
 
-    # pagination_class = VoicePagination
+def safe_lower(x):
+    return (x or "").lower()
+
+from utils.permission import HasActiveSubscription
+
+class VoicesListView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:
-            # ----------------------------
-            # 1️⃣ Check session cache
-            # ----------------------------
-            session_key = "azure_voices"
-            voices_data = request.session.get(session_key)
-
+            voices_data = cache.get(CACHE_KEY)
             if not voices_data:
                 voices_data = self.fetch_azure_voices(request)
-                request.session[session_key] = voices_data
-                request.session.modified = True
-
-            # ----------------------------
-            # 2️⃣ Search filter
-            # ----------------------------
+                cache.set(CACHE_KEY, voices_data, CACHE_TTL)
+            languages = build_language_list_from_voices(voices_data)
             search = request.query_params.get("search")
             if search:
-                search = search.lower()
-                voices_data = [
-                    v for v in voices_data
-                    if search in (v["name"] or "").lower()
-                    or search in (v["voice_id"] or "").lower()
-                    or search in (v["language"] or "").lower()
-                    or search in (v["locale"] or "").lower()
-                    or search in (v["description"] or "").lower()
-                ]
+                s = search.lower().strip()
+                voices_data = [v for v in voices_data if s in v.get("search_blob", "")]
+
+            # remove helper field from output
+            result = []
+            for v in voices_data:
+                vv = dict(v)
+                vv.pop("search_blob", None)
+                result.append(vv)
 
             return self.success(
                 message="Azure voices fetched successfully",
-                data=voices_data,
+                data=result,
+                extra_data={"languages": languages},
                 status_code=status.HTTP_200_OK,
                 meta={"action": "azure-voice-list"}
             )
@@ -441,12 +527,8 @@ class VoicesListView(APIView):
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 meta={"action": "azure-voice-list"}
             )
-    # ----------------------------
-    # Azure voice fetch logic
-    # ----------------------------
-    def fetch_azure_voices(self, request):
-        BASE_URL = request.build_absolute_uri()
 
+    def fetch_azure_voices(self, request):
         speech_config = speechsdk.SpeechConfig(
             subscription=AZURE_SPEECH_KEY,
             region=AZURE_REGION
@@ -464,16 +546,32 @@ class VoicesListView(APIView):
             voice_id = getattr(v, "short_name", None)
             locale = getattr(v, "locale", None)
 
-            formatted_data.append({
+            preview_path = reverse("assistant-voice-preview", kwargs={"voice_id": voice_id})
+            preview_url = request.build_absolute_uri(preview_path)
+
+            language_name = get_language_full_name(locale)
+
+            item = {
                 "voice_id": voice_id,
                 "name": extract_voice_name(voice_id),
-                "language": locale,
+                "language": language_name,
                 "locale": locale,
                 "model_id": "azure-neural",
-                "preview_url": f"{BASE_URL}{voice_id}/preview/",
+                "preview_url": preview_url,
                 "description": getattr(v, "description", "Azure Neural Voice"),
-                "category": v.voice_type.name if v.voice_type else None
-            })
+                "category": v.voice_type.name if v.voice_type else None,
+            }
+
+            item["search_blob"] = " ".join([
+                safe_lower(item["voice_id"]),
+                safe_lower(item["name"]),
+                safe_lower(item["language"]),
+                safe_lower(item["locale"]),
+                safe_lower(item["description"]),
+                safe_lower(item["category"]),
+            ])
+
+            formatted_data.append(item)
 
         return formatted_data
 

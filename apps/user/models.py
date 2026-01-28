@@ -95,9 +95,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     def username(self):
         return self.email
 
+
+    @property
+    def has_active_subscription(self) -> bool:
+        sub = getattr(self, "subscription", None)
+        return bool(sub and sub.is_active())
+
+
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="account")
-    name = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20, null=True, blank=True)
     balance = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     organization = models.CharField(max_length=255, null=True, blank=True)
@@ -111,23 +118,7 @@ class Account(models.Model):
     def __str__(self):
         return f"{self.user.email} Account"
     
-    # def save(self, *args, **kwargs):
-    #     self.user_id = uuid
 
-
-class Subscription(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="subscriptions")
-    plan = models.CharField(max_length=50)
-    start_date = models.DateTimeField(default=timezone.now)
-    expires_at = models.DateTimeField()
-    auto_renew = models.BooleanField(default=True)
-    is_active = models.BooleanField(default=True)
-
-    def __str__(self):
-        return f"{self.user.email} - {self.plan}"
-
-
-# Setting > Profile > Shop Info Model
 class Shop(models.Model):
 
     owner = models.ForeignKey(User,on_delete=models.CASCADE,related_name="shop")

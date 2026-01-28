@@ -1,6 +1,13 @@
-# from django.contrib import admin
-# from unfold.admin import ModelAdmin as UnfoldModelAdmin
-# from .models import Product, ProductItem, ProductPurchase, ProductPurchaseItem, Stock, StockItem
+from django.contrib import admin
+from unfold.admin import ModelAdmin as UnfoldModelAdmin
+from .models import Product, ProductItem, ProductPurchase, ProductPurchaseItem, Stock, StockItem
+
+admin.site.register(Product)
+admin.site.register(ProductItem)
+admin.site.register(ProductPurchase)
+admin.site.register(ProductPurchaseItem)
+admin.site.register(Stock)
+admin.site.register(StockItem)
 
 # class ProductItemInline(admin.TabularInline):
 #     model = ProductItem

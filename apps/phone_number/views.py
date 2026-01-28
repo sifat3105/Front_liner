@@ -52,20 +52,20 @@ class AvailbePhoneNumberView(APIView):
                 "capabilities": num.capabilities,
                 "price": 9.99,
                 } for num in numbers]
-            return Response({
-                "status": "success",
-                "status_code": status.HTTP_200_OK,
-                "message": "Available Phone Numbers fetched successfully.",
-                "data": data
-            })
+            return self.success(
+                message="Phone numbers fetched successfully",
+                data=data,
+                status_code=status.HTTP_200_OK,
+                meta={"action": "phone-number-list"}
+            )
 
         except Exception as e:
-            return Response({
-                "status": "error",
-                "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
-                "message": f"not available number for {country}",
-                "data": str(e)
-            })
+            return self.error(
+                message="Failed to fetch phone numbers",
+                errors=str(e),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "phone-number-list"}
+            )
         
 class PurchasePhoneNumberView(APIView):
     permission_classes = [IsAuthenticated]
@@ -74,7 +74,7 @@ class PurchasePhoneNumberView(APIView):
         try:
             user = request.user
             data = request.data
-            profile = user.profile
+            profile = user.account
             print(f"user balance: {profile.balance}")
             if profile.balance < 9.99:
                 return Response({
@@ -119,48 +119,33 @@ class PurchasePhoneNumberView(APIView):
                 purpose = "Purchase Phone Number",
                 payment_method = "balance"
             )
-            return Response({
-                "status": "success",
-                "status_code": status.HTTP_201_CREATED,
-                "message": "Phone number purchased successfully.",
-                "data": PhoneNumberSerializer(obj).data
-            })
+            return self.success(
+                message="Phone number purchased successfully.",
+                data=PhoneNumberSerializer(obj).data,
+                status_code=status.HTTP_201_CREATED,
+                meta={"action": "phone-number-purchase"}
+            )
         except Exception as e:
-            return Response({"error": str(e)}, status=500)
+            return self.error(
+                message="Failed to purchase phone number",
+                errors=str(e),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                meta={"action": "phone-number-purchase"}
+            )
                 
             
-class PhonePagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = "page_size"
 
-    def get_paginated_data(self, data):
-        return {
-            "items": data,
-            "pagination": {
-                "count": self.page.paginator.count,
-                "page": self.page.number,
-                "page_size": self.get_page_size(self.request),
-                "next": self.get_next_link(),
-                "previous": self.get_previous_link(),
-            }
-        }
 
 class PhoneNumberView(APIView):
     permission_classes = [IsAuthenticated]
-    pagination_class = PhonePagination
 
     def get(self, request):
         queryset = PhoneNumber.objects.filter(user=request.user).order_by("-id")
-
-        paginator = self.pagination_class()
-        paginator.request = request
-        page = paginator.paginate_queryset(queryset, request)
-
-        serializer = PhoneNumberSerializer(page, many=True)
+        serializer = PhoneNumberSerializer(queryset, many=True)
 
         return self.success(
             message="Phone numbers fetched successfully",
-            data=paginator.get_paginated_data(serializer.data),
+            data=serializer.data,
             status_code=status.HTTP_200_OK,
             meta={"action": "phone-number-list"}
         )
@@ -200,10 +185,10 @@ class CountryView(APIView):
     permission_classes = []
     
     def get(self, request):
-        return Response({
-            "status": "success",
-            "status_code": status.HTTP_200_OK,
-            "message": "Countries fetched successfully.",
-            "data": get_available_countries()
-        })
+        return self.success(
+            message="Countries fetched successfully.",
+            data=get_available_countries(),
+            status_code=status.HTTP_200_OK,
+            meta={"action": "country-list"}
+        )
     

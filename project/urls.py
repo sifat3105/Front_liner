@@ -11,12 +11,13 @@ urlpatterns = [
     path("api/social/", include("apps.social.urls")),
     path("api/publish/", include("apps.publish.urls")),
     path("api/post/", include("apps.post.urls")),
-    path("api/chat/", include("apps.chat.urls")),
+    path("api/conversations/", include("apps.chat.urls")),
     path("api/orders/", include("apps.orders.urls")),
+    path("api/subscription/", include("apps.subscription.urls")),
     
     # CareOn Project URLs
     path("api/voice/", include("apps.voice.urls")),
-    path("api/assistant/", include("apps.assistant.urls")),
+    path("api/assistants/", include("apps.assistant.urls")),
     path("api/support/", include("apps.support.urls")),
     path("api/call/", include("apps.call.urls")),
     path("api/invoice/", include("apps.invoice.urls")),

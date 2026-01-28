@@ -85,6 +85,18 @@ class ProductPurchase(models.Model):
     def __str__(self):
         return f"PO-{self.id} | {self.vendor}"
     
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+
+        super().save(*args, **kwargs)
+
+        if is_new and not self.sku:
+            vendor_code = clean_text(self.vendor.shop_name, 3)
+
+            self.sku = f"FL-PO-{vendor_code}-{self.id:06d}"
+
+            super().save(update_fields=["purchase_id"])
+    
 
 
 class ProductPurchaseItem(models.Model):
@@ -219,11 +231,6 @@ class PurchaseReturn(models.Model):
         if is_new and not self.return_number:
             self.return_number = f"PR-{self.id:06d}"
             super().save(update_fields=["return_number"])
-
-        
-
-
-
 
 
 class PurchaseReturnItem(models.Model):

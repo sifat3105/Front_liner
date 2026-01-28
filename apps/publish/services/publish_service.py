@@ -55,7 +55,8 @@ def publish_to_platforms(user, post, platforms, media_urls):
                     image_urls=media_urls,
                     publish=post.is_published
                 )
-
+                post.page_access_token = page.page_access_token
+                post.save()
             elif platform.name == "instagram":
                 ig = InstagramAccount.objects.filter(
                     user=user,

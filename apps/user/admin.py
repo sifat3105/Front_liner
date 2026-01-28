@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, Account, Subscription,Shop,Business,Banking
+from .models import User, Account, Shop,Business,Banking
 
 class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'role', 'is_staff', 'is_superuser')
@@ -20,8 +20,6 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Account)
-admin.site.register(Subscription)
-
 
 @admin.register(Shop)
 class ShopAdmin(admin.ModelAdmin):

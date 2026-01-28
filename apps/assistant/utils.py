@@ -1,4 +1,7 @@
 from django.db import IntegrityError, transaction
+import uuid
+from django.db.models.fields.files import FieldFile
+from django.db import models
 
 def create_transcript(assistant_id, type="web"):
     from .models import Transcript
@@ -58,3 +61,41 @@ def get_assistant_mamory(assistant_id):
                 defaults={ "memory": {}}
             )
     return memory_obj.memory or {}
+
+
+
+
+EXCLUDE_FIELDS = {"updated_at"}
+
+def assistant_to_dict(instance):
+    data = {}
+    for field in instance._meta.fields:
+        name = field.name
+        if name in EXCLUDE_FIELDS:
+            continue
+
+        # ✅ ForeignKey হলে object না রেখে *_id রাখো
+        if isinstance(field, models.ForeignKey):
+            data[name] = getattr(instance, f"{name}_id")
+            continue
+
+        value = getattr(instance, name, None)
+
+        if isinstance(value, uuid.UUID):
+            value = str(value)
+        elif isinstance(value, FieldFile):
+            value = value.url if value and hasattr(value, "url") else ""
+        elif hasattr(value, "isoformat"):
+            value = value.isoformat()
+
+        data[name] = value
+
+    return data
+
+def make_diff(old_data: dict, new_data: dict):
+    diff = {}
+    keys = set(old_data.keys()) | set(new_data.keys())
+    for k in keys:
+        if old_data.get(k) != new_data.get(k):
+            diff[k] = {"old": old_data.get(k), "new": new_data.get(k)}
+    return diff

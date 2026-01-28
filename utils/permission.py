@@ -1,4 +1,7 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
+from django.utils import timezone
+from .exceptions import PaymentRequired
+
 
 class IsAdmin(BasePermission):
     """
@@ -42,3 +45,28 @@ class IsOwnerOrParentHierarchy(BasePermission):
             parent = parent.parent
 
         return False
+    
+    
+class HasActiveSubscription(BasePermission):
+
+    def has_permission(self, request, view):
+        user = getattr(request, "user", None)
+
+        if not user or not user.is_authenticated:
+            return False  # DRF will handle 401/403
+
+        sub = getattr(user, "subscription", None)
+
+        if not sub:
+            raise PaymentRequired("No active subscription. Please recharge.")
+
+        # auto-expire
+        if sub.status == "active" and sub.expires_at and timezone.now() >= sub.expires_at:
+            sub.status = "expired"
+            sub.save(update_fields=["status"])
+            raise PaymentRequired("Subscription expired. Please recharge.")
+
+        if not sub.is_active():
+            raise PaymentRequired("Subscription expired. Please recharge.")
+
+        return True

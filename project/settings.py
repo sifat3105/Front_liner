@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "unfold.contrib.import_export",
     'admin_interface',
     'colorfield',
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,6 +74,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'channels',
+    
 
     # Local apps
     'apps.user',
@@ -97,7 +99,9 @@ INSTALLED_APPS = [
     'apps.vendor',
     'apps.orders',
     'apps.inventory',
-    'apps.popup'
+    'apps.popup',
+    'apps.subscription',
+
 ]
 
 AUTH_USER_MODEL = 'user.User'
@@ -144,6 +148,21 @@ WSGI_APPLICATION = 'project.wsgi.application'
 ASGI_APPLICATION = 'project.asgi.application'
 
 # ==============================================================================
+# CHANNEL LAYERS (WebSocket)
+# ==============================================================================
+REDIS_CHANNEL_URL = os.getenv(
+    "REDIS_CHANNEL_URL",
+    os.getenv("REDIS_URL", "redis://127.0.0.1:6379/2"),
+)
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [REDIS_CHANNEL_URL]},
+    }
+}
+
+# ==============================================================================
 # DATABASE
 # ==============================================================================
 
@@ -168,7 +187,7 @@ REST_FRAMEWORK = {
         'utils.authentication.CookieJWTAuthentication',
     ),
     'EXCEPTION_HANDLER': 'utils.exception_handler.custom_exception_handler',
-    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.StandardPagination',
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.AutoPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -201,10 +220,14 @@ SIMPLE_JWT = {
 # ==============================================================================
 
 CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-    }
+  "default": {
+    "BACKEND": "django_redis.cache.RedisCache",
+    "LOCATION": os.getenv("REDIS_URL", "redis://127.0.0.1:6379/1"),
+    "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+  }
 }
+
+
 
 # ==============================================================================
 # LOGGING
@@ -357,14 +380,14 @@ UNFOLD = {
                 "collapsible": True,
                 "items": [
                     {"title": "Users", 
-                    "link": "/admin/users/user/"
+                    "link": "/admin/user/user/"
                     },
                     {"title": "UserAccounts", 
-                    "link": "/admin/users/account/"
+                    "link": "/admin/user/account/"
                     },
                     {
                         "title": "User Subscriptions",
-                        "link": "/admin/users/subscription/"
+                        "link": "/admin/user/subscription/"
                     }
                 ],
             },

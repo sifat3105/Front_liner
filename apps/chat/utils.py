@@ -1,73 +1,267 @@
 import requests
+from django.utils import timezone
 from apps.social.models import FacebookPage
-from .models import Conversation
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from .models import Conversation, Message
 from .chat_bot import chatbot_reply
 
 
-def send_message(page_access_token, recipient_id, text):
-    
-    url = "https://graph.facebook.com/v19.0/me/messages"
+FACEBOOK_API_URL = "https://graph.facebook.com/v19.0/me/messages"
+REQUEST_TIMEOUT = 5
+
+
+# ------------------ Facebook API ------------------ #
+
+def send_message(page_access_token: str, recipient_id: str, text: str) -> dict:
     payload = {
         "recipient": {"id": recipient_id},
-        "message": {"text": text}
+        "message": {"text": text},
     }
     params = {"access_token": page_access_token}
 
-    return requests.post(url, json=payload, params=params).json()
-
-def get_page_token_from_db(page_id):
-    page = FacebookPage.objects.get(page_id=page_id)
-    
-    return page
-
-
-def get_chat_history(external_user_id, social_account):
     try:
-        chat = social_account.conversations.get(external_user_id=external_user_id)
-    except Conversation.DoesNotExist:
-        chat = Conversation.objects.create(
-            social_account=social_account,
-            external_user_id=external_user_id,
-            platform=social_account.platform,
+        response = requests.post(
+            FACEBOOK_API_URL,
+            json=payload,
+            params=params,
+            timeout=REQUEST_TIMEOUT
         )
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        print(f"[Facebook API Error] {e}")
+        return {}
+
+
+# ------------------ Facebook API (async) ------------------ #
+
+def get_fb_user_profile(psid: str, page_access_token: str) -> dict:
+    url = f"https://graph.facebook.com/v19.0/{psid}"
+    params = {
+        "fields": "first_name,last_name,profile_pic",
+        "access_token": page_access_token
+    }
+    r = requests.get(url, params=params, timeout=10)
+    r.raise_for_status()
+    return r.json()
+
+
+
+# ------------------ Database Helpers ------------------ #
+
+from asgiref.sync import sync_to_async
+
+@sync_to_async
+def get_page_sync(page_id):
+    return FacebookPage.objects.get(page_id=page_id)
+
+def get_page(page_id: str) -> FacebookPage:
+    return FacebookPage.objects.select_related("social_account").get(
+        page_id=page_id
+    )
+
+
+def get_or_create_conversation(external_user_id: str, page: FacebookPage, user_data):
     try:
-        history = []
-        for message in chat.messages.all():
-            history.append({
-                "role": message.sender_type,
-                "content": message.text
-            })
-            
-        return history, chat
-    except:
-        return [], chat
-    
-def store_chat_message(chat, sender_type, text):
-    try:
-        chat.messages.create(
-            sender_type=sender_type,
-            text=text
+        conversation, _ = Conversation.objects.get_or_create(
+            external_user_id=external_user_id,
+            social_account=page.social_account,
+            page_id=page.page_id,
+            defaults={
+                "platform": page.social_account.platform,
+                "external_username": (user_data.get("first_name", "") + " " + user_data.get("last_name", "")).strip(),
+                "profile_pic_url": user_data.get("profile_pic"),
+                "personal_info": user_data or {},
+            },
         )
     except Exception as e:
-        print(e)
-        pass
+        print(f"[DB Error] {e}")
+    return conversation
 
 
-
-def handle_message(page_id, sender_id, text):
-   
-    page = get_page_token_from_db(page_id)
-    page_token = page.page_access_token
-    social_account = page.social_account
+def get_chat_history(conversation: Conversation) -> list:
     
-    history, chat = get_chat_history(sender_id, social_account)
+    ROLE_MAP = {
+        "customer": "user",
+        "bot": "assistant",
+        "seller": "user",
+    }
+    history = []
 
-    text = text.lower()
-    store_chat_message(chat, "customer", text)
-    reply = chatbot_reply(text, [])
-    reply_message = reply.get("reply")
-    print(reply_message)
-    send_message(page_token, sender_id, reply_message)
-    store_chat_message(chat, "assistant", reply_message)
+    for msg in conversation.messages.all().order_by("created_at"):
+        role = ROLE_MAP.get(msg.sender_type, "user")
+        content = msg.text
+        if msg.sender_type == "seller":
+            content = f"Seller: {content}"
 
+        history.append({
+            "role": role,
+            "content": content,
+            "time": msg.created_at.isoformat(),
+        })
+
+    return history
+
+
+def store_chat_message(
+    conversation: Conversation,
+    sender_type: str,
+    text: str = None,
+    attachments: list = None,
+    message_id: str = None,
+    is_sent: bool = True,
+    is_read: bool = False,
+    sender_name: str = None,
+    sender_profile_pic: str = None,
+    sender_metadata: dict = None,
+) -> None:
+    try:
+        message = Message.objects.create(
+        conversation=conversation,
+        sender_type=sender_type,
+        platform=conversation.platform,
+        message_id=message_id,
+        is_sent=is_sent,
+        is_read=is_read,
+        )
+        message.text = text or ""
+        message.attachments = attachments or []
+        message.sender_name = sender_name
+        message.sender_profile_pic = sender_profile_pic
+        message.sender_metadata = sender_metadata or {}
+        message.save()
+        conversation.last_message_at = timezone.now()
+        conversation.save(update_fields=["last_message_at"])
+        send_to_socket(conversation, message)
+    except Exception as e:
+        print(f"[DB Error] {e}")
+
+
+# ------------------ Message Handler ------------------ #
+
+def handle_message(
+    page_id: str,
+    sender_id: str,
+    text: str,
+    attachments: list = None,
+    message_id: str = None,
+) -> None:
+    page = get_page(page_id)
+
+    if message_id:
+        existing = Message.objects.filter(
+            conversation__external_user_id=sender_id,
+            conversation__social_account=page.social_account,
+            message_id=message_id,
+            sender_type="customer",
+        ).exists()
+        if existing:
+            return
+
+    user_data = get_fb_user_profile(sender_id, page.page_access_token)
+    conversation = get_or_create_conversation(
+        external_user_id=sender_id,
+        page=page,
+        user_data=user_data
+    )
+    if not conversation:
+        return
+    sender_name = (user_data.get("first_name", "") + " " + user_data.get("last_name", "")).strip()
     
+    raw_text = (text or "").strip()
+    store_chat_message(
+        conversation,
+        "customer",
+        raw_text,
+        attachments,
+        message_id=message_id,
+        sender_name=sender_name,
+        sender_profile_pic=user_data.get("profile_pic"),
+        sender_metadata=user_data,
+    )
+
+    if _has_sticker(attachments):
+        return
+
+    history = get_chat_history(conversation)
+    bot_response = chatbot_reply(
+        raw_text,
+        history,
+        attachments or [],
+        owner_user_id=page.user_id,
+    )
+
+    reply_text = bot_response.get("reply", "")
+    if not reply_text:
+        return
+
+    send_resp = send_message(page.page_access_token, sender_id, reply_text)
+    store_chat_message(
+        conversation,
+        "bot",
+        reply_text,
+        message_id=send_resp.get("message_id"),
+        is_sent=bool(send_resp),
+        sender_name="Bot",
+    )
+
+
+def _has_sticker(attachments: list) -> bool:
+    for attachment in attachments or []:
+        payload = attachment.get("payload") or {}
+        if payload.get("sticker_id") or attachment.get("sticker_id"):
+            return True
+    return False
+
+
+def get_conversation_for_user(page_id: str, external_user_id: str):
+    page = get_page(page_id)
+    return Conversation.objects.filter(
+        external_user_id=external_user_id,
+        social_account=page.social_account,
+    ).first()
+
+
+def mark_messages_delivered(page_id: str, external_user_id: str, mids: list):
+    if not mids:
+        return
+    conversation = get_conversation_for_user(page_id, external_user_id)
+    if not conversation:
+        return
+    Message.objects.filter(
+        conversation=conversation,
+        message_id__in=mids,
+    ).update(is_sent=True)
+
+
+def mark_messages_read(page_id: str, external_user_id: str, watermark_ms: int):
+    conversation = get_conversation_for_user(page_id, external_user_id)
+    if not conversation or not watermark_ms:
+        return
+    watermark_dt = timezone.datetime.fromtimestamp(
+        watermark_ms / 1000, tz=timezone.get_current_timezone()
+    )
+    Message.objects.filter(
+        conversation=conversation,
+        sender_type="bot",
+        created_at__lte=watermark_dt,
+    ).update(is_read=True)
+    
+    
+def send_to_socket(conversation, message):
+    
+    channel_layer = get_channel_layer()
+    if channel_layer is None:
+        return
+
+    async_to_sync(channel_layer.group_send)(
+        f"chat_{conversation.id}",
+        {
+            "type": "chat_message",
+            "message_id": message.id,
+            "text": message.text,
+            "sender_type": message.sender_type,
+            "created_at": message.created_at.isoformat(),
+        }
+    )

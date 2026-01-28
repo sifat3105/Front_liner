@@ -24,6 +24,7 @@ class SocialAccount(models.Model):
         ('linkedin', 'LinkedIn'),
         ('tiktok', 'TikTok'),
         ('youtube', 'YouTube'),
+        ('widget', 'Widget'),
 
     )
 

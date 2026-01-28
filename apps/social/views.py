@@ -6,7 +6,6 @@ from rest_framework import status, permissions
 import requests
 from .models import SocialAccount, FacebookPage, SocialPlatform, InstagramAccount, WhatsAppBusinessAccount
 from .serializers import SocialAccountSerializer, FacebookPageSerializer, SocialPlatformSerializer
-from apps.chat.utils import handle_message, send_message
 import urllib.parse
 import uuid
 from django.core.cache import cache
@@ -17,6 +16,7 @@ from urllib.parse import urlencode, quote_plus
 from django.http import HttpResponse
 from datetime import datetime, timedelta
 from .close_response import close_html_response
+from .webhook_helper import dispatch_feed, dispatch_messaging
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -434,15 +434,14 @@ class FacebookPageListView(APIView):
 def subscribe_page_to_messages(page_id, page_access_token):
     url = f"https://graph.facebook.com/v19.0/{page_id}/subscribed_apps"
     params = {
-        "subscribed_fields": "messages,messaging_postbacks",
+        "subscribed_fields": "messages,messaging_postbacks,feed",
         "access_token": page_access_token
     }
     return requests.post(url, params=params).json()
 
 
-
-
 class FacebookWebhook(APIView):
+    authentication_classes = []
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
@@ -455,22 +454,26 @@ class FacebookWebhook(APIView):
     
     def post(self, request):
         data = request.data
-        object = data.get("object")
-        print(object)
-        for entry in data.get("entry", []):
-            for event in entry.get("messaging", []):
-                sender_id = event["sender"]["id"]
-                page_id = entry["id"]
+        try:
+            for entry in data.get("entry", []):
+                page_id = entry.get("id")
 
-                if "message" in event:
-                    text = event["message"].get("text", "")
-                    print(text)
-                    handle_message(page_id, sender_id, text)
+                for change in entry.get("changes", []):
+                    field = change.get("field")
+                    if field == "feed":
+                        dispatch_feed(page_id, change)
 
-        return Response("EVENT_RECEIVED")
+                for event in entry.get("messaging", []):
+                    dispatch_messaging(page_id, event)
+
+        except Exception:
+            return Response("EVENT_RECEIVED", status=status.HTTP_200_OK)
+
+        return Response("EVENT_RECEIVED", status=status.HTTP_200_OK)
     
     
 class InstagramWebhook(APIView):
+    authentication_classes = []
     permission_classes = [permissions.AllowAny]
     
     def post(self, request):
