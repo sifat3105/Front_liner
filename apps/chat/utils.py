@@ -27,10 +27,22 @@ def send_message(page_access_token: str, recipient_id: str, text: str) -> dict:
             params=params,
             timeout=REQUEST_TIMEOUT
         )
-        response.raise_for_status()
+
+        if response.status_code >= 400:
+            try:
+                err = (response.json() or {}).get("error", {})
+            except ValueError:
+                err = {}
+            print(
+                "[Facebook API Error] send_message failed "
+                f"status={response.status_code} code={err.get('code')} "
+                f"subcode={err.get('error_subcode')} message={err.get('message')}"
+            )
+            return {}
+
         return response.json()
     except requests.RequestException as e:
-        print(f"[Facebook API Error] {e}")
+        print(f"[Facebook API Error] send_message request failed: {e}")
         return {}
 
 
@@ -42,9 +54,30 @@ def get_fb_user_profile(psid: str, page_access_token: str) -> dict:
         "fields": "first_name,last_name,profile_pic",
         "access_token": page_access_token
     }
-    r = requests.get(url, params=params, timeout=10)
-    r.raise_for_status()
-    return r.json()
+    try:
+        r = requests.get(url, params=params, timeout=10)
+    except requests.RequestException as e:
+        raise RuntimeError(
+            f"Profile request failed for psid={psid}: {e}"
+        ) from e
+
+    if r.status_code >= 400:
+        try:
+            err = (r.json() or {}).get("error", {})
+        except ValueError:
+            err = {}
+        raise RuntimeError(
+            "Profile request failed for "
+            f"psid={psid} status={r.status_code} code={err.get('code')} "
+            f"subcode={err.get('error_subcode')} message={err.get('message')}"
+        )
+
+    try:
+        return r.json()
+    except ValueError as e:
+        raise RuntimeError(
+            f"Profile request failed for psid={psid}: non-JSON response"
+        ) from e
 
 
 
@@ -63,6 +96,8 @@ def get_page(page_id: str) -> FacebookPage:
 
 
 def get_or_create_conversation(external_user_id: str, page: FacebookPage, user_data):
+    print("get_or_create_conversation")
+    conversation = None
     try:
         conversation, _ = Conversation.objects.get_or_create(
             external_user_id=external_user_id,
@@ -147,6 +182,7 @@ def handle_message(
     attachments: list = None,
     message_id: str = None,
 ) -> None:
+    print("handle_message")
     page = get_page(page_id)
 
     if message_id:
@@ -158,8 +194,14 @@ def handle_message(
         ).exists()
         if existing:
             return
-
-    user_data = get_fb_user_profile(sender_id, page.page_access_token)
+    user_data = {}
+    try:
+        user_data = get_fb_user_profile(sender_id, page.page_access_token)
+    except Exception as e:
+        print(
+            f"[FB][ERROR] get_fb_user_profile: page_id={page_id} "
+            f"sender_id={sender_id} error={e}"
+        )
     conversation = get_or_create_conversation(
         external_user_id=sender_id,
         page=page,

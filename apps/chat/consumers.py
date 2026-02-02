@@ -276,7 +276,7 @@ class ChatBotConsumer(AsyncWebsocketConsumer):
         )
         conversation, created = Conversation.objects.get_or_create(
             social_account=social_account,
-            platform="widget" if self.mode is not "bot" else "widget_bot",
+            platform="widget" if self.mode != "bot" else "widget_bot",
             external_user_id=str(external_user_id),
             defaults={
                 "external_username": external_username or str(external_user_id),

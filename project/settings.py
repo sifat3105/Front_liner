@@ -27,6 +27,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://192.168.0.100:3000",
     "http://192.168.0.101:3000",
     "http://103.98.107.22:8000",
+    "https://barta-bahok.vercel.app",
 ]
 
 CORS_ALLOW_METHODS = [
@@ -387,7 +388,11 @@ UNFOLD = {
                     },
                     {
                         "title": "User Subscriptions",
-                        "link": "/admin/user/subscription/"
+                        "link": "/admin/subscription/usersubscription/"
+                    },
+                    {
+                        "title": "Subscription Plans",
+                        "link": "/admin/subscription/subscriptionplan/"
                     }
                 ],
             },

@@ -260,6 +260,7 @@ def dispatch_feed(page_id: str, change: dict):
 # Messaging handlers
 # -------------------------
 def handle_messaging_text(page_id: str, sender_id: str, event: dict):
+    print("handle_messaging_text")
     msg = event.get("message", {}) or {}
     text = msg.get("text", "")
     attachments = msg.get("attachments") or []
@@ -308,6 +309,7 @@ MESSAGING_DISPATCH = {
 
 
 def dispatch_messaging(page_id: str, event: dict):
+    print("dispatch_messaging")
     if "delivery" in event or "read" in event:
         user_id = (event.get("recipient") or {}).get("id")
     else:

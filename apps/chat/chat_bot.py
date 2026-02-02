@@ -68,7 +68,6 @@ def build_vector_store(documents: List[str]) -> FAISS:
 def get_vector_store() -> FAISS:
     return build_vector_store(KNOWLEDGE_BASE)
 
-VECTOR_STORE = get_vector_store()
 
 # ----------------------------------
 # HELPERS
@@ -334,7 +333,8 @@ def retrieve_context_node(state: ChatBotState) -> ChatBotState:
         return state
 
     try:
-        docs = VECTOR_STORE.similarity_search(query, k=4)
+        vector_store = get_vector_store()
+        docs = vector_store.similarity_search(query, k=4)
     except Exception as e:
         logger.exception(f"Vector search failed: {e}")
         docs = []

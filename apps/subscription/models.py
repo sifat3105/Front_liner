@@ -12,7 +12,7 @@ class SubscriptionPlan(models.Model):
         ("year", "Year"),
     )
 
-    name = models.CharField(max_length=80)  # e.g. Basic, Pro
+    name = models.CharField(max_length=80)  
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     interval = models.CharField(max_length=10, choices=INTERVAL_CHOICES, default="month")
     interval_count = models.PositiveIntegerField(default=1)  # e.g. 1 month, 3 months

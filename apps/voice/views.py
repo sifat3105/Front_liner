@@ -674,8 +674,8 @@ class EmbedChatJsV1View(APIView):
   var wsUrl = (s.getAttribute('data-chat-ws') || '').trim();
   var convId = (s.getAttribute('data-conversation') || '').trim();
 
-  var theme = (s.getAttribute('data-theme') || '#016966').trim();
-  var themeSoft = (s.getAttribute('data-theme-soft') || '#e6f5f4').trim();
+  var theme = (s.getAttribute('data-theme') || '#111827').trim();
+  var themeSoft = (s.getAttribute('data-theme-soft') || '#f3f4f6').trim();
   var teacherName = (s.getAttribute('data-teacher-name') || 'Bartabahok').trim();
   var teacherSubtitle = (s.getAttribute('data-teacher-subtitle') || 'Ask me anything').trim();
   var teacherAvatar = (s.getAttribute('data-teacher-avatar') || '🤖').trim();
@@ -685,6 +685,10 @@ class EmbedChatJsV1View(APIView):
   var externalUserId = (s.getAttribute('data-external-user-id') || '').trim();
   var externalUsername = (s.getAttribute('data-external-username') || '').trim();
   var preferredMode = (s.getAttribute('data-chat-mode') || '').trim().toLowerCase();
+  var selfRole = (s.getAttribute('data-self-role') || '').trim().toLowerCase();
+  if(!selfRole){
+    selfRole = 'customer';
+  }
 
   function getCookie(name){
     var escaped = name.replace(/[$()*+.?[\\\]^{|}]/g, '\\$&');
@@ -752,54 +756,54 @@ class EmbedChatJsV1View(APIView):
   var st = document.createElement('style');
   st.textContent = `
     .ec-floating{position:fixed;right:18px;bottom:18px;z-index:2147483647;font-family:"Merriweather","Georgia",serif;}
-    .ec-btn{width:64px;height:64px;border-radius:20px;border:0;background:var(--accent,#016966);color:#f0fffe;font-size:22px;cursor:pointer;box-shadow:0 14px 30px rgba(1,105,102,.35);display:flex;align-items:center;justify-content:center;transition:transform .18s ease,box-shadow .18s ease}
-    .ec-btn:hover{transform:translateY(-2px);box-shadow:0 18px 36px rgba(1,105,102,.4)}
-    .ec-panel{position:fixed;right:18px;bottom:90px;width:min(360px,92vw);height:min(72vh,560px);background:linear-gradient(180deg,#f8fbfb 0%,#eef6f6 100%);border:1px solid rgba(1,105,102,.18);border-radius:20px;box-shadow:0 20px 50px rgba(1,105,102,.25);display:block;opacity:0;transform:translateY(12px);pointer-events:none;visibility:hidden;transition:all .18s ease;overflow:hidden;color:#0b2f2d}
+    .ec-btn{width:64px;height:64px;border-radius:20px;border:1px solid rgba(17,24,39,.12);background:#ffffff;color:var(--accent,#111827);font-size:22px;cursor:pointer;box-shadow:0 14px 30px rgba(15,23,42,.15);display:flex;align-items:center;justify-content:center;transition:transform .18s ease,box-shadow .18s ease}
+    .ec-btn:hover{transform:translateY(-2px);box-shadow:0 18px 36px rgba(15,23,42,.2)}
+    .ec-panel{position:fixed;right:18px;bottom:90px;width:min(360px,92vw);height:min(72vh,560px);background:#ffffff;border:1px solid rgba(17,24,39,.12);border-radius:20px;box-shadow:0 24px 60px rgba(15,23,42,.18);display:block;opacity:0;transform:translateY(12px);pointer-events:none;visibility:hidden;transition:all .18s ease;overflow:hidden;color:#0f172a}
     .ec-panel.ec-open{opacity:1;transform:translateY(0);pointer-events:auto;visibility:visible}
-    .ec-header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:linear-gradient(135deg,var(--accent,#016966),#0a3f3b);color:#eafffe}
-    .ec-avatar{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden}
+    .ec-header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#ffffff;color:#0f172a;border-bottom:1px solid rgba(17,24,39,.08)}
+    .ec-avatar{width:38px;height:38px;border-radius:12px;background:rgba(17,24,39,.06);display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden}
     .ec-avatar img{width:100%;height:100%;object-fit:cover;border-radius:12px}
     .ec-btn img{width:38px;height:38px;object-fit:contain}
     .ec-title{flex:1;min-width:0}
     .ec-name{font-weight:700;font-size:14px;letter-spacing:.2px}
     .ec-sub{font-size:11px;opacity:.9}
     .ec-status{display:flex;align-items:center;gap:6px;font-size:11px;opacity:.9}
-    .ec-status-dot{width:8px;height:8px;border-radius:50%;background:#65fbd2;box-shadow:0 0 0 3px rgba(101,251,210,.18)}
-    .ec-close{border:0;background:transparent;color:#eafffe;font-size:18px;cursor:pointer;padding:4px 6px}
+    .ec-status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent,#111827);box-shadow:0 0 0 3px rgba(17,24,39,.12)}
+    .ec-close{border:0;background:transparent;color:#0f172a;font-size:18px;cursor:pointer;padding:4px 6px}
     .ec-body{display:flex;flex-direction:column;height:calc(100% - 62px)}
-    .ec-chat{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;background-image:radial-gradient(200px 120px at 20% 0%,rgba(1,105,102,.08),transparent 60%),radial-gradient(220px 140px at 100% 0%,rgba(1,105,102,.06),transparent 55%)}
-    .ec-bubble{max-width:86%;padding:10px 12px;border-radius:16px;border:1px solid rgba(1,105,102,.18);background:#fff;box-shadow:0 6px 16px rgba(2,62,60,.08)}
+    .ec-chat{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;background:#fafafa}
+    .ec-bubble{max-width:86%;padding:10px 12px;border-radius:16px;border:1px solid rgba(17,24,39,.12);background:#fff;box-shadow:0 6px 16px rgba(15,23,42,.06)}
     .ec-label{font-size:10px;text-transform:uppercase;letter-spacing:.8px;opacity:.6;margin-bottom:4px}
     .ec-text{font-size:13px;line-height:1.35;white-space:pre-wrap}
-    .ec-user{align-self:flex-end;background:var(--accent-soft,#e6f5f4);border-color:rgba(1,105,102,.25)}
+    .ec-user{align-self:flex-end;background:var(--accent-soft,#f3f4f6);border-color:rgba(17,24,39,.12)}
     .ec-bot{align-self:flex-start;background:#ffffff}
-    .ec-admin{align-self:flex-start;background:#fff7e6;border-color:#f4d09a}
+    .ec-admin{align-self:flex-start;background:#fff5eb;border-color:#f6d7b7}
     .ec-attachments{display:none;flex-wrap:wrap;gap:8px;padding:0 12px 10px}
-    .ec-attachment{display:flex;align-items:center;gap:8px;background:#ffffff;border:1px dashed rgba(1,105,102,.2);border-radius:12px;padding:6px 8px;min-width:0}
+    .ec-attachment{display:flex;align-items:center;gap:8px;background:#ffffff;border:1px dashed rgba(17,24,39,.15);border-radius:12px;padding:6px 8px;min-width:0}
     .ec-attachment img{width:44px;height:44px;border-radius:10px;object-fit:cover}
     .ec-attachment-meta{min-width:0}
     .ec-attachment-name{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
     .ec-attachment-size{font-size:10px;opacity:.6}
     .ec-attachment-remove{border:0;background:transparent;color:#9b1c1c;font-size:14px;cursor:pointer}
     .ec-attachment-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-    .ec-attachment-thumb{width:64px;height:64px;border-radius:10px;object-fit:cover;border:1px solid rgba(1,105,102,.2)}
-    .ec-attachment-file{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:10px;border:1px solid rgba(1,105,102,.18);background:#fff;font-size:11px;max-width:180px}
-    .ec-composer{padding:10px 12px;background:linear-gradient(180deg,rgba(255,255,255,.65),rgba(255,255,255,1))}
+    .ec-attachment-thumb{width:64px;height:64px;border-radius:10px;object-fit:cover;border:1px solid rgba(17,24,39,.15)}
+    .ec-attachment-file{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:10px;border:1px solid rgba(17,24,39,.12);background:#fff;font-size:11px;max-width:180px}
+    .ec-composer{padding:10px 12px;background:#ffffff;border-top:1px solid rgba(17,24,39,.06)}
     .ec-tools{display:flex;gap:6px;margin-bottom:8px}
-    .ec-icon{border:1px solid rgba(1,105,102,.25);background:#fff;border-radius:10px;padding:6px 8px;cursor:pointer;font-size:14px}
+    .ec-icon{border:1px solid rgba(17,24,39,.15);background:#fff;border-radius:10px;padding:6px 8px;cursor:pointer;font-size:14px;color:var(--accent,#111827)}
     .ec-input-row{display:flex;gap:8px;align-items:center}
-    .ec-input{flex:1;border:1px solid rgba(1,105,102,.25);border-radius:12px;padding:10px 12px;font-size:13px;outline:none;background:#fff}
-    .ec-input:focus{border-color:var(--accent,#016966);box-shadow:0 0 0 3px rgba(1,105,102,.12)}
-    .ec-send{border:0;border-radius:12px;background:var(--accent,#016966);color:#eafffe;padding:10px 12px;cursor:pointer;font-weight:600}
-    .ec-note{margin:0 12px 8px;padding:8px;border-radius:10px;background:#f4fbfb;border:1px solid rgba(1,105,102,.15);font-size:11px}
+    .ec-input{flex:1;border:1px solid rgba(17,24,39,.15);border-radius:12px;padding:10px 12px;font-size:13px;outline:none;background:#fff;color:#0f172a}
+    .ec-input:focus{border-color:var(--accent,#111827);box-shadow:0 0 0 3px rgba(17,24,39,.12)}
+    .ec-send{border:0;border-radius:12px;background:var(--accent,#111827);color:#ffffff;padding:10px 12px;cursor:pointer;font-weight:600}
+    .ec-note{margin:0 12px 8px;padding:8px;border-radius:10px;background:#f9fafb;border:1px solid rgba(17,24,39,.12);font-size:11px}
     .ec-choice{display:none;flex-direction:column;gap:12px;padding:16px}
     .ec-choice.ec-show{display:flex}
-    .ec-choice-card{background:#ffffff;border:1px solid rgba(1,105,102,.18);border-radius:14px;padding:12px 14px;box-shadow:0 8px 20px rgba(2,62,60,.08)}
+    .ec-choice-card{background:#ffffff;border:1px solid rgba(17,24,39,.12);border-radius:14px;padding:12px 14px;box-shadow:0 8px 20px rgba(15,23,42,.06)}
     .ec-choice-title{font-weight:700;font-size:14px;margin-bottom:4px}
     .ec-choice-desc{font-size:12px;opacity:.7}
     .ec-choice-btn{border:0;border-radius:14px;padding:10px 12px;font-weight:600;cursor:pointer}
-    .ec-choice-bot{background:var(--accent,#016966);color:#eafffe}
-    .ec-choice-human{background:#ffffff;border:1px solid rgba(1,105,102,.25);color:#0b2f2d}
+    .ec-choice-bot{background:var(--accent,#111827);color:#ffffff}
+    .ec-choice-human{background:#ffffff;border:1px solid rgba(17,24,39,.15);color:#0f172a}
   `;
   document.head.appendChild(st);
 
@@ -993,8 +997,17 @@ class EmbedChatJsV1View(APIView):
 
   function roleMeta(senderType){
     var s = (senderType || '').toLowerCase();
-    if(s === 'admin') return { klass: 'ec-admin', label: teacherName || 'Bartabahok' };
+    var isSelf = selfRole && s && s === selfRole;
+    if(isSelf){
+      return { klass: 'ec-user', label: 'You' };
+    }
+    if(s === 'admin') return { klass: 'ec-admin', label: 'Admin' };
     if(s === 'bot') return { klass: 'ec-bot', label: 'Assistant' };
+    if(s === 'seller' || s === 'vendor') return { klass: 'ec-admin', label: 'Agent' };
+    if(s === 'customer') return { klass: 'ec-user', label: 'Customer' };
+    if(s){
+      return { klass: 'ec-user', label: s.charAt(0).toUpperCase() + s.slice(1) };
+    }
     return { klass: 'ec-user', label: 'You' };
   }
 
@@ -1019,10 +1032,11 @@ class EmbedChatJsV1View(APIView):
       return;
     }
     var text = data && (data.message || data.text || data.reply) || '';
-    var meta = roleMeta(data && data.sender_type);
+    var senderType = (data && data.sender_type || '').toLowerCase();
+    var meta = roleMeta(senderType);
     var atts = normalizeAttachments(data && data.attachments);
     if(!text && !atts.length) return;
-    if(text && pendingEcho.length && text === pendingEcho[0]){
+    if(text && pendingEcho.length && text === pendingEcho[0] && senderType === selfRole){
       pendingEcho.shift();
       return;
     }
@@ -1075,6 +1089,7 @@ class EmbedChatJsV1View(APIView):
     }
     var payload = { text: text || '' };
     if(atts && atts.length) payload.attachments = atts;
+    if(selfRole) payload.sender_type = selfRole;
     if(ws.readyState === 1){
       try{
         ws.send(JSON.stringify(payload));
@@ -1229,7 +1244,10 @@ class EmbedChatJsV1View(APIView):
   fileInput.addEventListener('change', function(){ addFiles(fileInput.files); fileInput.value=''; });
 
   if(greeting){
-    bubble(greeting, 'ec-admin', teacherName || 'Bartabahok');
+    var greetIsBot = preferredMode === 'bot';
+    var greetKlass = greetIsBot ? 'ec-bot' : 'ec-admin';
+    var greetLabel = greetIsBot ? 'Assistant' : 'Admin';
+    bubble(greeting, greetKlass, greetLabel);
   }
 
 })();

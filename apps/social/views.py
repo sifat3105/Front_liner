@@ -132,10 +132,11 @@ class FacebookCallback(APIView):
 
         user_token = token_res.get("access_token")
         long_lived_token = get_long_lived_token(user_token)
+        graph_access_token = long_lived_token or user_token
 
         me = requests.get(
             "https://graph.facebook.com/me",
-            params={"access_token": user_token}
+            params={"access_token": graph_access_token}
         ).json()
         print("Facebook user info:", me)
 
@@ -152,20 +153,19 @@ class FacebookCallback(APIView):
 
         pages = requests.get(
             "https://graph.facebook.com/v19.0/me/accounts",
-            params={"access_token": user_token}
+            params={"access_token": graph_access_token}
         ).json()
         
         print("Facebook pages:", pages)
 
         for p in pages.get("data", []):
-            long_lived_token = get_long_lived_token(p["access_token"])
             FacebookPage.objects.update_or_create(
-                user_id=1,
+                user_id=user_id,
                 social_account=social,
                 page_id=p["id"],
                 defaults={
                     "page_name": p["name"],
-                    "page_access_token": long_lived_token,
+                    "page_access_token": p["access_token"],
                     "category": p["category"],
                     "category_list": p["category_list"],
                     "tasks": p["tasks"],
