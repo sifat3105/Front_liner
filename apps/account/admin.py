@@ -9,6 +9,7 @@ from .models import (
 # =========================
 # Income
 # =========================
+ 
 @admin.register(Income)
 class IncomeAdmin(UnfoldModelAdmin):
     list_display = (
@@ -24,6 +25,7 @@ class IncomeAdmin(UnfoldModelAdmin):
 # =========================
 # Sells
 # =========================
+
 @admin.register(Sells)
 class SellsAdmin(UnfoldModelAdmin):
     list_display = (
@@ -54,6 +56,7 @@ class RefundAdmin(UnfoldModelAdmin):
 # =========================
 # Debit / Credit Ledger
 # =========================
+
 @admin.register(DebitCredit)
 class DebitCreditAdmin(UnfoldModelAdmin):
     list_display = (

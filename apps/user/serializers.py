@@ -7,7 +7,11 @@ from django.db import transaction
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
+<<<<<<< HEAD
         fields = ['id', 'full_name', 'phone',  'organization']
+=======
+        fields = ['id', 'full_name', 'phone', 'username', 'organization']
+>>>>>>> 7c9ae9b11d32523fe66d9d1aa9cd5b991ed7b8b9
         read_only_fields = ['id']
 
     def update(self, instance, validated_data):
@@ -39,7 +43,14 @@ class UserSerializer(serializers.ModelSerializer):
         if account_data:
             Account.objects.create(
                 user=user,
+<<<<<<< HEAD
                 full_name=account_data.get('full_name', ''),
+=======
+                # first_name=account_data.get('first_name', ''),
+                
+                full_name=account_data.get('full_name', ''),
+                username=account_data.get('username', ''),
+>>>>>>> 7c9ae9b11d32523fe66d9d1aa9cd5b991ed7b8b9
                 phone=account_data.get('phone', ''),
                 organization=account_data.get('organization', '')
             )
