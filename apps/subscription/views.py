@@ -7,7 +7,9 @@ from dateutil.relativedelta import relativedelta
 
 from apps.transaction.utils import create_transaction
 from apps.user.models import Account
-from .models import SubscriptionPlan, UserSubscription
+from utils.permission import RolePermission
+from .models import SubscriptionPlan, SubscriptionPermission, UserSubscription
+from .serializers import SubscriptionPlanPayloadSerializer
 
 
 def _add_interval(base, interval, count):
@@ -21,6 +23,15 @@ def _add_interval(base, interval, count):
 
 
 def _plan_payload(plan, current_plan_id=None, is_active_subscription=False):
+    permissions = [
+        {
+            "id": perm.id,
+            "code": perm.code,
+            "name": perm.name,
+        }
+        for perm in plan.permissions.all()
+        if perm.is_active
+    ]
     return {
         "id": plan.id,
         "name": plan.name,
@@ -28,9 +39,35 @@ def _plan_payload(plan, current_plan_id=None, is_active_subscription=False):
         "interval": plan.interval,
         "interval_count": plan.interval_count,
         "features": plan.features or {},
+        "permissions": permissions,
         "is_current": plan.id == current_plan_id,
         "purchase_state": "current" if plan.id == current_plan_id and is_active_subscription else "purchase",
     }
+
+
+def _default_permission_name(code: str) -> str:
+    return code.replace("-", " ").replace("_", " ").title()
+
+
+def _sync_plan_permissions(plan: SubscriptionPlan, permissions_payload):
+    if permissions_payload is None:
+        return
+
+    keep_codes = []
+    for item in permissions_payload:
+        code = item["code"]
+        keep_codes.append(code)
+        SubscriptionPermission.objects.update_or_create(
+            plan=plan,
+            code=code,
+            defaults={
+                "name": item.get("name") or _default_permission_name(code),
+                "description": item.get("description") or "",
+                "is_active": item.get("is_active", True),
+            },
+        )
+
+    plan.permissions.exclude(code__in=keep_codes).delete()
 
 
 class MySubscriptionView(APIView):
@@ -58,6 +95,7 @@ class MySubscriptionView(APIView):
             "active": active,
             "status": sub.status,
             "plan": getattr(sub.plan, "name", None) if sub.plan else None,
+            "permissions": _plan_payload(sub.plan).get("permissions", []) if sub.plan else [],
             "expires_at": sub.expires_at,
             "message": "OK" if active else "Subscription expired. Please recharge."
         }
@@ -74,7 +112,11 @@ class SubscriptionPlanListView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        plans = SubscriptionPlan.objects.filter(is_active=True).order_by("price", "id")
+        plans = (
+            SubscriptionPlan.objects.filter(is_active=True)
+            .prefetch_related("permissions")
+            .order_by("price", "id")
+        )
         sub = getattr(request.user, "subscription", None)
         current_plan_id = sub.plan_id if sub else None
         sub_active = sub.is_active() if sub else False
@@ -101,7 +143,11 @@ class SubscriptionPlanDetailView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, plan_id):
-        plan = SubscriptionPlan.objects.filter(id=plan_id, is_active=True).first()
+        plan = (
+            SubscriptionPlan.objects.filter(id=plan_id, is_active=True)
+            .prefetch_related("permissions")
+            .first()
+        )
         if not plan:
             return self.error(
                 message="Subscription plan not found",
@@ -119,6 +165,83 @@ class SubscriptionPlanDetailView(APIView):
             status_code=status.HTTP_200_OK,
             meta={"action": "subscription-plan-detail"}
         )
+
+
+class SubscriptionPlanCreateView(APIView):
+    allowed_roles = ["admin", "superuser", "staff"]
+    permission_classes = [RolePermission]
+
+    @transaction.atomic
+    def post(self, request):
+        serializer = SubscriptionPlanPayloadSerializer(data=request.data)
+        if not serializer.is_valid():
+            return self.error(
+                message="Invalid plan data",
+                errors=serializer.errors,
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "subscription-plan-create"},
+            )
+
+        payload = serializer.validated_data
+        permissions_payload = payload.pop("permissions", [])
+        plan = SubscriptionPlan.objects.create(**payload)
+        _sync_plan_permissions(plan, permissions_payload)
+
+        plan = SubscriptionPlan.objects.prefetch_related("permissions").get(id=plan.id)
+        return self.success(
+            message="Subscription plan created",
+            data=_plan_payload(plan),
+            status_code=status.HTTP_201_CREATED,
+            meta={"action": "subscription-plan-create"},
+        )
+
+
+class SubscriptionPlanUpdateView(APIView):
+    allowed_roles = ["admin", "superuser", "staff"]
+    permission_classes = [RolePermission]
+
+    @transaction.atomic
+    def patch(self, request, plan_id):
+        plan = SubscriptionPlan.objects.filter(id=plan_id).first()
+        if not plan:
+            return self.error(
+                message="Subscription plan not found",
+                status_code=status.HTTP_404_NOT_FOUND,
+                meta={"action": "subscription-plan-update"},
+            )
+
+        serializer = SubscriptionPlanPayloadSerializer(data=request.data, partial=True)
+        if not serializer.is_valid():
+            return self.error(
+                message="Invalid plan data",
+                errors=serializer.errors,
+                status_code=status.HTTP_400_BAD_REQUEST,
+                meta={"action": "subscription-plan-update"},
+            )
+
+        payload = serializer.validated_data
+        permissions_payload = payload.pop("permissions", None)
+
+        update_fields = []
+        for field, value in payload.items():
+            setattr(plan, field, value)
+            update_fields.append(field)
+        if update_fields:
+            plan.save(update_fields=update_fields)
+
+        if permissions_payload is not None:
+            _sync_plan_permissions(plan, permissions_payload)
+
+        plan = SubscriptionPlan.objects.prefetch_related("permissions").get(id=plan.id)
+        return self.success(
+            message="Subscription plan updated",
+            data=_plan_payload(plan),
+            status_code=status.HTTP_200_OK,
+            meta={"action": "subscription-plan-update"},
+        )
+
+    def put(self, request, plan_id):
+        return self.patch(request, plan_id)
 
 
 class PurchaseSubscriptionView(APIView):

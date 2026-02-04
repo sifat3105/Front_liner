@@ -267,9 +267,6 @@ class UserCreateAPIView(APIView):
 
         return self.success(
             message="User created successfully",
-<<<<<<< HEAD
-            data={"id": user.id},
-=======
             data={
                 "id": user.id,
                 "email": user.email,
@@ -279,7 +276,6 @@ class UserCreateAPIView(APIView):
                 "balance": user.account.balance,
                 "organization": user.account.organization,
             },
->>>>>>> 7c9ae9b11d32523fe66d9d1aa9cd5b991ed7b8b9
             status_code=status.HTTP_201_CREATED
         )
 

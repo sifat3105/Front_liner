@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth import get_user_model
@@ -22,6 +21,9 @@ class SubscriptionPlan(models.Model):
     features = models.JSONField(default=dict, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def has_permission(self, code: str) -> bool:
+        return self.permissions.filter(code=code, is_active=True).exists()
 
     def __str__(self):
         return f"{self.name} ({self.interval_count} {self.interval})"
@@ -58,5 +60,30 @@ class UserSubscription(models.Model):
             self.status = "expired"
             self.save(update_fields=["status"])
 
+    def has_permission(self, code: str) -> bool:
+        if not self.is_active() or not self.plan_id:
+            return False
+        return self.plan.has_permission(code)
+
     def __str__(self):
         return f"{self.user.email} -> {self.status}"
+    
+    
+class SubscriptionPermission(models.Model):
+    plan = models.ForeignKey(
+        SubscriptionPlan,
+        on_delete=models.CASCADE,
+        related_name="permissions",
+    )
+    code = models.SlugField(max_length=80)
+    name = models.CharField(max_length=120)
+    description = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("plan", "code")
+        ordering = ("name", "id")
+
+    def __str__(self):
+        return f"{self.plan.name}: {self.name} ({self.code})"
