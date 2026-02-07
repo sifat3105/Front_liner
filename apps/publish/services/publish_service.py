@@ -1,7 +1,11 @@
-from apps.social.models import SocialAccount, FacebookPage, InstagramAccount
-from ..utils.publish_Facebook_post import publish_fb_post
-from ..utils.instagram_post import create_ig_post, publish_ig_post
 import json
+
+from django.conf import settings
+
+from apps.social.models import FacebookPage, InstagramAccount, SocialAccount
+from ..utils.instagram_post import create_ig_post, publish_ig_post
+from ..utils.publish_Facebook_post import publish_fb_post
+from ..utils.tiktok_post import create_tiktok_post
 
 
 def format_hashtags(raw_hashtags):
@@ -14,9 +18,59 @@ def format_hashtags(raw_hashtags):
 
     # Case 2: '["test1","test2"]'
     if isinstance(raw_hashtags, str):
-        raw_hashtags = json.loads(raw_hashtags)
+        try:
+            raw_hashtags = json.loads(raw_hashtags)
+        except Exception:
+            raw_hashtags = [raw_hashtags]
 
-    return " ".join(f"#{tag.strip()}" for tag in raw_hashtags)
+    return " ".join(
+        f"#{tag.strip().lstrip('#')}"
+        for tag in raw_hashtags
+        if isinstance(tag, str) and tag.strip()
+    )
+
+
+def _resolve_tiktok_token(account):
+    return account.access_token or account.long_lived_token or account.user_access_token
+
+
+def _resolve_media_urls(post):
+    urls = []
+    for media in post.media.all():
+        file_url = media.file.url
+        if file_url.startswith("http://") or file_url.startswith("https://"):
+            urls.append(file_url)
+            continue
+        media_base = settings.MEDIA_URL.rstrip("/")
+        urls.append(f"{media_base}/{file_url.lstrip('/')}")
+    return urls
+
+
+def _replace_or_append_post_id(post_ids, platform_name, post_id, extra=None):
+    extra = extra or {}
+    updated = []
+    replaced = False
+    for item in post_ids or []:
+        if item.get("platform") == platform_name:
+            payload = {
+                "platform": platform_name,
+                "post_id": post_id,
+                "status": "success",
+            }
+            payload.update(extra)
+            updated.append(payload)
+            replaced = True
+        else:
+            updated.append(item)
+    if not replaced:
+        payload = {
+            "platform": platform_name,
+            "post_id": post_id,
+            "status": "success",
+        }
+        payload.update(extra)
+        updated.append(payload)
+    return updated
 
 
 def publish_to_platforms(user, post, platforms, media_urls):
@@ -76,16 +130,26 @@ def publish_to_platforms(user, post, platforms, media_urls):
                 )
 
             elif platform.name == "tiktok":
-                raise Exception("TikTok publishing not supported yet")
+                token = _resolve_tiktok_token(account)
+                result = create_tiktok_post(
+                    access_token=token,
+                    caption=caption,
+                    media_urls=media_urls,
+                    publish=post.is_published,
+                )
+                post_id = result.get("publish_id")
 
             else:
                 raise Exception("Unsupported platform")
 
-            post_ids.append({
+            payload = {
                 "platform": platform.name,
                 "post_id": post_id,
                 "status": "success"
-            })
+            }
+            if platform.name == "tiktok":
+                payload["details"] = result.get("raw", {})
+            post_ids.append(payload)
 
         except Exception as e:
             post_ids.append({
@@ -105,6 +169,11 @@ def get_platform_post_id(post_ids, platform_name):
 
 
 def publish_post(user, post):
+    publish_results = []
+    all_success = True
+    media_urls = _resolve_media_urls(post)
+    existing_post_ids = post.post_ids or []
+
     for platform in post.platforms.all():
         try:
             account = SocialAccount.objects.get(
@@ -120,12 +189,17 @@ def publish_post(user, post):
 
                 if not page:
                     raise Exception("Facebook page not found")
-                publish_fb_post(
+                fb_post_id = publish_fb_post(
                     page_id=page.page_id,
                     page_access_token=page.page_access_token,
                     message=post.caption,
-                    image_urls=post.media.all().values_list("file", flat=True),
+                    image_urls=media_urls,
                     publish=True
+                )
+                existing_post_ids = _replace_or_append_post_id(
+                    existing_post_ids,
+                    "facebook",
+                    fb_post_id,
                 )
             elif platform.name == "instagram":
                 ig = InstagramAccount.objects.filter(
@@ -138,15 +212,55 @@ def publish_post(user, post):
                     raise Exception("Instagram account not found")
                 ig_post_id = get_platform_post_id(post.post_ids, "instagram")
                 if not ig_post_id:
-                    status = False
-                    print("Instagram post not found")
-                publish_ig_post(ig.ig_user_id, ig_post_id, account.long_lived_token)
+                    raise Exception("Instagram draft post not found")
+                ig_publish_res = publish_ig_post(ig.ig_user_id, ig_post_id, account.long_lived_token)
+                published_id = (
+                    ig_publish_res.get("id")
+                    if isinstance(ig_publish_res, dict)
+                    else ig_post_id
+                )
+                existing_post_ids = _replace_or_append_post_id(
+                    existing_post_ids,
+                    "instagram",
+                    published_id,
+                    extra={"draft_id": ig_post_id},
+                )
                 
             elif platform.name == "tiktok":
-                raise Exception("TikTok publishing not supported yet")
+                token = _resolve_tiktok_token(account)
+                result = create_tiktok_post(
+                    access_token=token,
+                    caption=post.caption,
+                    media_urls=media_urls,
+                    publish=True,
+                )
+                publish_id = result.get("publish_id")
+                existing_post_ids = _replace_or_append_post_id(
+                    existing_post_ids,
+                    "tiktok",
+                    publish_id,
+                    extra={"details": result.get("raw", {})},
+                )
 
             else:
                 raise Exception("Unsupported platform")
-            return True
+
+            publish_results.append({
+                "platform": platform.name,
+                "status": "success",
+            })
         except Exception as e:
-            print(e)
+            all_success = False
+            publish_results.append({
+                "platform": platform.name,
+                "status": "failed",
+                "error": str(e),
+            })
+
+    post.post_ids = existing_post_ids
+    post.save(update_fields=["post_ids"])
+    return {
+        "success": all_success,
+        "results": publish_results,
+        "post_ids": existing_post_ids,
+    }

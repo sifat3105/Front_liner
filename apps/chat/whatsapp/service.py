@@ -1,34 +1,28 @@
 import requests
 from django.conf import settings
 
-def send_whatsapp_message(phone_number_id, message_text):
+
+REQUEST_TIMEOUT = 10
+
+
+def _resolve_token(access_token=None):
+    return access_token or getattr(settings, "WHATSAPP_SYSTEM_TOKEN", "")
+
+
+def send_whatsapp_message(phone_number_id, message_text, to_number=None, access_token=None):
     """
-    Send message to a WhatsApp user via Meta Graph API using System User token
+    Backward-compatible helper for sending plain text over WhatsApp.
     """
-
-    url = f"https://graph.facebook.com/v19.0/{phone_number_id}/messages"
-
-    headers = {
-        "Authorization": f"Bearer {settings.WHATSAPP_SYSTEM_TOKEN}",
-        "Content-Type": "application/json"
-    }
-
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": phone_number_id,  # can be the WhatsApp number ID
-        "type": "text",
-        "text": {"body": message_text}
-    }
-
-    response = requests.post(url, json=payload, headers=headers)
-    return response.json()
-
-SYSTEM_USER_TOKEN = "EAAtQDyOOeL0BQZALcxxX3D8x6vzEA7GktBYlhB0KaNoE2aeD2TW6Y3aMKZChe2aZC9ZAZB8uGUaShic79soG4iSvdb2nF0gGpXtgT9PQ82x2hjAxsqKovmY4OZCKkFwtr0LZB743Wgz783K4toUwUGVUPZA8OvoZAudkjBTN9bLVbmVRVUtXZBPeOm3YwrmvPLWTZCxawZDZD"
-
-  # WABA phone_number_id
+    target_number = to_number or phone_number_id
+    return send_whatsapp_text(
+        phone_number_id=phone_number_id,
+        to_number=target_number,
+        message=message_text,
+        access_token=access_token,
+    )
 
 
-def send_whatsapp_text(phone_number_id, to_number, message):
+def send_whatsapp_text(phone_number_id, to_number, message, access_token=None):
     url = f"https://graph.facebook.com/v19.0/{phone_number_id}/messages"
 
     payload = {
@@ -40,9 +34,12 @@ def send_whatsapp_text(phone_number_id, to_number, message):
     }
 
     headers = {
-        "Authorization": f"Bearer {SYSTEM_USER_TOKEN}",
+        "Authorization": f"Bearer {_resolve_token(access_token)}",
         "Content-Type": "application/json"
     }
 
-    resp = requests.post(url, json=payload, headers=headers)
-    return resp.json()
+    try:
+        resp = requests.post(url, json=payload, headers=headers, timeout=REQUEST_TIMEOUT)
+        return resp.json()
+    except requests.RequestException as exc:
+        return {"error": {"message": str(exc)}}

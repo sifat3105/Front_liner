@@ -21,6 +21,7 @@ class SocialAccount(models.Model):
         ('facebook', 'Facebook'),
         ('twitter', 'Twitter'),
         ('instagram', 'Instagram'),
+        ('whatsapp', 'WhatsApp'),
         ('linkedin', 'LinkedIn'),
         ('tiktok', 'TikTok'),
         ('youtube', 'YouTube'),
@@ -104,3 +105,6 @@ class WhatsAppBusinessAccount(models.Model):
     display_phone_number = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "waba_id", "phone_number_id")

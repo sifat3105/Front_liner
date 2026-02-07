@@ -6,7 +6,7 @@ import requests
 from django.utils.dateparse import parse_datetime
 from django.core.files.base import ContentFile
 from ..models import SocialPost, Comment, SubComment, Reaction, PostMediaFile
-from apps.social.models import FacebookPage, SocialPlatform
+from apps.social.models import FacebookPage, SocialAccount, SocialPlatform
 
 
 def _normalize_post_id(post_id):
@@ -45,45 +45,74 @@ def get_post(post_id):
     return None
 
 
-def get_or_create_post(post_id, page_id=None):
+def get_or_create_post(post_id, page_id=None, platform="facebook", platform_user_id=None):
     post = get_post(post_id)
     if post:
         return post
 
     post_id = _normalize_post_id(post_id)
-    if not post_id or not page_id:
+    if not post_id:
         return None
-    try:
-        page = FacebookPage.objects.select_related("user").get(page_id=page_id, is_active=True)
-    except FacebookPage.DoesNotExist:
-        return None
+    platform = (platform or "facebook").lower()
 
-    fetched = fetch_facebook_post_details(post_id, page.page_access_token)
-    if not fetched.get("success"):
-        return None
+    if platform == "facebook":
+        if not page_id:
+            return None
+        try:
+            page = FacebookPage.objects.select_related("user").get(page_id=page_id, is_active=True)
+        except FacebookPage.DoesNotExist:
+            return None
 
-    data = fetched.get("data") or {}
-    caption = data.get("message") or ""
-    created_time = parse_datetime(data.get("created_time") or "")
+        fetched = fetch_facebook_post_details(post_id, page.page_access_token)
+        if not fetched.get("success"):
+            return None
 
-    post = SocialPost.objects.create(
-        author=page.user,
-        title=caption[:80] if caption else "",
-        caption=caption,
-        is_published=True,
-        post_ids=[{"status": "success", "post_id": [post_id], "platform": "facebook"}],
-        page_access_token=page.page_access_token,
-        published_at=created_time,
-    )
+        data = fetched.get("data") or {}
+        caption = data.get("message") or ""
+        created_time = parse_datetime(data.get("created_time") or "")
 
-    platform = SocialPlatform.objects.filter(name="facebook").first()
-    if platform:
-        post.platforms.add(platform)
+        post = SocialPost.objects.create(
+            author=page.user,
+            title=caption[:80] if caption else "",
+            caption=caption,
+            is_published=True,
+            post_ids=[{"status": "success", "post_id": [post_id], "platform": "facebook"}],
+            page_access_token=page.page_access_token,
+            published_at=created_time,
+        )
 
-    for link, media_type in _extract_media_links_from_post(data):
-        save_post_media_from_link(post, link, media_type=media_type)
+        social_platform = SocialPlatform.objects.filter(name="facebook").first()
+        if social_platform:
+            post.platforms.add(social_platform)
 
-    return post
+        for link, media_type in _extract_media_links_from_post(data):
+            save_post_media_from_link(post, link, media_type=media_type)
+        return post
+
+    if platform == "tiktok":
+        if not platform_user_id:
+            return None
+        account = (
+            SocialAccount.objects.select_related("user")
+            .filter(platform="tiktok", tk_user_id=str(platform_user_id))
+            .first()
+        )
+        if not account:
+            return None
+
+        post = SocialPost.objects.create(
+            author=account.user,
+            title="",
+            caption="",
+            is_published=True,
+            post_ids=[{"status": "success", "post_id": post_id, "platform": "tiktok"}],
+        )
+        social_platform = SocialPlatform.objects.filter(name="tiktok").first()
+        if social_platform:
+            post.platforms.add(social_platform)
+        return post
+
+    return None
 
 
 def sync_post_from_facebook(post_id, page_id):
@@ -193,25 +222,56 @@ def save_post_media_from_link(post, link, media_type="image"):
         media_type=media_type,
     )
 
-def create_comment(post_id, comment_id, text, commenter_id, commenter_name, attachments=None, page_id=None):
-    post = get_or_create_post(post_id, page_id=page_id)
-    if not post:
+def create_comment(
+    post_id,
+    comment_id,
+    text,
+    commenter_id,
+    commenter_name,
+    attachments=None,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
+):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
+    if not post or not comment_id:
         return None
-    comment = Comment.objects.create(
+    comment, _ = Comment.objects.update_or_create(
         post=post,
         comment_id=comment_id,
-        text=text,
-        attachments=attachments or [],
-        commenter_id=commenter_id,
-        commenter_name=commenter_name,
-        platform="facebook",
+        defaults={
+            "text": text or "",
+            "attachments": attachments or [],
+            "commenter_id": commenter_id or "",
+            "commenter_name": commenter_name or "",
+            "platform": platform,
+        },
     )
     return comment
 
 
-def update_comment( post_id, comment_id, text=None, commenter_id=None, commenter_name=None, attachments=None, page_id=None,
+def update_comment(
+    post_id,
+    comment_id,
+    text=None,
+    commenter_id=None,
+    commenter_name=None,
+    attachments=None,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
 ):
-    post = get_or_create_post(post_id, page_id=page_id)
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
     if not post:
         return None
 
@@ -232,6 +292,9 @@ def update_comment( post_id, comment_id, text=None, commenter_id=None, commenter
     if attachments is not None:
         comment.attachments = attachments
         update_fields.append("attachments")
+    if comment.platform != platform:
+        comment.platform = platform
+        update_fields.append("platform")
 
     if update_fields:
         comment.save(update_fields=update_fields)
@@ -239,8 +302,148 @@ def update_comment( post_id, comment_id, text=None, commenter_id=None, commenter
     return comment
 
 
-def delete_comment(post_id, comment_id, page_id=None):
-    post = get_or_create_post(post_id, page_id=page_id)
+def _get_or_create_parent_comment(post, parent_comment_id, platform="facebook"):
+    if not parent_comment_id:
+        return None
+    parent, _ = Comment.objects.get_or_create(
+        post=post,
+        comment_id=parent_comment_id,
+        defaults={"platform": platform},
+    )
+    return parent
+
+
+def create_comment_reply(
+    post_id,
+    parent_comment_id,
+    sub_comment_id,
+    text,
+    commenter_id,
+    commenter_name,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
+):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
+    if not post or not parent_comment_id or not sub_comment_id:
+        return None
+
+    parent = _get_or_create_parent_comment(post, parent_comment_id, platform=platform)
+    if not parent:
+        return None
+
+    sub_comment, _ = SubComment.objects.update_or_create(
+        comment=parent,
+        sub_comment_id=sub_comment_id,
+        defaults={
+            "text": text or "",
+            "commenter_id": commenter_id or "",
+            "commenter_name": commenter_name or "",
+            "platform": platform,
+        },
+    )
+    return sub_comment
+
+
+def update_comment_reply(
+    post_id,
+    parent_comment_id,
+    sub_comment_id,
+    text=None,
+    commenter_id=None,
+    commenter_name=None,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
+):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
+    if not post or not parent_comment_id or not sub_comment_id:
+        return None
+
+    parent = _get_or_create_parent_comment(post, parent_comment_id, platform=platform)
+    if not parent:
+        return None
+
+    sub_comment = SubComment.objects.filter(
+        comment=parent,
+        sub_comment_id=sub_comment_id,
+    ).first()
+    if not sub_comment:
+        return create_comment_reply(
+            post_id=post_id,
+            parent_comment_id=parent_comment_id,
+            sub_comment_id=sub_comment_id,
+            text=text or "",
+            commenter_id=commenter_id,
+            commenter_name=commenter_name,
+            page_id=page_id,
+            platform=platform,
+            platform_user_id=platform_user_id,
+        )
+
+    update_fields = []
+    if text is not None:
+        sub_comment.text = text
+        update_fields.append("text")
+    if commenter_id is not None:
+        sub_comment.commenter_id = commenter_id
+        update_fields.append("commenter_id")
+    if commenter_name is not None:
+        sub_comment.commenter_name = commenter_name
+        update_fields.append("commenter_name")
+    if sub_comment.platform != platform:
+        sub_comment.platform = platform
+        update_fields.append("platform")
+
+    if update_fields:
+        sub_comment.save(update_fields=update_fields)
+    return sub_comment
+
+
+def delete_comment_reply(
+    post_id,
+    parent_comment_id,
+    sub_comment_id,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
+):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
+    if not post or not parent_comment_id or not sub_comment_id:
+        return False
+    parent = Comment.objects.filter(post=post, comment_id=parent_comment_id).first()
+    if not parent:
+        return False
+
+    deleted, _ = SubComment.objects.filter(
+        comment=parent,
+        sub_comment_id=sub_comment_id,
+    ).delete()
+    return deleted > 0
+
+
+def delete_comment(post_id, comment_id, page_id=None, platform="facebook", platform_user_id=None):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
     if not post:
         return False
 
@@ -252,47 +455,103 @@ def delete_comment(post_id, comment_id, page_id=None):
     return True
 
 
-def create_reaction(post_id, reaction, reactor_id, reactor_name, page_id=None):
-    post = get_or_create_post(post_id, page_id=page_id)
-    if not post:
+def create_reaction(
+    post_id,
+    reaction,
+    reactor_id,
+    reactor_name,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
+):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
+    if not post or not reactor_id:
         return None
 
-    data = Reaction.objects.create(
+    data, _ = Reaction.objects.update_or_create(
         post=post,
-        reaction=reaction,
         reactor_id=reactor_id,
-        reactor_name=reactor_name,
-        platform="facebook",
+        defaults={
+            "reaction": reaction or "",
+            "reactor_name": reactor_name or "",
+            "platform": platform,
+        },
     )
     return data
     
     
     
-def update_reaction(post_id, reaction_type, reactor_id, page_id=None):
-    post = get_or_create_post(post_id, page_id=page_id)
-    if not post:
+def update_reaction(
+    post_id,
+    reaction_type,
+    reactor_id,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
+):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
+    if not post or not reactor_id:
         return None
     
-    reaction_obj = Reaction.objects.filter(post=post, reactor_id=reactor_id).first()
+    reaction_obj = Reaction.objects.filter(
+        post=post,
+        reactor_id=reactor_id,
+        platform=platform,
+    ).first()
     if not reaction_obj:
-        return None
+        return create_reaction(
+            post_id,
+            reaction_type,
+            reactor_id,
+            reactor_name="",
+            page_id=page_id,
+            platform=platform,
+            platform_user_id=platform_user_id,
+        )
     
     reaction_obj.reaction = reaction_type
-    reaction_obj.save(update_fields=["reaction"])
+    update_fields = ["reaction"]
+    if reaction_obj.platform != platform:
+        reaction_obj.platform = platform
+        update_fields.append("platform")
+    reaction_obj.save(update_fields=update_fields)
     return reaction_obj
 
 
-def delete_reaction(post_id, reaction, reactor_id, page_id=None):
-    post = get_or_create_post(post_id, page_id=page_id)
-    if not post:
+def delete_reaction(
+    post_id,
+    reaction,
+    reactor_id,
+    page_id=None,
+    platform="facebook",
+    platform_user_id=None,
+):
+    post = get_or_create_post(
+        post_id,
+        page_id=page_id,
+        platform=platform,
+        platform_user_id=platform_user_id,
+    )
+    if not post or not reactor_id:
         return False
 
     qs = Reaction.objects.filter(
         post=post,
-        reaction=reaction,
         reactor_id=reactor_id,
-        platform="facebook",
+        platform=platform,
     )
+    if reaction:
+        qs = qs.filter(reaction=reaction)
     deleted, _ = qs.delete()
     return deleted > 0
 

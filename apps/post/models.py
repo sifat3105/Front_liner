@@ -9,6 +9,7 @@ class GeneratedCaption(models.Model):
         ("facebook", "Facebook"),
         ("twitter", "Twitter"),
         ("linkedin", "LinkedIn"),
+        ("tiktok", "TikTok"),
         # add more platforms if needed
     ]
 
@@ -42,4 +43,4 @@ class GeneratedCaption(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.platform} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
+        return f"{self.author.username} - {self.platform} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"

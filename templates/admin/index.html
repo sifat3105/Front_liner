@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_("Django site admin") }}{% endblock %}
+
+{% block branding %}
+    {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+    <div class="flex flex-col gap-8">
+        {% if dashboard_stats %}
+            <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                {% for stat in dashboard_stats %}
+                    <div class="bg-base-50 border border-base-200 rounded-default p-4 shadow-xs dark:bg-base-800 dark:border-base-700">
+                        <div class="text-sm text-font-subtle-light dark:text-font-subtle-dark">{{ stat.label }}</div>
+                        <div class="mt-2 text-2xl font-semibold text-base-900 dark:text-base-100">{{ stat.value }}</div>
+                        <div class="mt-1 text-xs text-font-subtle-light dark:text-font-subtle-dark">{{ stat.description }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="flex flex-col lg:flex-row lg:gap-8">
+            <div class="grow">
+                {% include "unfold/helpers/app_list_default.html" %}
+            </div>
+
+            <div id="content-related" class="lg:w-[30rem]">
+                <div id="recent-actions-module" class="module bg-base-50 rounded-default p-3 dark:bg-base-800">
+                    <h2 class="mb-3 font-semibold text-base-900 dark:text-base-100">
+                        {% translate "Recent actions" %}
+                    </h2>
+
+                    {% if dashboard_history %}
+                        <ul class="actionlist">
+                            {% for entry in dashboard_history %}
+                                <li class="border border-base-400/10 bg-white mb-3 p-3 rounded-default shadow-xs last:mb-0 dark:bg-base-900">
+                                    <div class="mb-2 flex items-center gap-2">
+                                        <span class="inline-flex items-center rounded-default px-2 py-0.5 text-xs font-medium
+                                            {% if entry.is_addition %}bg-green-100 text-green-700 dark:bg-green-700/20 dark:text-green-100
+                                            {% elif entry.is_change %}bg-blue-100 text-blue-700 dark:bg-blue-700/20 dark:text-blue-100
+                                            {% elif entry.is_deletion %}bg-red-100 text-red-700 dark:bg-red-700/20 dark:text-red-100
+                                            {% else %}bg-base-100 text-base-700 dark:bg-base-700 dark:text-base-100{% endif %}">
+                                            {{ entry.action_label }}
+                                        </span>
+                                        <span class="text-xs text-font-subtle-light dark:text-font-subtle-dark">{% translate "By" %} {{ entry.user }}</span>
+                                    </div>
+
+                                    <div class="mb-3 overflow-hidden text-ellipsis whitespace-nowrap">
+                                        {% if entry.admin_url %}
+                                            <a href="{{ entry.admin_url }}">{{ entry.object_repr }}</a>
+                                        {% else %}
+                                            {{ entry.object_repr }}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="border-base-100 border-t flex pt-3 text-sm dark:border-base-800">
+                                        <div>{{ entry.content_type }}</div>
+                                        <div class="ml-auto">{{ entry.action_time }}</div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-sm text-font-subtle-light dark:text-font-subtle-dark">
+                            {% translate "No actions available yet." %}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

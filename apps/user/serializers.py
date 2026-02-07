@@ -2,15 +2,64 @@ from rest_framework import serializers
 from .models import User, Account,Shop, Business,Banking
 from django.contrib.auth import authenticate
 from django.db import transaction
+from apps.transaction.models import Transaction
+from apps.subscription.models import UserSubscription
+from apps.account.models import DebitCredit
+from apps.courier.models import CourierOrder
+from apps.voice.models import Agent
+from apps.phone_number.models import PhoneNumber
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
+    last_name = serializers.CharField(write_only=True, required=False, allow_blank=True)
+    username = serializers.CharField(write_only=True, required=False, allow_blank=True)
+
     class Meta:
         model = Account
-        fields = ['id', 'full_name', 'phone', 'organization']
+        fields = [
+            'id',
+            'full_name',
+            'phone',
+            'organization',
+            'first_name',
+            'last_name',
+            'username',
+        ]
         read_only_fields = ['id']
+        extra_kwargs = {
+            'full_name': {'required': False, 'allow_blank': True},
+            'phone': {'required': False, 'allow_null': True, 'allow_blank': True},
+            'organization': {'required': False, 'allow_null': True, 'allow_blank': True},
+        }
+
+    def validate(self, attrs):
+        full_name = (attrs.get('full_name') or '').strip()
+        first_name = (attrs.get('first_name') or '').strip()
+        last_name = (attrs.get('last_name') or '').strip()
+
+        if not full_name:
+            derived_full_name = ' '.join(part for part in [first_name, last_name] if part).strip()
+            if derived_full_name:
+                attrs['full_name'] = derived_full_name
+
+        return attrs
 
     def update(self, instance, validated_data):
+        first_name = (validated_data.pop('first_name', '') or '').strip()
+        last_name = (validated_data.pop('last_name', '') or '').strip()
+        username = validated_data.pop('username', None)
+
+        full_name = (validated_data.get('full_name') or '').strip()
+        if not full_name:
+            derived_full_name = ' '.join(part for part in [first_name, last_name] if part).strip()
+            if derived_full_name:
+                validated_data['full_name'] = derived_full_name
+
+        if username is not None:
+            username = username.strip()
+            validated_data['user_str_id'] = username or None
+
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
         instance.save()
@@ -26,8 +75,29 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'email', 'password', 'account']
         extra_kwargs = {'password': {'write_only': True}}
 
+    def _normalize_account_data(self, account_data):
+        if not account_data:
+            return None
+
+        normalized_data = dict(account_data)
+
+        first_name = (normalized_data.pop('first_name', '') or '').strip()
+        last_name = (normalized_data.pop('last_name', '') or '').strip()
+        username = normalized_data.pop('username', None)
+
+        full_name = (normalized_data.get('full_name') or '').strip()
+        if not full_name:
+            full_name = ' '.join(part for part in [first_name, last_name] if part).strip()
+        normalized_data['full_name'] = full_name
+
+        if username is not None:
+            username = username.strip()
+            normalized_data['user_str_id'] = username or None
+
+        return normalized_data
+
     def create(self, validated_data):
-        account_data = validated_data.pop('account', None)
+        account_data = self._normalize_account_data(validated_data.pop('account', None))
 
         # Create user
         user = User.objects.create_user(
@@ -41,13 +111,14 @@ class UserSerializer(serializers.ModelSerializer):
                 user=user,
                 full_name=account_data.get('full_name', ''),
                 phone=account_data.get('phone', ''),
-                organization=account_data.get('organization', '')
+                organization=account_data.get('organization', ''),
+                user_str_id=account_data.get('user_str_id')
             )
 
         return user
 
     def update(self, instance, validated_data):
-        account_data = validated_data.pop('account', None)
+        account_data = self._normalize_account_data(validated_data.pop('account', None))
 
         if 'password' in validated_data:
             instance.set_password(validated_data['password'])
@@ -55,7 +126,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
 
         if account_data:
-            profile = instance.account
+            profile, _ = Account.objects.get_or_create(user=instance)
             serializer = UserProfileSerializer(profile, data=account_data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -76,7 +147,7 @@ class UserLoginSerializer(serializers.Serializer):
     
 
 class AccountSerializer(serializers.ModelSerializer):
-    roles = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
     subscription = serializers.SerializerMethodField()
     
     class Meta:
@@ -92,7 +163,7 @@ class AccountSerializer(serializers.ModelSerializer):
             "is_verified",
             "date_joined",
             "image",
-            "roles",
+            "role",
             "preferences",
             "subscription"
         ]
@@ -102,8 +173,8 @@ class AccountSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source='user.id', read_only=True)
 
     # Extract roles from related user
-    def get_roles(self, obj):
-        return [obj.user.role] if obj.user.role else ["user"]
+    def get_role(self, obj):
+        return obj.user.role if obj.user.role else "user"
     
     
 
@@ -147,9 +218,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def validate_role(self, value):
         parent = self.context["request"].user
 
-        if parent.role == "reseller" and value != "sub_reseller":
+        if parent.role == "reseller" and value not in ["sub_reseller", "user"]:
             raise serializers.ValidationError(
-                "Reseller can create only sub reseller"
+                "Reseller can create only sub reseller or user"
             )
 
         if parent.role == "sub_reseller":
@@ -275,3 +346,198 @@ class BankingSerializer(serializers.ModelSerializer):
             "updated_at",
         )
         read_only_fields = ("id", "created_at", "updated_at")
+
+
+class ResellerCustomerPaymentHistorySerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source="user_id", read_only=True)
+    customer_email = serializers.EmailField(source="user.email", read_only=True)
+    customer_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Transaction
+        fields = (
+            "id",
+            "transaction_id",
+            "customer_id",
+            "customer_email",
+            "customer_name",
+            "status",
+            "category",
+            "amount",
+            "description",
+            "purpose",
+            "payment_method",
+            "created_at",
+        )
+
+    def get_customer_name(self, obj):
+        account = getattr(obj.user, "account", None)
+        if account:
+            return account.full_name
+        return ""
+
+
+class ResellerCustomerSubscriptionSerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source="user_id", read_only=True)
+    customer_email = serializers.EmailField(source="user.email", read_only=True)
+    customer_name = serializers.SerializerMethodField()
+    plan_name = serializers.CharField(source="plan.name", read_only=True)
+    is_expired = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserSubscription
+        fields = (
+            "id",
+            "customer_id",
+            "customer_email",
+            "customer_name",
+            "status",
+            "plan_name",
+            "started_at",
+            "expires_at",
+            "last_renewed_at",
+            "is_expired",
+        )
+
+    def get_customer_name(self, obj):
+        account = getattr(obj.user, "account", None)
+        if account:
+            return account.full_name
+        return ""
+
+    def get_is_expired(self, obj):
+        return not obj.is_active()
+
+
+class ResellerCustomerDueSerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source="owner_id", read_only=True)
+    customer_email = serializers.EmailField(source="owner.email", read_only=True)
+    customer_full_name = serializers.SerializerMethodField()
+    is_overdue = serializers.SerializerMethodField()
+
+    class Meta:
+        model = DebitCredit
+        fields = (
+            "id",
+            "customer_id",
+            "customer_email",
+            "customer_full_name",
+            "customer_name",
+            "voucher_no",
+            "invoice_no",
+            "payment_type",
+            "entry_type",
+            "amount",
+            "balance",
+            "due_date",
+            "is_overdue",
+            "created_at",
+        )
+
+    def get_customer_full_name(self, obj):
+        account = getattr(obj.owner, "account", None)
+        if account:
+            return account.full_name
+        return ""
+
+    def get_is_overdue(self, obj):
+        from django.utils import timezone
+
+        if not obj.due_date:
+            return False
+        return obj.due_date < timezone.localdate()
+
+
+class ResellerCustomerCourierCollectionSerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source="order.user_id", read_only=True)
+    customer_email = serializers.EmailField(source="order.user.email", read_only=True)
+    customer_name = serializers.SerializerMethodField()
+    order_id = serializers.CharField(source="order.order_id", read_only=True)
+    order_customer = serializers.CharField(source="order.customer", read_only=True)
+    courier_name = serializers.CharField(source="courier.name", read_only=True)
+
+    class Meta:
+        model = CourierOrder
+        fields = (
+            "id",
+            "couriers_id",
+            "tracking_id",
+            "invoice",
+            "status",
+            "customer_id",
+            "customer_email",
+            "customer_name",
+            "order_id",
+            "order_customer",
+            "courier_name",
+            "recipient_name",
+            "recipient_phone",
+            "recipient_address",
+            "delivery_fee",
+            "created_at",
+        )
+
+    def get_customer_name(self, obj):
+        owner = getattr(obj.order, "user", None)
+        if not owner:
+            return ""
+        account = getattr(owner, "account", None)
+        if account:
+            return account.full_name
+        return ""
+
+
+class ResellerCustomerAgentSerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source="owner_id", read_only=True)
+    customer_email = serializers.EmailField(source="owner.email", read_only=True)
+    customer_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Agent
+        fields = (
+            "id",
+            "customer_id",
+            "customer_email",
+            "customer_name",
+            "name",
+            "voice",
+            "language",
+            "enabled",
+            "public_id",
+            "created_at",
+            "updated_at",
+        )
+
+    def get_customer_name(self, obj):
+        account = getattr(obj.owner, "account", None)
+        if account:
+            return account.full_name
+        return ""
+
+
+class ResellerCustomerActiveNumberSerializer(serializers.ModelSerializer):
+    customer_id = serializers.IntegerField(source="user_id", read_only=True)
+    customer_email = serializers.EmailField(source="user.email", read_only=True)
+    customer_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PhoneNumber
+        fields = (
+            "id",
+            "customer_id",
+            "customer_email",
+            "customer_name",
+            "phone_number",
+            "friendly_name",
+            "verified",
+            "number_sid",
+            "price",
+            "created_at",
+            "updated_at",
+        )
+
+    def get_customer_name(self, obj):
+        account = getattr(obj.user, "account", None)
+        if account:
+            return account.full_name
+        return ""

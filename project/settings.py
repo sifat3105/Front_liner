@@ -302,6 +302,8 @@ INSTAGRAM_REDIRECT_URI = "https://test.frontliner.io/api/social/instagram/callba
 TIKTOK_CLIENT_KEY = "sbaw6iwjvtlzl0dnqr"
 TIKTOK_CLIENT_SECRET = "7GSGlOQYv7fHwaHj4JTGS1KOZfIpNoqa"
 TIKTOK_REDIRECT_URI = "https://test.frontliner.io/api/social/tiktok/callback/"
+TIKTOK_VERIFY_TOKEN = os.environ.get("TIKTOK_VERIFY_TOKEN", "my_tiktok_verify_token_2026")
+WHATSAPP_REDIRECT_URI = "https://test.frontliner.io/api/social/whatsapp/callback/"
 
 PLATFORM_CONFIG = {
         "facebook": {
@@ -309,9 +311,13 @@ PLATFORM_CONFIG = {
             "client_id": FACEBOOK_APP_ID,
             "redirect_uri":FACEBOOK_REDIRECT_URI,
             "scope": [
+                "public_profile",
                 "pages_show_list",
                 "pages_read_engagement",
                 "pages_manage_posts",
+                "pages_manage_engagement",
+                "pages_manage_metadata",
+                "pages_messaging",
             ],
             "state_prefix": "facebook_oauth_",
         },
@@ -328,9 +334,21 @@ PLATFORM_CONFIG = {
                 "instagram_manage_insights",
                 "pages_show_list",
                 "pages_read_engagement",
+                "pages_manage_metadata",
                 "business_management",
             ],
             "state_prefix": "instagram_oauth_",
+        },
+        "whatsapp": {
+            "auth_url": "https://www.facebook.com/v19.0/dialog/oauth",
+            "client_id": FACEBOOK_APP_ID,
+            "redirect_uri": WHATSAPP_REDIRECT_URI,
+            "scope": [
+                "business_management",
+                "whatsapp_business_management",
+                "whatsapp_business_messaging",
+            ],
+            "state_prefix": "whatsapp_oauth_",
         },
         # Future-ready
         "tiktok": {
@@ -339,7 +357,9 @@ PLATFORM_CONFIG = {
             "redirect_uri": TIKTOK_REDIRECT_URI,
             "scope": [
                 "user.info.basic",
-                
+                "video.list",
+                "video.upload",
+                "video.publish",
             ],
             "state_prefix": "tiktok_oauth_",
         },
@@ -372,6 +392,7 @@ SP_PREFIX = os.environ.get('SP_PREFIX')
 UNFOLD = {
     "SITE_TITLE": "Care On Admin",
     "SITE_HEADER": "Care On Administration",
+    "DASHBOARD_CALLBACK": "project.admin_dashboard.dashboard_callback",
     "SIDEBAR": {
         "show_search": True,
         "show_all_applications": False,
@@ -513,9 +534,8 @@ UNFOLD = {
                 "collapsible": True,
                 "items": [
                     {"title": "Social Posts", "link": "/admin/publish/socialpost/"},
-                    {"title": "Social Media", "link": "/admin/publish/socialmedia/"},
-                    {"title": "Social Post Publish", "link": "/admin/publish/socialpostpublish/"},
-                    {"title": "Social Mediaa Drafts", "link": "/admin/publish/mediadraft/"},
+                    {"title": "Post Media Files", "link": "/admin/publish/postmediafile/"},
+                    {"title": "Social Media Drafts", "link": "/admin/publish/mediadraft/"},
                 ],
             },
             {

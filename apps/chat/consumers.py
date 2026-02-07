@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from apps.social.models import SocialAccount
+from apps.chat.whatsapp.service import send_whatsapp_text
 from .chat_bot import chatbot_reply
 from .models import Message, Conversation
 from .utils import get_chat_history, get_page, send_message
@@ -57,12 +58,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def save_message(self, text, attachments):
+        conversation = Conversation.objects.get(id=self.conversation_id)
         return Message.objects.create(
-            conversation_id=self.conversation_id,
+            conversation=conversation,
             text=text,
             attachments=attachments or [],
             sender_type="seller",
-            platform="facebook",
+            platform=conversation.platform,
             is_sent=True,
         )
         
@@ -72,9 +74,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
         page_id = conversation.page_id
         recipient_id = conversation.external_user_id
         try:
-            page = get_page(page_id)
-
-            send_message(page.page_access_token, recipient_id, text)
+            if conversation.platform == "whatsapp":
+                wa_token = (
+                    conversation.social_account.long_lived_token
+                    or conversation.social_account.user_access_token
+                )
+                send_whatsapp_text(page_id, recipient_id, text, access_token=wa_token)
+            else:
+                page = get_page(page_id)
+                send_message(page.page_access_token, recipient_id, text)
 
         except Exception as e:
             print(f"[send_message_to_user Error] {e}")
@@ -335,6 +343,7 @@ class ChatBotConsumer(AsyncWebsocketConsumer):
             history,
             attachments or [],
             owner_user_id=self.owner_user_id,
+            source_platform=getattr(self.conversation, "platform", None),
         )
         reply_text = (bot_payload or {}).get("reply") or ""
         if not reply_text:

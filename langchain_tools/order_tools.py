@@ -12,8 +12,9 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-@tool
+@tool("get_order", description="Fetch an order by order_id and return summary fields with item details.")
 def get_order(order_id: str) -> Dict[str, Any]:
+    """Fetch an order by order_id and return summary fields with item details."""
     order_id = (order_id or "").strip()
 
     if not re.fullmatch(r"^[A-Za-z0-9]+-\d+$", order_id):
@@ -52,7 +53,7 @@ def get_order(order_id: str) -> Dict[str, Any]:
     }
 
 
-@tool
+@tool("create_order", description="Create a new order with items for a specific user.")
 def create_order(
     user_id: int,
     customer: str,
@@ -61,7 +62,9 @@ def create_order(
     platform: str,
     items: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
-
+    """
+    Create a new order with items for a specific user and persist to Order/OrderItem models.
+    """
 
     if not items or not isinstance(items, list):
         return {"error": "Items list is required"}

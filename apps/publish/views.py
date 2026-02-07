@@ -15,6 +15,7 @@ from apps.social.models import (
 
 from .utils.publish_Facebook_post import publish_fb_post, get_post_insights
 from .utils.instagram_post import create_ig_post
+from .utils.tiktok_post import get_tiktok_post_details
 from .services.media_service import save_media_files
 from .services.publish_service import publish_to_platforms, publish_post
 from .services.post_generations import generate_caption, generate_hashtags, generate_image
@@ -22,6 +23,22 @@ from .services.post_generations import generate_caption, generate_hashtags, gene
 
 app_id = settings.FACEBOOK_APP_ID
 app_secret = settings.FACEBOOK_APP_SECRET
+
+
+def _coerce_bool(value):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1", "yes", "on"}:
+            return True
+        if normalized in {"false", "0", "no", "off"}:
+            return False
+        return None
+    if isinstance(value, (int, float)):
+        return bool(value)
+    return None
+
 
 class SocialPostView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -88,7 +105,12 @@ class SocialPostdetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def get(self, request, post_id):
-        post = SocialPost.objects.get(id=post_id)
+        post = SocialPost.objects.filter(id=post_id, author=request.user).first()
+        if not post:
+            return self.error(
+                message="Social post not found",
+                status_code=status.HTTP_404_NOT_FOUND,
+            )
         serializer = SocialPostSerializer(post, many=False)
         return self.success(
             message="Social post fetched successfully",
@@ -97,7 +119,13 @@ class SocialPostdetailView(APIView):
         )
         
     def patch(self, request, post_id):
-        post = SocialPost.objects.get(id=post_id)
+        post = SocialPost.objects.filter(id=post_id, author=request.user).first()
+        if not post:
+            return self.error(
+                message="Social post not found",
+                status_code=status.HTTP_404_NOT_FOUND,
+            )
+
         # if post.scheduled_at:
         #     serializer = SocialPostSerializer(post, data=request.data, partial=True)
         #     serializer.is_valid(raise_exception=True)
@@ -107,26 +135,67 @@ class SocialPostdetailView(APIView):
         #         status_code=status.HTTP_200_OK,
         #         data=serializer.data
         #     )
-        if request.data.get("is_published") and not post.is_published:
-            post.is_published = True
-            res = publish_post(request.user, post)
-            if res:
-                post.save()
-                return self.success(
-                    message="Social post published successfully",
-                    status_code=status.HTTP_200_OK,
-                    data=res
-                )
-            else:
-                return self.error(
-                    message="Social post publishing failed",
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                )
-        
+        if "is_published" not in request.data:
+            return self.error(
+                message="is_published is required in request body",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                errors={
+                    "is_published": [
+                        "Send true to publish this post."
+                    ]
+                },
+            )
+
+        requested_publish_state = _coerce_bool(request.data.get("is_published"))
+        if requested_publish_state is None:
+            return self.error(
+                message="Invalid is_published value",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                errors={
+                    "is_published": [
+                        "Expected boolean true/false (or true/false string)."
+                    ]
+                },
+            )
+
+        if not requested_publish_state:
+            return self.error(
+                message="Unpublish is not supported from this endpoint",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                errors={
+                    "is_published": [
+                        "Use is_published=true to publish."
+                    ]
+                },
+            )
+
+        if post.is_published:
+            return self.success(
+                message="Social post is already published",
+                status_code=status.HTTP_200_OK,
+                data={
+                    "success": True,
+                    "results": [],
+                    "post_ids": post.post_ids or [],
+                },
+            )
+
+        post.is_published = True
+        res = publish_post(request.user, post)
+        if isinstance(res, dict) and res.get("success"):
+            post.save()
+            return self.success(
+                message="Social post published successfully",
+                status_code=status.HTTP_200_OK,
+                data=res
+            )
+
+        post.is_published = False
+        post.save(update_fields=["is_published"])
         return self.error(
-            message="Social post updating failed",
+            message="Social post publishing failed",
+            errors={"results": (res or {}).get("results", [])} if isinstance(res, dict) else None,
             status_code=status.HTTP_400_BAD_REQUEST,
-            data={"error": "Invalid data"}
         )
         
         
@@ -137,25 +206,61 @@ class PostInsightsView(APIView):
         try:
             post = SocialPost.objects.get(id=post_id)
             post_datas = []
-            for id in post.post_ids:
-                if id.get("platform") == "facebook":
-                    insights = get_post_insights(post.page_access_token, id.get("post_id")[0])
+
+            def _normalize_post_reference(post_ref):
+                if isinstance(post_ref, list):
+                    return post_ref[0] if post_ref else None
+                if isinstance(post_ref, dict):
+                    return (
+                        post_ref.get("publish_id")
+                        or post_ref.get("post_id")
+                        or post_ref.get("video_id")
+                        or post_ref.get("id")
+                    )
+                return post_ref
+
+            for post_item in post.post_ids:
+                platform = post_item.get("platform")
+                post_ref = _normalize_post_reference(post_item.get("post_id"))
+                if platform == "facebook":
+                    insights = (
+                        get_post_insights(post.page_access_token, post_ref)
+                        if post.page_access_token and post_ref
+                        else {"error": "Facebook token or post_id missing"}
+                    )
                     post_datas.append({
-                        "platform": id.get("platform"),
-                        "post_id": id.get("post_id"),
+                        "platform": platform,
+                        "post_id": post_item.get("post_id"),
                         "insights": insights
                     })
-                elif id.get("platform") == "instagram":
-                    insights = get_post_insights(id.get("post_id"))
+                elif platform == "instagram":
                     post_datas.append({
-                        "platform": id.get("platform"),
-                        "post_id": id.get("post_id"),
-                        "insights": insights
+                        "platform": platform,
+                        "post_id": post_item.get("post_id"),
+                        "insights": {
+                            "message": "Instagram insights are not configured in this endpoint"
+                        }
+                    })
+                elif platform == "tiktok":
+                    tk_account = SocialAccount.objects.filter(
+                        user=request.user,
+                        platform="tiktok",
+                    ).first()
+                    tk_token = (
+                        getattr(tk_account, "access_token", None)
+                        or getattr(tk_account, "long_lived_token", None)
+                        or getattr(tk_account, "user_access_token", None)
+                    )
+                    insights = get_tiktok_post_details(tk_token, post_ref)
+                    post_datas.append({
+                        "platform": platform,
+                        "post_id": post_item.get("post_id"),
+                        "insights": insights,
                     })
                 else:
                     post_datas.append({
-                        "platform": id.get("platform"),
-                        "post_id": id.get("post_id"),
+                        "platform": platform,
+                        "post_id": post_item.get("post_id"),
                         "insights": {}
                     })
             return self.success(

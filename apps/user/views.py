@@ -8,8 +8,16 @@ from middleware.cryptography import encrypt_token
 from django.contrib.auth import get_user_model
 from django.template.context_processors import request
 from datetime import datetime, timedelta
+from django.utils import timezone
+from django.utils.dateparse import parse_date
 User = get_user_model()
 from . models import Account,Shop,Business,Banking
+from apps.transaction.models import Transaction
+from apps.subscription.models import UserSubscription
+from apps.account.models import DebitCredit
+from apps.courier.models import CourierOrder
+from apps.voice.models import Agent
+from apps.phone_number.models import PhoneNumber
 from .serializers import (
     UserSerializer,
     UserLoginSerializer,
@@ -18,7 +26,13 @@ from .serializers import (
     ShopSerializer,
     BusinessSerializer,
     BankingSerializer,
-    UserCreateSerializer
+    UserCreateSerializer,
+    ResellerCustomerPaymentHistorySerializer,
+    ResellerCustomerSubscriptionSerializer,
+    ResellerCustomerDueSerializer,
+    ResellerCustomerCourierCollectionSerializer,
+    ResellerCustomerAgentSerializer,
+    ResellerCustomerActiveNumberSerializer,
 )
 
 
@@ -254,7 +268,7 @@ class AccountView(APIView):
         )
     
 class UserCreateAPIView(APIView):
-    allowed_roles = ["seller", "sub_seller"]
+    allowed_roles = ["seller", "sub_seller", "reseller"]
     permission_classes = [RolePermission]
 
     def post(self, request):
@@ -280,13 +294,13 @@ class UserCreateAPIView(APIView):
         )
 
 class CreateChildUserView(APIView):
-    allowed_roles = ["seller", "sub_seller"]
+    allowed_roles = ["seller", "sub_seller", "reseller"]
     permission_classes = [RolePermission]
 
     def post(self, request):
-        if request.user.role != "seller" or request.user.role != "sub_seller":
+        if request.user.role not in ["seller", "sub_seller", "reseller"]:
             return self.error(
-                message="Only sellers and sub-sellers can create child users",
+                message="Only sellers, sub-sellers and resellers can create child users",
                 status_code=status.HTTP_400_BAD_REQUEST
             )
         serializer = UserCreateSerializer(data=request.data, context={"request": request})
@@ -304,7 +318,7 @@ class CreateChildUserView(APIView):
         )
     
 class ViewChildUserListView(APIView):
-    allowed_roles = ["superuser", "admin", "seller", "sub_seller"]
+    allowed_roles = ["superuser", "admin", "seller", "sub_seller", "reseller"]
     permission_classes = [RolePermission]
 
 
@@ -326,7 +340,7 @@ class ViewChildUserListView(APIView):
 
 
 class ViewChildUserView(APIView):
-    allowed_roles = ["seller", "sub_seller"]
+    allowed_roles = ["seller", "sub_seller", "reseller"]
     permission_classes = [RolePermission]
 
     def get(self, request, pk):
@@ -339,7 +353,7 @@ class ViewChildUserView(APIView):
         )
 
 class UpdateChildUserView(APIView):
-    allowed_roles = ["seller", "sub_seller"]
+    allowed_roles = ["seller", "sub_seller", "reseller"]
     permission_classes = [RolePermission]
 
     def put(self, request, pk):
@@ -356,6 +370,256 @@ class UpdateChildUserView(APIView):
             message="Invalid data",
             errors=serializer.errors,
             status_code=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class ResellerHierarchyMixin:
+    def _get_descendant_user_ids(self, root_user):
+        discovered_ids = set()
+        frontier = [root_user.id]
+
+        while frontier:
+            child_ids = list(
+                User.objects.filter(parent_id__in=frontier).values_list("id", flat=True)
+            )
+            next_frontier = []
+            for child_id in child_ids:
+                if child_id not in discovered_ids:
+                    discovered_ids.add(child_id)
+                    next_frontier.append(child_id)
+            frontier = next_frontier
+
+        return list(discovered_ids)
+
+
+class ResellerCustomerPaymentHistoryAPIView(ResellerHierarchyMixin, APIView):
+    allowed_roles = ["reseller", "sub_reseller"]
+    permission_classes = [RolePermission]
+
+    def get(self, request):
+        descendant_ids = self._get_descendant_user_ids(request.user)
+        if not descendant_ids:
+            return self.success(
+                message="Customer payment history fetched successfully",
+                data={"count": 0, "payments": []},
+                status_code=status.HTTP_200_OK,
+                meta={"action": "reseller-customer-payment-history"},
+            )
+
+        queryset = (
+            Transaction.objects.filter(user_id__in=descendant_ids)
+            .select_related("user", "user__account")
+            .order_by("-created_at")
+        )
+
+        customer_id = request.query_params.get("customer_id")
+        if customer_id:
+            queryset = queryset.filter(user_id=customer_id)
+
+        transaction_status = request.query_params.get("status")
+        if transaction_status:
+            queryset = queryset.filter(status=transaction_status)
+
+        category = request.query_params.get("category")
+        if category:
+            queryset = queryset.filter(category=category)
+
+        start_date = parse_date(request.query_params.get("start_date", ""))
+        if start_date:
+            queryset = queryset.filter(created_at__date__gte=start_date)
+
+        end_date = parse_date(request.query_params.get("end_date", ""))
+        if end_date:
+            queryset = queryset.filter(created_at__date__lte=end_date)
+
+        serializer = ResellerCustomerPaymentHistorySerializer(queryset, many=True)
+        return self.success(
+            message="Customer payment history fetched successfully",
+            data={"count": queryset.count(), "payments": serializer.data},
+            status_code=status.HTTP_200_OK,
+            meta={"action": "reseller-customer-payment-history"},
+        )
+
+
+class ResellerCustomerDueExpireAPIView(ResellerHierarchyMixin, APIView):
+    allowed_roles = ["reseller", "sub_reseller"]
+    permission_classes = [RolePermission]
+
+    def get(self, request):
+        descendant_ids = self._get_descendant_user_ids(request.user)
+        if not descendant_ids:
+            return self.success(
+                message="Customer due and expiry data fetched successfully",
+                data={
+                    "summary": {
+                        "total_subscriptions": 0,
+                        "expired_subscriptions": 0,
+                        "total_dues": 0,
+                        "overdue_dues": 0,
+                    },
+                    "subscriptions": [],
+                    "dues": [],
+                },
+                status_code=status.HTTP_200_OK,
+                meta={"action": "reseller-customer-due-expire"},
+            )
+
+        customer_id = request.query_params.get("customer_id")
+        filtered_ids = descendant_ids
+        if customer_id:
+            try:
+                customer_id = int(customer_id)
+            except (TypeError, ValueError):
+                return self.error(
+                    message="customer_id must be an integer",
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    meta={"action": "reseller-customer-due-expire"},
+                )
+            filtered_ids = [customer_id] if customer_id in descendant_ids else []
+
+        subscriptions = (
+            UserSubscription.objects.filter(user_id__in=filtered_ids)
+            .select_related("user", "user__account", "plan")
+            .order_by("expires_at")
+        )
+        dues = (
+            DebitCredit.objects.filter(owner_id__in=filtered_ids, due_date__isnull=False)
+            .select_related("owner", "owner__account")
+            .order_by("due_date")
+        )
+
+        subscription_data = ResellerCustomerSubscriptionSerializer(subscriptions, many=True).data
+        due_data = ResellerCustomerDueSerializer(dues, many=True).data
+        expired_subscriptions = sum(1 for sub in subscriptions if not sub.is_active())
+        overdue_dues = dues.filter(due_date__lt=timezone.localdate()).count()
+
+        return self.success(
+            message="Customer due and expiry data fetched successfully",
+            data={
+                "summary": {
+                    "total_subscriptions": subscriptions.count(),
+                    "expired_subscriptions": expired_subscriptions,
+                    "total_dues": dues.count(),
+                    "overdue_dues": overdue_dues,
+                },
+                "subscriptions": subscription_data,
+                "dues": due_data,
+            },
+            status_code=status.HTTP_200_OK,
+            meta={"action": "reseller-customer-due-expire"},
+        )
+
+
+class ResellerCustomerCollectionCourierAPIView(ResellerHierarchyMixin, APIView):
+    allowed_roles = ["reseller", "sub_reseller"]
+    permission_classes = [RolePermission]
+
+    def get(self, request):
+        descendant_ids = self._get_descendant_user_ids(request.user)
+        if not descendant_ids:
+            return self.success(
+                message="Customer courier collection list fetched successfully",
+                data={"count": 0, "collections": []},
+                status_code=status.HTTP_200_OK,
+                meta={"action": "reseller-customer-courier-collection"},
+            )
+
+        queryset = (
+            CourierOrder.objects.filter(order__user_id__in=descendant_ids)
+            .select_related("order", "order__user", "order__user__account", "courier")
+            .order_by("-created_at")
+        )
+
+        customer_id = request.query_params.get("customer_id")
+        if customer_id:
+            queryset = queryset.filter(order__user_id=customer_id)
+
+        courier_status = request.query_params.get("status", "collected")
+        if courier_status and courier_status.lower() != "all":
+            queryset = queryset.filter(status__iexact=courier_status)
+
+        serializer = ResellerCustomerCourierCollectionSerializer(queryset, many=True)
+        return self.success(
+            message="Customer courier collection list fetched successfully",
+            data={"count": queryset.count(), "collections": serializer.data},
+            status_code=status.HTTP_200_OK,
+            meta={"action": "reseller-customer-courier-collection"},
+        )
+
+
+class ResellerAgentListAPIView(ResellerHierarchyMixin, APIView):
+    allowed_roles = ["reseller", "sub_reseller"]
+    permission_classes = [RolePermission]
+
+    def get(self, request):
+        descendant_ids = self._get_descendant_user_ids(request.user)
+        if not descendant_ids:
+            return self.success(
+                message="Customer agent list fetched successfully",
+                data={"count": 0, "agents": []},
+                status_code=status.HTTP_200_OK,
+                meta={"action": "reseller-agent-list"},
+            )
+
+        queryset = (
+            Agent.objects.filter(owner_id__in=descendant_ids)
+            .select_related("owner", "owner__account")
+            .order_by("-updated_at")
+        )
+
+        customer_id = request.query_params.get("customer_id")
+        if customer_id:
+            queryset = queryset.filter(owner_id=customer_id)
+
+        enabled = request.query_params.get("enabled")
+        if enabled is not None:
+            enabled_value = enabled.lower()
+            if enabled_value in ["true", "false"]:
+                queryset = queryset.filter(enabled=(enabled_value == "true"))
+
+        serializer = ResellerCustomerAgentSerializer(queryset, many=True)
+        return self.success(
+            message="Customer agent list fetched successfully",
+            data={"count": queryset.count(), "agents": serializer.data},
+            status_code=status.HTTP_200_OK,
+            meta={"action": "reseller-agent-list"},
+        )
+
+
+class ResellerActiveNumberListAPIView(ResellerHierarchyMixin, APIView):
+    allowed_roles = ["reseller", "sub_reseller"]
+    permission_classes = [RolePermission]
+
+    def get(self, request):
+        descendant_ids = self._get_descendant_user_ids(request.user)
+        if not descendant_ids:
+            return self.success(
+                message="Customer active number list fetched successfully",
+                data={"count": 0, "numbers": []},
+                status_code=status.HTTP_200_OK,
+                meta={"action": "reseller-active-number-list"},
+            )
+
+        queryset = (
+            PhoneNumber.objects.filter(user_id__in=descendant_ids)
+            .select_related("user", "user__account")
+            .order_by("-created_at")
+        )
+
+        customer_id = request.query_params.get("customer_id")
+        if customer_id:
+            queryset = queryset.filter(user_id=customer_id)
+
+        active_only = request.query_params.get("active_only", "true").lower() == "true"
+        if active_only:
+            queryset = queryset.filter(verified=True)
+
+        serializer = ResellerCustomerActiveNumberSerializer(queryset, many=True)
+        return self.success(
+            message="Customer active number list fetched successfully",
+            data={"count": queryset.count(), "numbers": serializer.data},
+            status_code=status.HTTP_200_OK,
+            meta={"action": "reseller-active-number-list"},
         )
 
 

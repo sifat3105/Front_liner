@@ -16,6 +16,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from .services.attachment_loader import download_images
 from .services.ocr import analyze_image  # ✅ OCR + Vision Caption (must exist)
 from langchain_tools.inventory_tools import search_inventory_products, list_inventory_products
+from langchain_tools.order_tools import create_order
 
 # ----------------------------------
 # ENV + LOGGING
@@ -31,6 +32,7 @@ class ChatBotState(TypedDict, total=False):
     user_query: str
     chat_history: List[Dict[str, Any]]
     owner_user_id: Optional[int]
+    source_platform: Optional[str]
 
     attachments: List[Dict[str, Any]]
     attachment_text: str  # OCR + Vision caption combined text
@@ -39,6 +41,7 @@ class ChatBotState(TypedDict, total=False):
     context: str
     inventory_context: str
     inventory_result: Dict[str, Any]
+    order_result: Dict[str, Any]
     response: str
     force_response: bool
     flagged: bool
@@ -162,6 +165,220 @@ def _detect_inventory_intent_llm(user_query: str, chat_history: List[Dict[str, A
         logger.exception(f"Intent classifier failed: {e}")
 
     return "none"
+
+
+def _build_recent_chat_snippet(chat_history: List[Dict[str, Any]], limit: int = 8) -> str:
+    rows: List[str] = []
+    for msg in (chat_history or [])[-limit:]:
+        if not isinstance(msg, dict):
+            continue
+        role = (msg.get("role") or "").strip()
+        content = (msg.get("content") or "").strip()
+        if not role or not content:
+            continue
+        rows.append(f"{role}: {content}")
+    return "\n".join(rows)
+
+
+def _detect_order_intent_llm(user_query: str, chat_history: List[Dict[str, Any]]) -> str:
+    """
+    Returns: "create" | "none"
+    """
+    if not (user_query or "").strip():
+        return "none"
+
+    llm = ChatOpenAI(
+        model=os.getenv("OPENAI_CHAT_MODEL", "gpt-4o-mini"),
+        temperature=0.0,
+        max_tokens=60,
+    )
+
+    system = (
+        "You are an intent classifier for a commerce chatbot. "
+        "Return JSON only: {\"intent\": \"create\"|\"none\"}.\n"
+        "- intent=create only if user is trying to place/confirm a new order now.\n"
+        "- intent=none for order tracking/status/cancel requests.\n"
+        "- intent=none for general product questions.\n"
+        "Handle Bangla and English."
+    )
+
+    user = (
+        f"Current user message:\n{user_query}\n\n"
+        f"Recent chat:\n{_build_recent_chat_snippet(chat_history) or '(none)'}"
+    )
+
+    try:
+        resp = llm.invoke(
+            [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ]
+        )
+        parsed = _extract_json(getattr(resp, "content", "") or "")
+        intent = (parsed or {}).get("intent")
+        if intent in {"create", "none"}:
+            return intent
+    except Exception as e:
+        logger.exception(f"Order intent classifier failed: {e}")
+
+    return "none"
+
+
+def _extract_order_payload_llm(user_query: str, chat_history: List[Dict[str, Any]]) -> Dict[str, Any]:
+    llm = ChatOpenAI(
+        model=os.getenv("OPENAI_CHAT_MODEL", "gpt-4o-mini"),
+        temperature=0.0,
+        max_tokens=450,
+    )
+
+    system = (
+        "Extract order details from chat for creating a new order. "
+        "Return JSON only with keys:\n"
+        "{"
+        "\"customer\": string|null, "
+        "\"location\": string|null, "
+        "\"contact\": string|null, "
+        "\"platform\": \"FACEBOOK\"|\"INSTAGRAM\"|\"TIKTOK\"|\"WEBSITE\"|null, "
+        "\"items\": ["
+        "{"
+        "\"product_name\": string, "
+        "\"quantity\": integer, "
+        "\"color\": string|null, "
+        "\"size\": string|null, "
+        "\"weight\": string|null, "
+        "\"notes\": string|null"
+        "}"
+        "]"
+        "}.\n"
+        "- If unknown, use null or [].\n"
+        "- Never invent phone number or address.\n"
+        "- Quantity must be integer >= 1."
+    )
+
+    user = (
+        f"Current user message:\n{user_query}\n\n"
+        f"Recent chat:\n{_build_recent_chat_snippet(chat_history) or '(none)'}"
+    )
+
+    try:
+        resp = llm.invoke(
+            [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ]
+        )
+        return _extract_json(getattr(resp, "content", "") or "") or {}
+    except Exception as e:
+        logger.exception(f"Order payload extraction failed: {e}")
+        return {}
+
+
+def _clean_text(value: Any, max_len: int) -> Optional[str]:
+    text = (str(value).strip() if value is not None else "")
+    if not text:
+        return None
+    return text[:max_len]
+
+
+_BN_DIGITS_MAP = str.maketrans("০১২৩৪৫৬৭৮৯", "0123456789")
+
+
+def _normalize_contact(value: Any) -> Optional[str]:
+    raw = (str(value).strip() if value is not None else "")
+    if not raw:
+        return None
+    raw = raw.translate(_BN_DIGITS_MAP)
+    raw = raw.replace(" ", "").replace("-", "")
+    raw = re.sub(r"(?!^\+)[^\d]", "", raw)
+    if raw.startswith("00"):
+        raw = f"+{raw[2:]}"
+    if raw.count("+") > 1 or ("+" in raw and not raw.startswith("+")):
+        return None
+    digits_only = re.sub(r"\D", "", raw)
+    if len(digits_only) < 7 or len(raw) > 20:
+        return None
+    return raw
+
+
+def _normalize_order_items(items: Any) -> List[Dict[str, Any]]:
+    normalized: List[Dict[str, Any]] = []
+    if not isinstance(items, list):
+        return normalized
+
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        product_name = _clean_text(item.get("product_name"), 255)
+        if not product_name:
+            continue
+        quantity_raw = item.get("quantity", 1)
+        try:
+            quantity = int(quantity_raw)
+        except Exception:
+            try:
+                quantity = int(float(quantity_raw))
+            except Exception:
+                quantity = 1
+        if quantity < 1:
+            quantity = 1
+
+        normalized.append(
+            {
+                "product_name": product_name,
+                "quantity": quantity,
+                "color": _clean_text(item.get("color"), 50),
+                "size": _clean_text(item.get("size"), 50),
+                "weight": _clean_text(item.get("weight"), 50),
+                "notes": _clean_text(item.get("notes"), 1000),
+            }
+        )
+    return normalized
+
+
+def _resolve_order_platform(extracted_platform: Any, source_platform: Optional[str]) -> str:
+    allowed = {"FACEBOOK", "INSTAGRAM", "TIKTOK", "WEBSITE"}
+    candidate = (str(extracted_platform).strip().upper() if extracted_platform is not None else "")
+    if candidate in allowed:
+        return candidate
+
+    source = (source_platform or "").strip().lower()
+    source_map = {
+        "facebook": "FACEBOOK",
+        "instagram": "INSTAGRAM",
+        "tiktok": "TIKTOK",
+        "website": "WEBSITE",
+        "whatsapp": "WEBSITE",
+        "widget": "WEBSITE",
+        "widget_bot": "WEBSITE",
+    }
+    return source_map.get(source, "WEBSITE")
+
+
+def _format_missing_order_response(missing_fields: List[str], lang: str) -> str:
+    if lang == "bn":
+        labels = {
+            "customer": "কাস্টমারের নাম",
+            "location": "ঠিকানা/লোকেশন",
+            "contact": "মোবাইল নম্বর",
+            "items": "প্রোডাক্টের তালিকা",
+        }
+        missing_text = ", ".join(labels.get(field, field) for field in missing_fields)
+        return (
+            f"অর্ডার নেওয়ার জন্য এই তথ্যগুলো দরকার: {missing_text}।\n"
+            "অনুগ্রহ করে তথ্যগুলো একসাথে পাঠান।"
+        )
+
+    labels = {
+        "customer": "customer name",
+        "location": "delivery location",
+        "contact": "phone number",
+        "items": "product list",
+    }
+    missing_text = ", ".join(labels.get(field, field) for field in missing_fields)
+    return (
+        f"I can place the order, but I still need: {missing_text}.\n"
+        "Please send these details in one message."
+    )
 
 def _guess_language(text: str) -> str:
     choice = _detect_language_choice(text)
@@ -398,6 +615,86 @@ def inventory_context_node(state: ChatBotState) -> ChatBotState:
         state["inventory_context"] = str(result)
     return state
 
+
+# ----------------------------------
+# ORDER CONTEXT NODE (tool)
+# ----------------------------------
+def order_context_node(state: ChatBotState) -> ChatBotState:
+    if state.get("force_response") and state.get("response"):
+        return state
+
+    user_query = state.get("user_query", "") or ""
+    chat_history = state.get("chat_history", []) or []
+    owner_user_id = state.get("owner_user_id")
+    if not owner_user_id or not user_query.strip():
+        return state
+
+    intent = _detect_order_intent_llm(user_query, chat_history)
+    if intent != "create":
+        return state
+
+    payload = _extract_order_payload_llm(user_query, chat_history)
+
+    customer = _clean_text(payload.get("customer"), 255)
+    location = _clean_text(payload.get("location"), 255)
+    contact = _normalize_contact(payload.get("contact"))
+    items = _normalize_order_items(payload.get("items"))
+    platform = _resolve_order_platform(payload.get("platform"), state.get("source_platform"))
+
+    missing_fields: List[str] = []
+    if not customer:
+        missing_fields.append("customer")
+    if not location:
+        missing_fields.append("location")
+    if not contact:
+        missing_fields.append("contact")
+    if not items:
+        missing_fields.append("items")
+
+    lang = state.get("language") or _guess_language(user_query)
+    if missing_fields:
+        state["response"] = _format_missing_order_response(missing_fields, lang)
+        state["force_response"] = True
+        return state
+
+    try:
+        result = create_order.invoke(
+            {
+                "user_id": owner_user_id,
+                "customer": customer,
+                "location": location,
+                "contact": contact,
+                "platform": platform,
+                "items": items,
+            }
+        )
+    except Exception as e:
+        logger.exception(f"Order tool failed: {e}")
+        result = {"error": f"Order creation failed: {e}"}
+
+    state["order_result"] = result
+    if result.get("success"):
+        if lang == "bn":
+            state["response"] = (
+                "আপনার অর্ডার সফলভাবে নেওয়া হয়েছে।\n"
+                f"Order ID: {result.get('order_id')}\n"
+                f"Amount: {result.get('order_amount')}"
+            )
+        else:
+            state["response"] = (
+                "Your order has been placed successfully.\n"
+                f"Order ID: {result.get('order_id')}\n"
+                f"Amount: {result.get('order_amount')}"
+            )
+    else:
+        err = result.get("error") or result.get("details") or "Unable to create order right now."
+        if lang == "bn":
+            state["response"] = f"দুঃখিত, অর্ডার তৈরি করা যায়নি। কারণ: {err}"
+        else:
+            state["response"] = f"Sorry, I couldn't create the order. Reason: {err}"
+    state["force_response"] = True
+    return state
+
 # ----------------------------------
 # GENERATION NODE
 # ----------------------------------
@@ -509,6 +806,7 @@ def compile_rag_chatbot():
     graph.add_node("process_images", process_images_node)
     graph.add_node("retrieve", retrieve_context_node)
     graph.add_node("inventory_context", inventory_context_node)
+    graph.add_node("order_context", order_context_node)
     graph.add_node("generate", generate_answer_node)
 
     graph.set_entry_point("language_gate")
@@ -534,7 +832,8 @@ def compile_rag_chatbot():
 
     graph.add_edge("process_images", "retrieve")
     graph.add_edge("retrieve", "inventory_context")
-    graph.add_edge("inventory_context", "generate")
+    graph.add_edge("inventory_context", "order_context")
+    graph.add_edge("order_context", "generate")
     graph.add_edge("generate", END)
 
     return graph.compile()
@@ -547,6 +846,7 @@ def chatbot_reply(
     chat_history: Optional[List[Dict[str, Any]]] = None,
     attachments: Optional[List[Dict[str, Any]]] = None,
     owner_user_id: Optional[int] = None,
+    source_platform: Optional[str] = None,
 ) -> Dict[str, Any]:
     global _GRAPH
     if _GRAPH is None:
@@ -556,11 +856,13 @@ def chatbot_reply(
         "user_query": user_query,
         "chat_history": chat_history or [],
         "owner_user_id": owner_user_id,
+        "source_platform": source_platform,
         "attachments": attachments or [],
         "attachment_text": "",
         "context": "",
         "inventory_context": "",
         "inventory_result": {},
+        "order_result": {},
         "sources": [],
         "flagged": False,
         "force_response": False,
@@ -573,4 +875,5 @@ def chatbot_reply(
         "sources": result.get("sources", []),
         "success": not (result.get("flagged", False) and bool(result.get("response"))),
         "inventory_result": result.get("inventory_result"),
+        "order_result": result.get("order_result"),
     }

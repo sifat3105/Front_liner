@@ -232,6 +232,7 @@ def handle_message(
         history,
         attachments or [],
         owner_user_id=page.user_id,
+        source_platform=conversation.platform,
     )
 
     reply_text = bot_response.get("reply", "")

@@ -321,6 +321,7 @@
                     <option value="instagram" selected>Instagram</option>
                     <option value="facebook">Facebook</option>
                     <option value="twitter">Twitter</option>
+                    <option value="tiktok">TikTok</option>
                     <option value="pinterest">Pinterest</option>
                 </select>
             </div>
@@ -487,6 +488,8 @@
                         modifiedResponse.hashtags.push("#TechTwitter");
                     } else if (requestBody.platform === "facebook") {
                         modifiedResponse.hashtags.push("#FacebookShop");
+                    } else if (requestBody.platform === "tiktok") {
+                        modifiedResponse.hashtags.push("#TikTokShop");
                     }
                     
                     // Simulate network delay

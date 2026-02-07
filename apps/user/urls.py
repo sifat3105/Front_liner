@@ -17,6 +17,11 @@ from .views import (
     BankingUpdateAPIView,
     ChangePasswordAPIView,
     UserCreateAPIView,
+    ResellerCustomerPaymentHistoryAPIView,
+    ResellerCustomerDueExpireAPIView,
+    ResellerCustomerCollectionCourierAPIView,
+    ResellerAgentListAPIView,
+    ResellerActiveNumberListAPIView,
 )
 
 urlpatterns = [
@@ -29,6 +34,33 @@ urlpatterns = [
 
     # role base users create
     path("users/create/",UserCreateAPIView.as_view(),name="user-create"),
+
+    # Reseller dashboard APIs
+    path(
+        "reseller/customers/payment-history/",
+        ResellerCustomerPaymentHistoryAPIView.as_view(),
+        name="reseller-customer-payment-history",
+    ),
+    path(
+        "reseller/customers/due-expire/",
+        ResellerCustomerDueExpireAPIView.as_view(),
+        name="reseller-customer-due-expire",
+    ),
+    path(
+        "reseller/customers/courier-collections/",
+        ResellerCustomerCollectionCourierAPIView.as_view(),
+        name="reseller-customer-courier-collection",
+    ),
+    path(
+        "reseller/customers/agents/",
+        ResellerAgentListAPIView.as_view(),
+        name="reseller-agent-list",
+    ),
+    path(
+        "reseller/customers/active-numbers/",
+        ResellerActiveNumberListAPIView.as_view(),
+        name="reseller-active-number-list",
+    ),
 
     # Account
     path("account/", AccountView.as_view(), name="account"),

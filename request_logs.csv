@@ -7910,3 +7910,78 @@ Original exception text was: 'ProductItem' object has no attribute 'cost_price'.
 2026-02-04T15:31:41.379013,9bb9019d-d8a0-40a5-a415-d297e0fa858c,103.134.58.189,GET,/api/auth/login/,405,"Method ""GET"" not allowed.",
 2026-02-04T15:32:11.532278,6cd26bb0-59e3-4b6e-b29f-b6782d27d63b,103.134.58.189,GET,/api/auth/login/,405,"Method ""GET"" not allowed.",
 2026-02-04T15:32:14.481584,82a13e05-86b5-43b9-b7d1-5f3e2e319852,103.134.58.189,GET,/api/auth/login/,405,"Method ""GET"" not allowed.",
+2026-02-04T19:50:27.091923,a3f3066f-9744-4aab-8cd0-16e717a8a179,103.98.107.22,GET,/api/conversations/,403,Invalid or expired token,
+2026-02-04T20:03:12.680538,bc04523b-ea81-4ce2-87e5-92c5d0713ba0,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-02-04T20:03:22.474859,fd61e89d-0024-45fe-b494-136eb3b786d8,103.98.107.22,GET,/api/account/,200,Account fetched successfully,info@frontliner.io
+2026-02-07T04:25:43.287797,47059d69-ab35-48a3-aca8-876c333c6772,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-02-07T04:25:50.708016,77e40975-a910-46c2-84bd-255ea52a7043,103.98.107.22,GET,/api/list/vendors/,200,Vendor list fetched successfully,test@mail.com
+2026-02-07T04:26:02.141097,f65dbcbf-09c5-4770-be3c-6c4d8e838228,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,test@mail.com
+2026-02-07T04:26:05.448921,557d3d8f-4e1b-4aac-858a-35ceb930e2dd,103.98.107.22,GET,/api/conversations/,200,Conversations retrieved successfully,test@mail.com
+2026-02-07T04:26:26.559361,d5927056-3f6a-4023-a4bc-d70b4aec6f24,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-02-07T04:26:44.012564,f859344a-c9ab-4f84-ae4b-225ac7517d2e,103.98.107.22,GET,/api/conversations/,200,Conversations retrieved successfully,info@frontliner.io
+2026-02-07T04:26:45.628896,b22dcd91-5baf-4421-b3ea-ba89497dd7dd,103.98.107.22,POST,/api/conversations/7/mark-read/,200,Messages marked as read successfully,info@frontliner.io
+2026-02-07T04:26:45.629932,aba8cdd2-de80-4684-b0c9-94ce6b4b0168,103.98.107.22,GET,/api/conversations/7/messages/,200,Messages retrieved successfully,info@frontliner.io
+2026-02-07T04:26:50.614223,cde16a55-b2f6-48de-a305-61c24b8f33d3,103.98.107.22,GET,/api/conversations/7/messages/,200,Messages retrieved successfully,info@frontliner.io
+2026-02-07T04:27:08.845221,260e7710-2b85-4605-bd2a-01381e548358,103.98.107.22,GET,/api/conversations/24/messages/,200,Messages retrieved successfully,info@frontliner.io
+2026-02-07T04:27:08.846537,1686031c-8e51-4ec2-a26a-3b46b6807956,103.98.107.22,GET,/api/conversations/24/messages/,200,Messages retrieved successfully,info@frontliner.io
+2026-02-07T04:27:08.855513,ec053016-5c00-4d1e-9f20-60400082a02f,103.98.107.22,POST,/api/conversations/24/mark-read/,200,Messages marked as read successfully,info@frontliner.io
+2026-02-07T04:32:47.937047,94a42aa8-f532-4c17-85c8-90250b0f4115,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,info@frontliner.io
+2026-02-07T04:33:02.230443,a78f51bb-2c8f-4f09-92a4-94b9cd678f59,103.98.107.22,GET,/api/orders/list/,200,Success,info@frontliner.io
+2026-02-07T04:47:30.986784,db496dd2-8d85-4ae1-b57c-34e6558b8f05,103.98.107.22,POST,/api/auth/register/,400,Invalid data,info@frontliner.io
+2026-02-07T04:47:43.836072,839e8d57-7b00-44da-abeb-1649d1183f1e,103.98.107.22,POST,/api/auth/register/,400,Invalid data,info@frontliner.io
+2026-02-07T04:53:53.218063,3ac7e7f6-471f-4c2c-959d-272627857be7,103.98.107.22,POST,/api/auth/register/,201,User created successfully,info@frontliner.io
+2026-02-07T05:18:57.221171,4d39bb2d-c8e3-4687-8997-61eb88c62a23,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-02-07T05:19:02.843548,375fbbda-e787-4972-b372-db1611d1d948,103.98.107.22,GET,/api/account/,200,Account fetched successfully,info@frontliner.io
+2026-02-07T05:21:53.842300,4e145d71-0e86-42a1-a5fa-debd22e49f73,103.98.107.22,GET,/api/account/,500,Internal server error,info@frontliner.io
+2026-02-07T05:21:56.033339,af680cca-01c9-44a2-8d3e-87577a3ae8c0,103.98.107.22,GET,/api/account/,500,Internal server error,info@frontliner.io
+2026-02-07T05:22:47.309561,c8cc5c88-0428-442f-a0db-abc2009b3748,103.98.107.22,GET,/api/account/,200,Account fetched successfully,info@frontliner.io
+2026-02-07T05:23:12.178573,cc5d7180-cfaa-4553-9f43-e4160b75e8c0,103.98.107.22,POST,/api/users/create/,403,You do not have permission to perform this action.,info@frontliner.io
+2026-02-07T05:24:55.235115,2924fcc9-c318-4282-9fc0-5b18875bb086,103.98.107.22,POST,/api/users/create/,400,"{'role': [ErrorDetail(string='Reseller can create only sub reseller', code='invalid')]}",info@frontliner.io
+2026-02-07T05:27:01.982549,f2997bff-3707-463a-98e9-992533c699eb,103.98.107.22,POST,/api/users/create/,400,"{'role': [ErrorDetail(string='Reseller can create only sub reseller', code='invalid')]}",info@frontliner.io
+2026-02-07T05:30:48.808442,7d0b8404-e85e-409b-9e1f-336fcc78ca7f,103.98.107.22,POST,/api/users/create/,400,"{'role': [ErrorDetail(string='Reseller can create only sub reseller', code='invalid')]}",info@frontliner.io
+2026-02-07T05:34:37.968402,a07f7386-37a4-4704-9a03-086aaf3930d5,103.98.107.22,POST,/api/users/create/,201,User created successfully,info@frontliner.io
+2026-02-07T05:34:52.009189,469cc39a-3806-4466-acc5-d387561d5cb5,103.98.107.22,POST,/api/users/create/,201,User created successfully,info@frontliner.io
+2026-02-07T06:19:25.251570,aa6c24d7-8957-4304-834b-a2c59d9960ce,103.98.107.22,POST,/api/users/create/,201,User created successfully,info@frontliner.io
+2026-02-07T06:19:57.541793,ebce88f0-623d-41e3-ab48-abd8bf034ce8,103.98.107.22,POST,/api/users/create/,400,"{'email': [ErrorDetail(string='user with this email already exists.', code='unique')]}",info@frontliner.io
+2026-02-07T06:33:05.137423,d191893d-ef7f-45ba-9b2e-2c2ef633f5ab,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T06:33:05.141131,512ca2a0-3626-4e50-b30a-f0317ba15a42,127.0.0.1,GET,/api/social/tiktok/callback/,500,Internal server error,
+2026-02-07T06:33:14.672213,a8ed9669-d651-49c3-94d6-1cb44509a8d5,127.0.0.1,GET,/api/social/tiktok/callback/,500,Internal server error,
+2026-02-07T06:33:23.412311,fa943e31-6a3d-4cb4-88e3-97a45d58e2c5,127.0.0.1,GET,/api/social/tiktok/callback/,500,Internal server error,
+2026-02-07T06:33:37.176337,726a6b05-409f-4e88-a314-c9a3980264c0,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T06:36:09.117476,f4318f88-722d-4473-9a39-3c3498ffc70a,103.98.107.22,GET,/api/reseller/customers/payment-history/,200,Customer payment history fetched successfully,info@frontliner.io
+2026-02-07T06:36:14.145233,39f71352-366b-4bb1-a4c0-a90cec6a77b3,103.98.107.22,GET,/api/reseller/customers/due-expire/,200,Customer due and expiry data fetched successfully,info@frontliner.io
+2026-02-07T07:14:48.459726,16d31519-c5c3-4372-a3a3-80cbfb90e3cb,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-02-07T07:15:09.471384,63cad8cf-3be3-4460-8fb0-ed910a3573e1,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,nabila.user11@demo-mail.com
+2026-02-07T07:15:17.113397,c0442de0-a907-4758-8789-96f2d459e959,103.98.107.22,GET,/api/social/facebook/connect/,200,Facebook connect URL generated successfully,nabila.user11@demo-mail.com
+2026-02-07T07:16:13.289216,f6dee9d4-eab6-4841-804e-e912afcbd743,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,nabila.user11@demo-mail.com
+2026-02-07T07:56:31.410506,68ce6683-6438-499e-b894-091125c655bf,103.98.107.22,GET,/api/social/tiktok/connect/,200,TikTok connect URL generated successfully,nabila.user11@demo-mail.com
+2026-02-07T07:56:50.116007,25992947-7896-4484-89c5-573f5fce7792,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,nabila.user11@demo-mail.com
+2026-02-07T08:07:00.147829,b1aec2f8-c855-4b1a-9838-aaebef86128e,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T08:08:04.243039,7db561ed-1b11-4786-8db6-7878577e85af,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T08:10:05.315135,dfa79667-e447-4742-9701-476c856a0b54,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T08:19:41.175308,2f88f783-8847-4272-94cd-ab35836f1c60,103.118.152.114,POST,/api/auth/login/,200,Login successful,
+2026-02-07T08:19:52.487078,ac8d9193-28a5-40fc-93dc-85041b50f882,103.118.152.114,GET,/api/purchases/products/,200,Purchase list fetched,info@frontliner.io
+2026-02-07T08:44:34.697026,c5b031c1-f293-47af-809a-1281325caaeb,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,nabila.user11@demo-mail.com
+2026-02-07T08:44:59.493062,888e1b35-97b8-4f56-a011-2fdbaf635d50,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,nabila.user11@demo-mail.com
+2026-02-07T08:45:32.487588,76aa747c-0684-49bc-9817-c3e64d882f4a,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,nabila.user11@demo-mail.com
+2026-02-07T08:48:48.250360,fbf34458-9030-4b9b-8b09-a21ae9885c3a,103.98.107.22,GET,/api/publish/generate/caption/,200,list fetched successfully,nabila.user11@demo-mail.com
+2026-02-07T08:48:54.226146,1ec1cc7e-71b1-4bb2-8813-9dc84c60c9c2,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,nabila.user11@demo-mail.com
+2026-02-07T08:49:16.386740,66fac055-1dac-4572-bcab-588352d1bcf5,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,nabila.user11@demo-mail.com
+2026-02-07T08:52:44.908128,48497687-fef1-4df8-b3ae-c5491aa0c08b,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T08:53:57.309205,32420a28-855f-42c2-8850-094861e185cb,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,nabila.user11@demo-mail.com
+2026-02-07T08:54:12.970998,bcead728-357e-4de6-b3e8-4e173a7ed6b0,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,nabila.user11@demo-mail.com
+2026-02-07T09:12:11.309345,e8390a42-9766-496e-a9db-708d4d419d0f,103.98.107.22,POST,/api/publish/generate/caption/,200,Caption generated successfully,nabila.user11@demo-mail.com
+2026-02-07T09:13:13.436043,171fce8a-5efa-4d7a-a544-791bc336f1a8,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,nabila.user11@demo-mail.com
+2026-02-07T09:15:18.111821,6deb8cd1-d438-491b-8418-cb7e18af4929,103.118.152.114,GET,/api/stock/list/,200,Stock list fetched,info@frontliner.io
+2026-02-07T09:28:32.360880,901d405b-c8f0-427e-bd61-b9e475002e2a,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T09:29:56.323316,e58b1150-cbc8-4320-b73b-b7cef6322eaf,103.98.107.22,POST,/api/publish/post/,201,Social post created successfully,nabila.user11@demo-mail.com
+2026-02-07T09:37:29.019337,b9be59cd-2426-468f-9992-7464e6a431bb,103.98.107.22,PATCH,/api/publish/post/118/,400,Social post updating failed,info@frontliner.io
+2026-02-07T09:39:55.968812,436eebdc-3beb-445c-8681-46aada3c0563,103.98.107.22,PATCH,/api/publish/post/118/,404,Social post not found,info@frontliner.io
+2026-02-07T09:41:18.794705,aa83bbc6-9e95-4c9a-a959-329c72dae812,103.98.107.22,PATCH,/api/publish/post/118/,200,Social post is already published,info@frontliner.io
+2026-02-07T09:44:54.866265,3d68b9b0-571a-4a09-80f9-c3e5ee47314c,103.98.107.22,PATCH,/api/publish/post/118/,400,Social post publishing failed,info@frontliner.io
+2026-02-07T09:45:02.278188,d9deb7c2-bc37-4636-be25-3350e8426bdc,103.98.107.22,PATCH,/api/publish/post/118/,400,Social post publishing failed,info@frontliner.io
+2026-02-07T09:46:31.403387,43014d70-dcf6-4d5e-8a5c-5b88f765a583,103.98.107.22,POST,/api/auth/login/,200,Login successful,
+2026-02-07T09:46:45.595310,a1a7cdd9-3ec9-418e-8280-69d4fca2655d,103.98.107.22,PATCH,/api/publish/post/118/,200,Social post published successfully,nabila.user11@demo-mail.com
+2026-02-07T09:55:49.137378,adde597e-e72a-445f-a2ca-6f8c4edb66dc,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T09:56:32.595292,4d148c2f-8402-4e0b-9de9-43592455fbd6,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T10:02:27.010441,30cede1c-15f1-4af5-8d5b-c36278ecaf8a,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,nabila.user11@demo-mail.com

@@ -55,11 +55,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def clean(self):
 
-        # reseller to only sub_reseller
+        # reseller can create only sub_reseller or user
         if self.parent and self.parent.role == "reseller":
-            if self.role != "sub_reseller":
+            if self.role not in ["sub_reseller", "user"]:
                 raise ValidationError({
-                    "role": "Reseller can create only sub reseller"
+                    "role": "Reseller can create only sub reseller or user"
                 })
 
         # sub_reseller to cannot create anyone

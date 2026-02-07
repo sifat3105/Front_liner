@@ -62,3 +62,19 @@ class FacebookPageSerializer(serializers.ModelSerializer):
             "tasks",
             "is_active",
         )
+
+
+class WhatsAppBusinessAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WhatsAppBusinessAccount
+        fields = (
+            "id",
+            "business_id",
+            "business_name",
+            "waba_id",
+            "waba_name",
+            "phone_number_id",
+            "display_phone_number",
+            "created_at",
+            "updated_at",
+        )
