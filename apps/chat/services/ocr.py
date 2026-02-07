@@ -4,7 +4,12 @@ import base64
 from typing import Optional, Dict, Any
 from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+def _get_openai_client() -> OpenAI:
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not configured")
+    return OpenAI(api_key=api_key)
 
 def _to_data_url(image_bytes: bytes, content_type: str) -> str:
     b64 = base64.b64encode(image_bytes).decode("utf-8")
@@ -16,6 +21,7 @@ def run_ocr(image_bytes: bytes, content_type: str = "image/jpeg") -> str:
     """
     data_url = _to_data_url(image_bytes, content_type)
 
+    client = _get_openai_client()
     resp = client.chat.completions.create(
         model="gpt-4o-mini",
         temperature=0,
@@ -39,6 +45,7 @@ def run_vision_caption(image_bytes: bytes, content_type: str = "image/jpeg") -> 
     """
     data_url = _to_data_url(image_bytes, content_type)
 
+    client = _get_openai_client()
     resp = client.chat.completions.create(
         model="gpt-4o-mini",
         temperature=0.2,

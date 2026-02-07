@@ -19,6 +19,9 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
+# Create env file (fill real secrets/keys before running app)
+cp .env.example .env
+
 # Run migrations and static collection
 python manage.py migrate
 python manage.py collectstatic --noinput

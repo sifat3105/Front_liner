@@ -7985,3 +7985,5 @@ Original exception text was: 'ProductItem' object has no attribute 'cost_price'.
 2026-02-07T09:55:49.137378,adde597e-e72a-445f-a2ca-6f8c4edb66dc,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
 2026-02-07T09:56:32.595292,4d148c2f-8402-4e0b-9de9-43592455fbd6,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
 2026-02-07T10:02:27.010441,30cede1c-15f1-4af5-8d5b-c36278ecaf8a,103.98.107.22,GET,/api/social/platforms/,200,Social platforms fetched successfully,nabila.user11@demo-mail.com
+2026-02-07T11:53:26.525372,a895f76f-5ed8-4ddd-a102-11754c6f86d1,127.0.0.1,GET,/api/social/facebook/pages/,403,Authentication credentials were not provided.,
+2026-02-07T12:54:17.828525,f30b454c-5ab3-42b8-8942-81887ca7438e,103.98.107.22,POST,/api/auth/login/,200,Login successful,
