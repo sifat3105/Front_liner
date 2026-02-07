@@ -25,7 +25,6 @@ def env_bool(key: str, default: bool = False) -> bool:
 def env_list(key: str, default=None):
     val = os.getenv(key)
     if val is None:
-        print(f"Missing env var: {key}")
         return default if default is not None else []
     return [x.strip() for x in val.split(",") if x.strip()]
 
@@ -185,7 +184,7 @@ DATABASES = {
         "ENGINE": env("DB_ENGINE", "django.db.backends.postgresql"),
         "NAME": env("DB_NAME", ""),
         "USER": env("DB_USER", ""),
-        "PASSWORD": "password",
+        "PASSWORD": env("DB_PASSWORD", ""),
         "HOST": env("DB_HOST", "127.0.0.1"),
         "PORT": env("DB_PORT", "5432"),
         "CONN_MAX_AGE": env_int("DB_CONN_MAX_AGE", 60),
@@ -194,7 +193,7 @@ DATABASES = {
         "ENGINE": env("DB_REPLICA_ENGINE", "django.db.backends.postgresql"),
         "NAME": env("DB_REPLICA_NAME", ""),
         "USER": env("DB_REPLICA_USER", ""),
-        "PASSWORD": "STRONG_PASSWORD_HERE",
+        "PASSWORD": env("DB_REPLICA_PASSWORD", ""),
         "HOST": env("DB_REPLICA_HOST", "127.0.0.1"),
         "PORT": env("DB_REPLICA_PORT", "5432"),
         "CONN_MAX_AGE": env_int("DB_REPLICA_CONN_MAX_AGE", 60),

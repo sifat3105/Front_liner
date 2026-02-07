@@ -6,8 +6,11 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-# Initialize async OpenAI client
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def _get_openai_client() -> AsyncOpenAI:
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not configured")
+    return AsyncOpenAI(api_key=api_key)
 
 # Core system instruction template
 SYSTEM_INSTRUCTION = textwrap.dedent("""
@@ -56,6 +59,7 @@ async def generate_agentic_prompt(user_text: str, model: str = "gpt-3.5-turbo") 
 
     user_prompt = f"Generate a full agentic AI system prompt for the topic: **{user_text.strip()}**"
 
+    client = _get_openai_client()
     response = await client.chat.completions.create(
         model=model,
         temperature=0.7,
@@ -66,7 +70,6 @@ async def generate_agentic_prompt(user_text: str, model: str = "gpt-3.5-turbo") 
     )
 
     return response.choices[0].message.content.strip()
-
 
 
 

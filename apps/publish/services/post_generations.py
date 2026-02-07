@@ -1,8 +1,7 @@
 from openai import OpenAI
 import json
 import os
-
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+from google import genai
 
 
 def generate_caption(
@@ -39,6 +38,11 @@ def generate_caption(
       "caption": "string"
     }}
     """
+
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        return ""
+    client = OpenAI(api_key=api_key)
 
     response = client.chat.completions.create(
         model="gpt-4.1-mini",
@@ -90,6 +94,11 @@ def generate_hashtags(
     }}
     """
 
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        return []
+    client = OpenAI(api_key=api_key)
+
     response = client.chat.completions.create(
         model="gpt-4.1-mini",
         messages=[
@@ -107,7 +116,6 @@ def generate_hashtags(
         return []
     
     
-# import google.generativeai as genai
 from google.genai import types
 from django.core.files.base import ContentFile
 import base64
@@ -150,4 +158,3 @@ def generate_image(caption: str, extra_prompt: str = "", aspect_ratio: str = "1:
 
 
         
-
