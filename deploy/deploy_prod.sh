@@ -29,7 +29,12 @@ python manage.py collectstatic --noinput
 python manage.py check
 
 echo "[deploy] restarting services"
-sudo systemctl restart frontliner-gunicorn
-sudo systemctl reload nginx
+if [ "$(id -u)" -eq 0 ]; then
+  systemctl restart frontliner-gunicorn
+  systemctl reload nginx
+else
+  sudo systemctl restart frontliner-gunicorn
+  sudo systemctl reload nginx
+fi
 
 echo "[deploy] done"

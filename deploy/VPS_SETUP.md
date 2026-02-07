@@ -91,10 +91,13 @@ deployuser ALL=(ALL) NOPASSWD:/bin/systemctl restart frontliner-gunicorn,/bin/sy
 
 Add these secrets in GitHub repository settings:
 
-- `VPS_HOST` (example: `203.0.113.10`)
-- `VPS_USER` (example: `deployuser`)
+- `VPS_HOST` (example: `srv541106` or server public IP)
 - `VPS_SSH_KEY` (private key contents)
 - `VPS_PORT` (optional, default `22`)
+
+This workflow is configured to SSH as `root`, matching your server prompt:
+
+`root@srv541106:/var/www/Front_liner#`
 
 ### Flow
 
