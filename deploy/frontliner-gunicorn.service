@@ -1,0 +1,26 @@
+[Unit]
+Description=Front_liner Gunicorn (ASGI)
+After=network.target
+
+[Service]
+User=hsblco-01
+Group=www-data
+WorkingDirectory=/var/www/Front_liner
+Environment="DJANGO_SETTINGS_MODULE=project.settings"
+Environment="PYTHONUNBUFFERED=1"
+
+# Ensure log dir exists.
+ExecStartPre=/bin/mkdir -p /var/log/frontliner
+ExecStartPre=/bin/chown hsblco-01:www-data /var/log/frontliner
+
+ExecStart=/var/www/Front_liner/venv/bin/gunicorn \
+    -c /var/www/Front_liner/deploy/gunicorn.conf.py
+
+Restart=always
+RestartSec=5
+KillSignal=SIGQUIT
+TimeoutStopSec=30
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
