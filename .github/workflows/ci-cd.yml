@@ -10,6 +10,9 @@ jobs:
   ci:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      ALLOWED_HOSTS: testserver,localhost,127.0.0.1
+      SECURE_SSL_REDIRECT: "False"
 
     steps:
       - name: Checkout

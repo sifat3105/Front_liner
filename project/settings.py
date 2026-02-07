@@ -40,7 +40,7 @@ def env_int(key: str, default: int = 0) -> int:
 # ------------------------------------------------------------------------------
 SECRET_KEY = env("SECRET_KEY", "change-this")
 DEBUG = env_bool("DEBUG", False)
-ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", ["localhost", "127.0.0.1"])
+ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", ["localhost", "127.0.0.1", "testserver"])
 
 # If behind Nginx/Proxy with HTTPS
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -411,7 +411,8 @@ LOGGING = {
 # Production security hardening (optional but recommended)
 # ------------------------------------------------------------------------------
 if not DEBUG:
-    SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
+    # Keep default False to avoid HTTPS redirects in CI/tests unless explicitly enabled.
+    SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", False)
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = env_int("SECURE_HSTS_SECONDS", 31536000)

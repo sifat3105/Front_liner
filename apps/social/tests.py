@@ -1,4 +1,4 @@
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, override_settings
 from django.urls import resolve
 
 from apps.social.views import (
@@ -22,6 +22,10 @@ class SocialRoutesTests(SimpleTestCase):
         match = resolve("/api/social/tiktok/webhook/")
         self.assertIs(match.func.view_class, TikTokWebhook)
 
+    @override_settings(
+        SECURE_SSL_REDIRECT=False,
+        ALLOWED_HOSTS=["testserver", "localhost", "127.0.0.1"],
+    )
     def test_facebook_pages_requires_authentication(self):
         response = self.client.get("/api/social/facebook/pages/")
         self.assertEqual(response.status_code, 403)
