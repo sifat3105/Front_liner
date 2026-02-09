@@ -9,9 +9,8 @@ echo "[deploy] project_dir=${PROJECT_DIR} branch=${BRANCH}"
 cd "${PROJECT_DIR}"
 
 echo "[deploy] syncing git branch"
-git fetch origin "${BRANCH}"
-git checkout "${BRANCH}"
-git pull --ff-only origin "${BRANCH}"
+git fetch origin
+git reset --hard origin/main
 
 if [ ! -d "${PROJECT_DIR}/venv" ]; then
   echo "[deploy] creating venv"
