@@ -9,7 +9,7 @@ echo "[deploy] project_dir=${PROJECT_DIR} branch=${BRANCH}"
 cd "${PROJECT_DIR}"
 
 echo "[deploy] syncing git branch"
-git fetch origin
+git fetch origin main
 git reset --hard origin/main
 
 if [ ! -d "${PROJECT_DIR}/venv" ]; then
