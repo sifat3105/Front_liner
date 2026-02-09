@@ -42,10 +42,6 @@ SECRET_KEY = env("SECRET_KEY", "change-this")
 DEBUG = env_bool("DEBUG", False)
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", ["localhost", "127.0.0.1", "testserver"])
 
-# If behind Nginx/Proxy with HTTPS
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-USE_X_FORWARDED_HOST = True
-
 
 # ------------------------------------------------------------------------------
 # Apps
@@ -154,18 +150,33 @@ WSGI_APPLICATION = "project.wsgi.application"
 ASGI_APPLICATION = "project.asgi.application"
 
 
-# ------------------------------------------------------------------------------
-# CORS & CSRF
-# ------------------------------------------------------------------------------
+# ==============================================================================
+# CORS & CSRF CONFIG
+# ==============================================================================
 CORS_ALLOW_CREDENTIALS = True
-
-# In production keep False, in dev you can set True using env
 CORS_ALLOW_ALL_ORIGINS = env_bool("CORS_ALLOW_ALL_ORIGINS", False)
-CORS_ALLOWED_ORIGINS = env_list("CORS_ALLOWED_ORIGINS", ["http://localhost:3000"])
 
-CORS_ALLOW_METHODS = ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://localhost:3000",
+    "http://127.0.0.1:5501",
+    "https://127.0.0.1:5501",
+    "http://192.168.0.100:3000",
+    "http://192.168.0.101:3000",
+    "http://103.98.107.22:8000",
+    "https://barta-bahok.vercel.app",
+]
 
-CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", CORS_ALLOWED_ORIGINS)
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 CSRF_COOKIE_SAMESITE = env("CSRF_COOKIE_SAMESITE", "None")
 CSRF_COOKIE_SECURE = env_bool("CSRF_COOKIE_SECURE", not DEBUG)
@@ -175,6 +186,8 @@ SESSION_COOKIE_SAMESITE = env("SESSION_COOKIE_SAMESITE", "None")
 SESSION_COOKIE_SECURE = env_bool("SESSION_COOKIE_SECURE", not DEBUG)
 SESSION_COOKIE_HTTPONLY = env_bool("SESSION_COOKIE_HTTPONLY", True)
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
 # ------------------------------------------------------------------------------
 # Database

@@ -30,10 +30,10 @@ python manage.py check
 
 echo "[deploy] restarting services"
 if [ "$(id -u)" -eq 0 ]; then
-  systemctl restart frontliner-gunicorn
+  systemctl restart gunicorn_frontliner
   systemctl reload nginx
 else
-  sudo systemctl restart frontliner-gunicorn
+  sudo systemctl restart gunicorn_frontliner
   sudo systemctl reload nginx
 fi
 
