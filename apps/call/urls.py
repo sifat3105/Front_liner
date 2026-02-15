@@ -1,9 +1,11 @@
 from django.urls import path
 from . import views
 from .tasks import fetch_call_transcriptions
+from .twilio_webhook import TwilioVoiceWebhookAPIView
 
 urlpatterns = [
     path("twilio/start_call/", views.StartCallView.as_view(), name="start_call"),
+    path("twilio/voice/", TwilioVoiceWebhookAPIView.as_view(), name="twilio_voice_webhook"),
     path("call_campaign/", views.CallCampaignAPIView.as_view(), name="call_campaign"),
 
     path("call-logs/stats/", views.CallLogStatsAPIView.as_view(), name="call_logs_stats"),

@@ -4,10 +4,11 @@ import os
 import importlib.util
 from dotenv import load_dotenv
 
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 HAS_WHITENOISE = importlib.util.find_spec("whitenoise") is not None
+load_dotenv(BASE_DIR / ".env")
+
 
 
 # ------------------------------------------------------------------------------
@@ -41,6 +42,7 @@ def env_int(key: str, default: int = 0) -> int:
 SECRET_KEY = env("SECRET_KEY", "change-this")
 DEBUG = env_bool("DEBUG", False)
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", ["localhost", "127.0.0.1", "testserver"])
+print(ALLOWED_HOSTS)
 
 
 # ------------------------------------------------------------------------------
@@ -197,7 +199,7 @@ DATABASES = {
         "ENGINE": env("DB_ENGINE", "django.db.backends.postgresql"),
         "NAME": env("DB_NAME", ""),
         "USER": env("DB_USER", ""),
-        "PASSWORD": "password",
+        "PASSWORD": "STRONG_PASSWORD_HERE",
         "HOST": env("DB_HOST", "127.0.0.1"),
         "PORT": env("DB_PORT", "5432"),
         "CONN_MAX_AGE": env_int("DB_CONN_MAX_AGE", 60),

@@ -667,20 +667,23 @@ def subscribe_page_to_messages(page_id, page_access_token):
     _, data = _request_json("POST", url, params=params)
     return data
 
-
+from django.http import HttpResponse
 class FacebookWebhook(APIView):
     authentication_classes = []
     permission_classes = [permissions.AllowAny]
 
-    def get(self, request):
-        try:
-            if request.GET.get("hub.verify_token") == settings.FB_VERIFY_TOKEN:
-                return Response(int(request.GET.get("hub.challenge")))
-        except Exception as exc:
-            logger.warning("Webhook verification error: %s", exc)
-        return Response("Invalid token", status=403)
+    def get(self, request, *args, **kwargs):
+        mode = request.GET.get("hub.mode")
+        token = request.GET.get("hub.verify_token")
+        challenge = request.GET.get("hub.challenge")
 
-    def post(self, request):
+        if mode == "subscribe" and token == settings.FB_VERIFY_TOKEN and challenge is not None:
+            # IMPORTANT: return challenge as plain text (NOT JSON)
+            return HttpResponse(challenge, content_type="text/plain", status=200)
+
+        return HttpResponse("Invalid token", content_type="text/plain", status=403)
+
+    def post(self, request, *args, **kwargs):
         data = request.data
         try:
             for entry in data.get("entry", []):
@@ -698,9 +701,10 @@ class FacebookWebhook(APIView):
 
         except Exception as exc:
             logger.exception("Facebook webhook processing error: %s", exc)
-            return Response("EVENT_RECEIVED", status=status.HTTP_200_OK)
+            # Meta wants 200 even if you fail processing
+            return HttpResponse("EVENT_RECEIVED", content_type="text/plain", status=200)
 
-        return Response("EVENT_RECEIVED", status=status.HTTP_200_OK)
+        return HttpResponse("EVENT_RECEIVED", content_type="text/plain", status=200)
 
 
 class InstagramWebhook(APIView):

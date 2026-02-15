@@ -24,11 +24,11 @@ class StartCallView(APIView):
         call = client.calls.create(
             to=phone,
             from_=os.getenv("TWILIO_NUMBER"),
-            url=os.getenv("CALL_WEBHOOK_URL"),
+            url=os.getenv("CALL_WEBHOOK_URL") or os.getenv("TWILIO_VOICE_WEBHOOK_URL"),
             record=True
         )
         try:
-            assistant = Assistant.objects.get(twilio_numbber=os.getenv("TWILIO_NUMBER"))
+            assistant = Assistant.objects.get(twilio_number=os.getenv("TWILIO_NUMBER"))
             CallLog.objects.create(
                 assistant=assistant,
                 call_sid=call.sid,
@@ -322,5 +322,4 @@ def play_recording(request, recording_sid):
         response.content,
         content_type="audio/mpeg"
     )
-
 

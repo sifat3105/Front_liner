@@ -1,6 +1,6 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
-from .models import Order, OrderItem
+from .models import Order, OrderCallConfirmation, OrderItem
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -32,3 +32,20 @@ class OrderAdmin(UnfoldModelAdmin):
         return f'<a href="{obj.get_view_action()}">View</a>'
     view_link.allow_tags = True
     view_link.short_description = "Action"
+
+
+@admin.register(OrderCallConfirmation)
+class OrderCallConfirmationAdmin(UnfoldModelAdmin):
+    list_display = (
+        "order",
+        "status",
+        "call_sid",
+        "from_number",
+        "to_number",
+        "courier_booking_ref",
+        "confirmed_by",
+        "confirmed_at",
+    )
+    list_filter = ("status",)
+    search_fields = ("order__order_id", "call_sid", "to_number", "from_number")
+    readonly_fields = ("created_at", "updated_at")

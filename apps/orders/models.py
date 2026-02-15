@@ -16,6 +16,14 @@ ORDER_STATUS_CHOICES = [
     ('CANCEL', 'Cancel'),
 ]
 
+CALL_CONFIRMATION_STATUS_CHOICES = [
+    ("PENDING", "Pending"),
+    ("CALL_STARTED", "Call Started"),
+    ("CONFIRMED", "Confirmed"),
+    ("REJECTED", "Rejected"),
+    ("FAILED", "Failed"),
+]
+
 PLATFORM_CHOICES = [
     ('FACEBOOK', 'Facebook'),
     ('INSTAGRAM', 'Instagram'),
@@ -33,6 +41,10 @@ class Order(models.Model):
     platform = models.CharField(max_length=20, choices=PLATFORM_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     order_status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='PENDING')
+    
+    created_by = models.CharField(choices=(('seller', 'Seller'), ('bot', 'Bot')), max_length=10, default='bot')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.order_id
@@ -71,3 +83,35 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product_name} ({self.quantity})"
+
+
+class OrderCallConfirmation(models.Model):
+    order = models.OneToOneField(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="call_confirmation",
+    )
+    call_sid = models.CharField(max_length=255, blank=True, null=True)
+    from_number = models.CharField(max_length=50, blank=True, null=True)
+    to_number = models.CharField(max_length=50, blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=CALL_CONFIRMATION_STATUS_CHOICES,
+        default="PENDING",
+    )
+    notes = models.TextField(blank=True, null=True)
+    confirmed_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        related_name="confirmed_order_calls",
+        null=True,
+        blank=True,
+    )
+    confirmed_at = models.DateTimeField(null=True, blank=True)
+    courier_booking_ref = models.CharField(max_length=100, blank=True, null=True)
+    courier_booking_error = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.order.order_id} - {self.status}"
