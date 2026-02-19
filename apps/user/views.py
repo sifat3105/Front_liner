@@ -244,7 +244,7 @@ class AccountView(APIView):
     def get(self, request):
         account = Account.objects.get_or_create(user=request.user)[0]
         # account = request.user.account
-        serializer = AccountSerializer(account)
+        serializer = AccountSerializer(account, context = {'request': request})
         return self.success(
             message="Account fetched successfully",
             status_code=status.HTTP_200_OK,

@@ -11,6 +11,11 @@ from twilio.rest import Client
 from . utils import synthesize_speech_memory
 from apps.phone_number.models import PhoneNumber
 import os,io,csv
+from apps.orders.models import Order
+
+from .voice_xml_builder import GetXML
+
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL")
 
 class StartCallView(APIView):
     def post(self, request):
@@ -322,4 +327,40 @@ def play_recording(request, recording_sid):
         response.content,
         content_type="audio/mpeg"
     )
+    
+PUBLIC_BASE_URL = os.getenv("PUBLIC_BASE_URL")
+class NGSVoiceXMLView(APIView):
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
+    
+    def get(self, request, *args, **kwargs):
+        return self._xml(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self._xml(request, *args, **kwargs)
+
+    def _xml(self, request, *args, **kwargs):
+        order_id = kwargs.get("order_id")
+        # order = Order.objects.prefetch_related("user", "user__socialaccount").get(id=order_id)
+        get_xml = GetXML()
+        get_xml.response.connect.stream(
+            url=f"{PUBLIC_BASE_URL}/ws/agent",
+            params={"bot":"support-agent","lang":"bn", "order_id":order_id, "agent_id":10}
+        )
+        return get_xml.to_http_response()
+    
+
+
+class NGSStatusCallbackView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+
+        print("=== NGS STATUS CALLBACK ===")
+        for key, value in data.items():
+            print(f"{key}: {value}")
+
+        return Response({"ok": True})
+
 

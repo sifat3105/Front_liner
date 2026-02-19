@@ -1,11 +1,13 @@
 import logging
 
+from asgiref.sync import async_to_sync
 from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import Order
-from .services import trigger_order_confirmation_call
+
+from apps.call.services.next_gen_services import make_a_call
 
 logger = logging.getLogger(__name__)
 
@@ -18,11 +20,14 @@ def create_order_confirmation_call(sender, instance, created, **kwargs):
     order_id = instance.id
 
     def _trigger_after_commit():
-        order = Order.objects.select_related("user").filter(id=order_id).first()
-        if order:
-            try:
-                trigger_order_confirmation_call(order)
-            except Exception:
-                logger.exception("Order confirmation call trigger failed for order id=%s", order_id)
+        try:
+            # make_a_call is async; run it safely from this sync signal.
+            async_to_sync(make_a_call)(
+                to=8801790166212,
+                ngs_from=9610994399,
+                order_id=order_id,
+            )
+        except Exception:
+            logger.exception("Order confirmation call trigger failed for order id=%s", order_id)
 
     transaction.on_commit(_trigger_after_commit)

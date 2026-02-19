@@ -18,7 +18,10 @@ urlpatterns = [
     path("play/<str:recording_sid>/", views.play_recording),
 
     
+    path("test/", fetch_call_transcriptions ),
     
-    path("test/", fetch_call_transcriptions )
+    # NGS API Routes 
+    path("ngs/<int:order_id>/voice.xml", views.NGSVoiceXMLView.as_view(), name="ngs_voice_xml"),
+    path("webhooks/ngs/status", views.NGSStatusCallbackView.as_view(), name="ngs_status_callback"),
     
 ]

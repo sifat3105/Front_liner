@@ -394,3 +394,90 @@ class TwilioStreamConsumer(AsyncWebsocketConsumer):
         if call_log and not call_log.assistant_id:
             call_log.assistant_id = assistant_id
             call_log.save(update_fields=["assistant", "updated_at"])
+
+
+
+
+
+
+import websockets
+BACKEND_WS_URL = "ws://127.0.0.1:8001/ws"
+
+
+class BridgeConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+        print("[BRIDGE] NGS connected")
+
+        self.backend = None
+        self.t1 = None
+        self.t2 = None
+        self._q = asyncio.Queue()
+
+        try:
+            self.backend = await websockets.connect(
+                BACKEND_WS_URL,
+                ping_interval=20,
+                ping_timeout=20,
+                max_size=None,
+            )
+            print("[BRIDGE] connected to backend:", BACKEND_WS_URL)
+
+            self.t1 = asyncio.create_task(self.relay_ngs_to_backend())
+            self.t2 = asyncio.create_task(self.relay_backend_to_ngs())
+
+        except Exception as e:
+            print("[BRIDGE] error on connect:", repr(e))
+            await self.close()
+
+    async def disconnect(self, close_code):
+        print("[BRIDGE] disconnect:", close_code)
+
+        for t in (self.t1, self.t2):
+            if t:
+                t.cancel()
+
+        if self.backend is not None:
+            try:
+                await self.backend.close()
+            except Exception:
+                pass
+
+        print("[BRIDGE] closed")
+
+    async def websocket_receive(self, message):
+        # Push incoming frames into a queue, so relay task can consume them
+        if "text" in message:
+            await self._q.put(("text", message["text"]))
+        elif "bytes" in message:
+            await self._q.put(("bytes", message["bytes"]))
+
+    async def relay_ngs_to_backend(self):
+        """NGS -> backend"""
+        try:
+            while True:
+                kind, payload = await self._q.get()
+                if kind == "text":
+                    await self.backend.send(payload)
+                else:
+                    await self.backend.send(payload)
+        except asyncio.CancelledError:
+            pass
+        except Exception as e:
+            print("[BRIDGE] relay_ngs_to_backend error:", repr(e))
+            await self.close()
+
+    async def relay_backend_to_ngs(self):
+        """backend -> NGS"""
+        try:
+            while True:
+                data = await self.backend.recv()
+                if isinstance(data, str):
+                    await self.send(text_data=data)
+                else:
+                    await self.send(bytes_data=data)
+        except asyncio.CancelledError:
+            pass
+        except Exception as e:
+            print("[BRIDGE] relay_backend_to_ngs error:", repr(e))
+            await self.close()
